@@ -13,27 +13,31 @@
 
 #define coreApp (static_cast<Application*>(QCoreApplication::instance()))
 
-class Application : public QApplication {
-    Q_OBJECT
+namespace Sun 
+{
+    class Application : public QApplication 
+    {
+        Q_OBJECT
 
- public:
-    Application(int& argc, char** argv);
-    ~Application() {};
+     public:
+        Application(int& argc, char** argv);
+        ~Application() {};
 
-    MainWindow* mainWindow(MainWindow* xMainWindow) const {
-        return mMainWindow;
-    }
+        MainWindow* mainWindow(MainWindow* xMainWindow) const {
+            return mMainWindow;
+        }
 
- private:
-    void initializeTranslation();
+     private:
+        void initializeTranslation();
 
- private:
-    MainWindow* mMainWindow = nullptr;
-    WelcomeDialog* mWelcomeDialog = nullptr;
+     private:
+        MainWindow* mMainWindow = nullptr;
+        WelcomeDialog* mWelcomeDialog = nullptr;
 
 
-private:
-    AppContext* mAppContext= nullptr;
-};
+    private:
+        AppContext* mAppContext= nullptr;
+    };
 
+}
 #endif  // APP_APPLICATION_H

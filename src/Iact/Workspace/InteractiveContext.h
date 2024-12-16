@@ -12,6 +12,8 @@
 
 #include "Core/CoreContext.h"
 
+namespace Sun {
+
 class ModelController : public QObject
 {
     Q_OBJECT
@@ -56,7 +58,7 @@ class InteractiveContext : public CoreContext
 public:
     InteractiveContext()
         : CoreContext(),
-        _documentController(new ModelController(this)),
+        _documentController(new ModelController()),
         _workspaceController(nullptr),
         _viewportController(nullptr)
     {
@@ -158,6 +160,6 @@ private:
 };
 
 
-
+ }
 
 #endif  // APP_INTERACTIVECONTEXT_H

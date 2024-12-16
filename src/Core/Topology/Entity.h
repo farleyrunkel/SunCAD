@@ -8,56 +8,57 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 
-// Base class for Entity, assuming Entity is derived from QObject for signal/slot support
-class Entity : public QObject
-{
-    Q_OBJECT
+namespace Sun {
 
-public:
-    // Constructor
-    explicit Entity(QObject* parent = nullptr);
+    // Base class for Entity, assuming Entity is derived from QObject for signal/slot support
+    class Entity : public QObject
+    {
+        Q_OBJECT
 
-    // Guid property (using QUuid)
-    QUuid guid() const;
+    public:
+        // Constructor
+        explicit Entity(QObject* parent = nullptr);
 
-    void setGuid(const QUuid& guid);
+        // Guid property (using QUuid)
+        QUuid guid() const;
 
-    // Type name property
-    QString typeName() const;
+        void setGuid(const QUuid& guid);
 
-    // Name property, virtual
-    virtual QString name() const;
+        // Type name property
+        QString typeName() const;
 
-    virtual void setName(const QString& /*unused*/);
+        // Name property, virtual
+        virtual QString name() const;
 
-    // Error handling
-    bool hasErrors() const;
+        virtual void setName(const QString& /*unused*/);
 
-    void setHasErrors(bool hasErrors);
+        // Error handling
+        bool hasErrors() const;
 
-    // Remove entity
-    virtual void remove();
+        void setHasErrors(bool hasErrors);
 
-    // For debugging or logging purposes
-    virtual QString toString() const;
+        // Remove entity
+        virtual void remove();
 
-signals:
-    // Signal when the entity is removed
-    void entityRemoved();
+        // For debugging or logging purposes
+        virtual QString toString() const;
 
-    // Signal when the entity's GUID changes
-    void guidChanged();
+    signals:
+        // Signal when the entity is removed
+        void entityRemoved();
 
-    // Signal when the error state changes
-    void errorStateChanged();
+        // Signal when the entity's GUID changes
+        void guidChanged();
 
-    // Signal when hasErrors changes
-    void hasErrorsChanged();
+        // Signal when the error state changes
+        void errorStateChanged();
 
-protected:
-    QUuid _guid;
-    bool _hasErrors;
-};
+        // Signal when hasErrors changes
+        void hasErrorsChanged();
 
+    protected:
+        QUuid _guid;
+        bool _hasErrors;
+    };
+}
 #endif  // Entity_DOCUMENT_H
-

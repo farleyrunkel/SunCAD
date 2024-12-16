@@ -8,29 +8,30 @@
 #include "SARibbonBar.h"
 #include "SARibbonMainWindow.h"
 #include "DockManager.h"
+namespace Sun {
+    class MainWindow : public SARibbonMainWindow
+    {
+        Q_OBJECT
 
-class MainWindow : public SARibbonMainWindow {
-    Q_OBJECT
+    public:
+        explicit MainWindow(QWidget* parent = nullptr);
+        ~MainWindow() override;
 
- public:
-     explicit MainWindow(QWidget* parent = nullptr);
-    ~MainWindow() override;
+    private:
+        void setupUi();
 
- private:
-    void setupUi();
+        void setupWelcomePage();
 
-    void setupWelcomePage();
+        void setupAppButton();
+        QAction* createAction(const QString& text, const QString& iconurl);
 
-    void setupAppButton();
-    QAction* createAction(const QString& text, const QString& iconurl);
+        void setupCategories();
 
-    void setupCategories();
-
-private:
-    QMenu* myAppButton = nullptr;
-    SARibbonBar* myRibbonBar = nullptr;;
-    // The main container for docking
-    ads::CDockManager* m_DockManager = nullptr;;
-};
-
+    private:
+        QMenu* myAppButton = nullptr;
+        SARibbonBar* myRibbonBar = nullptr;;
+        // The main container for docking
+        ads::CDockManager* m_DockManager = nullptr;;
+    };
+}
 #endif  // APP_MAINWINDOW_H

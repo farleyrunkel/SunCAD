@@ -6,16 +6,17 @@
 #include <QSplashScreen>
 #include <QKeyEvent>
 #include <QApplication>
+namespace Sun {
+    // GlobalEventHandler handles global events, such as moving focus to the next UI element on Enter key press.
+    class GlobalEventHandler : public QObject
+    {
+        Q_OBJECT
 
-// GlobalEventHandler handles global events, such as moving focus to the next UI element on Enter key press.
-class GlobalEventHandler : public QObject {
-    Q_OBJECT
+    public:
+        explicit GlobalEventHandler(QObject* parent = nullptr);
 
- public:
-    explicit GlobalEventHandler(QObject* parent = nullptr);
-
- protected:
-    bool eventFilter(QObject* obj, QEvent* event) override;
-};
-
+    protected:
+        bool eventFilter(QObject* obj, QEvent* event) override;
+    };
+}
 #endif // PRES_GLOBALEVENTHANDLER_H

@@ -5,11 +5,12 @@
 
 #include "Pres/Commands/ActionCommand.h"
 #include <QMessageBox>
-
-class ModelCommands {
-public:
-    // 定义静态的 ActiveCommand
-    static const ActiveCommand CreateBox;
-};
-
+namespace Sun {
+    class ModelCommands
+    {
+    public:
+        // 定义静态的 ActiveCommand
+        static const ActiveCommand CreateBox;
+    };
+}
 #endif  // APP_MODELCOMMANDS_H
