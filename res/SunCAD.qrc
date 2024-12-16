@@ -1,0 +1,33 @@
+<RCC>
+    <qresource prefix="/">
+        <file>i18n/SonCAD_zh_CN.ts</file>
+        <file>icons/model/Boolean-Common.svg</file>
+        <file>icons/model/Boolean-Cut.svg</file>
+        <file>icons/model/Boolean-Fuse.svg</file>
+        <file>icons/model/Create-Reference.svg</file>
+        <file>icons/model/Feature-BoxJoint.svg</file>
+        <file>icons/model/Feature-HalvedJoint.svg</file>
+        <file>icons/model/Form-Extrude.svg</file>
+        <file>icons/model/Form-ImprintCutout.svg</file>
+        <file>icons/model/Form-ImprintLower.svg</file>
+        <file>icons/model/Form-ImprintRaise.svg</file>
+        <file>icons/model/Form-Loft.svg</file>
+        <file>icons/model/Form-Pipe.svg</file>
+        <file>icons/model/Form-Revolve.svg</file>
+        <file>icons/model/Form-Taper.svg</file>
+        <file>icons/model/Mod-Chamfer.svg</file>
+        <file>icons/model/Mod-CrossSection.svg</file>
+        <file>icons/model/Mod-Fillet.svg</file>
+        <file>icons/model/Mod-FlangeSheet.svg</file>
+        <file>icons/model/Mod-Offset.svg</file>
+        <file>icons/model/Mod-Scale.svg</file>
+        <file>icons/model/Mod-UnfoldSheet.svg</file>
+        <file>icons/model/Multiply-CircularArray.svg</file>
+        <file>icons/model/Multiply-LinearArray.svg</file>
+        <file>icons/model/Multiply-Mirror.svg</file>
+        <file>icons/model/Prim-Box.svg</file>
+        <file>icons/model/Prim-Cylinder.svg</file>
+        <file>icons/model/Prim-Sketch.svg</file>
+        <file>icons/model/Prim-Sphere.svg</file>
+    </qresource>
+</RCC>

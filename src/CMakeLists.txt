@@ -1,26 +1,62 @@
 
-
 set(PROJECT_SOURCES ${CMAKE_SOURCE_DIR}/src/SunCAD.cc)
+set(PROJECT_RESOURCES ${CMAKE_SOURCE_DIR}/res/SunCAD.qrc)
 
-# add executable target
-add_executable(${PROJECT_NAME}
-    ${PROJECT_SOURCES}
+# Recursively find all source and header files
+file(GLOB SUB_DIRECTORY_SOURCES
+    "${CMAKE_SOURCE_DIR}/src/*/*.h"
+    "${CMAKE_SOURCE_DIR}/src/*/*.cc"
+    "${CMAKE_SOURCE_DIR}/src/*/*/*.h"
+    "${CMAKE_SOURCE_DIR}/src/*/*/*.cc"
 )
 
+list(APPEND PROJECT_SOURCES ${SUB_DIRECTORY_SOURCES})
 
-# 根据不同平台设置链接器选项
-if(WIN32)
-    # Windows 平台：设置为 Windows 应用程序，避免控制台窗口
-    target_link_options(${PROJECT_NAME} PRIVATE "/SUBSYSTEM:WINDOWS")
-elseif(APPLE)
-    # macOS 平台：特定的链接器标志（如果需要）
-    target_link_options(${PROJECT_NAME} PRIVATE "-framework Cocoa")
-elseif(UNIX)
-    # Linux 平台：例如启用 pthreads
-    target_link_options(${PROJECT_NAME} PRIVATE "-pthread")
+# add executable target
+qt_add_executable(SunCAD
+    MANUAL_FINALIZATION
+    ${PROJECT_SOURCES}
+    ${PROJECT_RESOURCES}
+)
+
+target_include_directories(SunCAD PRIVATE ${CMAKE_SOURCE_DIR}/src)
+target_include_directories(SunCAD PRIVATE ${OpenCASCADE_INCLUDE_DIR})
+
+target_link_libraries(SunCAD PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(SunCAD PRIVATE SARibbonBar::SARibbonBar)
+target_link_libraries(SunCAD PRIVATE cxxopts::cxxopts)
+target_link_libraries(SunCAD PRIVATE ads::qtadvanceddocking-qt6)
+
+# Link OpenCASCADE libraries
+foreach (LIB ${OpenCASCADE_LIBRARIES})
+  target_link_libraries(SunCAD PRIVATE debug ${OpenCASCADE_LIBRARY_DIR}d/${LIB}.lib)
+  target_link_libraries(SunCAD PRIVATE optimized ${OpenCASCADE_LIBRARY_DIR}/${LIB}.lib)
+endforeach()
+
+# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
+# If you are developing for iOS or macOS you should consider setting an
+# explicit, fixed bundle identifier manually though.
+if(${QT_VERSION} VERSION_LESS 6.1.0)
+  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.SunCAD)
 endif()
+set_target_properties(SunCAD PROPERTIES
+    ${BUNDLE_ID_OPTION}
+    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    MACOSX_BUNDLE TRUE
+    WIN32_EXECUTABLE TRUE
+)
 
+# Install the target executable/library (SunCAD)
+include(GNUInstallDirs)
 
-if(CMAKE_SUNCAD_HAS_WXWIDGETS)
-	target_link_libraries(${PROJECT_NAME} PRIVATE imp_wxwidgets)
+# Install the executable or runtime (if Windows, RUNTIME is used)
+install(TARGETS SunCAD
+    BUNDLE DESTINATION .                                # For macOS app bundles (if applicable)
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}         # Shared libraries on Linux/macOS
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}         # Executables and Windows DLLs
+)
+
+if(QT_VERSION_MAJOR EQUAL 6)
+    qt_finalize_executable(SunCAD)
 endif()
