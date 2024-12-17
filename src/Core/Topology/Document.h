@@ -1,4 +1,4 @@
-
+// Copyright [2024] SunCAD
 
 #ifndef DOCUMENT_H
 #define DOCUMENT_H
@@ -15,25 +15,25 @@
 #include "Core/EntityContainer.h" 
 #include "Core/Topology/Entity.h" 
 
-namespace Sun {
+namespace Sun 
+{
     class IDocument
     {
     public:
         virtual ~IDocument() = default;
 
-        virtual void registerInstance(Entity* entity) = 0;
-        virtual void unregisterInstance(Entity* entity) = 0;
-        virtual Entity* findInstance(const QUuid& instanceGuid) = 0;
-        virtual void instanceChanged(Entity* entity) = 0;
+        virtual void RegisterInstance(const Handle(Entity)& entity) = 0;
+        virtual void UnregisterInstance(const Handle(Entity)& entity) = 0;
+        virtual Handle(Entity) FindInstance(const QUuid& instanceGuid) = 0;
+        virtual void InstanceChanged(const Handle(Entity)& entity) = 0;
     };
+
 
     class Document : public EntityContainer, public IDocument
     {
-        Q_OBJECT
-
     public:
-        explicit Document(QObject* parent = nullptr)
-            : EntityContainer(parent) {}
+        explicit Document()
+            : EntityContainer() {}
 
 
         //    // Properties
@@ -73,20 +73,20 @@ namespace Sun {
         //    }
         //
         //    // IDocument interface
-        //    Entity* findInstance(const QUuid& instanceGuid) override {
+        //    Handle(Entity) findInstance(const QUuid& instanceGuid) override {
         //        if (instanceGuid == this->Guid()) {
         //            return this;
         //        }
         //
         //        auto it = _instances.find(instanceGuid);
         //        if (it != _instances.end()) {
-        //            Entity* entity = it.value().data();
+        //            Handle(Entity) entity = it.value().data();
         //            return entity;
         //        }
         //        return nullptr;
         //    }
         //
-        //    void instanceChanged(Entity* instance) override {
+        //    void instanceChanged(const Handle(Entity)& instance) override {
         //        int index = this->indexOf(static_cast<T*>(instance));
         //        if (index != -1) {
         //            NotifyCollectionChangedEventArgs eventArgs(NotifyCollectionChangedAction::Replace, instance, index);
@@ -94,7 +94,7 @@ namespace Sun {
         //        }
         //    }
         //
-        //    void registerInstance(Entity* entity) override {
+        //    void registerInstance(const Handle(Entity)& entity) override {
         //        if (entity->Guid() == QUuid()) return;
         //
         //        _instances[entity->Guid()] = QWeakPointer<Entity>(entity);
@@ -106,7 +106,7 @@ namespace Sun {
         //        }
         //    }
         //
-        //    void unregisterInstance(Entity* entity) override {
+        //    void unregisterInstance(const Handle(Entity)& entity) override {
         //        if (_instances.remove(entity->Guid())) {
         //            if (IDecorable* decorable = dynamic_cast<IDecorable*>(entity)) {
         //                for (auto component : decorable->getComponents(false)) {
@@ -178,7 +178,7 @@ namespace Sun {
         //    bool _hasUnsavedChanges;
 
             // Instances map
-        QMap<QUuid, QWeakPointer<Entity>> _instances;
+        QMap<QUuid, Handle(Entity)> _Instances;
     };
 }
 #endif // DOCUMENT_H

@@ -8,7 +8,9 @@
 #include "SARibbonBar.h"
 #include "SARibbonMainWindow.h"
 #include "DockManager.h"
-namespace Sun {
+
+namespace Sun 
+{
     class MainWindow : public SARibbonMainWindow
     {
         Q_OBJECT
@@ -18,20 +20,20 @@ namespace Sun {
         ~MainWindow() override;
 
     private:
-        void setupUi();
+        void SetupUi();
 
-        void setupWelcomePage();
+        void SetupWelcomePage();
 
-        void setupAppButton();
-        QAction* createAction(const QString& text, const QString& iconurl);
+        void SetupAppButton();
+        QAction* CreateAction(const QString& text, const QString& iconurl);
 
-        void setupCategories();
+        void SetupCategories();
 
     private:
-        QMenu* myAppButton = nullptr;
-        SARibbonBar* myRibbonBar = nullptr;;
+        QMenu* _AppButton = nullptr;
+        SARibbonBar* _RibbonBar = nullptr;;
         // The main container for docking
-        ads::CDockManager* m_DockManager = nullptr;;
+        ads::CDockManager* _DockManager = nullptr;;
     };
 }
 #endif  // APP_MAINWINDOW_H

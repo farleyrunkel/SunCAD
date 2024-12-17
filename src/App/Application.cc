@@ -17,7 +17,6 @@
 
 namespace Sun 
 {
-
     Application::Application(int& argc, char** argv)
         : QApplication(argc, argv) {
 
@@ -26,20 +25,20 @@ namespace Sun
         auto cmdLine = new CommandLine(argc, argv);
 
         // Show Welcome Dialog if not skipped
-        bool bSkipWelcome = cmdLine->isWelcomeDialogDisabled() || cmdLine->hasPathToOpen() || cmdLine->hasScriptToRun();
+        bool bSkipWelcome = cmdLine->IsWelcomeDialogDisabled() || cmdLine->HasPathToOpen() || cmdLine->HasScriptToRun();
         if (!bSkipWelcome && false) {
-            mWelcomeDialog = new WelcomeDialog; // Create the WelcomeDialog
-            mWelcomeDialog->setWindowFlags(mWelcomeDialog->windowFlags() | Qt::WindowStaysOnTopHint);
-            mWelcomeDialog->show(); // Show the WelcomeDialog
+            _WelcomeDialog = new WelcomeDialog; // Create the WelcomeDialog
+            _WelcomeDialog->setWindowFlags(_WelcomeDialog->windowFlags() | Qt::WindowStaysOnTopHint);
+            _WelcomeDialog->show(); // Show the WelcomeDialog
         }
 
         // Init context
-        mAppContext = new AppContext;
-        mAppContext->initialize(cmdLine);
+        _AppContext = new AppContext;
+        _AppContext->Initialize(*cmdLine);
 
 
-        mMainWindow = new MainWindow(); // Create the main window
-        mMainWindow->show(); // Show the main window
+        _MainWindow = new Sun::MainWindow(); // Create the main window
+        _MainWindow->show(); // Show the main window
 
         // Install the event filter for global key handling
         GlobalEventHandler* globalEventHandler = new GlobalEventHandler(this);

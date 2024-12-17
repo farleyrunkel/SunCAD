@@ -1,6 +1,7 @@
 
 #ifndef Entity_DOCUMENT_H
 #define Entity_DOCUMENT_H
+// Copyright [2024] SunCAD
 
 #include <QObject>
 #include <QUuid>
@@ -8,57 +9,46 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 
-namespace Sun {
+#include "Comm/BaseObject.h"
+
+namespace Sun
+{
 
     // Base class for Entity, assuming Entity is derived from QObject for signal/slot support
-    class Entity : public QObject
+    class Entity : public BaseObject
     {
-        Q_OBJECT
 
     public:
         // Constructor
-        explicit Entity(QObject* parent = nullptr);
+        explicit Entity();
 
         // Guid property (using QUuid)
-        QUuid guid() const;
+        QUuid Guid() const;
 
-        void setGuid(const QUuid& guid);
+        void SetGuid(const QUuid& Guid);
 
         // Type name property
-        QString typeName() const;
+        QString TypeName() const;
 
         // Name property, virtual
-        virtual QString name() const;
+        virtual QString Name() const;
 
-        virtual void setName(const QString& /*unused*/);
+        virtual void SetName(const QString& /*unused*/);
 
         // Error handling
-        bool hasErrors() const;
+        bool HasErrors() const;
 
-        void setHasErrors(bool hasErrors);
+        void SetHasErrors(bool HasErrors);
 
         // Remove entity
-        virtual void remove();
+        virtual void Remove();
 
         // For debugging or logging purposes
-        virtual QString toString() const;
-
-    signals:
-        // Signal when the entity is removed
-        void entityRemoved();
-
-        // Signal when the entity's GUID changes
-        void guidChanged();
-
-        // Signal when the error state changes
-        void errorStateChanged();
-
-        // Signal when hasErrors changes
-        void hasErrorsChanged();
+        virtual QString ToString() const;
 
     protected:
-        QUuid _guid;
-        bool _hasErrors;
+        QUuid _Guid;
+        bool _HasErrors;
     };
 }
 #endif  // Entity_DOCUMENT_H

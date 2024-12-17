@@ -23,20 +23,19 @@ namespace Sun
         Application(int& argc, char** argv);
         ~Application() {};
 
-        MainWindow* mainWindow(MainWindow* xMainWindow) const {
-            return mMainWindow;
+        Sun::MainWindow* MainWindow(Sun::MainWindow* mainWindow) const {
+            return _MainWindow;
         }
 
      private:
         void initializeTranslation();
 
      private:
-        MainWindow* mMainWindow = nullptr;
-        WelcomeDialog* mWelcomeDialog = nullptr;
-
+        Sun::MainWindow* _MainWindow = nullptr;
+        WelcomeDialog* _WelcomeDialog = nullptr;
 
     private:
-        AppContext* mAppContext= nullptr;
+        Handle(AppContext) _AppContext= nullptr;
     };
 
 }

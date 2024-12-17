@@ -1,10 +1,12 @@
 // Copyright [2024] SunCAD
 
 #include "App/WelcomeDialog.h"
-namespace Sun {
+
+namespace Sun 
+{
 	WelcomeDialog::WelcomeDialog(QWidget* parent) {
-		setupUi();
+		SetupUi();
 	}
 
-	void WelcomeDialog::setupUi() {}
+	void WelcomeDialog::SetupUi() {}
 }

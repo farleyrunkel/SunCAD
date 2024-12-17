@@ -7,11 +7,15 @@
 
 #include <AIS_InteractiveContext.hxx>
 #include <V3d_Viewer.hxx>
-namespace Sun {
-    class Workspace final : public QObject
-    {
-        Q_OBJECT
 
+#include "Comm/BaseObject.h"
+
+namespace Sun
+{
+    DEFINE_STANDARD_HANDLE(Workspace, BaseObject)
+
+    class Workspace final : public BaseObject
+    {
     public:
         Workspace() {
         }

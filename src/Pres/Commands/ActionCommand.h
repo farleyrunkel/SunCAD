@@ -9,26 +9,26 @@ namespace Sun {
     {
     public:
         // Constructor
-        ActiveCommand(std::function<void()> execute, std::function<bool()> canExecute)
-            : _execute(std::move(execute)), _canExecute(std::move(canExecute))
+        ActiveCommand(std::function<void()> Execute, std::function<bool()> CanExecute)
+            : _Execute(std::move(Execute)), _CanExecute(std::move(CanExecute))
         {
         }
 
         // Method to execute the command
-        void execute() const noexcept {
-            if (_execute) {
-                _execute();
+        void Execute() const noexcept {
+            if (_Execute) {
+                _Execute();
             }
         }
 
         // Method to check if the command can be executed
-        bool canExecute() const noexcept {
-            return _canExecute ? _canExecute() : true;
+        bool CanExecute() const noexcept {
+            return _CanExecute ? _CanExecute() : true;
         }
 
     private:
-        std::function<void()> _execute;      // Function to execute the command
-        std::function<bool()> _canExecute;   // Function to check if the command can be executed
+        std::function<void()> _Execute;      // Function to execute the command
+        std::function<bool()> _CanExecute;   // Function to check if the command can be executed
     };
 }
 #endif  // APP_ACTIVECOMMAND_H

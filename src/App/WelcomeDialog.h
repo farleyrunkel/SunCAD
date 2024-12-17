@@ -4,7 +4,9 @@
 #define APP_WELCOMEDIALOG_H
 
 #include <QDialog>
-namespace Sun {
+
+namespace Sun 
+{
     class WelcomeDialog : public QDialog
     {
         Q_OBJECT
@@ -14,7 +16,7 @@ namespace Sun {
         ~WelcomeDialog() override = default;
 
     private:
-        void setupUi();
+        void SetupUi();
     };
 }
 #endif  // APP_WELCOMEDIALOG_H

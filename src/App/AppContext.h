@@ -17,7 +17,7 @@ namespace Sun
         // Private destructor to control instance destruction
         ~AppContext() = default;
 
-        void initialize(CommandLine* cmdLine) {
+        void Initialize(const CommandLine& cmdLine) {
     
         }
     };
