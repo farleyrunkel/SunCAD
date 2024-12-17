@@ -25,6 +25,7 @@ namespace Sun
         void SetupWelcomePage();
 
         void SetupAppButton();
+
         QAction* CreateAction(const QString& text, const QString& iconurl);
 
         void SetupCategories();

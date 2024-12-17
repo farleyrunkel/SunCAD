@@ -32,7 +32,7 @@ namespace Sun
 
      private:
         Sun::MainWindow* _MainWindow = nullptr;
-        WelcomeDialog* _WelcomeDialog = nullptr;
+        Sun::WelcomeDialog* _WelcomeDialog = nullptr;
 
     private:
         Handle(AppContext) _AppContext= nullptr;

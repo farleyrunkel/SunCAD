@@ -1,3 +1,4 @@
+# Copyright [2024] SunCAD
 
 set(cxxopts_DIR "E:/Scoop/apps/vcpkg/current/installed/x64-windows/share/cxxopts")
 # cmd> vcpkg install cxxopts
