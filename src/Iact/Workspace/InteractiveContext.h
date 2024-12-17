@@ -48,8 +48,8 @@ namespace Sun
         }
 
         // ModelController getter/setter
-        Handle(ModelController) documentController() const { return _DocumentController; }
-        void setDocumentController(const Handle(ModelController)& controller) {
+        Handle(ModelController) DocumentController() const { return _DocumentController; }
+        void SetDocumentController(const Handle(ModelController)& controller) {
             if (_DocumentController != controller) {
                 if (_DocumentController) {
                     _DocumentController->dispose();
@@ -60,8 +60,8 @@ namespace Sun
         }
 
         // WorkspaceController getter/setter
-       Handle(WorkspaceController) workspaceController() const { return _WorkspaceController; }
-        void setWorkspaceController(const Handle(WorkspaceController)& controller) {
+       Handle(WorkspaceController) WorkspaceController() const { return _WorkspaceController; }
+        void SetWorkspaceController(const Handle(Sun::WorkspaceController)& controller) {
             if (_WorkspaceController != controller) {
                 if (_WorkspaceController) {
                     _WorkspaceController->dispose();
@@ -72,8 +72,8 @@ namespace Sun
         }
 
         // ViewportController getter/setter
-        Handle(ViewportController) viewportController() const { return _ViewportController; }
-        void SetViewportController(const Handle(ViewportController)& controller) {
+        Handle(ViewportController) ViewportController() const { return _ViewportController; }
+        void SetViewportController(const Handle(Sun::ViewportController)& controller) {
             if (_ViewportController != controller) {
                 _ViewportController = controller;
 
@@ -81,17 +81,17 @@ namespace Sun
         }
 
         // RecentUsedColors getter
-        QList<QColor> recentUsedColors() const {
+        QList<QColor> RecentUsedColors() const {
             return _RecentUsedColors;
         }
 
         // RecentUsedScripts getter
-        QList<QString> recentUsedScripts() const {
+        QList<QString> RecentUsedScripts() const {
             return _RecentUsedScripts;
         }
 
         // 添加脚本到最近使用列表
-        void addToScriptMruList(const QString& filePath) {
+        void AddToScriptMruList(const QString& filePath) {
             int index = _RecentUsedScripts.indexOf(filePath);
             if (index >= 0) {
                 _RecentUsedScripts.move(index, 0);  // 移动到列表顶部
@@ -107,9 +107,9 @@ namespace Sun
         }
 
     private:
-        Handle(ModelController) _DocumentController;
-        Handle(WorkspaceController) _WorkspaceController;
-        Handle(ViewportController) _ViewportController;
+        Handle(Sun::ModelController) _DocumentController;
+        Handle(Sun::WorkspaceController) _WorkspaceController;
+        Handle(Sun::ViewportController) _ViewportController;
 
         QList<QColor> _RecentUsedColors;
         QList<QString> _RecentUsedScripts;

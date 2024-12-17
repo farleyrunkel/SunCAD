@@ -4,7 +4,7 @@
 #define CORE_VIEWPORT_H
 
 #include <cmath>
-#include <boost/signals2.hpp>  // ÒýÈë Boost Signals2
+#include <boost/signals2.hpp>
 
 #include <QObject>
 #include <QSharedPointer>
@@ -22,7 +22,7 @@
 #include "Core/Workspace.h"
 #include "Comm/BaseObject.h"
 
-namespace Sun 
+namespace Sun
 {
     DEFINE_STANDARD_HANDLE(Viewport, BaseObject)
 
