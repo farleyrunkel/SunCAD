@@ -10,7 +10,8 @@
 
 #include "Core/Topology/Entity.h" 
 
-namespace Sun {
+namespace Sun
+{
     // Enum to mimic NotifyCollectionChangedAction
     enum class NotifyCollectionChangedAction
     {
@@ -20,67 +21,61 @@ namespace Sun {
         Reset
     };
 
+    DEFINE_STANDARD_HANDLE(EntityContainer, Entity)
+
     class EntityContainer : public Entity
     {
-        Q_OBJECT
-
     public:
-        EntityContainer(QObject* parent = nullptr) : Entity(parent) {
+        EntityContainer() : Entity() {
             // Initialize the entity list
-            entityList = QList<Entity*>();
+            _EntityList = QList<Handle(Entity)>();
         }
 
         // Get entity count
-        int entityCount() const {
-            return entityList.size();
+        int EntityCount() const {
+            return _EntityList.size();
         }
 
         // Add entity to the container
-        virtual void add(Entity* entity, bool update = true) {
-            entityList.append(entity);
+        virtual void Add(const Handle(Entity)& entity, bool update = true) {
+            _EntityList.append(entity);
             if (update) {
                 // Emit signal that an item has been added
-                emit collectionChanged(NotifyCollectionChangedAction::Add, entity, entityList.size() - 1);
             }
         }
 
         // Remove entity from the container
-        virtual void remove(Entity* entity, bool update = true) {
-            int index = entityList.indexOf(entity);
+        virtual void Remove(const Handle(Entity)& entity, bool update = true) {
+            int index = _EntityList.indexOf(entity);
             if (index < 0) return;
 
-            entityList.removeAt(index);
-            entity->remove(); // Assuming T has its own remove method
+            _EntityList.removeAt(index);
+            entity->Remove(); // Assuming T has its own remove method
             if (update) {
                 // Emit signal that an item has been removed
-                emit collectionChanged(NotifyCollectionChangedAction::Remove, entity, index);
             }
         }
 
         // Get entity at a specific index
-        virtual Entity* get(int index) const {
-            return entityList.value(index);
+        virtual Handle(Entity) Get(int index) const {
+            return _EntityList.value(index);
         }
 
         // Get the index of a specific entity
-        virtual int indexOf(Entity* entity) const {
-            return entityList.indexOf(entity);
+        virtual int IndexOf(const Handle(Entity)& entity) const {
+            return _EntityList.indexOf(entity);
         }
 
         // Remove all entities from the container
-        virtual void remove() override {
-            std::for_each(entityList.begin(), entityList.end(), [](Entity* e) { e->remove(); });
-            entityList.clear();
-            Entity::remove();  // Call the base class remove
+        virtual void Remove() override {
+            std::for_each(_EntityList.begin(), _EntityList.end(), [](const Handle(Entity)& e) { e->Remove(); });
+            _EntityList.clear();
+            Entity::Remove();  // Call the base class remove
         }
-
-    signals:
-        // Qt signal for notifying collection changes
-        void collectionChanged(NotifyCollectionChangedAction action, Entity* entity, int index);
 
     protected:
         // QList to hold the entities
-        QList<Entity*> entityList;
+        QList<Handle(Entity)> _EntityList;
 
     };
 

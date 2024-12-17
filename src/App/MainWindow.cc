@@ -14,19 +14,21 @@
 
 #include "App/WelcomeDialog.h"
 #include "Iact/Commands/ModelCommands.h"
-namespace Sun {
+
+namespace Sun 
+{
     MainWindow::MainWindow(QWidget* parent)
         : SARibbonMainWindow(parent) {
-        setupUi();
-        setupWelcomePage();
+        SetupUi();
+        SetupWelcomePage();
 
-        setupAppButton();
-        setupCategories();
+        SetupAppButton();
+        SetupCategories();
     }
 
     MainWindow::~MainWindow() {}
 
-    void MainWindow::setupUi() {
+    void MainWindow::SetupUi() {
         resize(1260, 800);
 
         setWindowTitle(tr("SunCAD"));
@@ -35,16 +37,16 @@ namespace Sun {
         ads::CDockManager::setConfigFlag(ads::CDockManager::OpaqueSplitterResize, true);
         ads::CDockManager::setConfigFlag(ads::CDockManager::XmlCompressionEnabled, false);
         ads::CDockManager::setConfigFlag(ads::CDockManager::FocusHighlighting, true);
-        m_DockManager = new ads::CDockManager(this);
+        _DockManager = new ads::CDockManager(this);
 
         // set ribbonbar
-        myRibbonBar = ribbonBar();
+        _RibbonBar = ribbonBar();
         //! 通过setContentsMargins设置ribbon四周的间距
-        myRibbonBar->setContentsMargins(5, 0, 5, 0);
+        _RibbonBar->setContentsMargins(5, 0, 5, 0);
 
     }
 
-    void MainWindow::setupWelcomePage()
+    void MainWindow::SetupWelcomePage()
     {
         WelcomeDialog* l = new WelcomeDialog();
 
@@ -54,37 +56,37 @@ namespace Sun {
         DockWidget->setWidget(l);
 
         // Add the dock widget to the top dock widget area
-        m_DockManager->addDockWidget(ads::TopDockWidgetArea, DockWidget);
+        _DockManager->addDockWidget(ads::TopDockWidgetArea, DockWidget);
     }
 
-    void MainWindow::setupAppButton()
+    void MainWindow::SetupAppButton()
     {
-        if (!myRibbonBar) {
+        if (!_RibbonBar) {
             return;
         }
-        QAbstractButton* btn = myRibbonBar->applicationButton();
+        QAbstractButton* btn = _RibbonBar->applicationButton();
         if (!btn) {
             btn = new SARibbonApplicationButton(this);
-            myRibbonBar->setApplicationButton(btn);
+            _RibbonBar->setApplicationButton(btn);
         }
-        myRibbonBar->applicationButton()->setText(("  &File  "));  // 文字两边留有间距，好看一点
+        _RibbonBar->applicationButton()->setText(("  &File  "));  // 文字两边留有间距，好看一点
 
-        if (!myAppButton) {
-            myAppButton = new SARibbonMenu(this);
-            myAppButton->addAction(createAction("test1", "://icon/action.svg"));
-            myAppButton->addAction(createAction("test2", "://icon/action2.svg"));
+        if (!_AppButton) {
+            _AppButton = new SARibbonMenu(this);
+            _AppButton->addAction(CreateAction("test1", "://icon/action.svg"));
+            _AppButton->addAction(CreateAction("test2", "://icon/action2.svg"));
         }
         SARibbonApplicationButton* appBtn = qobject_cast<SARibbonApplicationButton*>(btn);
         if (!appBtn) {
             return;
         }
-        appBtn->setMenu(myAppButton);
+        appBtn->setMenu(_AppButton);
     }
 
-    void MainWindow::setupCategories()
+    void MainWindow::SetupCategories()
     {
         {
-            SARibbonCategory* categoryEdit = myRibbonBar->addCategoryPage(tr("Edit"));
+            SARibbonCategory* categoryEdit = _RibbonBar->addCategoryPage(tr("Edit"));
             {
                 SARibbonPannel* aPannel = categoryEdit->addPannel(("Panel 1"));
                 {
@@ -98,13 +100,13 @@ namespace Sun {
             }
         }
         {
-            SARibbonCategory* categoryEdit = myRibbonBar->addCategoryPage(tr("Model"));
+            SARibbonCategory* categoryEdit = _RibbonBar->addCategoryPage(tr("Model"));
             {
                 SARibbonPannel* aPannel = categoryEdit->addPannel(("Create"));
                 {
                     QAction* aAction = new QAction(QIcon("://icons/model/Prim-Box.svg"), "Box");
                     aPannel->addAction(aAction, SARibbonPannelItem::Large);
-                    connect(aAction, &QAction::triggered, []() {ModelCommands::CreateBox.execute(); });
+                    connect(aAction, &QAction::triggered, []() {ModelCommands::CreateBox.Execute(); });
                 }
                 {
                     QAction* aAction = new QAction(QIcon("://icons/model/Prim-Cylinder.svg"), "Cylinder");
@@ -119,7 +121,7 @@ namespace Sun {
 
         {
             //Add main tab - The main tab is added through the addcategorypage factory function.
-            SARibbonCategory* categoryEdit = myRibbonBar->addCategoryPage(tr("View"));
+            SARibbonCategory* categoryEdit = _RibbonBar->addCategoryPage(tr("View"));
             //Using the addpannel function to create saribponpannel. The effect is the same as that of new saribponpannel, and then call SARibbonCategory:: addpannel.
             {
                 SARibbonPannel* aPannel = categoryEdit->addPannel(tr("Actions"));
@@ -136,9 +138,9 @@ namespace Sun {
             {
                 SARibbonPannel* aPannel = categoryEdit->addPannel(tr("Widgets"));
 
-                if (m_DockManager->dockWidgetsMap().contains("Label 1")) {
+                if (_DockManager->dockWidgetsMap().contains("Label 1")) {
 
-                    QAction* aAction = m_DockManager->dockWidgetsMap()["Label 1"]->toggleViewAction();
+                    QAction* aAction = _DockManager->dockWidgetsMap()["Label 1"]->toggleViewAction();
                     aAction->setText("Label 1");
                     aAction->setIcon(QIcon("://icon/save.svg"));
                     aAction->setObjectName("actSave");
@@ -151,8 +153,7 @@ namespace Sun {
         }
     }
 
-
-    QAction* MainWindow::createAction(const QString& text, const QString& iconurl)
+    QAction* MainWindow::CreateAction(const QString& text, const QString& iconurl)
     {
         QAction* act = new QAction(this);
         act->setText(text);

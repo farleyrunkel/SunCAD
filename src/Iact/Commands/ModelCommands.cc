@@ -1,7 +1,9 @@
 // Copyright [2024] SunCAD
 
 #include "Iact/Commands/ModelCommands.h"
-namespace Sun {
+
+namespace Sun 
+{
     // 在类外部初始化静态命令
     const ActiveCommand ModelCommands::CreateBox(
         []() {

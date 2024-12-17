@@ -8,33 +8,34 @@
 
 #include <cxxopts.hpp>
 
-namespace Sun {
+namespace Sun 
+{
     class CommandLine
     {
     public:
         CommandLine(int argc, char* argv[]);
 
-        bool isSandboxEnabled() const {
-            return mEnableSandbox;
+        bool IsSandboxEnabled() const {
+            return _EnableSandbox;
         }
-        bool isWelcomeDialogDisabled() const {
-            return mNoWelcomeDialog;
+        bool IsWelcomeDialogDisabled() const {
+            return _NoWelcomeDialog;
         }
-        bool hasPathToOpen() const {
-            return !mPathToOpen.empty();
+        bool HasPathToOpen() const {
+            return !_PathToOpen.empty();
         }
-        bool hasScriptToRun() const {
-            return !mScriptToRun.empty();
+        bool HasScriptToRun() const {
+            return !_ScriptToRun.empty();
         }
 
     private:
-        bool mEnableSandbox = false;      // Sandbox mode
-        bool mNoWelcomeDialog = false;    // Welcome status
-        std::string mPathToOpen;          // Path to open
-        std::string mScriptToRun;         // Script to run
+        bool _EnableSandbox = false;      // Sandbox mode
+        bool _NoWelcomeDialog = false;    // Welcome status
+        std::string _PathToOpen;          // Path to open
+        std::string _ScriptToRun;         // Script to run
 
     private:
-        cxxopts::Options mOptions;
+        cxxopts::Options _Options;
     };
 }
 #endif // APP_COMMANDLINE_H

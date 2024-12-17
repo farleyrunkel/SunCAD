@@ -8,18 +8,18 @@
 
 #include "Comm/BaseObject.h"
 
-namespace Sun {
+namespace Sun
+{
     // CoreContext class that follows the Singleton design pattern with lazy initialization
-    class CoreContext : public QObject
+    class CoreContext : public BaseObject
     {
-        Q_OBJECT
     public:
         CoreContext() = default;
 
     public:
 
         // Example method to save settings
-        void saveSettings(const std::string& name) {
+        void SaveSettings(const std::string& Name) {
             // Implement saving logic here
         }
 
