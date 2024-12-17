@@ -8,6 +8,7 @@
 
 namespace Sun 
 {
+    // AppContext
     class AppContext : public InteractiveContext 
     {
     public:
