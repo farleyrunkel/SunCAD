@@ -23,8 +23,12 @@ namespace Sun
         Application(int& argc, char** argv);
         ~Application() {};
 
-        Sun::MainWindow* MainWindow(Sun::MainWindow* mainWindow) const {
+        Sun::MainWindow* MainWindow() const {
             return _MainWindow;
+        }
+
+        Sun::AppContext* AppContext() const {
+            return nullptr;
         }
 
      private:
@@ -35,7 +39,7 @@ namespace Sun
         Sun::WelcomeDialog* _WelcomeDialog = nullptr;
 
     private:
-        Handle(AppContext) _AppContext= nullptr;
+        Handle(Sun::AppContext) _AppContext= nullptr;
     };
 
 }
