@@ -1,3 +1,4 @@
+# Copyright [2024] SunCAD
 
 set(_boost_TEST_VERSIONS ${Boost_ADDITIONAL_VERSIONS})
 

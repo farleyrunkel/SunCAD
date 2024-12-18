@@ -33,7 +33,7 @@ namespace Sun
         }
 
         // Init context
-        _AppContext = new AppContext;
+        _AppContext = new Sun::AppContext;
         _AppContext->Initialize(*cmdLine);
 
 

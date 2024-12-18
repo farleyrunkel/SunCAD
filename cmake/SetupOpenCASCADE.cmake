@@ -1,3 +1,4 @@
+# Copyright [2024] SunCAD
 
 
 set(OpenCASCADE_DIR "E:/Projects/Project-EchoCAD/OCCT-7_8_1-install/cmake")

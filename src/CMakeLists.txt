@@ -19,18 +19,23 @@ qt_add_executable(SunCAD
     ${PROJECT_RESOURCES}
 )
 
-target_include_directories(SunCAD PRIVATE ${CMAKE_SOURCE_DIR}/src)
-target_include_directories(SunCAD PRIVATE ${OpenCASCADE_INCLUDE_DIR})
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/src)
+target_include_directories(${PROJECT_NAME} PRIVATE ${OpenCASCADE_INCLUDE_DIR})
 
-target_link_libraries(SunCAD PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-target_link_libraries(SunCAD PRIVATE SARibbonBar::SARibbonBar)
-target_link_libraries(SunCAD PRIVATE cxxopts::cxxopts)
-target_link_libraries(SunCAD PRIVATE ads::qtadvanceddocking-qt6)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Test)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::OpenGLWidgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core5Compat)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE SARibbonBar::SARibbonBar)
+target_link_libraries(${PROJECT_NAME} PRIVATE cxxopts::cxxopts)
+target_link_libraries(${PROJECT_NAME} PRIVATE ads::qtadvanceddocking-qt6)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${OPENGL_LIBRARIES})
 
 # Link OpenCASCADE libraries
 foreach (LIB ${OpenCASCADE_LIBRARIES})
-  target_link_libraries(SunCAD PRIVATE debug ${OpenCASCADE_LIBRARY_DIR}d/${LIB}.lib)
-  target_link_libraries(SunCAD PRIVATE optimized ${OpenCASCADE_LIBRARY_DIR}/${LIB}.lib)
+  target_link_libraries(${PROJECT_NAME} PRIVATE debug ${OpenCASCADE_LIBRARY_DIR}d/${LIB}.lib)
+  target_link_libraries(${PROJECT_NAME} PRIVATE optimized ${OpenCASCADE_LIBRARY_DIR}/${LIB}.lib)
 endforeach()
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

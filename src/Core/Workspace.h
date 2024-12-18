@@ -17,6 +17,13 @@ namespace Sun
     class Workspace final : public BaseObject
     {
     public:
+        enum GridTypes
+        {
+            Rectangular,
+            Circular
+        };
+
+    public:
         Workspace() {
         }
         ~Workspace() {

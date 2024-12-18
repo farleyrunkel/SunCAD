@@ -1,3 +1,4 @@
+# Copyright [2024] SunCAD
 
 
 set(qtadvanceddocking-qt6_DIR "E:/Sources/Qt-Advanced-Docking-System/out/install/x64-Debug/lib/cmake/qtadvanceddocking-qt6")
