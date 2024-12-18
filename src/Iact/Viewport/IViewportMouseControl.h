@@ -16,11 +16,12 @@ namespace Sun {
     {
      public:
         // Enum to represent mouse wheel direction
-        enum MouseWheel {
+        enum MouseWheelEnum {
             Vertical,
             Horizontal
         };
 
+    public:
         IViewportMouseControl() = default;
         virtual ~IViewportMouseControl() = default;
 
@@ -31,7 +32,7 @@ namespace Sun {
         virtual void MouseMove(const QPointF& pos, QMouseEvent* mouseEvent, Qt::KeyboardModifiers modifierKeys) = 0;
 
         // Handle mouse wheel event
-        virtual void MouseWheel(const QPointF& pos, MouseWheel wheel, int delta, QInputEvent* device, Qt::KeyboardModifiers modifierKeys) = 0;
+        virtual void MouseWheel(const QPointF& pos, MouseWheelEnum wheel, int delta, QInputEvent* device, Qt::KeyboardModifiers modifierKeys) = 0;
 
         // Handle mouse down event
         virtual void MouseDown(const QPointF& pos, Qt::MouseButton changedButton, int clickCount, QMouseEvent* mouseEvent, Qt::KeyboardModifiers modifierKeys) = 0;
