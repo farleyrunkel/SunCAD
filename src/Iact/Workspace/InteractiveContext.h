@@ -60,7 +60,7 @@ namespace Sun
         }
 
         // WorkspaceController getter/setter
-       Handle(WorkspaceController) WorkspaceController() const { return _WorkspaceController; }
+       Handle(Sun::WorkspaceController) WorkspaceController() const { return _WorkspaceController; }
         void SetWorkspaceController(const Handle(Sun::WorkspaceController)& controller) {
             if (_WorkspaceController != controller) {
                 if (_WorkspaceController) {
@@ -72,7 +72,7 @@ namespace Sun
         }
 
         // ViewportController getter/setter
-        Handle(ViewportController) ViewportController() const { return _ViewportController; }
+        Handle(Sun::ViewportController) ViewportController() const { return _ViewportController; }
         void SetViewportController(const Handle(Sun::ViewportController)& controller) {
             if (_ViewportController != controller) {
                 _ViewportController = controller;
@@ -107,7 +107,7 @@ namespace Sun
         }
 
     private:
-        Handle(Sun::ModelController) _DocumentController;
+        Handle(ModelController) _DocumentController;
         Handle(Sun::WorkspaceController) _WorkspaceController;
         Handle(Sun::ViewportController) _ViewportController;
 

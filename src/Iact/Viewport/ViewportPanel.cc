@@ -196,6 +196,7 @@ namespace {
 }
 
 namespace Sun {
+
 ViewportPanel::ViewportPanel(QWidget* parent)
     : QOpenGLWidget(parent),
     _MouseControl(new ViewportMouseControlDefault),
@@ -242,9 +243,9 @@ ViewportPanel::ViewportPanel(QWidget* parent)
     //QCoreApplication::setAttribute (Qt::AA_UseOpenGLES);
 #endif
 
-    connect(this, &ViewportPanel::viewportControllerChanged, 
-        [this]() {/*m_mouseControl->setViewportController(m_viewportController);*/ }
-    );
+    //connect(this, &ViewportPanel::viewportControllerChanged, 
+    //    [this]() {/*m_mouseControl->setViewportController(m_viewportController);*/ }
+    //);
 }
 
 ViewportPanel::~ViewportPanel() {

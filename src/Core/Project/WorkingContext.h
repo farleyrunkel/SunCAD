@@ -10,7 +10,6 @@
 
 namespace Sun 
 {
-
     DEFINE_STANDARD_HANDLE(WorkingContext, BaseObject)
 
    class WorkingContext : public BaseObject
@@ -26,9 +25,9 @@ namespace Sun
 
         void SetWorkingPlane(const gp_Pln& plane);
 
-        Sun::Workspace::GridTypes GetGridType() const;
+        Workspace::GridTypes GetGridType() const;
 
-        void SetGridType(Sun::Workspace::GridTypes type);
+        void SetGridType(Workspace::GridTypes type);
 
         double GetGridStep() const;
 
@@ -45,14 +44,14 @@ namespace Sun
     public:
         // Signals
         boost::signals2::signal<void(const gp_Pln&)> OnWorkingPlaneChanged;
-        boost::signals2::signal<void(Sun::Workspace::GridTypes)> OnGridTypeChanged;
+        boost::signals2::signal<void(Workspace::GridTypes)> OnGridTypeChanged;
         boost::signals2::signal<void(double)> OnGridStepChanged;
         boost::signals2::signal<void(double)> OnGridRotationChanged;
         boost::signals2::signal<void(int)> OnGridDivisionsChanged;
 
     private:
         gp_Pln _WorkingPlane;
-        Sun::Workspace::GridTypes _GridType;
+        Workspace::GridTypes _GridType;
         double _GridStep;
         double _GridRotation;
         int _GridDivisions;
@@ -62,7 +61,7 @@ namespace Sun
             OnWorkingPlaneChanged(plane);
         }
 
-        void _OnGridTypeChanged(Sun::Workspace::GridTypes type) {
+        void _OnGridTypeChanged(Workspace::GridTypes type) {
             OnGridTypeChanged(type);
         }
 

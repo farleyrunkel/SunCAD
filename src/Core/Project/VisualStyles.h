@@ -8,6 +8,7 @@
 
 #include "Comm/Types/Color.h"
 
+namespace Sun {
 // Enum definitions
 enum class PresentationMode {
     Wireframe,
@@ -37,25 +38,25 @@ enum class LineThickness {
 // Static Colors class
 class Colors {
 public:
-    static const Sun::Color Default;
-    static const Sun::Color Selection;
-    static const Sun::Color Highlight;
-    static const Sun::Color FilteredSubshapes;
-    static const Sun::Color FilteredSubshapesHot;
-    static const Sun::Color Ghost;
-    static const Sun::Color Auxillary;
-    static const Sun::Color Marker;
-    static const Sun::Color AttributeMarkerBackground;
-    static const Sun::Color AttributeMarkerSelection;
-    static const Sun::Color SketchEditorSegments;
-    static const Sun::Color SketchEditorHighlight;
-    static const Sun::Color SketchEditorSelection;
-    static const Sun::Color SketchEditorCreating;
-    static const Sun::Color SketchEditorAuxillary;
-    static const Sun::Color ActionBlue;
-    static const Sun::Color ActionRed;
-    static const Sun::Color ActionGreen;
-    static const Sun::Color ActionWhite;
+    static const Color Default;
+    static const Color Selection;
+    static const Color Highlight;
+    static const Color FilteredSubshapes;
+    static const Color FilteredSubshapesHot;
+    static const Color Ghost;
+    static const Color Auxillary;
+    static const Color Marker;
+    static const Color AttributeMarkerBackground;
+    static const Color AttributeMarkerSelection;
+    static const Color SketchEditorSegments;
+    static const Color SketchEditorHighlight;
+    static const Color SketchEditorSelection;
+    static const Color SketchEditorCreating;
+    static const Color SketchEditorAuxillary;
+    static const Color ActionBlue;
+    static const Color ActionRed;
+    static const Color ActionGreen;
+    static const Color ActionWhite;
 };
 
 // LineStyleDescription struct
@@ -113,4 +114,5 @@ struct LineThicknessDescription {
 //    {LineThickness::Thick, "Thick", 3.0},
 //} };
 
+}
 #endif  // SRC_CORE_PROJECT_VISUALSTYLES_H_

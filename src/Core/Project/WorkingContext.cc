@@ -8,7 +8,7 @@ namespace Sun {
     inline WorkingContext::WorkingContext()
         :
         _WorkingPlane(),
-        _GridType(Sun::Workspace::GridTypes::Rectangular),
+        _GridType(Workspace::GridTypes::Rectangular),
         _GridStep(1.0),
         _GridRotation(0),
         _GridDivisions(8)
@@ -39,11 +39,11 @@ namespace Sun {
         }
     }
 
-    inline Sun::Workspace::GridTypes WorkingContext::GetGridType() const {
+    inline Workspace::GridTypes WorkingContext::GetGridType() const {
         return _GridType;
     }
 
-    inline void WorkingContext::SetGridType(Sun::Workspace::GridTypes type) {
+    inline void WorkingContext::SetGridType(Workspace::GridTypes type) {
         if (_GridType != type) {
             _GridType = type;
             _OnGridTypeChanged(type);
