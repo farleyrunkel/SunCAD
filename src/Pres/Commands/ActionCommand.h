@@ -4,31 +4,34 @@
 #define APP_ACTIVECOMMAND_H
 
 #include <functional>
+
+#include <QAction>
+
+#include "Pres/Commands/RelayCommand.h"
+
 namespace Sun {
-    class ActiveCommand
+
+    class ActionCommand final : public QAction, public RelayCommand
     {
+        Q_OBJECT
+
     public:
         // Constructor
-        ActiveCommand(std::function<void()> Execute, std::function<bool()> CanExecute)
-            : _Execute(std::move(Execute)), _CanExecute(std::move(CanExecute))
-        {
-        }
+        ActionCommand(std::function<void()> Execute = nullptr, std::function<bool()> CanExecute = nullptr)
+            : QAction(), RelayCommand(Execute, CanExecute) {
 
-        // Method to execute the command
-        void Execute() const noexcept {
-            if (_Execute) {
-                _Execute();
-            }
+            setCheckable(true);
+            // connect the triggered signal to execute
+            connect(this, &QAction::triggered, [this]() {
+                if (isChecked()) {
+                    this->Execute();
+                }
+                else {
+                    setChecked(true);
+                }
+            });
         }
-
-        // Method to check if the command can be executed
-        bool CanExecute() const noexcept {
-            return _CanExecute ? _CanExecute() : true;
-        }
-
-    private:
-        std::function<void()> _Execute;      // Function to execute the command
-        std::function<bool()> _CanExecute;   // Function to check if the command can be executed
     };
+
 }
 #endif  // APP_ACTIVECOMMAND_H

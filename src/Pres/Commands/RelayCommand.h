@@ -14,16 +14,16 @@ namespace Sun {
     {
     public:
         // Constructor
-        RelayCommand(std::function<void()> execute);
+        RelayCommand(std::function<void()> Execute);
 
         // Constructor
-        RelayCommand(std::function<void()> execute, std::function<bool()> canExecute);
+        RelayCommand(std::function<void()> Execute, std::function<bool()> CanExecute);
 
         // Method to execute the command
-        void execute() override;
+        void Execute() override;
 
         // Method to check if the command can be executed
-        bool canExecute() const override;
+        bool CanExecute() const override;
 
     private:
         std::function<void()> m_execute;      // Function to execute the command

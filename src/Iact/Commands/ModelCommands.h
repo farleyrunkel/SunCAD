@@ -11,8 +11,10 @@ namespace Sun
     class ModelCommands
     {
     public:
-        // ¶¨Òå¾²Ì¬µÄ ActiveCommand
-        static const ActiveCommand CreateBox;
+        static ActionCommand& CreateBox();
+        static ActionCommand& CreateCylinder();
+        static ActionCommand& CreateSphere();
     };
+
 }
 #endif  // APP_MODELCOMMANDS_H

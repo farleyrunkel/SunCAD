@@ -3,21 +3,22 @@
 #include "Pres/Commands/RelayCommand.h"
 
 namespace Sun {
-    RelayCommand::RelayCommand(std::function<void()> execute)
-        : m_execute(std::move(execute)), m_canExecute(nullptr) {
+
+    RelayCommand::RelayCommand(std::function<void()> Execute)
+        : m_execute(std::move(Execute)), m_canExecute(nullptr) {
     }
 
-    RelayCommand::RelayCommand(std::function<void()> execute, std::function<bool()> canExecute)
-        : m_execute(std::move(execute)), m_canExecute(std::move(canExecute)) {
+    RelayCommand::RelayCommand(std::function<void()> Execute, std::function<bool()> CanExecute)
+        : m_execute(std::move(Execute)), m_canExecute(std::move(CanExecute)) {
     }
 
-    void RelayCommand::execute() {
+    void RelayCommand::Execute() {
         if (m_execute) {
             m_execute();
         }
     }
 
-    bool RelayCommand::canExecute() const {
+    bool RelayCommand::CanExecute() const {
         return m_canExecute ? m_canExecute() : true;
     }
 }

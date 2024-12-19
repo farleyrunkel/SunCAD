@@ -106,7 +106,7 @@ namespace Sun
                 {
                     QAction* aAction = new QAction(QIcon("://icons/model/Prim-Box.svg"), "Box");
                     aPannel->addAction(aAction, SARibbonPannelItem::Large);
-                    connect(aAction, &QAction::triggered, []() {ModelCommands::CreateBox.Execute(); });
+                    connect(aAction, &QAction::triggered, [this]() {ModelCommands::CreateBox().Execute(); });
                 }
                 {
                     QAction* aAction = new QAction(QIcon("://icons/model/Prim-Cylinder.svg"), "Cylinder");
