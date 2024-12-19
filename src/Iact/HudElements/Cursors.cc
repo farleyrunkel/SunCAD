@@ -3,67 +3,67 @@
 #include "Iact/HudElements/Cursors.h"
 
 namespace Sun {
-    QCursor Cursors::wait() {
+    QCursor Cursors::Wait() {
         return Qt::WaitCursor;
     }
 
-    QCursor Cursors::move() {
-        return getOrCreate("Move");
+    QCursor Cursors::Move() {
+        return GetOrCreate("Move");
     }
 
     QCursor Cursors::Rotate() {
-        return getOrCreate("Rotate");
+        return GetOrCreate("Rotate");
     }
 
-    QCursor Cursors::selectShape() {
-        return getOrCreate("SelectShape");
+    QCursor Cursors::SelectShape() {
+        return GetOrCreate("SelectShape");
     }
 
-    QCursor Cursors::selectVertex() {
-        return getOrCreate("SelectVertex");
+    QCursor Cursors::SelectVertex() {
+        return GetOrCreate("SelectVertex");
     }
 
-    QCursor Cursors::selectEdge() {
-        return getOrCreate("SelectEdge");
+    QCursor Cursors::SelectEdge() {
+        return GetOrCreate("SelectEdge");
     }
 
-    QCursor Cursors::selectWire() {
-        return getOrCreate("SelectWire");
+    QCursor Cursors::SelectWire() {
+        return GetOrCreate("SelectWire");
     }
 
-    QCursor Cursors::selectFace() {
-        return getOrCreate("SelectFace");
+    QCursor Cursors::SelectFace() {
+        return GetOrCreate("SelectFace");
     }
 
-    QCursor Cursors::setPoint() {
-        return getOrCreate("SetPoint");
+    QCursor Cursors::SetPoint() {
+        return GetOrCreate("SetPoint");
     }
 
-    QCursor Cursors::setRadius() {
-        return getOrCreate("SetRadius");
+    QCursor Cursors::SetRadius() {
+        return GetOrCreate("SetRadius");
     }
 
-    QCursor Cursors::setHeight() {
-        return getOrCreate("SetHeight");
+    QCursor Cursors::SetHeight() {
+        return GetOrCreate("SetHeight");
     }
 
     QCursor Cursors::WorkingPlane() {
-        return getOrCreate("_WorkingPlane");
+        return GetOrCreate("_WorkingPlane");
     }
 
-    QCursor Cursors::plus() {
-        return getOrCreate("Plus");
+    QCursor Cursors::Plus() {
+        return GetOrCreate("Plus");
     }
 
-    QCursor Cursors::minus() {
-        return getOrCreate("Minus");
+    QCursor Cursors::Minus() {
+        return GetOrCreate("Minus");
     }
 
-    QMap<QString, QCursor> Cursors::s_cursors;
+    QMap<QString, QCursor> Cursors::_Cursors;
 
-    QCursor Cursors::getOrCreate(const QString& cursorId)
+    QCursor Cursors::GetOrCreate(const QString& cursorId)
     {
-        if (!s_cursors.contains(cursorId)) {
+        if (!_Cursors.contains(cursorId)) {
 
             QString path = ":/Cursors/" + cursorId + ".cur";
             QFile file(path);
@@ -75,9 +75,9 @@ namespace Sun {
 
             QPixmap pixmap(path);
             QCursor cursor(pixmap);
-            s_cursors.insert(cursorId, cursor);
+            _Cursors.insert(cursorId, cursor);
         }
 
-        return s_cursors.value(cursorId, Qt::ArrowCursor);
+        return _Cursors.value(cursorId, Qt::ArrowCursor);
     }
 }

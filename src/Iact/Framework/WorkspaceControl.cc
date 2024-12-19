@@ -17,7 +17,7 @@ namespace Sun {
 		return _WorkspaceController;
 	}
 
-	void WorkspaceControl::setWorkspaceController(const Handle(Sun::WorkspaceController)& WorkspaceController) {
+	void WorkspaceControl::SetWorkspaceController(const Handle(Sun::WorkspaceController)& WorkspaceController) {
 		_WorkspaceController = WorkspaceController;
 	}
 
@@ -41,7 +41,7 @@ namespace Sun {
 		//	hudManager->SetHintMessage(message);
 	}
 
-	void WorkspaceControl::Add(Sun::VisualObject* visual) {
+	void WorkspaceControl::Add(Handle(VisualObject) visual) {
 		if (_VisualObjects.contains(visual))
 			return;
 		_VisualObjects.append(visual);

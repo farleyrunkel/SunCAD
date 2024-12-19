@@ -14,7 +14,7 @@ class Editor : public WorkspaceControl {
  public:
 	explicit Editor();
 
-	void stopTool();;
+	void StopTool();
 };
 }
 #endif  // SRC_IACT_FRAMEWORK_EDITOR_H_

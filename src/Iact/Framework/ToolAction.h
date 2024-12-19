@@ -8,33 +8,28 @@
 
 namespace Sun {
 
-class Sun_WorkspaceController;
-
 class ToolAction : public WorkspaceControl {
 
  public:
     explicit ToolAction() {};
 
     // Start and stop functions
-    bool start() { 
-        return onStart(); 
-    }
-    virtual void reset() 
-    {
-        _IsFinished = false; 
-    }
-    void stop() 
-    { 
-        onStop();
-        cleanup();
+    bool Start() { 
+        return OnStart(); 
     }
 
-    bool isFinished() const { return _IsFinished; }
+    void Stop() 
+    { 
+        OnStop();
+        WorkspaceControl::Cleanup();
+    }
+
+    bool IsFinished() const { return _IsFinished; }
 
  protected:
     // Virtual function for subclasses to override
-    virtual bool onStart() { return false; }
-    virtual void onStop() {}
+    virtual bool OnStart() { return false; }
+    virtual void OnStop() {}
     virtual void Reset() 
     {
         _IsFinished = false;

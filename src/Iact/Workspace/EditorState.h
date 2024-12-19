@@ -12,7 +12,7 @@ class EditorState final : public QObject {
  public:
 	 EditorState();
  private:
-	QString m_activeTool;
+	QString _ActiveTool;
 };
 }
 #endif // SRC_IACT_WORKSPACE_EDITORSTATE_H_

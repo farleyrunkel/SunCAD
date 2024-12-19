@@ -3,7 +3,6 @@
 #ifndef SRC_IACT_FRAMEWORK_WORKSPACECONTROLL_H_
 #define SRC_IACT_FRAMEWORK_WORKSPACECONTROLL_H_
 
-#include <QObject>
 #include <QList>
 
 #include <Standard_Handle.hxx>
@@ -14,15 +13,15 @@
 
 namespace Sun {
 
-    DEFINE_STANDARD_HANDLE(WorkspaceControl, BaseObject);
+DEFINE_STANDARD_HANDLE(WorkspaceControl, BaseObject);
 
 class WorkspaceControl : public BaseObject, public IMouseEventHandler 
 {
  public:
 	explicit WorkspaceControl();
 
-    Handle(Sun::WorkspaceController)  WorkspaceController() const;
-	void setWorkspaceController(const Handle(Sun::WorkspaceController)& WorkspaceController);
+    Handle(Sun::WorkspaceController) WorkspaceController() const;
+	void SetWorkspaceController(const Handle(Sun::WorkspaceController)& WorkspaceController);
 
  protected:
     virtual QList<Handle(WorkspaceControl)> GetChildren() const;
@@ -30,13 +29,8 @@ class WorkspaceControl : public BaseObject, public IMouseEventHandler
 
     void SetHintMessage(const QString& message);
 
-    void Add(Sun::VisualObject* visual);
+    void Add(Handle(VisualObject) visual);
     void Add(IHudElement* hudElement);
-
-    // Assuming cleanup and cleanedUp are functions from the base class
-    void cleanup() {
-        // Resource cleanup implementation
-    }
 
  public:
     virtual bool OnMouseMove(MouseEventData* data) override {

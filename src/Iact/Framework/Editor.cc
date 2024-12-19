@@ -5,5 +5,5 @@
 namespace Sun {
 	Editor::Editor() {}
 
-	void Editor::stopTool() {}
+	void Editor::StopTool() {}
 }

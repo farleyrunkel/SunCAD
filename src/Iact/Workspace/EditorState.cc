@@ -5,5 +5,5 @@
 
 //-----------------------------------------------------------------------------
 namespace Sun {
-	EditorState::EditorState() : QObject(nullptr) {}
+	EditorState::EditorState() {}
 }
