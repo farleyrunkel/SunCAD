@@ -21,19 +21,8 @@
 #include "Iact/Workspace/ViewportController.h"
 #include "Iact/Workspace/WorkspaceController.h"
 #include "Iact/Viewport/IViewportMouseControl.h"
-//#include "Iact/HudElements/HudContainer.h"
+#include "Iact/HudElements/HudContainer.h"
 
-namespace Sun {
-
-    class HudContainer
-    {
-    };
-
-    class IHudElement
-    {
-    };
-
-}
 
 namespace Sun 
 {

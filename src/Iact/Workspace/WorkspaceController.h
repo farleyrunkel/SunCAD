@@ -19,6 +19,8 @@ namespace Sun {
         ~WorkspaceController() {}
         void dispose() {
         }
+
+        void Invalidate() {}
     };
 }
 #endif // SRC_IACT_WORKSPACE_WORKSPACECONTROLLER_H_
