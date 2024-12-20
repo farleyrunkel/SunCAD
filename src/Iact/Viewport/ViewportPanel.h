@@ -26,7 +26,7 @@
 
 namespace Sun 
 {
-    class ViewportPanel : public QOpenGLWidget, public AIS_ViewController
+class ViewportPanel : public QOpenGLWidget, public AIS_ViewController
 {
     Q_OBJECT
 
