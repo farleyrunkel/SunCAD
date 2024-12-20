@@ -21,14 +21,14 @@ namespace Sun {
     }
 
     inline void WorkingContext::CopyFrom(const WorkingContext& other) {
-        _WorkingPlane = other.GetWorkingPlane();
-        _GridType = other.GetGridType();
-        _GridStep = other.GetGridStep();
-        _GridDivisions = other.GetGridDivisions();
-        _GridRotation = other.GetGridRotation();
+        _WorkingPlane = other.WorkingPlane();
+        _GridType = other.GridType();
+        _GridStep = other.GridStep();
+        _GridDivisions = other.GridDivisions();
+        _GridRotation = other.GridRotation();
     }
 
-    inline gp_Pln WorkingContext::GetWorkingPlane() const {
+    inline gp_Pln WorkingContext::WorkingPlane() const {
         return _WorkingPlane;
     }
 
@@ -39,7 +39,7 @@ namespace Sun {
         }
     }
 
-    inline Workspace::GridTypes WorkingContext::GetGridType() const {
+    inline Workspace::GridTypes WorkingContext::GridType() const {
         return _GridType;
     }
 
@@ -50,7 +50,7 @@ namespace Sun {
         }
     }
 
-    inline double WorkingContext::GetGridStep() const {
+    inline double WorkingContext::GridStep() const {
         return _GridStep;
     }
 
@@ -61,7 +61,7 @@ namespace Sun {
         }
     }
 
-    inline double WorkingContext::GetGridRotation() const {
+    inline double WorkingContext::GridRotation() const {
         return _GridRotation;
     }
 
@@ -72,7 +72,7 @@ namespace Sun {
         }
     }
 
-    inline int WorkingContext::GetGridDivisions() const {
+    inline int WorkingContext::GridDivisions() const {
         return _GridDivisions;
     }
 

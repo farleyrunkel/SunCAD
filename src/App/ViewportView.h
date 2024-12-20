@@ -17,8 +17,8 @@ public:
     explicit ViewportView(QWidget* parent = nullptr);
 
 private:
-    ViewportPanel* m_viewportPanel;
-    QLabel* messageBar;
+    ViewportPanel* _ViewportPanel;
+    QLabel* _MessageBar;
 };
 }
 #endif  // SRC_APP_VIEWPORTVIEW_H_

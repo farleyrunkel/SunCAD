@@ -23,7 +23,7 @@ namespace Sun {
         if (command.text().isEmpty()) {
             command.setText(QObject::tr("New Model"));
             command.setToolTip(QObject::tr("Create a new model."));
-            command.setIcon(ResourceUtils::icon("App/App-NewModel"));
+            command.setIcon(ResourceUtils::Icon("App/App-NewModel"));
         }
 
         return command;
@@ -40,7 +40,7 @@ namespace Sun {
         if (command.text().isEmpty()) {
             command.setText(QObject::tr("Open Model..."));
             command.setToolTip(QObject::tr("Opens an existing Model."));
-            command.setIcon(ResourceUtils::icon("App/App-OpenModel"));
+            command.setIcon(ResourceUtils::Icon("App/App-OpenModel"));
         }
 
         return command;

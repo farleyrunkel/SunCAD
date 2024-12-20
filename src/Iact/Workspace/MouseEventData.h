@@ -72,14 +72,14 @@ public:
 public:
     // 构造函数
     MouseEventData() {}
-    MouseEventData(const Handle(Sun::Viewport)& vp, const QPointF& sp, const gp_Pnt& pp, Qt::KeyboardModifiers mk)
-        : Viewport(vp), screenPoint(sp), PointOnPlane(pp), modifierKeys(mk) {}
+    MouseEventData(const Handle(Sun::_Viewport)& vp, const QPointF& sp, const gp_Pnt& pp, Qt::KeyboardModifiers mk)
+        : _Viewport(vp), _ScreenPoint(sp), _PointOnPlane(pp), _ModifierKeys(mk) {}
 
     // 检测到的主要实体
     Handle(InteractiveEntity) DetectedEntity() const;
 
     TopoDS_Shape DetectedBrepShape() const {
-        return !detectedElements.isEmpty() ? detectedElements[0].brepShape : TopoDS_Shape();
+        return !_DetectedElements.isEmpty() ? _DetectedElements[0].brepShape : TopoDS_Shape();
     }
 
     Handle(AIS_InteractiveObject) DetectedAisObject() const;
@@ -88,7 +88,7 @@ public:
     void Clear();
 
     // 设置事件数据
-    void Set(const Handle(Sun::Viewport)& vp, const QPointF& sp, const gp_Pnt& pp, Qt::KeyboardModifiers mk);
+    void Set(const Handle(Sun::_Viewport)& vp, const QPointF& sp, const gp_Pnt& pp, Qt::KeyboardModifiers mk);
 
     // 设置检测元素的列表
     void SetDetectedElements(const QList<Handle(AIS_InteractiveObject)>& aisObjects,
@@ -103,12 +103,12 @@ public:
     //    return viewport->ViewAxis(screenPoint.x(), screenPoint.y());
     //}
     // 鼠标事件数据的主要属性
-    Handle(Viewport) Viewport = nullptr;
-    QPointF screenPoint;
-    gp_Pnt PointOnPlane;
-    Qt::KeyboardModifiers modifierKeys;
-    QList<Element> detectedElements;
-    ReturnOptions returnOptions;
+    Handle(_Viewport) _Viewport = nullptr;
+    QPointF _ScreenPoint;
+    gp_Pnt _PointOnPlane;
+    Qt::KeyboardModifiers _ModifierKeys;
+    QList<Element> _DetectedElements;
+    ReturnOptions _ReturnOptions;
 };
 
 }

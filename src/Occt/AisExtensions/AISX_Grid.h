@@ -10,8 +10,9 @@
 #include <Graphic3d_Group.hxx>
 
 namespace Sun {
+
 class AISX_Grid : public AIS_InteractiveObject {
- public:
+public:
     AISX_Grid();
 
     //--------------------------------------------------------------------------------------------------
@@ -31,7 +32,7 @@ class AISX_Grid : public AIS_InteractiveObject {
 
     //--------------------------------------------------------------------------------------------------
 
- private:
+private:
     void _ComputeRectangular(const Handle(Graphic3d_Group)& theGroup);
     void _ComputeCircular(const Handle(Graphic3d_Group)& theGroup);
     void _ComputeAxes(const Handle(Graphic3d_Group)& theGroup);
@@ -48,5 +49,6 @@ class AISX_Grid : public AIS_InteractiveObject {
     Handle(Graphic3d_AspectLine3d) _XAxisAspect;
     Handle(Graphic3d_AspectLine3d) _YAxisAspect;
 };
+
 }
 #endif // !OCCT_AISEXTENSIONS_AISX_GRID_H_

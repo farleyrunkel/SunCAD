@@ -29,5 +29,45 @@
         <file>icons/model/Prim-Cylinder.svg</file>
         <file>icons/model/Prim-Sketch.svg</file>
         <file>icons/model/Prim-Sphere.svg</file>
+        <file>icons/App/App-Exchange.svg</file>
+        <file>icons/App/App-Export.svg</file>
+        <file>icons/App/App-Import.svg</file>
+        <file>icons/App/App-MainLogo.svg</file>
+        <file>icons/App/App-NewModel.svg</file>
+        <file>icons/App/App-OpenModel.svg</file>
+        <file>icons/App/App-OpenRecent.svg</file>
+        <file>icons/App/App-OpenSample.svg</file>
+        <file>icons/App/App-RestoreLayout.svg</file>
+        <file>icons/App/App-SaveAll.svg</file>
+        <file>icons/App/App-SaveModel.svg</file>
+        <file>icons/App/App-Settings.svg</file>
+        <file>icons/App/App-ShortcutHelp.svg</file>
+        <file>icons/App/App-UserGuide.svg</file>
+        <file>icons/App/App-AboutDialog.svg</file>
+        <file>icons/App/App-ExitApp.svg</file>
+        <file>icons/App/App-ShowDocu.svg</file>
+        <file>icons/App/App-MainLogo.ico</file>
+        <file>icons/Marker/Ball.svg</file>
+        <file>icons/Marker/Error.svg</file>
+        <file>icons/Marker/Plus.svg</file>
+        <file>icons/Marker/Rect.svg</file>
+        <file>icons/Marker/Ring.svg</file>
+        <file>icons/Marker/X.svg</file>
+        <file>icons/Marker/SketchConstraintAngle.svg</file>
+        <file>icons/Marker/SketchConstraintCircleRadius.svg</file>
+        <file>icons/Marker/SketchConstraintConcentric.svg</file>
+        <file>icons/Marker/SketchConstraintEqual.svg</file>
+        <file>icons/Marker/SketchConstraintFixed.svg</file>
+        <file>icons/Marker/SketchConstraintHorizontal.svg</file>
+        <file>icons/Marker/SketchConstraintHorizontalDistance.svg</file>
+        <file>icons/Marker/SketchConstraintLineLength.svg</file>
+        <file>icons/Marker/SketchConstraintParallel.svg</file>
+        <file>icons/Marker/SketchConstraintPerpendicular.svg</file>
+        <file>icons/Marker/SketchConstraintPointOnMidpoint.svg</file>
+        <file>icons/Marker/SketchConstraintPointOnSegment.svg</file>
+        <file>icons/Marker/SketchConstraintSmoothCorner.svg</file>
+        <file>icons/Marker/SketchConstraintTangent.svg</file>
+        <file>icons/Marker/SketchConstraintVertical.svg</file>
+        <file>icons/Marker/SketchConstraintVerticalDistance.svg</file>
     </qresource>
 </RCC>

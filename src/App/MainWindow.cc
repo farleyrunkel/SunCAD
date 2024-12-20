@@ -43,7 +43,7 @@ namespace Sun {
         resize(1260, 800);
 
         setWindowTitle(tr("SunCAD"));
-        setWindowIcon(ResourceUtils::icon("App/App-MainLogo"));
+        setWindowIcon(ResourceUtils::Icon("App/App-MainLogo"));
         setStatusBar(new QStatusBar());
 
         ads::CDockManager::setConfigFlag(ads::CDockManager::OpaqueSplitterResize, true);
@@ -80,11 +80,11 @@ namespace Sun {
             _AppButton->addAction(&DocumentCommands::createNewModel());
             _AppButton->addAction(&DocumentCommands::openModelFrom());
             _AppButton->addSeparator();
-            _AppButton->addAction(&AppCommands::settings());
+            _AppButton->addAction(&AppCommands::Settings());
             _AppButton->addSeparator();
-            _AppButton->addAction(&AppCommands::showAboutDialog());
+            _AppButton->addAction(&AppCommands::ShowAboutDialog());
             _AppButton->addSeparator();
-            _AppButton->addAction(&AppCommands::exitApplication());
+            _AppButton->addAction(&AppCommands::ExitApplication());
         }
         SARibbonApplicationButton* appBtn = qobject_cast<SARibbonApplicationButton*>(btn);
         if (!appBtn) {
@@ -98,7 +98,7 @@ namespace Sun {
             if (SARibbonPannel* aPannel = aCategory->addPannel(tr("Panel 1"))) {
                 QAction* aAction = new QAction;
                 aAction->setText("save");
-                aAction->setIcon(QIcon("://icon/save.svg"));
+                aAction->setIcon(QIcon("://Icon/save.svg"));
                 aAction->setObjectName("actSave");
                 aAction->setShortcut(QKeySequence(QLatin1String("Ctrl+S")));
                 aPannel->addLargeAction(aAction);
@@ -118,7 +118,7 @@ namespace Sun {
                 aPannel->addAction(&ModelCommands::CreateBox(), SARibbonPannelItem::Large);
             }
             if (SARibbonPannel* aPannel = aCategory->addPannel(tr("Panels"))) {
-                aPannel->addAction(&AppCommands::showDocumentExplorer(), SARibbonPannelItem::Large);
+                aPannel->addAction(&AppCommands::ShowDocumentExplorer(), SARibbonPannelItem::Large);
             }
         }
     }
@@ -149,11 +149,11 @@ namespace Sun {
         _DockManager->addAutoHideDockWidget(ads::SideBarLocation::SideBarLeft, layersDock)->setSize(240);
         _DockManager->addAutoHideDockWidget(ads::SideBarLocation::SideBarBottom, messageDock)->setSize(240);
 
-        connect(&AppCommands::showDocumentExplorer(), &QAction::triggered, documentDock->toggleViewAction(), &QAction::trigger);
+        connect(&AppCommands::ShowDocumentExplorer(), &QAction::triggered, documentDock->toggleViewAction(), &QAction::trigger);
     }
 
     void MainWindow::OnMainWindowLoaded() {
-        AppCommands::initApplication().Execute();
+        AppCommands::InitApplication().Execute();
     }
 
     QAction* MainWindow::CreateAction(const QString& text, const QString& iconurl) {

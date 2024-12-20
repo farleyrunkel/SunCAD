@@ -13,5 +13,6 @@ class AisHelper {
 public:
 	static void DisableGlobalClipPlanes(const Handle(PrsMgr_PresentableObject)& object);
 };
+
 }
 #endif  // OCCT_OCCTHELPER_AISHELPER_H_

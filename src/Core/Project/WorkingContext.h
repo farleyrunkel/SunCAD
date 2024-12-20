@@ -21,23 +21,23 @@ namespace Sun
 
         void CopyFrom(const WorkingContext& other);
 
-        gp_Pln GetWorkingPlane() const;
+        gp_Pln WorkingPlane() const;
 
         void SetWorkingPlane(const gp_Pln& plane);
 
-        Workspace::GridTypes GetGridType() const;
+        Workspace::GridTypes GridType() const;
 
         void SetGridType(Workspace::GridTypes type);
 
-        double GetGridStep() const;
+        double GridStep() const;
 
         void SetGridStep(double step);
 
-        double GetGridRotation() const;
+        double GridRotation() const;
 
         void SetGridRotation(double rotation);
 
-        int GetGridDivisions() const;
+        int GridDivisions() const;
 
         void SetGridDivisions(int divisions);
 

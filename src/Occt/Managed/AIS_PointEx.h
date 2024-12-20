@@ -14,6 +14,8 @@
 
 namespace Sun {
 
+DEFINE_STANDARD_HANDLE(AIS_PointEx, AIS_Point);
+
 class AIS_PointEx : public AIS_Point
 {
 	DEFINE_STANDARD_RTTIEXT(AIS_PointEx, AIS_Point)
@@ -30,6 +32,5 @@ private:
     Handle(Prs3d_Drawer) myBackgroundDrawer = nullptr;
 };
 
-DEFINE_STANDARD_HANDLE(AIS_PointEx, AIS_Point);
 }
 #endif  // OCCT_MANAGED_AIS_POINTEX_H_

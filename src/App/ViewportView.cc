@@ -14,7 +14,7 @@ namespace Sun {
 
 ViewportView::ViewportView(QWidget* parent)
     : QScrollArea(parent),
-      m_viewportPanel(nullptr) {
+      _ViewportPanel(nullptr) {
 
     // Set layout for the main panel
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
@@ -27,20 +27,20 @@ ViewportView::ViewportView(QWidget* parent)
     font.setBold(true);
 
     // Tool and error message area
-    messageBar = new QLabel("Tool and error message area");
-    messageBar->setContentsMargins(20, 2, 20, 2);
-    messageBar->setFont(font);
-    messageBar->setStyleSheet("background-color: lightyellow;");
-    mainLayout->addWidget(messageBar);
+    _MessageBar = new QLabel("Tool and error message area");
+    _MessageBar->setContentsMargins(20, 2, 20, 2);
+    _MessageBar->setFont(font);
+    _MessageBar->setStyleSheet("background-color: lightyellow;");
+    mainLayout->addWidget(_MessageBar);
 
     // Add spacer between the labels
     mainLayout->addStretch(1);
 
     // Grid information display
     QLabel* gridInfo = new QLabel("Grid information display area");
-    gridInfo->setContentsMargins(messageBar->contentsMargins());
-    gridInfo->setFont(messageBar->font());
-    gridInfo->setStyleSheet(messageBar->styleSheet());
+    gridInfo->setContentsMargins(_MessageBar->contentsMargins());
+    gridInfo->setFont(_MessageBar->font());
+    gridInfo->setStyleSheet(_MessageBar->styleSheet());
     mainLayout->addWidget(gridInfo);
 
     //connect(Core::AppContext(), &AppContext::workspaceControllerChanged, [this](Sun::WorkspaceController* controller) {

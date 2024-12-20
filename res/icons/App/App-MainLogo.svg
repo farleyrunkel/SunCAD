@@ -1,0 +1,14 @@
+<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+  <!-- 包裹所有内容的组，并应用旋转变换 -->
+  <g transform=" translate(0, 85) rotate(45, 150, 150) scale(0.707, 0.707)">
+    <!-- 大的方块 -->
+    <rect x="10" y="10" width="130" height="130" fill="#457ec4" />
+    <rect x="10" y="160" width="130" height="130" fill="#45c497" />
+    <rect x="160" y="10" width="130" height="130" fill="#c44545" />
+
+    <!-- 小的方块 -->
+    <rect x="160" y="160" width="60" height="60" fill="#457ec4" />
+    <rect x="230" y="160" width="60" height="60" fill="#45c497" />
+    <rect x="160" y="230" width="60" height="60" fill="#c44545" />
+  </g>
+</svg>

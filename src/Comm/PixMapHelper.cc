@@ -3,7 +3,7 @@
 #include "Comm/PixMapHelper.h"
 
 namespace Sun {
-    Handle(Image_PixMap) PixMapHelper::convertFromBitmap(const QImage& image) {
+    Handle(Image_PixMap) PixMapHelper::ConvertFromBitmap(const QImage& image) {
         if (image.isNull()) {
             throw std::runtime_error("Failed to convert QPixmap to QImage.");
         }

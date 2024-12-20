@@ -24,9 +24,9 @@
 
 namespace Sun
 {
-    DEFINE_STANDARD_HANDLE(Viewport, BaseObject)
+    DEFINE_STANDARD_HANDLE(_Viewport, BaseObject)
 
-    class Viewport : public BaseObject
+    class _Viewport : public BaseObject
     {
     public:
         // 渲染模式枚举
@@ -39,7 +39,7 @@ namespace Sun
 
     public:
         // 构造函数
-        explicit Viewport(const Handle(Workspace)& workspace)
+        explicit _Viewport(const Handle(Workspace)& workspace)
             : _Workspace(workspace), _RenderMode(SolidShaded), _Twist(0.0), _Scale(100.0) {}
 
         // 获取器和设置器
@@ -170,7 +170,7 @@ namespace Sun
         }
 
         // 析构函数
-        ~Viewport() {
+        ~_Viewport() {
             if (_V3dView) {
                 _V3dView->Remove();
             }
