@@ -73,7 +73,7 @@ public:
     // 构造函数
     MouseEventData() {}
     MouseEventData(const Handle(sun::_Viewport)& vp, const QPointF& sp, const gp_Pnt& pp, Qt::KeyboardModifiers mk)
-        : _Viewport(vp), _ScreenPoint(sp), _PointOnPlane(pp), _ModifierKeys(mk) {}
+        : _Viewport(vp), _ScreenPoint(sp), PointOnPlane(pp), ModifierKeys(mk) {}
 
     // 检测到的主要实体
     Handle(InteractiveEntity) DetectedEntity() const;
@@ -105,8 +105,8 @@ public:
     // 鼠标事件数据的主要属性
     Handle(_Viewport) _Viewport = nullptr;
     QPointF _ScreenPoint;
-    gp_Pnt _PointOnPlane;
-    Qt::KeyboardModifiers _ModifierKeys;
+    gp_Pnt PointOnPlane;
+    Qt::KeyboardModifiers ModifierKeys;
     QList<Element> _DetectedElements;
     ReturnOptions _ReturnOptions;
 };

@@ -17,7 +17,7 @@ Handle(AIS_InteractiveObject) MouseEventData::DetectedAisObject() const {
 void MouseEventData::Clear() {
     _Viewport = nullptr;
     _ScreenPoint = QPointF();
-    _PointOnPlane = gp_Pnt();
+    PointOnPlane = gp_Pnt();
     _DetectedElements.clear();
     _ReturnOptions.Clear();
 }
@@ -26,8 +26,8 @@ void MouseEventData::Set(const Handle(sun::_Viewport)& vp, const QPointF& sp, co
     Clear();
     _Viewport = vp;
     _ScreenPoint = sp;
-    _PointOnPlane = pp;
-    _ModifierKeys = mk;
+    PointOnPlane = pp;
+    ModifierKeys = mk;
 }
 
 void MouseEventData::SetDetectedElements(const QList<Handle(AIS_InteractiveObject)>& aisObjects, const QList<Handle(InteractiveEntity)>& entities, const QList<TopoDS_Shape>& brepShapes) {

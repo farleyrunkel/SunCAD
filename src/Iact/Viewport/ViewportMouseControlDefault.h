@@ -23,18 +23,18 @@ namespace sun
 
         virtual void SetViewportController(const Handle(ViewportController)& controller) override;
 
-        virtual void MouseMove(const QPointF& pos, QMouseEvent* mouseEvent, Qt::KeyboardModifiers _ModifierKeys) override;
+        virtual void MouseMove(const QPointF& pos, QMouseEvent* mouseEvent, Qt::KeyboardModifiers ModifierKeys) override;
 
-        virtual void MouseWheel(const QPointF& pos, MouseWheelEnum wheel, int delta, QInputEvent* device, Qt::KeyboardModifiers _ModifierKeys) override;
+        virtual void MouseWheel(const QPointF& pos, MouseWheelEnum wheel, int delta, QInputEvent* device, Qt::KeyboardModifiers ModifierKeys) override;
 
-        virtual void MouseDown(const QPointF& pos, Qt::MouseButton changedButton, int clickCount, QMouseEvent* /*mouseEvent*/, Qt::KeyboardModifiers _ModifierKeys) override;
+        virtual void MouseDown(const QPointF& pos, Qt::MouseButton changedButton, int clickCount, QMouseEvent* /*mouseEvent*/, Qt::KeyboardModifiers ModifierKeys) override;
 
-        virtual void MouseUp(const QPointF& pos, Qt::MouseButton changedButton, QMouseEvent* /*mouseEvent*/, Qt::KeyboardModifiers _ModifierKeys) override;
+        virtual void MouseUp(const QPointF& pos, Qt::MouseButton changedButton, QMouseEvent* /*mouseEvent*/, Qt::KeyboardModifiers ModifierKeys) override;
 
         virtual void Cancel() override;
 
     private:
-        void updateMouseMoveMode(QMouseEvent* mouseEvent, Qt::KeyboardModifiers _ModifierKeys);
+        void updateMouseMoveMode(QMouseEvent* mouseEvent, Qt::KeyboardModifiers ModifierKeys);
 
     private:
         Handle(ViewportController) _ViewportController;

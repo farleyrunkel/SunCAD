@@ -70,10 +70,11 @@ namespace sun {
         // Initialization
         Box() : _DimensionX(1.0), _DimensionY(1.0), _DimensionZ(1.0) {}
 
-        virtual ShapeType ShapeType() const override {
+        virtual sun::ShapeType ShapeType() const override {
             return ShapeType::Solid;
         }
 
+    public:
         // Signals
         boost::signals2::signal<void(double)> OnDimensionXChanged;
         boost::signals2::signal<void(double)> OnDimensionYChanged;

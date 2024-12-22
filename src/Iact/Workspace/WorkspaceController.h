@@ -7,6 +7,7 @@
 #include <QObject>
 
 #include "Comm/BaseObject.h"
+#include "Core/Workspace.h"
 
 namespace sun 
 {
@@ -22,6 +23,10 @@ public:
     }
 
     void Invalidate() {}
+
+    Handle(sun::Workspace) Workspace() {
+        return nullptr;
+    }
 };
 
 }

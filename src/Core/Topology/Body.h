@@ -17,6 +17,8 @@ namespace sun {
 
     class Body : public BaseObject
     {
+    public:
+        void SetPosition(const gp_Pnt& pnt) {}
     };
 
 }
