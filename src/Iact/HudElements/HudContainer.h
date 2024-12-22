@@ -12,7 +12,7 @@
 #include "Iact/HudElements/IHudManager.h"
 #include "Iact/HudElements/HudElement.h"
 
-namespace Sun {
+namespace sun {
 class HudContainer : public QFrame, public IHudManager
 {
 	Q_OBJECT

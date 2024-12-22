@@ -2,5 +2,5 @@
 
 #include "App/AboutDialog.h"
 
-namespace Sun {
+namespace sun {
 }

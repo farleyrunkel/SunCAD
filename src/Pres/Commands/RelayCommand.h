@@ -8,7 +8,7 @@
 
 #include "Pres/Commands/ICommand.h"
 
-namespace Sun {
+namespace sun {
 
     class RelayCommand : public ICommand
     {

@@ -24,7 +24,7 @@
 #include "Iact/Commands/ModelCommands.h"
 #include "Iact/Commands/DocumentCommands.h"
 
-namespace Sun {
+namespace sun {
     MainWindow::MainWindow(QWidget* parent)
         : SARibbonMainWindow(parent) {
         SetupUi();

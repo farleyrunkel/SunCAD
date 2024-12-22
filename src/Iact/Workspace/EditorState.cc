@@ -4,6 +4,6 @@
 #include "Iact/Workspace/EditorState.h"
 
 //-----------------------------------------------------------------------------
-namespace Sun {
+namespace sun {
 	EditorState::EditorState() {}
 }

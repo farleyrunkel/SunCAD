@@ -16,7 +16,7 @@
 #include "Iact/Workspace/WorkspaceController.h"
 #include "Iact/Workspace/ModelController.h"
 
-namespace Sun
+namespace sun
 {
     DEFINE_STANDARD_HANDLE(InteractiveContext, CoreContext)
 
@@ -37,11 +37,11 @@ namespace Sun
         {
             // ÊÍ·Å×ÊÔ´
             if (_DocumentController) {
-                _DocumentController->dispose();
+                _DocumentController->Dispose();
                 _DocumentController = nullptr;
             }
             if (_WorkspaceController) {
-                _WorkspaceController->dispose();
+                _WorkspaceController->Dispose();
                 _WorkspaceController = nullptr;
             }
             _ViewportController = nullptr;
@@ -52,7 +52,7 @@ namespace Sun
         void SetDocumentController(const Handle(ModelController)& controller) {
             if (_DocumentController != controller) {
                 if (_DocumentController) {
-                    _DocumentController->dispose();
+                    _DocumentController->Dispose();
                 }
                 _DocumentController = controller;
 
@@ -60,11 +60,11 @@ namespace Sun
         }
 
         // WorkspaceController getter/setter
-       Handle(Sun::WorkspaceController) WorkspaceController() const { return _WorkspaceController; }
-        void SetWorkspaceController(const Handle(Sun::WorkspaceController)& controller) {
+       Handle(sun::WorkspaceController) WorkspaceController() const { return _WorkspaceController; }
+        void SetWorkspaceController(const Handle(sun::WorkspaceController)& controller) {
             if (_WorkspaceController != controller) {
                 if (_WorkspaceController) {
-                    _WorkspaceController->dispose();
+                    _WorkspaceController->Dispose();
                 }
                 _WorkspaceController = controller;
 
@@ -72,8 +72,8 @@ namespace Sun
         }
 
         // ViewportController getter/setter
-        Handle(Sun::ViewportController) ViewportController() const { return _ViewportController; }
-        void SetViewportController(const Handle(Sun::ViewportController)& controller) {
+        Handle(sun::ViewportController) ViewportController() const { return _ViewportController; }
+        void SetViewportController(const Handle(sun::ViewportController)& controller) {
             if (_ViewportController != controller) {
                 _ViewportController = controller;
 
@@ -108,8 +108,8 @@ namespace Sun
 
     private:
         Handle(ModelController) _DocumentController;
-        Handle(Sun::WorkspaceController) _WorkspaceController;
-        Handle(Sun::ViewportController) _ViewportController;
+        Handle(sun::WorkspaceController) _WorkspaceController;
+        Handle(sun::ViewportController) _ViewportController;
 
         QList<QColor> _RecentUsedColors;
         QList<QString> _RecentUsedScripts;

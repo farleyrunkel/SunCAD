@@ -7,7 +7,7 @@
 #include <QFile>
 #include <QDebug>
 
-namespace Sun 
+namespace sun 
 {
 
 class ResourceUtils 

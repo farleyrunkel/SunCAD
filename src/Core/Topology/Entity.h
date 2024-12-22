@@ -11,7 +11,7 @@
 
 #include "Comm/BaseObject.h"
 
-namespace Sun
+namespace sun
 {
 
     // Base class for Entity, assuming Entity is derived from QObject for signal/slot support

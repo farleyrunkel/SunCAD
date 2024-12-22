@@ -2,7 +2,7 @@
 
 #include "Comm/Types/Color.h"
 
-namespace Sun {
+namespace sun {
 
 // Define static colors
 const Color Color::Black(0, 0, 0);

@@ -9,7 +9,7 @@
 
 #include "Iact/HudElements/HudElement.h"
 // virtual void SetCursor(QObject* owner, Cursor* cursor)  {}
-namespace Sun {
+namespace sun {
     HudContainer::HudContainer(QWidget* parent)
         : QFrame(parent) {
         setAutoFillBackground(true); // ²»×Ô¶¯Ìî³ä±³¾°

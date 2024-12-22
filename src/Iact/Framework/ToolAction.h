@@ -6,7 +6,7 @@
 
 #include "Iact/Framework/WorkspaceControl.h"
 
-namespace Sun {
+namespace sun {
 
 class ToolAction : public WorkspaceControl {
 

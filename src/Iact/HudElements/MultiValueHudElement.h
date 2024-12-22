@@ -13,7 +13,7 @@
 
 #include "Iact/HudElements/HudElement.h"
 
-namespace Sun {
+namespace sun {
     class MultiValueHudElement : public IHudElement
     {
         Q_OBJECT

@@ -5,7 +5,7 @@
 #include <QLineEdit>
 #include <QFocusEvent>
 
-namespace Sun 
+namespace sun 
 {
     GlobalEventHandler::GlobalEventHandler(QObject* parent) : QObject(parent) {}
 

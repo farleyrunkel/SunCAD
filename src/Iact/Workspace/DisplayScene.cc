@@ -38,7 +38,7 @@ namespace {
 }
 
 //-----------------------------------------------------------------------------
-namespace Sun {
+namespace sun {
     bool DisplayScene::Execute() {
         if (m_doc.IsNull())
             return true;

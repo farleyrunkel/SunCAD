@@ -4,12 +4,12 @@
 
 #include "Core/Core.h"
 
-namespace Sun {
-    Handle(Sun::WorkspaceController) CommandHelper::WorkspaceController() {
+namespace sun {
+    Handle(sun::WorkspaceController) CommandHelper::WorkspaceController() {
         return /*Core::AppContext() ? Core::AppContext()->WorkspaceController() :*/ nullptr;
     }
 
-    Handle(Sun::ModelController) CommandHelper::documentController() {
+    Handle(sun::ModelController) CommandHelper::documentController() {
         return /*Core::AppContext() ? Core::AppContext()->documentController() :*/ nullptr;
     }
 

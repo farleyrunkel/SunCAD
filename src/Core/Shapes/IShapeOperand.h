@@ -7,7 +7,7 @@
 #include "gp_Ax3.hxx"       // OpenCASCADE 的 3D 坐标系
 #include "gp_Pln.hxx"       // OpenCASCADE 的平面类型
 
-namespace Sun {
+namespace sun {
 
 enum class ShapeType
 {

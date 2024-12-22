@@ -6,7 +6,7 @@
 #include "Pres/Commands/ActionCommand.h"
 #include <QMessageBox>
 
-namespace Sun 
+namespace sun 
 {
     class ModelCommands
     {

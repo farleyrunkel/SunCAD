@@ -8,7 +8,7 @@
 
 #include "Comm/Types/Color.h"
 
-namespace Sun {
+namespace sun {
 // Enum definitions
 enum class PresentationMode {
     Wireframe,

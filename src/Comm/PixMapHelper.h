@@ -6,7 +6,7 @@
 #include <QImage>
 #include <Image_PixMap.hxx>
 
-namespace Sun {
+namespace sun {
 
 class PixMapHelper {
 

@@ -9,7 +9,7 @@
 
 #include "Iact/Workspace/ViewportController.h"
 
-namespace Sun {
+namespace sun {
 
     // Interface for viewport mouse control
     class IViewportMouseControl 

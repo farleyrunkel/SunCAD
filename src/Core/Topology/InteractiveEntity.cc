@@ -1,11 +1,11 @@
 // Copyright [2024] SunCAD
 
 #include "Core/Topology/InteractiveEntity.h"
-namespace Sun {
+namespace sun {
 
 // Constructor
 InteractiveEntity::InteractiveEntity()
-    : Sun::Entity(), _Name("Unnamed"), _IsVisible(true), _LayerId(QUuid::createUuid()) {}
+    : sun::Entity(), _Name("Unnamed"), _IsVisible(true), _LayerId(QUuid::createUuid()) {}
 
 // Name property
 QString InteractiveEntity::Name() const {
@@ -65,14 +65,14 @@ void InteractiveEntity::SetLayerId(const QUuid& LayerId) {
     //}
 }
 
-Handle(Sun::Layer) InteractiveEntity::Layer() const {
+Handle(sun::Layer) InteractiveEntity::Layer() const {
     //if (CoreContext::current() && CoreContext::current()->layers()) {
     //    return CoreContext::current()->layers()->find(_layerId);
     //}
     return nullptr;
 }
 
-void InteractiveEntity::SetLayer(const Handle(Sun::Layer)& Layer) {
+void InteractiveEntity::SetLayer(const Handle(sun::Layer)& Layer) {
     //if (CoreContext::current() && CoreContext::current()->layers()) {
     //    Layer* defaultLayer = CoreContext::current()->layers()->defaultLayer();
     //    _layerId = (layer == defaultLayer || layer == nullptr) ? QUuid() : layer->guid();
@@ -86,7 +86,7 @@ void InteractiveEntity::Invalidate() {
 
 // Remove method
 void InteractiveEntity::Remove() {
-    Sun::Entity::Remove();
+    sun::Entity::Remove();
 }
 
 // Get transformed BRep

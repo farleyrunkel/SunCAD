@@ -13,7 +13,7 @@
 
 #define coreApp (static_cast<Application*>(QCoreApplication::instance()))
 
-namespace Sun 
+namespace sun 
 {
     class Application : public QApplication 
     {
@@ -23,11 +23,11 @@ namespace Sun
         Application(int& argc, char** argv);
         ~Application() {};
 
-        Sun::MainWindow* MainWindow() const {
+        sun::MainWindow* MainWindow() const {
             return _MainWindow;
         }
 
-        Sun::AppContext* AppContext() const {
+        sun::AppContext* AppContext() const {
             return nullptr;
         }
 
@@ -35,11 +35,11 @@ namespace Sun
         void initializeTranslation();
 
      private:
-        Sun::MainWindow* _MainWindow = nullptr;
-        Sun::WelcomeDialog* _WelcomeDialog = nullptr;
+        sun::MainWindow* _MainWindow = nullptr;
+        sun::WelcomeDialog* _WelcomeDialog = nullptr;
 
     private:
-        Handle(Sun::AppContext) _AppContext= nullptr;
+        Handle(sun::AppContext) _AppContext= nullptr;
     };
 
 }

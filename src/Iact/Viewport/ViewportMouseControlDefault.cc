@@ -3,7 +3,7 @@
 #include "Iact/Viewport/ViewportMouseControlDefault.h"
 #include <QMessageBox>
 
-namespace Sun {
+namespace sun {
 
     ViewportMouseControlDefault::ViewportMouseControlDefault() :
         _ViewportController(nullptr),

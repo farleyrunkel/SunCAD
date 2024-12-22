@@ -7,7 +7,7 @@
 #include <Graphic3d_SequenceOfHClipPlane.hxx>
 #include <PrsMgr_PresentableObject.hxx>
 
-namespace Sun {
+namespace sun {
 
 class AisHelper {
 public:

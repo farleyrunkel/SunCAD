@@ -5,7 +5,7 @@
 
 #include <QDialog>
 
-namespace Sun 
+namespace sun 
 {
     class WelcomeDialog : public QDialog
     {

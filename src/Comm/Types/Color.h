@@ -12,7 +12,7 @@
 
 #include <Quantity_Color.hxx>
 
-namespace Sun {
+namespace sun {
 
 class Color : public QColor 
 {

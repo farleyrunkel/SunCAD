@@ -4,7 +4,7 @@
 
 #include "Iact/Workspace/WorkspaceController.h"
 
-namespace Sun {
+namespace sun {
 	Tool::Tool(QObject* parent) : WorkspaceControl(),
 		_Id(typeid(*this).name()) {
 	}

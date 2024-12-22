@@ -7,7 +7,7 @@
 
 #include "Iact/Framework/WorkspaceControl.h"
 
-namespace Sun {
+namespace sun {
 
 class Editor : public WorkspaceControl {
 

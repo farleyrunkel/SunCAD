@@ -5,7 +5,7 @@
 
 #include <QDialog>
 
-namespace Sun {
+namespace sun {
 class AboutDialog : public QDialog {
  public:
      explicit AboutDialog(QWidget* parent = nullptr) : QDialog(parent) {}

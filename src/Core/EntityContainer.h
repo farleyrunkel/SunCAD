@@ -10,7 +10,7 @@
 
 #include "Core/Topology/Entity.h" 
 
-namespace Sun
+namespace sun
 {
     // Enum to mimic NotifyCollectionChangedAction
     enum class NotifyCollectionChangedAction

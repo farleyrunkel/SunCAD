@@ -8,7 +8,7 @@
 
 #include "Iact/Workspace/WorkspaceController.h"
 
-namespace Sun {
+namespace sun {
 
 	class IHudElement : public QWidget
 	{
@@ -18,8 +18,8 @@ namespace Sun {
 		explicit IHudElement(QWidget* parent) : QWidget(parent) {}
 
 	public:
-		Handle(Sun::WorkspaceController) WorkspaceController() const;
-		void setWorkspaceController(const Handle(Sun::WorkspaceController)& controller);
+		Handle(sun::WorkspaceController) WorkspaceController() const;
+		void setWorkspaceController(const Handle(sun::WorkspaceController)& controller);
 
 		virtual void Initialize() = 0;
 
@@ -28,7 +28,7 @@ namespace Sun {
 		void HeightChanged(int);
 
 	private:
-		Handle(Sun::WorkspaceController) _WorkspaceController;
+		Handle(sun::WorkspaceController) _WorkspaceController;
 	};
 }
 

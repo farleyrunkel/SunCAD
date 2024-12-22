@@ -5,7 +5,7 @@
 
 #include "Pres/Commands/ActionCommand.h"
 
-namespace Sun {
+namespace sun {
 class DocumentCommands {
 public:
     static ActionCommand& createNewModel();

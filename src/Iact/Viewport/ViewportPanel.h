@@ -24,7 +24,7 @@
 #include "Iact/HudElements/HudContainer.h"
 
 
-namespace Sun 
+namespace sun 
 {
 class ViewportPanel : public QOpenGLWidget, public AIS_ViewController
 {
@@ -37,13 +37,13 @@ class ViewportPanel : public QOpenGLWidget, public AIS_ViewController
     virtual ~ViewportPanel();
 
     // WorkspaceController getter/setter
-    Handle(Sun::WorkspaceController) WorkspaceController() const;
+    Handle(sun::WorkspaceController) WorkspaceController() const;
 
-    void SetWorkspaceController(const Handle(Sun::WorkspaceController)& controller);
+    void SetWorkspaceController(const Handle(sun::WorkspaceController)& controller);
 
     // ViewportController getter/setter
-    Handle(Sun::ViewportController) ViewportController() const;
-    void SetViewportController(const Handle(Sun::ViewportController)& controller);
+    Handle(sun::ViewportController) ViewportController() const;
+    void SetViewportController(const Handle(sun::ViewportController)& controller);
 
     //! Return AIS context.
     const Handle(AIS_InteractiveContext)& Context() const { return _Context; }
@@ -104,16 +104,16 @@ private:
     virtual void resizeGL(int width, int height) override;
 
  signals:
-    void workspaceControllerChanged(const Handle(Sun::WorkspaceController)&);
-    void viewportControllerChanged(const Handle(Sun::ViewportController)&);
+    void workspaceControllerChanged(const Handle(sun::WorkspaceController)&);
+    void viewportControllerChanged(const Handle(sun::ViewportController)&);
     void hudElementCollectionChanged();
     void hintMessageChanged(const QString& property);
     void MouseMoved(int x, int y);
 
 private:
     IViewportMouseControl* _MouseControl;
-    Handle(Sun::ViewportController) _ViewportController;
-    Handle(Sun::WorkspaceController) _WorkspaceController;
+    Handle(sun::ViewportController) _ViewportController;
+    Handle(sun::WorkspaceController) _WorkspaceController;
 
     HudContainer* _HudContainer;
     QList<IHudElement*> _HudElements;

@@ -14,7 +14,7 @@
 
 #include "Core/Topology/Entity.h"
 
-namespace Sun {
+namespace sun {
 
 class SerializationContext
 {
@@ -22,7 +22,7 @@ class SerializationContext
 
 DEFINE_STANDARD_HANDLE(Layer, Standard_Transient);
 
-class Layer : public Sun::Entity
+class Layer : public sun::Entity
 {
 public:
     Layer();

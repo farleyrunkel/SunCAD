@@ -8,7 +8,7 @@
 #include "Core/Workspace.h"
 #include "Comm/BaseObject.h"
 
-namespace Sun 
+namespace sun 
 {
     DEFINE_STANDARD_HANDLE(WorkingContext, BaseObject)
 

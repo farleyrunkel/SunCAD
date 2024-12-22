@@ -7,13 +7,13 @@
 #include "Iact/Workspace/WorkspaceController.h"
 #include "Iact/Workspace/ModelController.h"
 
-namespace Sun {
+namespace sun {
 
 class CommandHelper {
  public:
-    static Handle(Sun::WorkspaceController) WorkspaceController();
+    static Handle(sun::WorkspaceController) WorkspaceController();
 
-    static Handle(Sun::ModelController) documentController();
+    static Handle(sun::ModelController) documentController();
 
     //static Tool* currentTool();
 

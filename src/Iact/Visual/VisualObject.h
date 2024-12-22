@@ -16,14 +16,14 @@
 #include "Comm/BaseObject.h"
 #include "Iact/Workspace/WorkspaceController.h"
 
-namespace Sun {
+namespace sun {
 
     DEFINE_STANDARD_HANDLE(VisualObject, Standard_Transient);
 
     class VisualObject : public BaseObject
     {
     protected:
-        explicit VisualObject(const Handle(Sun::WorkspaceController)& workspaceController, const Handle(Sun::InteractiveEntity)& entity);
+        explicit VisualObject(const Handle(sun::WorkspaceController)& workspaceController, const Handle(sun::InteractiveEntity)& entity);
         virtual ~VisualObject() {}
 
     public:
@@ -32,13 +32,13 @@ namespace Sun {
 
         virtual Handle(AIS_InteractiveObject) AisObject() const = 0;
 
-        Handle(Sun::WorkspaceController) WorkspaceController() const {
+        Handle(sun::WorkspaceController) WorkspaceController() const {
             return _WorkspaceController;
         }
 
         Handle(AIS_InteractiveContext) AisContext() const;
 
-        Handle(Sun::InteractiveEntity) Entity() const {
+        Handle(sun::InteractiveEntity) Entity() const {
             return _Entity;
         }
 
@@ -67,8 +67,8 @@ namespace Sun {
         boost::signals2::signal<void(const std::shared_ptr<VisualObject>&)> OnAisObjectChanged;
 
     private:
-        Handle(Sun::WorkspaceController) _WorkspaceController;
-        Handle(Sun::InteractiveEntity) _Entity;
+        Handle(sun::WorkspaceController) _WorkspaceController;
+        Handle(sun::InteractiveEntity) _Entity;
         QVariant _Tag;
     };
 

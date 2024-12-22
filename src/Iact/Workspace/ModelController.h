@@ -5,7 +5,7 @@
 
 #include "Comm/BaseObject.h"
 
-namespace Sun
+namespace sun
 {
     DEFINE_STANDARD_HANDLE(ModelController, BaseObject)
 
@@ -14,7 +14,7 @@ namespace Sun
     public:
         ModelController() {}
         ~ModelController() {}
-        void dispose() {
+        void Dispose() {
 
         }
     };

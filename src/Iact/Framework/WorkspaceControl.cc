@@ -6,18 +6,18 @@
 #include "Iact/Visual/VisualObject.h"
 #include "Core/Core.h"
 
-namespace Sun {
+namespace sun {
 
 	WorkspaceControl::WorkspaceControl()
 		: 
 		_WorkspaceController(nullptr) {
 	}
 
-	Handle(Sun::WorkspaceController) WorkspaceControl::WorkspaceController() const {
+	Handle(sun::WorkspaceController) WorkspaceControl::WorkspaceController() const {
 		return _WorkspaceController;
 	}
 
-	void WorkspaceControl::SetWorkspaceController(const Handle(Sun::WorkspaceController)& WorkspaceController) {
+	void WorkspaceControl::SetWorkspaceController(const Handle(sun::WorkspaceController)& WorkspaceController) {
 		_WorkspaceController = WorkspaceController;
 	}
 

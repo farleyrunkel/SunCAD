@@ -8,19 +8,21 @@
 
 #include "Comm/BaseObject.h"
 
-namespace Sun {
+namespace sun 
+{
 
-    DEFINE_STANDARD_HANDLE(WorkspaceController, BaseObject)
+DEFINE_STANDARD_HANDLE(WorkspaceController, BaseObject)
 
-    class WorkspaceController : public BaseObject
-    {
-    public:
-        WorkspaceController() {}
-        ~WorkspaceController() {}
-        void dispose() {
-        }
+class WorkspaceController : public BaseObject
+{
+public:
+    WorkspaceController() {}
+    ~WorkspaceController() {}
+    void Dispose() {
+    }
 
-        void Invalidate() {}
-    };
+    void Invalidate() {}
+};
+
 }
 #endif // SRC_IACT_WORKSPACE_WORKSPACECONTROLLER_H_

@@ -10,7 +10,7 @@
 //#include "Iact/Commands/CommandHelper.h"
 //#include "Iact/Commands/DocumentCommands.h"
 
-namespace Sun {
+namespace sun {
 
     RelayCommand& AppCommands::InitApplication() {
         static RelayCommand command(

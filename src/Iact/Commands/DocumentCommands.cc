@@ -10,7 +10,7 @@
 #include "App/Application.h"
 #include "Iact/Commands/CommandHelper.h"
 
-namespace Sun {
+namespace sun {
 
     ActionCommand& DocumentCommands::createNewModel() {
         static ActionCommand command/*(

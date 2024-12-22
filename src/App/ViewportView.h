@@ -8,7 +8,7 @@
 
 #include "Iact/Viewport/ViewportPanel.h"
 
-namespace Sun {
+namespace sun {
 
 class ViewportView : public QScrollArea 
 {

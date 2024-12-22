@@ -14,7 +14,7 @@
 #include "Iact/Workspace/ViewportController.h"
 
 
-namespace Sun 
+namespace sun 
 {
     class ViewportMouseControlDefault : public IViewportMouseControl
     {

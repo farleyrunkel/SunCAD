@@ -12,7 +12,7 @@
 #include "Iact/Framework/WorkspaceControl.h"
 #include "Iact/Framework/ToolAction.h"
 
-namespace Sun 
+namespace sun 
 {
 
 class Tool : public WorkspaceControl 

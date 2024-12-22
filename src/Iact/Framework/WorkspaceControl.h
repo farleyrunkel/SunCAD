@@ -11,7 +11,7 @@
 #include "Iact/Workspace/MouseEventData.h"
 #include "Iact/Visual/VisualObject.h"
 
-namespace Sun {
+namespace sun {
 
 DEFINE_STANDARD_HANDLE(WorkspaceControl, BaseObject);
 
@@ -20,8 +20,8 @@ class WorkspaceControl : public BaseObject, public IMouseEventHandler
  public:
 	explicit WorkspaceControl();
 
-    Handle(Sun::WorkspaceController) WorkspaceController() const;
-	void SetWorkspaceController(const Handle(Sun::WorkspaceController)& WorkspaceController);
+    Handle(sun::WorkspaceController) WorkspaceController() const;
+	void SetWorkspaceController(const Handle(sun::WorkspaceController)& WorkspaceController);
 
  protected:
     virtual QList<Handle(WorkspaceControl)> GetChildren() const;
@@ -69,9 +69,9 @@ class WorkspaceControl : public BaseObject, public IMouseEventHandler
     }
 
  private:
-    Handle(Sun::WorkspaceController) _WorkspaceController;
+    Handle(sun::WorkspaceController) _WorkspaceController;
 	QList<IHudElement*> _HudElements;
-    QList<Handle(Sun::VisualObject)> _VisualObjects;
+    QList<Handle(sun::VisualObject)> _VisualObjects;
 };
 }
 #endif  // SRC_IACT_FRAMEWORK_WORKSPACECONTROLL_H_

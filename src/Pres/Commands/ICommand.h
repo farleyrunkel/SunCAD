@@ -3,7 +3,7 @@
 #ifndef SRC_INTF_ICOMMAND_H_
 #define SRC_INTF_ICOMMAND_H_
 
-namespace Sun {
+namespace sun {
 class ICommand {
  public:
     virtual ~ICommand() = default;

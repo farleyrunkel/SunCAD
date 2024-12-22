@@ -2,7 +2,7 @@
 
 #include "Core/Topology/Layer.h"
 
-namespace Sun {
+namespace sun {
 	inline Layer::Layer() {}
 
     // Name Property

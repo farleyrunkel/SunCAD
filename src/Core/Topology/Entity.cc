@@ -2,7 +2,7 @@
 
 #include "Core/Topology/Entity.h"
 
-namespace Sun 
+namespace sun 
 {
     // For debugging or logging purposes
 

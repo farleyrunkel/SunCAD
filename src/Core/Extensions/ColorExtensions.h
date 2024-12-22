@@ -6,25 +6,25 @@
 
 #include "Comm/Types/Color.h"
 
-namespace Sun {
+namespace sun {
 
 class ColorExtensions {
 public:
     // Convert Quantity_Color to Color
-    static Sun::Color ToColor(const Quantity_Color& color) {
+    static sun::Color ToColor(const Quantity_Color& color) {
         float red = static_cast<float>(color.Red());
         float green = static_cast<float>(color.Green());
         float blue = static_cast<float>(color.Blue());
-        return Sun::Color(red, green, blue);
+        return sun::Color(red, green, blue);
     }
 
     // Convert Quantity_NameOfColor to Color
-    static Sun::Color ToColor(const Quantity_NameOfColor& colorName) {
+    static sun::Color ToColor(const Quantity_NameOfColor& colorName) {
         return ToColor(Quantity_Color(colorName));
     }
 
     // Convert Color to Quantity_Color
-    static Quantity_Color ToQuantityColor(const Sun::Color& color) {
+    static Quantity_Color ToQuantityColor(const sun::Color& color) {
         return Quantity_Color(color.Red(), color.Green(), color.Blue(), Quantity_TOC_sRGB);
     }
 

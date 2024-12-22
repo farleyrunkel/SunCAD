@@ -8,7 +8,7 @@
 
 #include "Iact/HudElements/HudElement.h"
 
-namespace Sun {
+namespace sun {
 class Coord2DHudElement : public IHudElement 
 {
     Q_OBJECT

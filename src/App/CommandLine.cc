@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 
-namespace Sun 
+namespace sun 
 {
     CommandLine::CommandLine(int argc, char* argv[])
         : _Options(argv[0], " - Command line options") {

@@ -195,7 +195,7 @@ namespace {
     };
 }
 
-namespace Sun {
+namespace sun {
 
 ViewportPanel::ViewportPanel(QWidget* parent)
     : QOpenGLWidget(parent),
@@ -268,11 +268,11 @@ ViewportPanel::~ViewportPanel() {
 
 // virtual void SetCursor(QObject* owner, Cursor* cursor)  {}
 
-Handle(Sun::WorkspaceController) ViewportPanel::WorkspaceController() const {
+Handle(sun::WorkspaceController) ViewportPanel::WorkspaceController() const {
     return _WorkspaceController; 
 }
 
-void ViewportPanel::SetWorkspaceController(const Handle(Sun::WorkspaceController)& controller) {
+void ViewportPanel::SetWorkspaceController(const Handle(sun::WorkspaceController)& controller) {
     if (_WorkspaceController != controller) {
         _WorkspaceController = controller;
         if (!_WorkspaceController.IsNull()) {
@@ -286,11 +286,11 @@ void ViewportPanel::SetWorkspaceController(const Handle(Sun::WorkspaceController
     }
 }
 
-Handle(Sun::ViewportController) ViewportPanel::ViewportController() const {
+Handle(sun::ViewportController) ViewportPanel::ViewportController() const {
     return _ViewportController; 
 }
 
-void ViewportPanel::SetViewportController(const Handle(Sun::ViewportController)& controller) {
+void ViewportPanel::SetViewportController(const Handle(sun::ViewportController)& controller) {
     //if (m_viewportController != controller) {
     //    m_viewportController = controller;
     //    m_mouseControl->setViewportController(controller);

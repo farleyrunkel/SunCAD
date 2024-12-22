@@ -11,7 +11,7 @@
 #include "Core/Shapes/IShapeOperand.h"
 #include "Comm/BaseObject.h"
 
-namespace Sun {
+namespace sun {
 
     DEFINE_STANDARD_HANDLE(Box, BaseObject)
 

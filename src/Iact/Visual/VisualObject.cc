@@ -7,9 +7,9 @@
 
 #include "Iact/Workspace/WorkspaceController.h"
 
-namespace Sun {
+namespace sun {
 
-    VisualObject::VisualObject(const Handle(Sun::WorkspaceController)& workspaceController, const Handle(Sun::InteractiveEntity)& entity)
+    VisualObject::VisualObject(const Handle(sun::WorkspaceController)& workspaceController, const Handle(sun::InteractiveEntity)& entity)
         : _WorkspaceController(workspaceController), _Entity(entity) {}
 
     Handle(AIS_InteractiveContext) VisualObject::AisContext() const {

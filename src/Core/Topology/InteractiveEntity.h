@@ -11,7 +11,7 @@
 #include "Core/Topology/Entity.h"
 #include "Core/Topology/Layer.h"
 
-namespace Sun {
+namespace sun {
 
 DEFINE_STANDARD_HANDLE(InteractiveEntity, Standard_Transient);
 
@@ -32,8 +32,8 @@ public:
     QUuid LayerId() const;
     void SetLayerId(const QUuid& LayerId);
 
-    Handle(Sun::Layer) Layer() const;
-    void SetLayer(const Handle(Sun::Layer)& Layer);
+    Handle(sun::Layer) Layer() const;
+    void SetLayer(const Handle(sun::Layer)& Layer);
 
     // Methods
     void Invalidate();

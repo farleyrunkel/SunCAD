@@ -15,7 +15,7 @@
 #include "Core/EntityContainer.h" 
 #include "Core/Topology/Entity.h" 
 
-namespace Sun 
+namespace sun 
 {
     class IDocument
     {

@@ -6,7 +6,7 @@
 #include <gp.hxx>
 #include <PrsMgr_PresentableObject.hxx>
 
-namespace Sun {
+namespace sun {
 
     IMPLEMENT_STANDARD_RTTIEXT(AISX_Grid, AIS_InteractiveObject)
 

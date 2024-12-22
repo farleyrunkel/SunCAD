@@ -9,14 +9,14 @@
 #include "Iact/Visual/VisualObject.h"
 #include "Iact/Workspace/WorkspaceController.h"
 
-namespace Sun {
+namespace sun {
 
 DEFINE_STANDARD_HANDLE(VisualShape, Standard_Transient);
 
 class VisualShape : public VisualObject 
 {
 public:
-    explicit VisualShape(const Handle(Sun::WorkspaceController)& WorkspaceController, const Handle(Sun::InteractiveEntity)& entity)
+    explicit VisualShape(const Handle(sun::WorkspaceController)& WorkspaceController, const Handle(sun::InteractiveEntity)& entity)
     : VisualObject(WorkspaceController, entity) {}
 
     virtual void Remove() override {}

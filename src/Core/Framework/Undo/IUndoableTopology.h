@@ -6,7 +6,7 @@
 #include <QUuid> 
 #include "Core/Topology/Entity.h" 
 
-namespace Sun 
+namespace sun 
 {
     class IUndoableTopology
     {

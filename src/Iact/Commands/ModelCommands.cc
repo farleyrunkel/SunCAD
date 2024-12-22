@@ -11,7 +11,7 @@
 //#include "Iact/Primitives/CreateBoxTool.h"
 #include "Iact/Commands/CommandHelper.h"
 
-namespace Sun 
+namespace sun 
 {
 
     // Initialize the static command outside the class

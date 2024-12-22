@@ -16,7 +16,7 @@
 #include "Core/Topology/Layer.h"
 #include "Iact/Visual/VisualObject.h"
 
-namespace Sun {
+namespace sun {
 
     class WorkspaceController;
 

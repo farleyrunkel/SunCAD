@@ -9,7 +9,7 @@
 int main(int argc, char *argv[]) 
 {
 
-    Sun::Application app(argc, argv);
+    sun::Application app(argc, argv);
 
     QSystemSemaphore sema(app.applicationName(), 1, QSystemSemaphore::Open);
     if (!sema.acquire()) {

@@ -5,7 +5,7 @@
 
 #include <functional>
 
-namespace Sun {
+namespace sun {
 class CommandManager{
 
  public:

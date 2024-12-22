@@ -6,7 +6,7 @@
 #include "Pres/Commands/ActionCommand.h"
 #include "Pres/Commands/RelayCommand.h"
 
-namespace Sun {
+namespace sun {
 class AppCommands {
  public:
     static  RelayCommand& InitApplication();

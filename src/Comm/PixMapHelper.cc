@@ -2,7 +2,7 @@
 
 #include "Comm/PixMapHelper.h"
 
-namespace Sun {
+namespace sun {
     Handle(Image_PixMap) PixMapHelper::ConvertFromBitmap(const QImage& image) {
         if (image.isNull()) {
             throw std::runtime_error("Failed to convert QPixmap to QImage.");

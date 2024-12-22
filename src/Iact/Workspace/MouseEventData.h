@@ -16,7 +16,7 @@
 #include "Core/Topology/InteractiveEntity.h"
 #include "Core/Viewport.h"
 
-namespace Sun {
+namespace sun {
 
 class MouseEventData;
 //--------------------------------------------------------------------------------------------------
@@ -72,7 +72,7 @@ public:
 public:
     // 构造函数
     MouseEventData() {}
-    MouseEventData(const Handle(Sun::_Viewport)& vp, const QPointF& sp, const gp_Pnt& pp, Qt::KeyboardModifiers mk)
+    MouseEventData(const Handle(sun::_Viewport)& vp, const QPointF& sp, const gp_Pnt& pp, Qt::KeyboardModifiers mk)
         : _Viewport(vp), _ScreenPoint(sp), _PointOnPlane(pp), _ModifierKeys(mk) {}
 
     // 检测到的主要实体
@@ -88,7 +88,7 @@ public:
     void Clear();
 
     // 设置事件数据
-    void Set(const Handle(Sun::_Viewport)& vp, const QPointF& sp, const gp_Pnt& pp, Qt::KeyboardModifiers mk);
+    void Set(const Handle(sun::_Viewport)& vp, const QPointF& sp, const gp_Pnt& pp, Qt::KeyboardModifiers mk);
 
     // 设置检测元素的列表
     void SetDetectedElements(const QList<Handle(AIS_InteractiveObject)>& aisObjects,

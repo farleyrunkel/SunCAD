@@ -12,7 +12,7 @@
 
 #include "App/Commands/AppCommands.h"
 
-namespace Sun {
+namespace sun {
 
 class MainWindow : public SARibbonMainWindow 
 {

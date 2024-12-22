@@ -2,7 +2,7 @@
 
 #include "Core/Project/VisualStyles.h"
 
-namespace Sun {
+namespace sun {
 	// Initialize static colors
 	const Color Colors::Default("#c0c0c0");
 	const Color Colors::Selection(0.98f, 0.922f, 0.843f);

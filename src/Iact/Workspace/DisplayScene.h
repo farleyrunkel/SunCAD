@@ -22,7 +22,7 @@ typedef NCollection_DataMap < TDF_Label,
     // , TDF_LabelMapHasher
 >
 LabelPrsMap;
-namespace Sun {
+namespace sun {
     //! Redisplays all objects in the viewer.
     class DisplayScene : public Standard_Transient
     {

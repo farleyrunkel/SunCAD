@@ -8,7 +8,7 @@
 #include <QString>
 #include <QDebug>
 
-namespace Sun {
+namespace sun {
 
     class Cursors
     {

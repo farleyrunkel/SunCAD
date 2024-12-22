@@ -12,7 +12,7 @@
 #include <Standard_Handle.hxx>
 
 
-namespace Sun {
+namespace sun {
 
 DEFINE_STANDARD_HANDLE(AIS_PointEx, AIS_Point);
 

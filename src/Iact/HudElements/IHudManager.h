@@ -8,7 +8,7 @@
 #include <QWidget>
 #include <functional>
 
-namespace Sun {
+namespace sun {
     class IHudElement;
 
     //class Cursor;

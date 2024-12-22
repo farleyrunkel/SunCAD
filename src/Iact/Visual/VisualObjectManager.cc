@@ -3,7 +3,7 @@
 #include "Iact/Visual/VisualObjectManager.h"
 
 
-namespace Sun {
+namespace sun {
 
     VisualObjectManager::VisualObjectManager(const Handle(WorkspaceController)& workspaceController)
         : _WorkspaceController(workspaceController) {}

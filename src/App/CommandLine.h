@@ -8,7 +8,7 @@
 
 #include <cxxopts.hpp>
 
-namespace Sun 
+namespace sun 
 {
     class CommandLine
     {

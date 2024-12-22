@@ -6,7 +6,7 @@
 #include <Standard_Transient.hxx>
 #include <Standard_Handle.hxx>
 
-namespace Sun 
+namespace sun 
 {
 	class BaseObject : public Standard_Transient
 	{

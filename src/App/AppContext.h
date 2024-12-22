@@ -6,7 +6,7 @@
 #include "Iact/Workspace/InteractiveContext.h"
 #include "App/CommandLine.h"
 
-namespace Sun 
+namespace sun 
 {
     // AppContext
     DEFINE_STANDARD_HANDLE(AppContext, CoreContext)

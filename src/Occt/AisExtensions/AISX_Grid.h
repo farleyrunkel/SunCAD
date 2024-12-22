@@ -9,7 +9,7 @@
 #include <Graphic3d_AspectLine3d.hxx>
 #include <Graphic3d_Group.hxx>
 
-namespace Sun {
+namespace sun {
 
 class AISX_Grid : public AIS_InteractiveObject {
 public:

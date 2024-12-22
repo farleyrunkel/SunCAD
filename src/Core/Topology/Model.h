@@ -11,13 +11,13 @@
 #include "Comm/BaseObject.h"
 
 
-namespace Sun {
+namespace sun {
 class Model : public BaseObject
 {
 public:
     Model() {}
 
-    QVector<Handle(Sun::Workspace)>& Workspaces() {
+    QVector<Handle(sun::Workspace)>& Workspaces() {
         return _Workspaces;
     }
 
@@ -41,7 +41,7 @@ public:
     boost::signals2::signal<void()> OnResetUnsavedChanges;
 
 private:
-    QVector<Handle(Sun::Workspace)> _Workspaces;
+    QVector<Handle(sun::Workspace)> _Workspaces;
 };
 }
 #endif  // SRC_CORE_TOPOLOGY_MODEL_H_

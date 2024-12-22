@@ -2,7 +2,7 @@
 
 #include "Iact/HudElements/Cursors.h"
 
-namespace Sun {
+namespace sun {
     QCursor Cursors::Wait() {
         return Qt::WaitCursor;
     }

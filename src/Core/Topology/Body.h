@@ -12,7 +12,7 @@
 
 #include "Comm/BaseObject.h"
 
-namespace Sun {
+namespace sun {
     DEFINE_STANDARD_HANDLE(Body, Standard_Transient)
 
     class Body : public BaseObject

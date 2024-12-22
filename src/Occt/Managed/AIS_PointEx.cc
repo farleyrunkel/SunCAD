@@ -7,7 +7,7 @@
 #include <Prs3d_Drawer.hxx>
 #include <StdPrs_Point.hxx>
 
-namespace Sun {
+namespace sun {
 
 IMPLEMENT_STANDARD_RTTIEXT(AIS_PointEx,AIS_Point)
 

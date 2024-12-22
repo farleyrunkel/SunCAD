@@ -4,7 +4,7 @@
 
 #include "Core/Viewport.h"
 
-namespace Sun {
+namespace sun {
 
 Handle(InteractiveEntity) MouseEventData::DetectedEntity() const {
     return !_DetectedElements.isEmpty() ? _DetectedElements[0].entity : nullptr;
@@ -22,7 +22,7 @@ void MouseEventData::Clear() {
     _ReturnOptions.Clear();
 }
 
-void MouseEventData::Set(const Handle(Sun::_Viewport)& vp, const QPointF& sp, const gp_Pnt& pp, Qt::KeyboardModifiers mk) {
+void MouseEventData::Set(const Handle(sun::_Viewport)& vp, const QPointF& sp, const gp_Pnt& pp, Qt::KeyboardModifiers mk) {
     Clear();
     _Viewport = vp;
     _ScreenPoint = sp;
