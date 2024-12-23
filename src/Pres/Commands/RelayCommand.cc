@@ -5,20 +5,20 @@
 namespace sun {
 
     RelayCommand::RelayCommand(std::function<void()> Execute)
-        : m_execute(std::move(Execute)), m_canExecute(nullptr) {
+        : _Execute(std::move(Execute)), _CanExecute(nullptr) {
     }
 
     RelayCommand::RelayCommand(std::function<void()> Execute, std::function<bool()> CanExecute)
-        : m_execute(std::move(Execute)), m_canExecute(std::move(CanExecute)) {
+        : _Execute(std::move(Execute)), _CanExecute(std::move(CanExecute)) {
     }
 
     void RelayCommand::Execute() {
-        if (m_execute) {
-            m_execute();
+        if (_Execute) {
+            _Execute();
         }
     }
 
     bool RelayCommand::CanExecute() const {
-        return m_canExecute ? m_canExecute() : true;
+        return _CanExecute ? _CanExecute() : true;
     }
 }

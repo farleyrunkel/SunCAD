@@ -26,8 +26,8 @@ namespace sun {
         bool CanExecute() const override;
 
     private:
-        std::function<void()> m_execute;      // Function to execute the command
-        std::function<bool()> m_canExecute;   // Function to check if the command can be executed
+        std::function<void()> _Execute;      // Function to execute the command
+        std::function<bool()> _CanExecute;   // Function to check if the command can be executed
     };
 }
 

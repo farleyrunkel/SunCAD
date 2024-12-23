@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>i18n/SonCAD_zh_CN.ts</file>
+        <file>i18n/SunCAD_zh_CN.ts</file>
         <file>icons/model/Boolean-Common.svg</file>
         <file>icons/model/Boolean-Cut.svg</file>
         <file>icons/model/Boolean-Fuse.svg</file>

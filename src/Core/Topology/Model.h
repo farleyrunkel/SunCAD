@@ -12,6 +12,9 @@
 
 
 namespace sun {
+
+DEFINE_STANDARD_HANDLE(Model, BaseObject)
+
 class Model : public BaseObject
 {
 public:
@@ -37,6 +40,7 @@ public:
         return false;
     }
 
+public:
     // Signals
     boost::signals2::signal<void()> OnResetUnsavedChanges;
 

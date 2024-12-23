@@ -20,7 +20,7 @@ namespace sun
     Application::Application(int& argc, char** argv)
         : QApplication(argc, argv) {
 
-        initializeTranslation();
+        _InitializeTranslation();
 
         auto cmdLine = new CommandLine(argc, argv);
 
@@ -36,8 +36,7 @@ namespace sun
         _AppContext = new sun::AppContext;
         _AppContext->Initialize(*cmdLine);
 
-
-        _MainWindow = new sun::MainWindow(); // Create the main window
+        _MainWindow = new sun::MainWindow; // Create the main window
         _MainWindow->show(); // Show the main window
 
         // Install the event filter for global key handling
@@ -47,12 +46,12 @@ namespace sun
     }
 
     // Initialize synchronization mechanisms
-    void Application::initializeTranslation() {
+    void Application::_InitializeTranslation() {
         // Set up translator for localization
         QTranslator translator;
         const QStringList uiLanguages = QLocale::system().uiLanguages();
         for (const QString& locale : uiLanguages) {
-            const QString baseName = "SonCAD_" + QLocale(locale).name();
+            const QString baseName = "SunCAD_" + QLocale(locale).name();
             if (translator.load(":/i18n/" + baseName)) {
                 installTranslator(&translator); // Install the translator
                 break; // Exit loop after loading the first valid translation

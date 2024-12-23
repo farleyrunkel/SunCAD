@@ -13,7 +13,7 @@ class CommandHelper {
  public:
     static Handle(sun::WorkspaceController) WorkspaceController();
 
-    static Handle(sun::ModelController) documentController();
+    static Handle(sun::ModelController) DocumentController();
 
     //static Tool* currentTool();
 
@@ -23,9 +23,9 @@ class CommandHelper {
     //    return workspaceController() && workspaceController()->workspace();
     //}
 
-    static bool canExecuteOnViewport();
+    static bool CanExecuteOnViewport();
 
-    static bool canStartTool();
+    static bool CanStartTool();
 
 };
 }

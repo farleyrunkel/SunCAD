@@ -77,8 +77,8 @@ namespace sun {
 
         if (!_AppButton) {
             _AppButton = new SARibbonMenu(this);
-            _AppButton->addAction(&DocumentCommands::createNewModel());
-            _AppButton->addAction(&DocumentCommands::openModelFrom());
+            _AppButton->addAction(&DocumentCommands::CreateNewModel());
+            _AppButton->addAction(&DocumentCommands::OpenModelFrom());
             _AppButton->addSeparator();
             _AppButton->addAction(&AppCommands::Settings());
             _AppButton->addSeparator();

@@ -8,8 +8,8 @@
 namespace sun {
 class DocumentCommands {
 public:
-    static ActionCommand& createNewModel();
-    static ActionCommand& openModelFrom();
+    static ActionCommand& CreateNewModel();
+    static ActionCommand& OpenModelFrom();
 };
 }
 #endif  // SRC_IACT_COMMANDS_DOCUMENTCOMMANDS_H_

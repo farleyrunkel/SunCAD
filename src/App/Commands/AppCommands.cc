@@ -7,14 +7,14 @@
 #include "App/Application.h"
 #include "App/AboutDialog.h"
 #include "App/Commands/AppCommands.h"
-//#include "Iact/Commands/CommandHelper.h"
-//#include "Iact/Commands/DocumentCommands.h"
+#include "Iact/Commands/CommandHelper.h"
+#include "Iact/Commands/DocumentCommands.h"
 
 namespace sun {
 
     RelayCommand& AppCommands::InitApplication() {
         static RelayCommand command(
-            []() { /*DocumentCommands::createNewModel().execute()*/; }
+            []() { DocumentCommands::CreateNewModel().Execute(); }
         );
 
         return command;

@@ -5,6 +5,8 @@
 
 #include "Comm/BaseObject.h"
 
+#include <string>
+
 namespace sun
 {
     DEFINE_STANDARD_HANDLE(ModelController, BaseObject)
@@ -17,6 +19,16 @@ namespace sun
         void Dispose() {
 
         }
+
+        bool AskForSavingModelChanges() {
+            return true;
+        }
+
+        void NewModel() {
+        
+        }
+
+        void OpenModelFrom(const std::string& ) {}
     };
 }
 

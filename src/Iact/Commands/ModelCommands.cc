@@ -18,7 +18,7 @@ namespace sun
     ActionCommand& ModelCommands::CreateBox() {
         static ActionCommand command(
             []() { /*CommandHelper::startTool(new CreateBoxTool())*/; },
-            []() { return CommandHelper::canStartTool(); }
+            []() { return CommandHelper::CanStartTool(); }
         );
 
         // Initialize command properties if not already set
@@ -45,7 +45,7 @@ namespace sun
     {
         static ActionCommand command(
             []() {  },
-            []() { return CommandHelper::canStartTool(); }
+            []() { return CommandHelper::CanStartTool(); }
         );
 
         // Initialize command properties if not already set
@@ -66,7 +66,7 @@ namespace sun
     {
         static ActionCommand command(
             []() { },
-            []() { return CommandHelper::canStartTool(); }
+            []() { return CommandHelper::CanStartTool(); }
         );
 
         // Initialize command properties if not already set

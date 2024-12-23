@@ -12,13 +12,14 @@
 
 namespace sun {
 
-    ActionCommand& DocumentCommands::createNewModel() {
-        static ActionCommand command/*(
-            []() { if (CommandHelper::documentController()->askForSavingModelChanges()) {
-            CommandHelper::documentController()->newModel();
+    ActionCommand& DocumentCommands::CreateNewModel() 
+    {
+        static ActionCommand command(
+            []() { if (CommandHelper::DocumentController()->AskForSavingModelChanges()) {
+            CommandHelper::DocumentController()->NewModel();
         }},
-            []() { return CommandHelper::documentController() != nullptr; }
-        )*/;
+            []() { return !CommandHelper::DocumentController().IsNull(); }
+        );
 
         if (command.text().isEmpty()) {
             command.setText(QObject::tr("New Model"));
@@ -29,13 +30,13 @@ namespace sun {
         return command;
     }
 
-    ActionCommand& DocumentCommands::openModelFrom() {
-        static ActionCommand command/*(
-            []() { if (CommandHelper::documentController()->askForSavingModelChanges()) {
-            CommandHelper::documentController()->openModelFrom("");
+    ActionCommand& DocumentCommands::OpenModelFrom() {
+        static ActionCommand command(
+            []() { if (CommandHelper::DocumentController()->AskForSavingModelChanges()) {
+            CommandHelper::DocumentController()->OpenModelFrom("");
         }},
-            []() { return CommandHelper::documentController() != nullptr; }
-        )*/;
+            []() { return !CommandHelper::DocumentController().IsNull(); }
+        );
 
         if (command.text().isEmpty()) {
             command.setText(QObject::tr("Open Model..."));
