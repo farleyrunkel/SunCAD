@@ -5,4 +5,4 @@
 // Initialize Viewport with MSAA support
 namespace sun 
 {
-    }
+}

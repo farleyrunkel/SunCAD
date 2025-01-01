@@ -9,7 +9,7 @@
 namespace sun 
 {
     // AppContext
-    DEFINE_STANDARD_HANDLE(AppContext, CoreContext)
+    DEFINE_STANDARD_HANDLE(AppContext, InteractiveContext)
 
     class AppContext : public InteractiveContext 
     {
