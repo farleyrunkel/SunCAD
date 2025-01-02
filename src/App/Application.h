@@ -11,10 +11,11 @@
 
 #include "App/MainWindow.h"
 #include "App/WelcomeDialog.h"
-#include "App/AppContext.h"
 
 namespace sun
 {
+class AppContext;
+
 class Application : public QApplication 
 {
     Q_OBJECT
@@ -31,7 +32,7 @@ public:
         return _MainWindow;
     }
 
-    Handle(sun::AppContext) AppContext() const 
+    sun::AppContext* AppContext() const 
     {
         return _AppContext;
     }
@@ -42,7 +43,7 @@ private:
 private:
     sun::MainWindow* _MainWindow = nullptr;
     sun::WelcomeDialog* _WelcomeDialog = nullptr;
-    Handle(sun::AppContext) _AppContext= nullptr;
+    sun::AppContext* _AppContext= nullptr;
 };
 }
 #endif  // APP_APPLICATION_H

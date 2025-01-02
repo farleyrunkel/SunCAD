@@ -3,9 +3,12 @@
 #ifndef SRC_IACT_WORKSPACE_MODELCONTROLLER_H_
 #define SRC_IACT_WORKSPACE_MODELCONTROLLER_H_
 
+#include <string>
+
 #include "Comm/BaseObject.h"
 
-#include <string>
+#include "Core/Topology/Model.h"
+
 
 namespace sun
 {
@@ -24,9 +27,7 @@ namespace sun
             return true;
         }
 
-        void NewModel() {
-        
-        }
+        Model* NewModel();
 
         void OpenModelFrom(const std::string& ) {}
     };

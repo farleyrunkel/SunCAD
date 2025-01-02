@@ -4,11 +4,13 @@
 #define SRC_CORE_APP_H_
 
 #include "App/Application.h"
+#include "App/AppContext.h"
+#include "App/MainWindow.h"
 
 namespace sun 
 {
 
-class Core 
+class Core
 {
 public:
      static sun::Application* Application() noexcept 
@@ -21,7 +23,7 @@ public:
          return Application()->MainWindow();
      }
 
-     static Handle(sun::AppContext) AppContext() noexcept 
+     static sun::AppContext* AppContext() noexcept
      {
          return Application()->AppContext();
      }
@@ -31,5 +33,6 @@ public:
      //    return application()->m_commandManager;
      //}
 };
+
 }
 #endif  // SRC_CORE_APP_H_

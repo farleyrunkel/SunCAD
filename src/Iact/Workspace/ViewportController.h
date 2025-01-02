@@ -11,7 +11,8 @@
 
 #include "Comm/BaseObject.h"
 
-namespace sun{
+namespace sun 
+{
 
     DEFINE_STANDARD_HANDLE(ViewportController, BaseObject)
 

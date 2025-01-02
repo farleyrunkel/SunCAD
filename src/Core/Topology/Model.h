@@ -10,7 +10,6 @@
 #include "Core/Workspace.h"
 #include "Comm/BaseObject.h"
 
-
 namespace sun {
 
 DEFINE_STANDARD_HANDLE(Model, BaseObject)
