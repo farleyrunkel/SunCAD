@@ -3,7 +3,8 @@
 #ifndef SRC_CORE_TOPOLOGY_MODEL_H_
 #define SRC_CORE_TOPOLOGY_MODEL_H_
 
-#include <QVector>
+#include <vector>
+
 #include <boost/signals2.hpp>
 
 #include <Standard_Handle.hxx>
@@ -19,7 +20,7 @@ class Model : public BaseObject
 public:
     Model() {}
 
-    QVector<Handle(sun::Workspace)>& Workspaces() {
+    std::vector<Handle(sun::Workspace)>& Workspaces() {
         return _Workspaces;
     }
 
@@ -39,12 +40,16 @@ public:
         return false;
     }
 
+    void ResetUnsavedChanges() {}
+
 public:
     // Signals
     boost::signals2::signal<void()> OnResetUnsavedChanges;
 
 private:
-    QVector<Handle(sun::Workspace)> _Workspaces;
+    std::vector<Handle(sun::Workspace)> _Workspaces;
 };
-}
+
+} // namespace sun
+ 
 #endif  // SRC_CORE_TOPOLOGY_MODEL_H_

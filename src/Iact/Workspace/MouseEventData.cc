@@ -22,7 +22,7 @@ void MouseEventData::Clear() {
     _ReturnOptions.Clear();
 }
 
-void MouseEventData::Set(const Handle(sun::_Viewport)& vp, const QPointF& sp, const gp_Pnt& pp, Qt::KeyboardModifiers mk) {
+void MouseEventData::Set(const Handle(sun::Viewport)& vp, const QPointF& sp, const gp_Pnt& pp, Qt::KeyboardModifiers mk) {
     Clear();
     _Viewport = vp;
     _ScreenPoint = sp;

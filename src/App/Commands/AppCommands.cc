@@ -22,7 +22,7 @@ namespace sun {
 
     ActionCommand& AppCommands::ExitApplication() {
         static ActionCommand command(
-            []() { Core::MainWindow()->close(); }
+            []() { Current::MainWindow()->close(); }
         );
         // Initialize command properties if not already set
         if (command.text().isEmpty()) {
@@ -33,7 +33,7 @@ namespace sun {
     }
 
     ActionCommand& AppCommands::ShowAboutDialog() {
-        static AboutDialog aboutDialog(Core::MainWindow());
+        static AboutDialog aboutDialog(Current::MainWindow());
         static ActionCommand command(
             []() { aboutDialog.show(); }
         );
@@ -58,7 +58,7 @@ namespace sun {
 
     ActionCommand& AppCommands::ResetWindowLayout() {
         static ActionCommand command(
-            []() { /*Core::mainWindow()->Docking.LoadWindowLayout("Default");*/ }
+            []() { /*Current::mainWindow()->Docking.LoadWindowLayout("Default");*/ }
         );
         // Initialize command properties if not already set
         if (command.text().isEmpty()) {

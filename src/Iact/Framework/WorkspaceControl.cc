@@ -30,7 +30,7 @@ namespace sun {
 			return;
 		}
 		_HudElements.append(hudElement);
-		//if (auto wc = Core::AppContext()->WorkspaceController(); wc->hudManager()) {
+		//if (auto wc = Current::AppContext()->WorkspaceController(); wc->hudManager()) {
 		//	wc->hudManager()->AddElement(hudElement);
 		//}
 	}

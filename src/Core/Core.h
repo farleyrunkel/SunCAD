@@ -10,7 +10,7 @@
 namespace sun 
 {
 
-class Core
+class Current
 {
 public:
      static sun::Application* Application() noexcept 
@@ -25,6 +25,10 @@ public:
 
      static sun::AppContext* AppContext() noexcept
      {
+         return Application()->AppContext();
+     }
+
+     static sun::InteractiveContext* InteractiveContext() noexcept {
          return Application()->AppContext();
      }
 

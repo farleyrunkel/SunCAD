@@ -6,11 +6,11 @@
 
 namespace sun {
     Handle(sun::WorkspaceController) CommandHelper::WorkspaceController() {
-        return Core::AppContext() ? Core::AppContext()->WorkspaceController() : nullptr;
+        return Current::AppContext() ? Current::AppContext()->WorkspaceController() : nullptr;
     }
 
     Handle(sun::ModelController) CommandHelper::DocumentController() {
-        return Core::AppContext() ? Core::AppContext()->DocumentController() : nullptr;
+        return Current::AppContext() ? Current::AppContext()->DocumentController() : nullptr;
     }
 
     //Tool* CommandHelper::currentTool() {
@@ -23,8 +23,8 @@ namespace sun {
     //}
 
     bool CommandHelper::CanExecuteOnViewport() {
-        return false; /*Core::AppContext() && Core::AppContext()->viewportController()
-            && Core::AppContext()->viewportController()->Viewport()*/;
+        return false; /*Current::AppContext() && Current::AppContext()->viewportController()
+            && Current::AppContext()->viewportController()->Viewport()*/;
     }
 
     bool CommandHelper::CanStartTool() {

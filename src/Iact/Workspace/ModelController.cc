@@ -3,10 +3,14 @@
 // Own include
 #include "Iact/Workspace/ModelController.h"
 
+// Project includes
 #include "Core/Core.h"
 
 using namespace sun;
 
-Model* ModelController::NewModel() {
-	return nullptr;
+Handle(sun::Model) ModelController::NewModel() {
+	Handle(sun::Model) newModel = new Model();
+	Current::InteractiveContext()->SetDocument(newModel);
+	newModel->ResetUnsavedChanges();
+	return newModel;
 }

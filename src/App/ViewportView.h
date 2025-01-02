@@ -1,14 +1,15 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_APP_VIEWPORTVIEW_H_
-#define SRC_APP_VIEWPORTVIEW_H_
+#ifndef APP_VIEWPORTVIEW_H_
+#define APP_VIEWPORTVIEW_H_
 
 #include <QLabel>
 #include <QScrollArea>
 
 #include "Iact/Viewport/ViewportPanel.h"
 
-namespace sun {
+namespace sun 
+{
 
 class ViewportView : public QScrollArea 
 {
@@ -20,5 +21,7 @@ private:
     ViewportPanel* _ViewportPanel;
     QLabel* _MessageBar;
 };
-}
-#endif  // SRC_APP_VIEWPORTVIEW_H_
+
+} 
+
+#endif  // APP_VIEWPORTVIEW_H_

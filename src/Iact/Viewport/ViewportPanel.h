@@ -1,36 +1,40 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_IACT_VIEWPORT_VIEWPORTPANEL_H_
-#define SRC_IACT_VIEWPORT_VIEWPORTPANEL_H_
+#ifndef IACT_VIEWPORT_VIEWPORTPANEL_H_
+#define IACT_VIEWPORT_VIEWPORTPANEL_H_
 
-#include <QOpenGLWidget>
-#include <QString>
+// Qt includes
 #include <QList>
-#include <QPointer>
 #include <QMouseEvent>
+#include <QOpenGLWidget>
+#include <QPointer>
+#include <QString>
 
+// Occt includes
+#include <AIS_InteractiveContext.hxx>
+#include <AIS_ViewController.hxx>
+#include <AIS_ViewCube.hxx>
 #include <OpenGl_Context.hxx>
 #include <Standard_WarningsDisable.hxx>
 #include <Standard_WarningsRestore.hxx>
 #include <V3d_View.hxx>
-#include <AIS_ViewCube.hxx>
-#include <AIS_ViewController.hxx>
-#include <AIS_InteractiveContext.hxx>
 
+// Project includes
 #include "Comm/BaseObject.h"
+#include "Iact/HudElements/HudContainer.h"
+#include "Iact/Viewport/IViewportMouseControl.h"
 #include "Iact/Workspace/ViewportController.h"
 #include "Iact/Workspace/WorkspaceController.h"
-#include "Iact/Viewport/IViewportMouseControl.h"
-#include "Iact/HudElements/HudContainer.h"
 
 
 namespace sun 
 {
+
 class ViewportPanel : public QOpenGLWidget, public AIS_ViewController
 {
     Q_OBJECT
 
- public:
+public:
     explicit ViewportPanel(QWidget* parent = nullptr);
 
     //! Destructor.
@@ -76,7 +80,7 @@ public:
     //! Default widget size.
     virtual QSize sizeHint()        const override { return QSize(720, 480); }
 
- protected: // user input events
+protected: // user input events
     virtual void closeEvent(QCloseEvent* theEvent) override;
     virtual void keyPressEvent(QKeyEvent* theEvent) override;
     virtual void mousePressEvent(QMouseEvent* theEvent) override;
@@ -97,13 +101,13 @@ private:
     virtual void handleViewRedraw(const Handle(AIS_InteractiveContext)& theCtx,
         const Handle(V3d_View)& theView) override;
 
- protected: // OpenGL events
+protected: // OpenGL events
     virtual void initializeGL() override;
     void setupWindow(const Handle(V3d_View)& theView);
     virtual void paintGL() override;
     virtual void resizeGL(int width, int height) override;
 
- signals:
+signals:
     void workspaceControllerChanged(const Handle(sun::WorkspaceController)&);
     void viewportControllerChanged(const Handle(sun::ViewportController)&);
     void hudElementCollectionChanged();
@@ -118,7 +122,7 @@ private:
     HudContainer* _HudContainer;
     QList<IHudElement*> _HudElements;
 
- private:
+private:
     Handle(V3d_Viewer)             _Viewer;
     Handle(V3d_View)               _View;
     Handle(AIS_InteractiveContext) _Context;
@@ -129,5 +133,7 @@ private:
     QString _GlInfo;
     bool _IsCoreProfile;
 };
-}
-#endif  // SRC_IACT_VIEWPORT_VIEWPORTPANEL_H_
+
+} // namespace sun
+
+#endif  // IACT_VIEWPORT_VIEWPORTPANEL_H_

@@ -27,10 +27,10 @@ namespace sun
             command.setIcon(ResourceUtils::Icon("model/Prim-Box"));
             command.setToolTip(QObject::tr("Creates a new body with a box shape."));
 
-            //command.connect(Core::commandManager(), &CommandManager::updateEnabled,
+            //command.connect(Current::commandManager(), &CommandManager::updateEnabled,
             //                []() { command.setEnabled(command.canExecute()); }
             //);
-            //command.connect(Core::appContext(), &InteractiveContext::workspaceControllerChanged,
+            //command.connect(Current::appContext(), &InteractiveContext::workspaceControllerChanged,
             //    [](WorkspaceController* controller) { 
             //        auto currentTool = controller->currentTool();
             //        command.setCheckable(currentTool && qobject_cast<CreateBoxTool*>(currentTool) != nullptr);
@@ -54,7 +54,7 @@ namespace sun
             command.setIcon(ResourceUtils::Icon("model/Prim-Cylinder"));
             command.setToolTip(QObject::tr("Creates a new body with a Cylinder shape."));
 
-            //command.connect(Core::commandManager(), &CommandManager::updateEnabled,
+            //command.connect(Current::commandManager(), &CommandManager::updateEnabled,
             //                []() { command.setEnabled(command.canExecute()); }
             //);
 
@@ -75,7 +75,7 @@ namespace sun
             command.setIcon(ResourceUtils::Icon("model/Prim-Sphere"));
             command.setToolTip(QObject::tr("Creates a new body with a Sphere shape."));
 
-            //command.connect(Core::commandManager(), &CommandManager::updateEnabled,
+            //command.connect(Current::commandManager(), &CommandManager::updateEnabled,
             //                []() { command.setEnabled(command.canExecute()); }
             //);
 

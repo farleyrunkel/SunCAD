@@ -43,7 +43,7 @@ ViewportView::ViewportView(QWidget* parent)
     gridInfo->setStyleSheet(_MessageBar->styleSheet());
     mainLayout->addWidget(gridInfo);
 
-    //connect(Core::AppContext(), &AppContext::workspaceControllerChanged, [this](Sun::WorkspaceController* controller) {
+    //connect(Current::AppContext(), &AppContext::workspaceControllerChanged, [this](Sun::WorkspaceController* controller) {
     //    if (controller) {
     //        if (m_viewportPanel) {
     //            m_viewportPanel->deleteLater();
@@ -60,7 +60,7 @@ ViewportView::ViewportView(QWidget* parent)
     //            messageBar->setText(message); }
     //        );
 
-    //        connect(Core::AppContext(), &AppContext::viewportChanged, [this](Sun_Viewport* Viewport) {
+    //        connect(Current::AppContext(), &AppContext::viewportChanged, [this](Sun_Viewport* Viewport) {
     //            if (Viewport) {
     //                m_viewportPanel->setView(Viewport->V3dView());
     //                setWidget(m_viewportPanel); // Set as the scrollable area
@@ -68,7 +68,7 @@ ViewportView::ViewportView(QWidget* parent)
     //            }}
     //        );
 
-    //        connect(Core::AppContext(), &AppContext::viewportControllerChanged,
+    //        connect(Current::AppContext(), &AppContext::viewportControllerChanged,
     //            m_viewportPanel, &ViewportPanel::setViewportController);
     //    }}
     //);
