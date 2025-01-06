@@ -20,9 +20,6 @@ class BaseObject : public Standard_Transient
 public:
     BaseObject() : SuppressPropertyChangedEvent(false), IsDeserializing(false) {}
 
-    // PropertyChanged signal
-    boost::signals2::signal<void(const std::string&)> PropertyChanged;
-
     // Property to control event suppression
     bool SuppressPropertyChangedEvent;
 
@@ -62,6 +59,8 @@ public:
         return boost::uuids::nil_uuid();  // Return nil UUID as default
     }
 
+//signals:
+    boost::signals2::signal<void(const std::string&)> PropertyChanged;
 };
 
 }  // namespace sun

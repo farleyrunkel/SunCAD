@@ -12,7 +12,9 @@
 #include "Iact/HudElements/IHudManager.h"
 #include "Iact/HudElements/HudElement.h"
 
-namespace sun {
+namespace sun 
+{
+
 class HudContainer : public QFrame, public IHudManager
 {
 	Q_OBJECT
@@ -21,14 +23,14 @@ class HudContainer : public QFrame, public IHudManager
 public:
 	explicit HudContainer(QWidget* parent = nullptr);
 
-	virtual void AddElement(IHudElement* element) override;
-	virtual void RemoveElement(IHudElement* element) override {}
-	virtual void RemoveElements(std::function<bool(IHudElement*)> predicate) override {}
+	virtual void AddElement(HudElement* element) override;
+	virtual void RemoveElement(HudElement* element) override {}
+	virtual void RemoveElements(std::function<bool(HudElement*)> predicate) override {}
 
 	// virtual void SetCursor(QObject* owner, Cursor* cursor)  {}
 	virtual void SetHintMessage(const QString& message) override;
 
-	QList<IHudElement*>& HudElements() {
+	QList<HudElement*>& HudElements() {
 		return _HudElements;
 	}
 
@@ -43,7 +45,7 @@ signals:
 
 private:
 	QString _HintMessage;
-	QList<IHudElement*> _HudElements;
+	QList<HudElement*> _HudElements;
 };
 }
 #endif  // IACT_HUD_ELEMENTS_HUDCONATAINER_H_

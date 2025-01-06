@@ -9,6 +9,7 @@
 #include "Core/Viewport.h"
 #include "Core/Workspace.h"
 #include "Iact/Workspace/ViewportController.h"
+#include "Iact/HudElements/IHudManager.h"
 
 namespace sun
 {
@@ -46,8 +47,13 @@ public:
         return (it != _ViewportControllers.end()) ? *it : nullptr;
     }
 
+    void SetHudManager(IHudManager* value) {
+        _HudManager = value;
+    }
+
 private:
     std::vector<Handle(sun::ViewportController)> _ViewportControllers;
+    IHudManager* _HudManager;
 };
 
 }

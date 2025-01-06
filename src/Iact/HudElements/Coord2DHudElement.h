@@ -9,7 +9,7 @@
 #include "Iact/HudElements/HudElement.h"
 
 namespace sun {
-class Coord2DHudElement : public IHudElement 
+class Coord2DHudElement : public HudElement 
 {
     Q_OBJECT
     Q_PROPERTY(double coordinateX READ CoordinateX)

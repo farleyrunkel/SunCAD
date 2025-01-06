@@ -28,17 +28,17 @@ namespace sun {
         setStyleSheet("background-color: rgba(128, 128, 128, 128);"); // °ëÍ¸Ã÷»ÒÉ«
     }
 
-    void HudContainer::AddElement(IHudElement* element) {
+    void HudContainer::AddElement(HudElement* element) {
         layout()->addWidget(element);
         _HudElements.append(element);
 
-        connect(element, &IHudElement::WidthChanged, [this](int w) {
+        connect(element, &HudElement::WidthChanged, [this](int w) {
             if (this->width() <= w) {
                 this->setFixedWidth(w);
             }
             else {
                 auto it = std::max_element(_HudElements.begin(), _HudElements.end(),
-                                           [](IHudElement* a, IHudElement* b) {
+                                           [](HudElement* a, HudElement* b) {
                     return a->width() < b->width();
                 });
 

@@ -7,7 +7,7 @@
 #include <QObject>
 
 // Occt includes
-
+#include <Standard_Type.hxx>
 
 #include "Comm/BaseObject.h"
 #include "Core/Viewport.h"
@@ -19,6 +19,7 @@ DEFINE_STANDARD_HANDLE(ViewportController, BaseObject)
 
 class ViewportController : public BaseObject
 {
+	DEFINE_STANDARD_RTTIEXT(ViewportController, Standard_Transient)
 public:
     ViewportController() {}
 

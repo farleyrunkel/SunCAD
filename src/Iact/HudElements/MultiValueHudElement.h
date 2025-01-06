@@ -14,13 +14,13 @@
 #include "Iact/HudElements/HudElement.h"
 
 namespace sun {
-    class MultiValueHudElement : public IHudElement
+    class MultiValueHudElement : public HudElement
     {
         Q_OBJECT
 
     public:
         explicit MultiValueHudElement(QWidget* parent = nullptr)
-            : IHudElement(parent),
+            : HudElement(parent),
             _label1(new QLabel(this)),
             _label2(new QLabel(this)),
             _edit1(new QLineEdit(this)),

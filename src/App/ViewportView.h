@@ -7,6 +7,7 @@
 #include <QScrollArea>
 
 #include "Iact/Viewport/ViewportPanel.h"
+#include "App/ViewportViewModel.h"
 
 namespace sun 
 {
@@ -20,6 +21,7 @@ public:
 private:
     ViewportPanel* _ViewportPanel;
     QLabel* _MessageBar;
+    ViewportViewModel* _DataContext;
 };
 
 } 

@@ -54,7 +54,7 @@ ViewportView::ViewportView(QWidget* parent)
     //        auto workspace = controller->Workspace();
     //        m_viewportPanel->setViewer(workspace->v3dViewer());
     //        m_viewportPanel->setAisContext(workspace->aisContext());
-    //        m_viewportPanel->setWorkspaceController(controller);
+    //        m_viewportPanel->SetWorkspaceController(controller);
 
     //        connect(m_viewportPanel, &ViewportPanel::hintMessageChanged, [this](const QString& message) {
     //            messageBar->setText(message); }

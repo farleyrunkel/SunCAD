@@ -25,7 +25,7 @@ namespace sun {
 		return {};
 	}
 
-	void WorkspaceControl::Add(IHudElement* hudElement) {
+	void WorkspaceControl::Add(HudElement* hudElement) {
 		if (hudElement == nullptr || _HudElements.contains(hudElement)) {
 			return;
 		}
