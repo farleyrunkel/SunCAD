@@ -10,7 +10,7 @@
 #include "Core/Core.h"
 #include "Iact/Viewport/ViewportPanel.h"
 
-namespace sun {
+using namespace sun;
 
 ViewportView::ViewportView(QWidget* parent)
     : QScrollArea(parent),
@@ -43,6 +43,9 @@ ViewportView::ViewportView(QWidget* parent)
     gridInfo->setStyleSheet(_MessageBar->styleSheet());
     mainLayout->addWidget(gridInfo);
 
+    setWidget(new ViewportPanel(this));
+    setWidgetResizable(true);
+
     //connect(Current::AppContext(), &AppContext::workspaceControllerChanged, [this](Sun::WorkspaceController* controller) {
     //    if (controller) {
     //        if (m_viewportPanel) {
@@ -72,5 +75,4 @@ ViewportView::ViewportView(QWidget* parent)
     //            m_viewportPanel, &ViewportPanel::setViewportController);
     //    }}
     //);
-}
 }

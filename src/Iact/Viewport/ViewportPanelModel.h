@@ -21,7 +21,7 @@ public:
 	ViewportPanelModel() 
     {
         //Entity.ErrorStateChanged += _Entity_ErrorStateChanged;
-        //InteractiveContext::Current()->PropertyChanged += Context_PropertyChanged;
+        //InteractiveContext::Current()->PropertyChanged.connect(std::bind(&ViewportPanelModel::Context_PropertyChanged, this, ));
         SetWorkspaceController(InteractiveContext::Current()->WorkspaceController());
         SetViewportController(InteractiveContext::Current()->ViewportController());
     }
@@ -60,6 +60,11 @@ public:
             _WorkspaceController = value;
             RaisePropertyChanged();
         }
+    }
+
+    void Context_PropertyChanged(const Handle(BaseObject)& object, const std::string& propertyName) 
+    {
+
     }
 
 private:

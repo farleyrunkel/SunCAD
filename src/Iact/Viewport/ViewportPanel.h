@@ -14,6 +14,8 @@
 #include <QOpenGLWidget>
 #include <QPointer>
 #include <QString>
+#include <QVBoxLayout>
+#include <QLayoutItem>
 
 // Occt includes
 #include <AIS_InteractiveContext.hxx>
@@ -49,6 +51,11 @@ public:
         _Model->PropertyChanged.connect(
             std::bind(&ViewportPanel::_Model_PropertyChanged, this, std::placeholders::_1)
         );
+
+        // Initialize layout for the panel
+        setLayout(new QVBoxLayout(this));
+
+        _ViewportControllerChanged();
     }
 
 private:
@@ -59,7 +66,17 @@ private:
         }
     }
 
-    void _ViewportControllerChanged() {}
+    void _ViewportControllerChanged() 
+    {
+        // Remove old widgets and replace with new widget
+        QLayoutItem* item;
+        while ((item = layout()->takeAt(0)) != nullptr) {
+            delete item->widget();
+            delete item;
+        }
+
+        layout()->addWidget(new ViewportHwndHost);
+    }
 
 private:
     ViewportPanelModel* _Model;
