@@ -40,7 +40,7 @@ public:
         }
 
         auto it = std::find_if(_ViewportControllers.begin(), _ViewportControllers.end(),
-                               [viewport](const Handle(sun::ViewportController) vc) {
+                               [viewport](const Handle(sun::ViewportController)& vc) {
             return vc->Viewport() == viewport;
         });
 

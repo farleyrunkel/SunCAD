@@ -200,9 +200,11 @@ public:
 // Function : ViewportHwndHost
 // Purpose  :
 // ================================================================
-ViewportHwndHost::ViewportHwndHost(QWidget* theParent)
-    : QOpenGLWidget(theParent),
-    myIsCoreProfile(true) {
+ViewportHwndHost::ViewportHwndHost(const Handle(sun::ViewportController)& vc, QWidget* theParent)
+    : _ViewportController(vc),
+    QOpenGLWidget(theParent),
+    myIsCoreProfile(true) 
+{
     Handle(Aspect_DisplayConnection) aDisp = new Aspect_DisplayConnection();
     Handle(OpenGl_GraphicDriver) aDriver = new OpenGl_GraphicDriver(aDisp, false);
     // lets QOpenGLWidget to manage buffer swap
@@ -212,32 +214,9 @@ ViewportHwndHost::ViewportHwndHost(QWidget* theParent)
     // offscreen FBOs should be always used
     aDriver->ChangeOptions().useSystemBuffer = false;
 
-    // create viewer
-    myViewer = new V3d_Viewer(aDriver);
-    myViewer->SetDefaultBackgroundColor(Quantity_NOC_BLACK);
-    myViewer->SetDefaultLights();
-    myViewer->SetLightOn();
-    myViewer->ActivateGrid(Aspect_GT_Rectangular, Aspect_GDM_Lines);
-
-    // create AIS context
-    myContext = new AIS_InteractiveContext(myViewer);
-
-    myViewCube = new AIS_ViewCube();
-    myViewCube->SetViewAnimation(myViewAnimation);
-    myViewCube->SetFixedAnimationLoop(false);
-    myViewCube->SetAutoStartAnimation(true);
-    myViewCube->TransformPersistence()->SetOffset2d(Graphic3d_Vec2i(100, 150));
-
-    // note - window will be created later within initializeGL() callback!
-    myView = myViewer->CreateView();
-    myView->SetImmediateUpdate(false);
-#ifndef __APPLE__
-    myView->ChangeRenderingParams().NbMsaaSamples = 4; // warning - affects performance
-#endif
-    myView->ChangeRenderingParams().ToShowStats = true;
-    myView->ChangeRenderingParams().CollectedStats = (Graphic3d_RenderingParams::PerfCounters)
-        (Graphic3d_RenderingParams::PerfCounters_FrameRate
-         | Graphic3d_RenderingParams::PerfCounters_Triangles);
+    myViewer = _ViewportController->Workspace()->V3dViewer();
+    myContext = _ViewportController->Workspace()->AisContext();
+    myView = _ViewportController->Viewport()->V3dView();
 
     // Qt widget setup
     setMouseTracking(true);
@@ -282,20 +261,6 @@ ViewportHwndHost::ViewportHwndHost(QWidget* theParent)
 // Purpose  :
 // ================================================================
 ViewportHwndHost::~ViewportHwndHost() {
-    // hold on X11 display connection till making another connection active by glXMakeCurrent()
-    // to workaround sudden crash in QOpenGLWidget destructor
-    Handle(Aspect_DisplayConnection) aDisp = myViewer->Driver()->GetDisplayConnection();
-
-    // release OCCT viewer
-    myContext->RemoveAll(false);
-    myContext.Nullify();
-    myView->Remove();
-    myView.Nullify();
-    myViewer.Nullify();
-
-    // make active OpenGL context created by Qt
-    makeCurrent();
-    aDisp.Nullify();
 }
 
 // ================================================================
@@ -337,13 +302,8 @@ void ViewportHwndHost::initializeGL() {
         return;
     }
 
-    Handle(Aspect_NeutralWindow) aWindow = Handle(Aspect_NeutralWindow)::DownCast(myView->Window());
-    if (!aWindow.IsNull()) {
-        aWindow->SetSize(aViewSize.x(), aViewSize.y());
-        myView->SetWindow(aWindow, aGlCtx->RenderingContext());
-        dumpGlInfo(true, true);
-    }
-    else {
+    Handle(Aspect_NeutralWindow) aWindow = _ViewportController->InitWindow();
+    if (aWindow.IsNull()) {
         aWindow = new Aspect_NeutralWindow();
         aWindow->SetVirtual(true);
 
@@ -355,19 +315,11 @@ void ViewportHwndHost::initializeGL() {
         aNativeWin = (Aspect_Drawable)aWglWin;
 #endif
         aWindow->SetNativeHandle(aNativeWin);
-        aWindow->SetSize(aViewSize.x(), aViewSize.y());
-        myView->SetWindow(aWindow, aGlCtx->RenderingContext());
-        dumpGlInfo(true, true);
-
-        myContext->Display(myViewCube, 0, 0, false);
     }
 
-    {
-        // dummy shape for testing
-        TopoDS_Shape aBox = BRepPrimAPI_MakeBox(100.0, 50.0, 90.0).Shape();
-        Handle(AIS_Shape) aShape = new AIS_Shape(aBox);
-        myContext->Display(aShape, AIS_Shaded, 0, false);
-    }
+    aWindow->SetSize(aViewSize.x(), aViewSize.y());
+    myView->SetWindow(aWindow, aGlCtx->RenderingContext());
+    dumpGlInfo(true, true);
 }
 
 // ================================================================

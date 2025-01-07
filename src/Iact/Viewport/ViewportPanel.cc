@@ -43,13 +43,19 @@ ViewportPanel::ViewportPanel(QWidget* parent)
     _ViewportControllerChanged();
 }
 
-void sun::ViewportPanel::_Model_PropertyChanged(const PropertyChangedEventArgs& e) {
-    if (e.PropertyName() == ViewportController::get_type_name()) {
+void sun::ViewportPanel::_Model_PropertyChanged(const std::shared_ptr<PropertyChangedEventArgs>& e) {
+    if (e->PropertyName() == ViewportController::get_type_name()) {
         _ViewportControllerChanged();
     }
 }
 
 void sun::ViewportPanel::_ViewportControllerChanged() {
+
+    auto viewportController = _Model->ViewportController();
+
+    if (viewportController.IsNull())
+        return;
+
     // Remove old widgets and replace with new widget
     QLayoutItem* item;
     while ((item = layout()->takeAt(0)) != nullptr) {
@@ -57,5 +63,5 @@ void sun::ViewportPanel::_ViewportControllerChanged() {
         delete item;
     }
 
-    layout()->addWidget(new ViewportHwndHost);
+    layout()->addWidget(new ViewportHwndHost(viewportController, this));
 }

@@ -3,13 +3,15 @@
 #ifndef APP_VIEWPORTHWNDHOST_H_
 #define APP_VIEWPORTHWNDHOST_H_
 
-#include <Standard_WarningsDisable.hxx>
 #include <QOpenGLWidget>
-#include <Standard_WarningsRestore.hxx>
 
+#include <Standard_WarningsDisable.hxx>
+#include <Standard_WarningsRestore.hxx>
 #include <AIS_InteractiveContext.hxx>
 #include <AIS_ViewController.hxx>
 #include <V3d_View.hxx>
+
+#include "Iact/Workspace/ViewportController.h"
 
 class AIS_ViewCube;
 
@@ -21,7 +23,7 @@ class ViewportHwndHost : public QOpenGLWidget, public AIS_ViewController {
 public:
 
     //! Main constructor.
-    ViewportHwndHost(QWidget* theParent = nullptr);
+    ViewportHwndHost(const Handle(sun::ViewportController)& vc, QWidget* parent = nullptr);
 
     //! Destructor.
     virtual ~ViewportHwndHost();
@@ -91,6 +93,7 @@ private:
                                   const Handle(V3d_View)& theView) override;
 
 private:
+    Handle(sun::ViewportController) _ViewportController;
     Handle(V3d_Viewer)             myViewer;
     Handle(V3d_View)               myView;
     Handle(AIS_InteractiveContext) myContext;

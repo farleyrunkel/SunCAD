@@ -38,6 +38,10 @@ public:
         return _V3dViewer;
     }
 
+    Handle(AIS_InteractiveContext) AisContext() const {
+        return nullptr;
+    }
+
     const gp_Pln& WorkingPlane() const {
         return  gp_Pln();
     }

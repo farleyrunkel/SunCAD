@@ -3,8 +3,9 @@
 #ifndef COMM_BASEOBJECT_H_
 #define COMM_BASEOBJECT_H_
 
-#include <string>
 #include <any>
+#include <memory>
+#include <string>
 
 #include <boost/signals2.hpp>
 #include <boost/uuid/nil_generator.hpp>
@@ -30,7 +31,7 @@ public:
     virtual void RaisePropertyChanged(const std::string& propertyName = "") 
     {
         if (PropertyChanged.num_slots() != 0 && !SuppressPropertyChangedEvent) {
-            PropertyChanged({propertyName, this});
+            PropertyChanged(std::make_shared<PropertyChangedEventArgs>(propertyName, this));
         }
     }
 
@@ -63,7 +64,7 @@ public:
     }
 
 //signals:
-    boost::signals2::signal<void(const PropertyChangedEventArgs&)> PropertyChanged;
+    boost::signals2::signal<void(const std::shared_ptr<PropertyChangedEventArgs>&)> PropertyChanged;
 };
 
 }  // namespace sun

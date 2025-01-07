@@ -5,6 +5,7 @@
 
 // stl includes
 #include <functional>
+#include <memory>
 #include <string>
 
 // boost includes
@@ -50,7 +51,7 @@ public:
     explicit ViewportPanel(QWidget* parent = nullptr);
 
 private:
-    void _Model_PropertyChanged(const PropertyChangedEventArgs& propertyName);
+    void _Model_PropertyChanged(const std::shared_ptr<PropertyChangedEventArgs>& propertyName);
 
     void _ViewportControllerChanged();
 

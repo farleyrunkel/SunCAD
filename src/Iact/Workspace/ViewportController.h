@@ -3,14 +3,13 @@
 #ifndef IACT_WORKSPACE_VIEWPORTCONTROLLER_H_
 #define IACT_WORKSPACE_VIEWPORTCONTROLLER_H_
 
-// Qt includes
-#include <QObject>
-
 // Occt includes
 #include <Standard_Type.hxx>
+#include <Aspect_NeutralWindow.hxx>
 
 #include "Comm/BaseObject.h"
 #include "Core/Viewport.h"
+#include "Core/Workspace.h"
 
 namespace sun 
 {
@@ -43,6 +42,16 @@ public:
 public:
 	Handle(sun::Viewport) Viewport() {
 		return nullptr;
+	}
+
+	Handle(sun::Workspace) Workspace() {
+		return nullptr;
+	}
+
+	Handle(Aspect_NeutralWindow) InitWindow()
+	{
+		Handle(Aspect_NeutralWindow) aWindow = Handle(Aspect_NeutralWindow)::DownCast(Viewport()->V3dView()->Window());
+		return aWindow;
 	}
 
 	void MouseMove(const QPointF& pos, Qt::KeyboardModifiers modifiers,

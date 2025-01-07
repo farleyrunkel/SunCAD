@@ -45,6 +45,10 @@ public:
     explicit Viewport(const Handle(Workspace)& workspace)
         : _Workspace(workspace), _RenderMode(SolidShaded), _Twist(0.0), _Scale(100.0) {}
 
+    Handle(V3d_View) V3dView() {
+        return nullptr;
+    }
+
     // 获取器和设置器
     gp_Pnt EyePoint() {
         if (_V3dView) {
