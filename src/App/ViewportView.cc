@@ -45,34 +45,4 @@ ViewportView::ViewportView(QWidget* parent)
 
     setWidget(new ViewportPanel(this));
     setWidgetResizable(true);
-
-    //connect(Current::AppContext(), &AppContext::workspaceControllerChanged, [this](Sun::WorkspaceController* controller) {
-    //    if (controller) {
-    //        if (m_viewportPanel) {
-    //            m_viewportPanel->deleteLater();
-    //        }
-    //        // Create main panel for the viewport
-    //        m_viewportPanel = new ViewportPanel();
-
-    //        auto workspace = controller->Workspace();
-    //        m_viewportPanel->setViewer(workspace->v3dViewer());
-    //        m_viewportPanel->setAisContext(workspace->aisContext());
-    //        m_viewportPanel->SetWorkspaceController(controller);
-
-    //        connect(m_viewportPanel, &ViewportPanel::hintMessageChanged, [this](const QString& message) {
-    //            messageBar->setText(message); }
-    //        );
-
-    //        connect(Current::AppContext(), &AppContext::viewportChanged, [this](Sun_Viewport* Viewport) {
-    //            if (Viewport) {
-    //                m_viewportPanel->setView(Viewport->V3dView());
-    //                setWidget(m_viewportPanel); // Set as the scrollable area
-    //                setWidgetResizable(true); // Allow resizing
-    //            }}
-    //        );
-
-    //        connect(Current::AppContext(), &AppContext::viewportControllerChanged,
-    //            m_viewportPanel, &ViewportPanel::setViewportController);
-    //    }}
-    //);
 }

@@ -4,6 +4,7 @@
 #define COMM_BASEOBJECT_H_
 
 #include <string>
+#include <any>
 
 #include <boost/signals2.hpp>
 #include <boost/uuid/nil_generator.hpp>
@@ -11,6 +12,8 @@
 
 #include <Standard_Handle.hxx>
 #include <Standard_Transient.hxx>
+
+#include "Comm/PropertyChangedEventArgs.h"
 
 namespace sun 
 {
@@ -27,7 +30,7 @@ public:
     virtual void RaisePropertyChanged(const std::string& propertyName = "") 
     {
         if (PropertyChanged.num_slots() != 0 && !SuppressPropertyChangedEvent) {
-            PropertyChanged(propertyName);
+            PropertyChanged({propertyName, this});
         }
     }
 
@@ -60,7 +63,7 @@ public:
     }
 
 //signals:
-    boost::signals2::signal<void(const std::string&)> PropertyChanged;
+    boost::signals2::signal<void(const PropertyChangedEventArgs&)> PropertyChanged;
 };
 
 }  // namespace sun

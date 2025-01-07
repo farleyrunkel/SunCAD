@@ -3,19 +3,21 @@
 #ifndef IACT_VIEWPORT_VIEWPORTPANEL_H_
 #define IACT_VIEWPORT_VIEWPORTPANEL_H_
 
-#include <string>
+// stl includes
 #include <functional>
+#include <string>
 
+// boost includes
 #include <boost/signals2.hpp>
 
 // Qt includes
+#include <QLayoutItem>
 #include <QList>
 #include <QMouseEvent>
 #include <QOpenGLWidget>
 #include <QPointer>
 #include <QString>
 #include <QVBoxLayout>
-#include <QLayoutItem>
 
 // Occt includes
 #include <AIS_InteractiveContext.hxx>
@@ -28,6 +30,7 @@
 
 // Project includes
 #include "Comm/BaseObject.h"
+#include "Comm/PropertyChangedEventArgs.h"
 #include "Iact/HudElements/HudContainer.h"
 #include "Iact/Viewport/IViewportMouseControl.h"
 #include "Iact/Viewport/ViewportHwndHost.h"
@@ -44,39 +47,12 @@ class ViewportPanel : public QWidget
     Q_OBJECT
 
 public:
-    explicit ViewportPanel(QWidget* parent = nullptr)
-        : QWidget(parent) {
-        _Model = new ViewportPanelModel();
-
-        _Model->PropertyChanged.connect(
-            std::bind(&ViewportPanel::_Model_PropertyChanged, this, std::placeholders::_1)
-        );
-
-        // Initialize layout for the panel
-        setLayout(new QVBoxLayout(this));
-
-        _ViewportControllerChanged();
-    }
+    explicit ViewportPanel(QWidget* parent = nullptr);
 
 private:
-    void _Model_PropertyChanged(const std::string& propertyName)
-    {
-        if (propertyName == ViewportController::get_type_name()) {
-            _ViewportControllerChanged();
-        }
-    }
+    void _Model_PropertyChanged(const PropertyChangedEventArgs& propertyName);
 
-    void _ViewportControllerChanged() 
-    {
-        // Remove old widgets and replace with new widget
-        QLayoutItem* item;
-        while ((item = layout()->takeAt(0)) != nullptr) {
-            delete item->widget();
-            delete item;
-        }
-
-        layout()->addWidget(new ViewportHwndHost);
-    }
+    void _ViewportControllerChanged();
 
 private:
     ViewportPanelModel* _Model;
