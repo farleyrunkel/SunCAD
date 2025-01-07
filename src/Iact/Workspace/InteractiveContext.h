@@ -91,7 +91,8 @@ public:
     }
 
     // RecentUsedScripts getter
-    QList<QString> RecentUsedScripts() const 
+    QList<QString> RecentUsedScripts()
+        const 
     {
         return _RecentUsedScripts;
     }
@@ -122,7 +123,7 @@ protected:
         SetWorkspaceController(nullptr); // Safe Reset
         SetWorkspaceController(value.IsNull() ? nullptr : new sun::WorkspaceController(value));
         CoreContext::SetWorkspace(value);
-        RaisePropertyChanged("WorkspaceController");
+        RaisePropertyChanged(WorkspaceController::get_type_name());
     }
 
     virtual void SetViewport(const Handle(sun::Viewport)& value) override {
@@ -150,7 +151,7 @@ private:
     void SetViewportController(const Handle(sun::ViewportController)& value) 
     {
         _ViewportController = value;
-        RaisePropertyChanged();
+        RaisePropertyChanged(ViewportController::get_type_name());
     }
 
     // WorkspaceController getter/setter

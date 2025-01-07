@@ -6,18 +6,20 @@
 #include <string>
 #include <any>
 
+#include <Standard_Handle.hxx>
+
 namespace sun {
 
-// 定义 PropertyChangedEventArgs 类
+class BaseObject;
+
 class PropertyChangedEventArgs {
 public:
-    // 构造函数，交换 sender 和 propertyName 的顺序
-    PropertyChangedEventArgs(const std::string& propertyName = "", const std::any& sender = std::any())
-        : _PropertyName(propertyName), _Sender(sender) {}
+    PropertyChangedEventArgs(const std::string& propertyName = "", BaseObject* sender = nullptr)
+        : _PropertyName(propertyName), _Object(sender) {}
 
-    // 直接访问 sender，修改为属性风格
-    const std::any& Sender() const {
-        return _Sender;
+    template<typename T>
+    T* Sender() const {
+        return dynamic_cast<T*>(_Object);
     }
 
     // 访问 propertyName
@@ -26,8 +28,8 @@ public:
     }
 
 private:
-    std::any _Sender;          // sender 可以为空
-    std::string _PropertyName; // 属性名称
+    BaseObject* _Object;
+    std::string _PropertyName;
 };
 
 } 

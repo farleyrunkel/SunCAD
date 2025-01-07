@@ -3,14 +3,16 @@
 #ifndef APP_VIEWPORTPANELMODEL_H_
 #define APP_VIEWPORTPANELMODEL_H_
 
-#include "Comm/BaseObject.h"
+#include <any>
 
+#include "Comm/BaseObject.h"
 #include "Comm/ObservableCollection.h"
+#include "Comm/PropertyChangedEventArgs.h"
 #include "Iact/HudElements/HudElement.h"
 #include "Iact/HudElements/IHudManager.h"
+#include "Iact/Workspace/InteractiveContext.h"
 #include "Iact/Workspace/ViewportController.h"
 #include "Iact/Workspace/WorkspaceController.h"
-#include "Iact/Workspace/InteractiveContext.h"
 
 namespace sun 
 {
@@ -21,7 +23,7 @@ public:
 	ViewportPanelModel() 
     {
         //Entity.ErrorStateChanged += _Entity_ErrorStateChanged;
-        //InteractiveContext::Current()->PropertyChanged.connect(std::bind(&ViewportPanelModel::Context_PropertyChanged, this, ));
+        InteractiveContext::Current()->PropertyChanged.connect(std::bind(&ViewportPanelModel::Context_PropertyChanged, this, std::placeholders::_1));
         SetWorkspaceController(InteractiveContext::Current()->WorkspaceController());
         SetViewportController(InteractiveContext::Current()->ViewportController());
     }
@@ -44,7 +46,7 @@ public:
 
     void SetViewportController(const Handle(sun::ViewportController)& value) {
         _ViewportController = value;
-        RaisePropertyChanged();
+        RaisePropertyChanged(ViewportController::get_type_name());
     }
 
     // WorkspaceController getter/setter
@@ -58,13 +60,29 @@ public:
                 HudElements.Clear();
             }
             _WorkspaceController = value;
-            RaisePropertyChanged();
+            RaisePropertyChanged(WorkspaceController::get_type_name());
         }
     }
 
-    void Context_PropertyChanged(const Handle(BaseObject)& object, const std::string& propertyName) 
+    void Context_PropertyChanged(const std::shared_ptr<PropertyChangedEventArgs>& e)
     {
+        if (e->PropertyName() == WorkspaceController::get_type_name()) {
+            if (!_WorkspaceController.IsNull()) {
+                //_WorkspaceController.Selection.SelectionChanged -= _Selection_SelectionChanged;
+            }
+            if (auto sender = e->Sender<InteractiveContext>()) {
+                SetWorkspaceController(sender->WorkspaceController());
+            }
 
+            if (!_WorkspaceController.IsNull()) {
+                //_WorkspaceController.Selection.SelectionChanged += _Selection_SelectionChanged;
+            }
+        }
+        else if (e->PropertyName() == ViewportController::get_type_name()) {
+            if (auto sender = e->Sender<InteractiveContext>()) {
+                SetViewportController(sender->ViewportController());
+            }
+        }
     }
 
 private:

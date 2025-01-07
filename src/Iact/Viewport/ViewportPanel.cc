@@ -2,13 +2,7 @@
 
 #include "Iact/Viewport/ViewportPanel.h"
 
-#ifdef _WIN32
-#include <windows.h>
-#endif
-
-#include <QApplication>
-#include <QMessageBox>
-#include <QMouseEvent>
+#include <QWidget>
 
 #include <Message.hxx>
 #include <OpenGl_View.hxx>
@@ -21,13 +15,10 @@
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <Aspect_NeutralWindow.hxx>
 #include <Aspect_DisplayConnection.hxx>
-#include <AIS_Shape.hxx>
-#include <AIS_ViewCube.hxx>
 
 #include "Comm/PropertyChangedEventArgs.h"
 #include "Iact/Viewport/ViewportMouseControlDefault.h"
 #include "Iact/Viewport/ViewportPanelModel.h"
-
 
 using namespace sun;
 

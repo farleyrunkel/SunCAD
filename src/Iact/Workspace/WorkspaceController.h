@@ -18,6 +18,8 @@ DEFINE_STANDARD_HANDLE(WorkspaceController, BaseObject)
 
 class WorkspaceController : public BaseObject
 {
+    DEFINE_STANDARD_RTTIEXT(WorkspaceController, Standard_Transient)
+
 public:
     WorkspaceController() {}
     explicit WorkspaceController(const Handle(sun::Workspace)& workspace) {}

@@ -17,12 +17,12 @@ namespace
 {
 
 template<typename T>
-T FirstOrDefault(const std::vector<T>& viewports)
+Handle(T) FirstOrDefault(const std::vector<Handle(T)>& vec)
 {
-    if (viewports.empty()) {
-        return nullptr;
+    if (vec.empty()) {
+        return new T();
     }
-    return viewports.front();
+    return vec.front();
 }
 
 }

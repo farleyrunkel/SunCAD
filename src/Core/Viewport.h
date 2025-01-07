@@ -41,7 +41,10 @@ public:
     };
 
 public:
-    // ¹¹Ôìº¯Êý
+    Viewport() {
+        _RenderMode = RenderModes::SolidShaded;
+    }
+
     explicit Viewport(const Handle(Workspace)& workspace)
         : _Workspace(workspace), _RenderMode(SolidShaded), _Twist(0.0), _Scale(100.0) {}
 
