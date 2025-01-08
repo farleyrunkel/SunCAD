@@ -20,6 +20,6 @@ public:
     static ActionCommand& ShowDocumentExplorer();
 };
 
-} // namespace sun
+}  // namespace sun
 
 #endif  // APP_COMMANDS_APPCOMMANDS_H_

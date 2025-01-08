@@ -2,7 +2,7 @@
 
 #include "Comm/Types/Color.h"
 
-namespace sun {
+using namespace sun;
 
 // Define static colors
 const Color Color::Black(0, 0, 0);
@@ -72,11 +72,9 @@ Color Color::Lerp(const Color& other, float f) const
 
 // Hash function for Color (example)
 
-size_t Color::GetHashCode() const 
+size_t Color::GetHashCode() const
 {
     return static_cast<size_t>((static_cast<int>(Red() * 255) << 16) |
         (static_cast<int>(Green() * 255) << 8) |
         (static_cast<int>(Blue() * 255)));
-}
-
 }

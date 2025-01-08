@@ -35,7 +35,7 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 }
 
 void sun::ViewportPanel::_Model_PropertyChanged(const std::shared_ptr<PropertyChangedEventArgs>& e) {
-    if (e->PropertyName() == ViewportController::get_type_name()) {
+    if (e->PropertyName() == nameof(ViewportController)) {
         _ViewportControllerChanged();
     }
 }

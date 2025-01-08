@@ -1,12 +1,12 @@
-#ifndef SRC_COMMON_TYPES_COLOR_H_
-#define SRC_COMMON_TYPES_COLOR_H_
+#ifndef COMMON_TYPES_COLOR_H_
+#define COMMON_TYPES_COLOR_H_
 
-#include <cassert>
-#include <sstream>
-#include <iomanip>
-#include <string>
 #include <array>
+#include <cassert>
+#include <iomanip>
+#include <sstream>
 #include <stdexcept>
+#include <string>
 
 #include <QColor>
 
@@ -43,6 +43,6 @@ public:
     size_t GetHashCode() const;
 };
 
-}  // end namespace sun
+}  // namespace sun
 
-#endif // SRC_COMMON_TYPES_COLOR_H_
+#endif // COMMON_TYPES_COLOR_H_

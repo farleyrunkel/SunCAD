@@ -1,14 +1,19 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_APP_ABOUTDIALOG_H_
-#define SRC_APP_ABOUTDIALOG_H_
+#ifndef APP_ABOUTDIALOG_H_
+#define APP_ABOUTDIALOG_H_
 
 #include <QDialog>
 
-namespace sun {
-class AboutDialog : public QDialog {
- public:
+namespace sun 
+{
+
+class AboutDialog : public QDialog
+{
+public:
      explicit AboutDialog(QWidget* parent = nullptr) : QDialog(parent) {}
 };
-}
-#endif  // SRC_APP_ABOUTDIALOG_H_
+
+}  // namespace sun
+
+#endif  // APP_ABOUTDIALOG_H_

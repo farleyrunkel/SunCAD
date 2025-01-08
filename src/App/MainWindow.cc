@@ -4,29 +4,29 @@
 #include "App/MainWindow.h"
 
 // Qt includes
+#include <QAbstractButton>
 #include <QAction>
 #include <QLabel>
-#include <QStatusBar>
-#include <QScopedPointer>
-#include <QAbstractButton>
 #include <QPlainTextEdit>
+#include <QScopedPointer>
+#include <QStatusBar>
 
 // SARibbonBar includes
-#include "SARibbonBar.h"
 #include "SARibbonApplicationButton.h"
+#include "SARibbonBar.h"
 #include "SARibbonMenu.h"
 
 // Qt Advanced Docking System includes
 #include "AutoHideDockContainer.h"
-#include "DockAreaWidget.h"
 #include "DockAreaTitleBar.h"
+#include "DockAreaWidget.h"
 
 // Project includes
-#include "ResourceUtils.h"
-#include "App/WelcomeDialog.h"
 #include "App/ViewportView.h"
-#include "Iact/Commands/ModelCommands.h"
+#include "App/WelcomeDialog.h"
 #include "Iact/Commands/DocumentCommands.h"
+#include "Iact/Commands/ModelCommands.h"
+#include "ResourceUtils.h"
 
 using namespace sun;
 

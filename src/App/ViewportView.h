@@ -6,8 +6,8 @@
 #include <QLabel>
 #include <QScrollArea>
 
-#include "Iact/Viewport/ViewportPanel.h"
 #include "App/ViewportViewModel.h"
+#include "Iact/Viewport/ViewportPanel.h"
 
 namespace sun 
 {

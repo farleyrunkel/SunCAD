@@ -2,10 +2,10 @@
 
 #include "App/ViewportView.h"
 
+#include <QFont>
+#include <QLabel>
 #include <QSpacerItem>
 #include <QVBoxLayout>
-#include <QLabel>
-#include <QFont>
 
 #include "Core/Core.h"
 #include "Iact/Viewport/ViewportPanel.h"

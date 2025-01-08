@@ -46,7 +46,7 @@ public:
 
     void SetViewportController(const Handle(sun::ViewportController)& value) {
         _ViewportController = value;
-        RaisePropertyChanged(ViewportController::get_type_name());
+        RaisePropertyChanged(nameof(ViewportController));
     }
 
     // WorkspaceController getter/setter
@@ -70,7 +70,7 @@ public:
             if (!_WorkspaceController.IsNull()) {
                 //_WorkspaceController.Selection.SelectionChanged -= _Selection_SelectionChanged;
             }
-            if (auto sender = e->Sender<InteractiveContext>()) {
+            if (auto sender = dynamic_cast<InteractiveContext*>(e->Sender())) {
                 SetWorkspaceController(sender->WorkspaceController());
             }
 
@@ -79,7 +79,7 @@ public:
             }
         }
         else if (e->PropertyName() == ViewportController::get_type_name()) {
-            if (auto sender = e->Sender<InteractiveContext>()) {
+            if (auto sender = dynamic_cast<InteractiveContext*>(e->Sender())) {
                 SetViewportController(sender->ViewportController());
             }
         }

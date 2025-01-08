@@ -151,7 +151,7 @@ private:
     void SetViewportController(const Handle(sun::ViewportController)& value) 
     {
         _ViewportController = value;
-        RaisePropertyChanged(ViewportController::get_type_name());
+        RaisePropertyChanged(nameof(ViewportController));
     }
 
     // WorkspaceController getter/setter

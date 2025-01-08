@@ -67,6 +67,8 @@ public:
     boost::signals2::signal<void(const std::shared_ptr<PropertyChangedEventArgs>&)> PropertyChanged;
 };
 
+#define nameof(T) T::get_type_name()
+
 }  // namespace sun
 
 #endif  // COMM_BASEOBJECT_H_

@@ -30,23 +30,49 @@ public:
 
     void Invalidate() {}
 
+    void InitWorkspace() 
+    {
+        _UpdateGrid();
+    }
+
+    void _UpdateGrid() 
+    {
+    }
+
     Handle(sun::Workspace) Workspace() {
         return nullptr;
     }
 
-    void SetActiveViewport(const Handle(sun::Viewport)& value) {}
+    Handle(sun::Viewport) ActiveViewport() {
+        return _ActiveViewport;
+    }
+
+    Handle(sun::ViewportController) ActiveViewportController() {
+        return GetViewController(_ActiveViewport);
+    }
+
+    void SetActiveViewport(const Handle(sun::Viewport)& value) {
+        _ActiveViewport = value;
+    }
+
+    Handle(sun::ViewportController) GetViewController(int viewIndex) {
+        if (viewIndex < 0 || viewIndex >= _ViewControllers.size()) {
+            return nullptr;
+        }
+        return _ViewControllers[viewIndex];
+    }
 
     Handle(sun::ViewportController) GetViewController(const Handle(sun::Viewport)& viewport) {
         if (viewport.IsNull()) {
             return nullptr;
         }
 
-        auto it = std::find_if(_ViewportControllers.begin(), _ViewportControllers.end(),
+        auto it = std::find_if(_ViewControllers.begin(), _ViewControllers.end(),
                                [viewport](const Handle(sun::ViewportController)& vc) {
             return vc->Viewport() == viewport;
         });
 
-        return (it != _ViewportControllers.end()) ? *it : nullptr;
+        return (it != _ViewControllers.end()) ? *it : nullptr;
     }
 
     void SetHudManager(IHudManager* value) {
@@ -54,7 +80,8 @@ public:
     }
 
 private:
-    std::vector<Handle(sun::ViewportController)> _ViewportControllers;
+    std::vector<Handle(sun::ViewportController)> _ViewControllers;
+    Handle(sun::Viewport) _ActiveViewport;
     IHudManager* _HudManager;
 };
 

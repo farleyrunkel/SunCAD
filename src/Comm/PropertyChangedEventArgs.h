@@ -17,9 +17,8 @@ public:
     PropertyChangedEventArgs(const std::string& propertyName = "", BaseObject* sender = nullptr)
         : _PropertyName(propertyName), _Object(sender) {}
 
-    template<typename T>
-    T* Sender() const {
-        return dynamic_cast<T*>(_Object);
+    BaseObject* Sender() const {
+        return _Object;
     }
 
     // ทรฮส propertyName

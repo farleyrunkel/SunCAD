@@ -4,58 +4,57 @@
 
 #include <iostream>
 
-#include <QTranslator>
 #include <QLocale>
 #include <QStringList>
+#include <QTranslator>
 
+#include "App/AppContext.h"
 #include "App/CommandLine.h"
 #include "App/MainWindow.h"
 #include "App/WelcomeDialog.h"
-#include "App/AppContext.h"
 
 #include "Pres/GlobalEventHandler.h"
 
-namespace sun 
-{
-    Application::Application(int& argc, char** argv)
-        : QApplication(argc, argv) {
+using namespace sun;
 
-        _InitializeTranslation();
+Application::Application(int& argc, char** argv)
+    : QApplication(argc, argv) {
 
-        auto cmdLine = new CommandLine(argc, argv);
+    _InitializeTranslation();
 
-        // Show Welcome Dialog if not skipped
-        bool bSkipWelcome = cmdLine->IsWelcomeDialogDisabled() || cmdLine->HasPathToOpen() || cmdLine->HasScriptToRun();
-        if (!bSkipWelcome && false) {
-            _WelcomeDialog = new WelcomeDialog; // Create the WelcomeDialog
-            _WelcomeDialog->setWindowFlags(_WelcomeDialog->windowFlags() | Qt::WindowStaysOnTopHint);
-            _WelcomeDialog->show(); // Show the WelcomeDialog
-        }
+    auto cmdLine = new CommandLine(argc, argv);
 
-        // Init context
-        _AppContext = new sun::AppContext;
-        _AppContext->Initialize(*cmdLine);
-
-        _MainWindow = new sun::MainWindow; // Create the main window
-        _MainWindow->show(); // Show the main window
-
-        // Install the event filter for global key handling
-        GlobalEventHandler* globalEventHandler = new GlobalEventHandler(this);
-        this->installEventFilter(globalEventHandler); // Install the event filter
-
+    // Show Welcome Dialog if not skipped
+    bool bSkipWelcome = cmdLine->IsWelcomeDialogDisabled() || cmdLine->HasPathToOpen() || cmdLine->HasScriptToRun();
+    if (!bSkipWelcome && false) {
+        _WelcomeDialog = new WelcomeDialog; // Create the WelcomeDialog
+        _WelcomeDialog->setWindowFlags(_WelcomeDialog->windowFlags() | Qt::WindowStaysOnTopHint);
+        _WelcomeDialog->show(); // Show the WelcomeDialog
     }
 
-    // Initialize synchronization mechanisms
-    void Application::_InitializeTranslation() {
-        // Set up translator for localization
-        QTranslator translator;
-        const QStringList uiLanguages = QLocale::system().uiLanguages();
-        for (const QString& locale : uiLanguages) {
-            const QString baseName = "SunCAD_" + QLocale(locale).name();
-            if (translator.load(":/i18n/" + baseName)) {
-                installTranslator(&translator); // Install the translator
-                break; // Exit loop after loading the first valid translation
-            }
+    // Init context
+    _AppContext = new sun::AppContext;
+    _AppContext->Initialize(*cmdLine);
+
+    _MainWindow = new sun::MainWindow; // Create the main window
+    _MainWindow->show(); // Show the main window
+
+    // Install the event filter for global key handling
+    GlobalEventHandler* globalEventHandler = new GlobalEventHandler(this);
+    this->installEventFilter(globalEventHandler); // Install the event filter
+
+}
+
+// Initialize synchronization mechanisms
+void Application::_InitializeTranslation() {
+    // Set up translator for localization
+    QTranslator translator;
+    const QStringList uiLanguages = QLocale::system().uiLanguages();
+    for (const QString& locale : uiLanguages) {
+        const QString baseName = "SunCAD_" + QLocale(locale).name();
+        if (translator.load(":/i18n/" + baseName)) {
+            installTranslator(&translator); // Install the translator
+            break; // Exit loop after loading the first valid translation
         }
     }
 }

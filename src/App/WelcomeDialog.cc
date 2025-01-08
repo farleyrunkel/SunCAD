@@ -2,11 +2,10 @@
 
 #include "App/WelcomeDialog.h"
 
-namespace sun 
-{
-	WelcomeDialog::WelcomeDialog(QWidget* parent) {
-		SetupUi();
-	}
+using namespace sun;
 
-	void WelcomeDialog::SetupUi() {}
+WelcomeDialog::WelcomeDialog(QWidget* parent) {
+	SetupUi();
 }
+
+void WelcomeDialog::SetupUi() {}

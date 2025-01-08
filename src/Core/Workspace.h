@@ -52,7 +52,7 @@ public:
     void SetGridEnabled(bool value) {}
 
     GridTypes GridType() const {
-        return Circular ;
+        return Circular;
     }
 
     void SetGridType(GridTypes) {

@@ -40,6 +40,6 @@ private:
     ads::CDockManager* _DockManager = nullptr;
 };
 
-} // namespace sun
+}  // namespace sun
 
 #endif  // APP_MAINWINDOW_H_

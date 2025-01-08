@@ -5,15 +5,16 @@
 
 #include <memory>
 
-#include <QString>
 #include <QApplication>
 #include <QCoreApplication>
+#include <QString>
 
 #include "App/MainWindow.h"
 #include "App/WelcomeDialog.h"
 
 namespace sun
 {
+
 class AppContext;
 
 class Application : public QApplication 
@@ -45,5 +46,7 @@ private:
     sun::WelcomeDialog* _WelcomeDialog = nullptr;
     sun::AppContext* _AppContext= nullptr;
 };
-}
+
+}  // namespace sun
+
 #endif  // APP_APPLICATION_H
