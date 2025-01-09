@@ -3,14 +3,29 @@
 #ifndef COMM_LIST_H_
 #define COMM_LIST_H_
 
-#include <NCollection_List.hxx>
+#include <NCollection_Vector.hxx>
 
-namespace sun {
+namespace sun 
+{
 
 template <class TheItemType>
-class List : public NCollection_List<TheItemType> 
+class List : public NCollection_Vector<TheItemType>
 {
 public:
+    using NCollection_Vector<TheItemType>::NCollection_Vector;
+
+    TheItemType FirstOrDefault() {
+        if (this->IsEmpty()) {
+            return TheItemType();  // 返回默认构造的值
+        }
+        try {
+            return this->First();  // 假设 First() 不抛出异常
+        }
+        catch (const std::exception& e) {
+            // 处理异常情况
+            return TheItemType();  // 返回默认值
+        }
+    }
 
 };
 

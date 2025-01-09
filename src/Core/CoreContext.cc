@@ -10,6 +10,7 @@
 #include "Core/Topology/Model.h"
 #include "Core/Viewport.h"
 #include "Core/Workspace.h"
+#include "Comm/List.h"
 
 using namespace sun;
 
@@ -17,12 +18,11 @@ namespace
 {
 
 template<typename T>
-Handle(T) FirstOrDefault(const std::vector<Handle(T)>& vec)
-{
-    if (vec.empty()) {
+Handle(T) FirstOrDefault(const List<Handle(T)>& vec) {
+    if (vec.IsEmpty()) {
         return new T();
     }
-    return vec.front();
+    return vec.First();
 }
 
 }
@@ -46,7 +46,7 @@ void CoreContext::SetWorkspace(const Handle(sun::Workspace)& value)
     _Workspace = value;
 
     if (_Workspace) {
-        SetViewport(FirstOrDefault(_Workspace->Viewports()));
+        //SetViewport(FirstOrDefault(_Workspace->Viewports()));
     }
     RaisePropertyChanged();
 }

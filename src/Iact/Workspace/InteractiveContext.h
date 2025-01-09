@@ -123,7 +123,7 @@ protected:
         SetWorkspaceController(nullptr); // Safe Reset
         SetWorkspaceController(value.IsNull() ? nullptr : new sun::WorkspaceController(value));
         CoreContext::SetWorkspace(value);
-        RaisePropertyChanged(WorkspaceController::get_type_name());
+        RaisePropertyChanged(nameof(WorkspaceController));
     }
 
     virtual void SetViewport(const Handle(sun::Viewport)& value) override {

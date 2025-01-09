@@ -14,6 +14,8 @@
 namespace sun 
 {
 
+class WorkspaceController;
+
 DEFINE_STANDARD_HANDLE(ViewportController, BaseObject)
 
 class ViewportController : public BaseObject
@@ -21,6 +23,7 @@ class ViewportController : public BaseObject
 	DEFINE_STANDARD_RTTIEXT(ViewportController, Standard_Transient)
 public:
     ViewportController() {}
+	ViewportController(const Handle(sun::Viewport)& Viewport, const Handle(sun::WorkspaceController)& workspacecontroller) {}
 
 public:
 	enum class PredefinedViews

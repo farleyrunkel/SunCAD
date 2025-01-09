@@ -10,6 +10,7 @@
 #include <Standard_Handle.hxx>
 #include "Core/Workspace.h"
 #include "Comm/BaseObject.h"
+#include "Comm/List.h"
 
 namespace sun {
 
@@ -20,7 +21,7 @@ class Model : public BaseObject
 public:
     Model() {}
 
-    std::vector<Handle(sun::Workspace)>& Workspaces() {
+    List<Handle(sun::Workspace)>& Workspaces() {
         return _Workspaces;
     }
 
@@ -47,7 +48,7 @@ public:
     boost::signals2::signal<void()> OnResetUnsavedChanges;
 
 private:
-    std::vector<Handle(sun::Workspace)> _Workspaces;
+    List<Handle(sun::Workspace)> _Workspaces;
 };
 
 } // namespace sun

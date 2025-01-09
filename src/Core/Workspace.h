@@ -3,7 +3,7 @@
 #ifndef CORE_WORKSPACE_H
 #define CORE_WORKSPACE_H
 
-#include <vector>
+#include <boost/signals2.hpp>
 
 #include <AIS_InteractiveContext.hxx>
 #include <gp_Pln.hxx>
@@ -12,8 +12,12 @@
 #include "Comm/BaseObject.h"
 #include "Core/Viewport.h"
 
+#include "Comm/List.h"
+
 namespace sun
 {
+
+class WorkingContext;
 
 DEFINE_STANDARD_HANDLE(Workspace, BaseObject)
 
@@ -27,12 +31,14 @@ public:
     };
 
 public:
-    Workspace() {
+    Workspace()
+    {
     }
     ~Workspace() {
     }
-    void initViewer() {
-    }
+    void InitAisContext() {}
+
+    void InitV3dViewer() {}
 
     Handle(V3d_Viewer) V3dViewer() const {
         return _V3dViewer;
@@ -45,7 +51,9 @@ public:
     const gp_Pln& WorkingPlane() const {
         return  gp_Pln();
     }
-
+    Handle(sun::WorkingContext) WorkingContext() const {
+        return _CurrentWorkingContext;
+    }
     bool GridEnabled() const {
         return _GridEnabled;
     }
@@ -64,15 +72,20 @@ public:
     }
     void SetGridStep(double) {}
 
-    std::vector<Handle(Viewport)>& Viewports() {
+    List<Handle(Viewport)>& Viewports() {
         return _Viewports; 
     }
+
+// signals
+    boost::signals2::signal<void(const Handle(sun::Workspace)&)> GridChanged;
+
 
 private:
     Handle(V3d_Viewer) _V3dViewer;
     Handle(AIS_InteractiveContext) _AisContext;
+    Handle(sun::WorkingContext) _CurrentWorkingContext;
     bool _GridEnabled;
-    std::vector<Handle(Viewport)> _Viewports;
+    List<Handle(Viewport)> _Viewports;
 };
 }
 #endif  // CORE_WORKSPACE_H

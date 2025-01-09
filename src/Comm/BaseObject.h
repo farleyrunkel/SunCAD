@@ -19,7 +19,7 @@
 namespace sun 
 {
 
-class BaseObject : public Standard_Transient 
+class BaseObject : public Standard_Transient
 {
 public:
     BaseObject() : SuppressPropertyChangedEvent(false), IsDeserializing(false) {}
