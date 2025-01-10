@@ -4,7 +4,7 @@
 #define IACT_WORKSPACE_WORKSPACECONTROLLER_H_
 
 #include "Comm/BaseObject.h"
-#include "Comm/List.h"
+
 #include "Core/Viewport.h"
 #include "Core/Workspace.h"
 #include "Iact/HudElements/IHudManager.h"
@@ -14,6 +14,7 @@
 
 #include <AIS_InteractiveObject.hxx>
 #include <gp_XY.hxx>
+#include <NCollection_Vector.hxx>
 
 
 namespace sun
@@ -26,13 +27,11 @@ class WorkspaceController : public BaseObject
     DEFINE_STANDARD_RTTIEXT(WorkspaceController, Standard_Transient)
 
 public:
-    WorkspaceController() {}
     explicit WorkspaceController(const Handle(sun::Workspace)& workspace) 
     {
         assert(!workspace.IsNull());
 
         _Workspace = workspace;
-
 
         InitWorkspace();
     }
@@ -45,16 +44,14 @@ public:
 
     void InitWorkspace() 
     {
-        if (Workspace().IsNull()) return;
-
         // init V3dViewer and AisContext
-        Workspace()->InitV3dViewer();
-        Workspace()->InitAisContext();
+        _Workspace->InitV3dViewer();
+        _Workspace->InitAisContext();
         _InitVisualSettings();
 
-        auto& vps = Workspace()->Viewports();
+        auto& vps = _Workspace->Viewports();
 
-        for (List<Handle(Viewport)>::Iterator anEntityIter(vps); anEntityIter.More(); anEntityIter.Next()) {
+        for (NCollection_Vector<Handle(Viewport)>::Iterator anEntityIter(vps); anEntityIter.More(); anEntityIter.Next()) {
             _ViewControllers.Append(new sun::ViewportController(anEntityIter.Value(), this));
         }
 
@@ -63,8 +60,8 @@ public:
 
         AisHelper::DisableGlobalClipPlanes(_Grid);
 
-        if (Workspace()->AisContext()) {
-            Workspace()->AisContext()->Display(_Grid, 0, -1, false);
+        if (_Workspace->AisContext()) {
+            _Workspace->AisContext()->Display(_Grid, 0, -1, false);
         }
 
         //// 初始化 VisualObjects 并更新网格
@@ -74,7 +71,7 @@ public:
 
 
     Handle(sun::Workspace) Workspace() {
-        return nullptr;
+        return _Workspace;
     }
 
     Handle(sun::Viewport) ActiveViewport() {
@@ -112,12 +109,12 @@ private:
 
 private:
     Handle(sun::Workspace) _Workspace;
-    List<Handle(sun::ViewportController)> _ViewControllers;
+    NCollection_Vector<Handle(sun::ViewportController)> _ViewControllers;
     Handle(sun::Viewport) _ActiveViewport;
     IHudManager* _HudManager;
     Handle(AISX_Grid) _Grid;
     bool _GridNeedsUpdate;
-    List<Handle(AIS_InteractiveObject)> _CustomHighlights;
+    NCollection_Vector<Handle(AIS_InteractiveObject)> _CustomHighlights;
     gp_XY _LastGridSize = gp_XY(200.0, 200.0);
 };
 

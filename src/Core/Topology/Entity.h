@@ -14,41 +14,41 @@
 namespace sun
 {
 
-    // Base class for Entity, assuming Entity is derived from QObject for signal/slot support
-    class Entity : public BaseObject
-    {
+// Base class for Entity, assuming Entity is derived from QObject for signal/slot support
+class Entity : public BaseObject
+{
 
-    public:
-        // Constructor
-        explicit Entity();
+public:
+    // Constructor
+    explicit Entity();
 
-        // Guid property (using QUuid)
-        QUuid Guid() const;
+    // Guid property (using QUuid)
+    QUuid Guid() const;
 
-        void SetGuid(const QUuid& Guid);
+    void SetGuid(const QUuid& Guid);
 
-        // Type name property
-        QString TypeName() const;
+    // Type name property
+    QString TypeName() const;
 
-        // Name property, virtual
-        virtual QString Name() const;
+    // Name property, virtual
+    virtual QString Name() const;
 
-        virtual void SetName(const QString& /*unused*/);
+    virtual void SetName(const QString& /*unused*/);
 
-        // Error handling
-        bool HasErrors() const;
+    // Error handling
+    bool HasErrors() const;
 
-        void SetHasErrors(bool HasErrors);
+    void SetHasErrors(bool HasErrors);
 
-        // Remove entity
-        virtual void Remove();
+    // Remove entity
+    virtual void Remove();
 
-        // For debugging or logging purposes
-        virtual QString ToString() const;
+    // For debugging or logging purposes
+    virtual QString ToString() const;
 
-    protected:
-        QUuid _Guid;
-        bool _HasErrors;
-    };
+protected:
+    QUuid _Guid;
+    bool _HasErrors;
+};
 }
 #endif  // Entity_DOCUMENT_H

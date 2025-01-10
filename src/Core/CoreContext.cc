@@ -6,11 +6,12 @@
 // stl includes
 #include <vector>
 
+#include <NCollection_Vector.hxx>
+
 // Projects includes
 #include "Core/Topology/Model.h"
 #include "Core/Viewport.h"
 #include "Core/Workspace.h"
-#include "Comm/List.h"
 
 using namespace sun;
 
@@ -18,7 +19,7 @@ namespace
 {
 
 template<typename T>
-Handle(T) FirstOrDefault(const List<Handle(T)>& vec) {
+Handle(T) FirstOrDefault(const NCollection_Vector<Handle(T)>& vec) {
     if (vec.IsEmpty()) {
         return new T();
     }
@@ -32,12 +33,16 @@ CoreContext* CoreContext::_Current = nullptr;
 void CoreContext::SetDocument(const Handle(sun::Model)& value)
 {
     _Document = value;
-    RaisePropertyChanged();
+    RaisePropertyChanged("Document");
+    RaisePropertyChanged("UndoHandler");
+    RaisePropertyChanged("Layers");
 
-    auto workspaces = _Document->Workspaces();
-    auto it = std::find(workspaces.begin(), workspaces.end(), _Workspace);
-    if (!_Document.IsNull() && it == workspaces.end()) {
-        SetWorkspace(FirstOrDefault(_Document->Workspaces()));
+    if (!_Document.IsNull()) {
+        auto workspaces = _Document->Workspaces();
+        auto it = std::find(workspaces.begin(), workspaces.end(), _Workspace);
+        if (it == workspaces.end()) {
+            SetWorkspace(FirstOrDefault(_Document->Workspaces()));
+        }
     }
 }
 
@@ -46,13 +51,13 @@ void CoreContext::SetWorkspace(const Handle(sun::Workspace)& value)
     _Workspace = value;
 
     if (_Workspace) {
-        //SetViewport(FirstOrDefault(_Workspace->Viewports()));
+        SetViewport(FirstOrDefault(_Workspace->Viewports()));
     }
-    RaisePropertyChanged();
+    RaisePropertyChanged("Workspace");
 }
 
 void CoreContext::SetViewport(const Handle(sun::Viewport)& value)
 {
     _Viewport = value;
-    RaisePropertyChanged();
+    RaisePropertyChanged("Viewport");
 }

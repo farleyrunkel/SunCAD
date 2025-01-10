@@ -1,35 +1,47 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_CORE_TOPOLOGY_MODEL_H_
-#define SRC_CORE_TOPOLOGY_MODEL_H_
+#ifndef CORE_TOPOLOGY_MODEL_H_
+#define CORE_TOPOLOGY_MODEL_H_
 
-#include <vector>
+#include <string>
 
 #include <boost/signals2.hpp>
 
+#include <NCollection_Vector.hxx>
 #include <Standard_Handle.hxx>
-#include "Core/Workspace.h"
+
 #include "Comm/BaseObject.h"
-#include "Comm/List.h"
+#include "Core/Topology/Document.h"
+#include "Core/Topology/Entity.h"
 
 namespace sun {
 
-DEFINE_STANDARD_HANDLE(Model, BaseObject)
+class Workspace;
 
-class Model : public BaseObject
+DEFINE_STANDARD_HANDLE(Model, Document)
+
+class Model : public Document
 {
 public:
-    Model() {}
+    Model();
 
-    List<Handle(sun::Workspace)>& Workspaces() {
+    virtual void RegisterInstance(const Handle(Entity)& entity) {}
+    virtual void UnregisterInstance(const Handle(Entity)& entity) {}
+    virtual Handle(Entity) FindInstance(const QUuid& instanceGuid) {
+        return nullptr;
+    }
+
+    virtual void InstanceChanged(const Handle(Entity)& entity) {}
+
+    NCollection_Vector<Handle(sun::Workspace)>& Workspaces() {
         return _Workspaces;
     }
 
-    static QString FileExtension() {
+    static std::string FileExtension() {
         return "step";
     }
 
-    QString FilePath() const {
+    std::string FilePath() const {
         return "";
     }
 
@@ -48,9 +60,9 @@ public:
     boost::signals2::signal<void()> OnResetUnsavedChanges;
 
 private:
-    List<Handle(sun::Workspace)> _Workspaces;
+    NCollection_Vector<Handle(sun::Workspace)> _Workspaces;
 };
 
 } // namespace sun
  
-#endif  // SRC_CORE_TOPOLOGY_MODEL_H_
+#endif  // CORE_TOPOLOGY_MODEL_H_

@@ -5,14 +5,15 @@
 
 #include <boost/signals2.hpp>
 
+#include <NCollection_Vector.hxx>
 #include <AIS_InteractiveContext.hxx>
 #include <gp_Pln.hxx>
 #include <V3d_Viewer.hxx>
 
 #include "Comm/BaseObject.h"
 #include "Core/Viewport.h"
+#include "Core/Topology/Model.h"
 
-#include "Comm/List.h"
 
 namespace sun
 {
@@ -33,9 +34,26 @@ public:
 public:
     Workspace()
     {
+        Init();
     }
+
+    Workspace(const Handle(sun::Model)& model) 
+    {
+        Init();
+        _Model = model;
+
+        // Create default setup
+        _Viewports.Append(new Viewport(this));
+    }
+
     ~Workspace() {
     }
+
+    void Dispose() {}
+
+    void Init();
+
+
     void InitAisContext() {}
 
     void InitV3dViewer() {}
@@ -72,7 +90,7 @@ public:
     }
     void SetGridStep(double) {}
 
-    List<Handle(Viewport)>& Viewports() {
+    NCollection_Vector<Handle(Viewport)>& Viewports() {
         return _Viewports; 
     }
 
@@ -81,11 +99,13 @@ public:
 
 
 private:
+    Handle(sun::Model) _Model;
     Handle(V3d_Viewer) _V3dViewer;
     Handle(AIS_InteractiveContext) _AisContext;
     Handle(sun::WorkingContext) _CurrentWorkingContext;
+    Handle(sun::WorkingContext) _GlobalWorkingContext;
     bool _GridEnabled;
-    List<Handle(Viewport)> _Viewports;
+    NCollection_Vector<Handle(Viewport)> _Viewports;
 };
 }
 #endif  // CORE_WORKSPACE_H
