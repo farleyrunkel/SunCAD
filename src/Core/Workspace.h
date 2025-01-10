@@ -53,23 +53,26 @@ public:
 
     void Init();
 
+    void InitAisContext();
 
-    void InitAisContext() {}
+    void InitV3dViewer();
 
-    void InitV3dViewer() {}
-
-    Handle(V3d_Viewer) V3dViewer() const {
+    Handle(V3d_Viewer) V3dViewer() const 
+    {
         return _V3dViewer;
     }
 
-    Handle(AIS_InteractiveContext) AisContext() const {
-        return nullptr;
+    Handle(AIS_InteractiveContext) AisContext() const 
+    {
+        return _AisContext;
     }
 
-    const gp_Pln& WorkingPlane() const {
+    const gp_Pln& WorkingPlane() const 
+    {
         return  gp_Pln();
     }
-    Handle(sun::WorkingContext) WorkingContext() const {
+    Handle(sun::WorkingContext) WorkingContext() const 
+    {
         return _CurrentWorkingContext;
     }
     bool GridEnabled() const {
@@ -97,6 +100,8 @@ public:
 // signals
     boost::signals2::signal<void(const Handle(sun::Workspace)&)> GridChanged;
 
+private:
+    void _ApplyWorkingContext() {}
 
 private:
     Handle(sun::Model) _Model;
@@ -105,7 +110,7 @@ private:
     Handle(sun::WorkingContext) _CurrentWorkingContext;
     Handle(sun::WorkingContext) _GlobalWorkingContext;
     bool _GridEnabled;
-    NCollection_Vector<Handle(Viewport)> _Viewports;
+    NCollection_Vector<Handle(sun::Viewport)> _Viewports;
 };
 }
 #endif  // CORE_WORKSPACE_H

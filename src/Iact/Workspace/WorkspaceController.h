@@ -52,7 +52,8 @@ public:
         auto& vps = _Workspace->Viewports();
 
         for (NCollection_Vector<Handle(Viewport)>::Iterator anEntityIter(vps); anEntityIter.More(); anEntityIter.Next()) {
-            _ViewControllers.Append(new sun::ViewportController(anEntityIter.Value(), this));
+			auto b = new sun::ViewportController(anEntityIter.Value(), this);
+			_ViewControllers.Append(b);
         }
 
         // 创建并显示网格

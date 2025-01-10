@@ -134,7 +134,9 @@ protected:
         }
         else {
             _WorkspaceController->SetActiveViewport(CoreContext::Viewport());
-            SetViewportController(_WorkspaceController->GetViewController(CoreContext::Viewport()));
+            auto a = CoreContext::Viewport();
+            auto b = _WorkspaceController->GetViewController(a);
+            SetViewportController(b);
         }
     }
 

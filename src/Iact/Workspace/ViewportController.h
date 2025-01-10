@@ -3,6 +3,9 @@
 #ifndef IACT_WORKSPACE_VIEWPORTCONTROLLER_H_
 #define IACT_WORKSPACE_VIEWPORTCONTROLLER_H_
 
+// stl includes
+#include <cassert>
+
 // Occt includes
 #include <Standard_Type.hxx>
 #include <Aspect_NeutralWindow.hxx>
@@ -23,7 +26,12 @@ class ViewportController : public BaseObject
 	DEFINE_STANDARD_RTTIEXT(ViewportController, Standard_Transient)
 public:
     ViewportController() {}
-	ViewportController(const Handle(sun::Viewport)& Viewport, const Handle(sun::WorkspaceController)& workspacecontroller) {}
+	ViewportController(const Handle(sun::Viewport)& viewport, const Handle(sun::WorkspaceController)& workspacecontroller)
+		: _Viewport(viewport), _WorkspaceController(workspacecontroller)
+	{
+		assert(!viewport.IsNull());
+		Init();
+	}
 
 public:
 	enum class PredefinedViews
@@ -43,17 +51,27 @@ public:
 	};
 
 public:
-	Handle(sun::Viewport) Viewport() {
-		return nullptr;
+	Handle(sun::Viewport) Viewport() 
+	{
+		return _Viewport;
 	}
 
-	Handle(sun::Workspace) Workspace() {
-		return nullptr;
+	Handle(sun::WorkspaceController) WorkspaceController() 
+	{
+		return _WorkspaceController;
+	}
+
+	void Init() 
+	{
+		//ViewportParameterSet.ParameterChanged += _ViewportParameterSet_ParameterChanged;
+
+		//var parameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
+		_Viewport->Init(true);
 	}
 
 	Handle(Aspect_NeutralWindow) InitWindow()
 	{
-		Handle(Aspect_NeutralWindow) aWindow = Handle(Aspect_NeutralWindow)::DownCast(Viewport()->V3dView()->Window());
+		Handle(Aspect_NeutralWindow) aWindow = Handle(Aspect_NeutralWindow)::DownCast(_Viewport->V3dView()->Window());
 		return aWindow;
 	}
 
@@ -65,6 +83,10 @@ public:
 	void StartRubberbandSelection() {}  // Add necessary parameters
 	void Zoom(const QPointF& pos, double delta) {}
 	void Rotate(double deltaX, double deltaY, double deltaZ) {}
+
+private:
+	Handle(sun::WorkspaceController) _WorkspaceController;
+	Handle(sun::Viewport) _Viewport;
 
 };
 }

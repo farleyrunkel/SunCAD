@@ -17,7 +17,8 @@ using namespace sun;
 
 IMPLEMENT_STANDARD_RTTIEXT(WorkspaceController, Standard_Transient)
 
-Handle(sun::ViewportController) WorkspaceController::GetViewController(const Handle(sun::Viewport)& viewport) {
+Handle(sun::ViewportController) WorkspaceController::GetViewController(const Handle(sun::Viewport)& viewport) 
+{
     if (viewport.IsNull()) {
         return nullptr;
     }

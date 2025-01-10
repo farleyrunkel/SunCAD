@@ -214,9 +214,10 @@ ViewportHwndHost::ViewportHwndHost(const Handle(sun::ViewportController)& vc, QW
     // offscreen FBOs should be always used
     aDriver->ChangeOptions().useSystemBuffer = false;
 
-    myViewer = _ViewportController->Workspace()->V3dViewer();
-    myContext = _ViewportController->Workspace()->AisContext();
-    myView = _ViewportController->Viewport()->V3dView();
+    auto viewport = _ViewportController->Viewport();
+    myView = viewport->V3dView();
+    myViewer = viewport->Workspace()->V3dViewer();
+    myContext = viewport->Workspace()->AisContext();
 
     // Qt widget setup
     setMouseTracking(true);

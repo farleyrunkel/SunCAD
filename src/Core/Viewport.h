@@ -49,7 +49,11 @@ public:
         : _Workspace(workspace), _RenderMode(SolidShaded), _Twist(0.0), _Scale(100.0) {}
 
     Handle(V3d_View) V3dView() {
-        return nullptr;
+        return _V3dView;
+    }
+
+    Handle(sun::Workspace) Workspace() {
+        return _Workspace;
     }
 
     // 获取器和设置器
@@ -166,7 +170,7 @@ public:
     boost::signals2::signal<void(RenderModes)> RenderModeChanged;
 
 private:
-    Handle(Workspace) _Workspace;
+    Handle(sun::Workspace) _Workspace;
     gp_Pnt _EyePoint = gp_Pnt(10, 10, 10);
     gp_Pnt _TargetPoint = gp_Pnt(0, 0, 0);
     double _Twist = 0.0;
