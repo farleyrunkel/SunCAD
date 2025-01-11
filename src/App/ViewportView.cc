@@ -1,21 +1,31 @@
 // Copyright [2024] SunCAD
 
+// Own includes
 #include "App/ViewportView.h"
 
+// Qt includes
 #include <QFont>
 #include <QLabel>
 #include <QSpacerItem>
 #include <QVBoxLayout>
 
-#include "Core/Core.h"
+// Project includes
+#include "App/ViewportViewModel.h"
 #include "Iact/Viewport/ViewportPanel.h"
 
 using namespace sun;
 
+/// @brief Constructor
+/// @param parent, the parent widget
+/// @note The constructor initializes the ViewportView with a ViewportPanel and a message bar.
+/// The message bar is used to display tool and error messages.
+/// The ViewportPanel is a QWidget that contains the 3D view of the model.
 ViewportView::ViewportView(QWidget* parent)
-    : QScrollArea(parent),
-      _ViewportPanel(nullptr) {
-
+    : QScrollArea(parent)
+	, _DataContext(new ViewportViewModel)
+    , _ViewportPanel(nullptr)
+	, _MessageBar(nullptr)
+{
     // Set layout for the main panel
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
     setLayout(mainLayout);

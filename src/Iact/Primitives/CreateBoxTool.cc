@@ -6,25 +6,28 @@
 #include "Iact/HudElements/MultiValueHudElement.h"
 #include "Iact/Workspace/WorkspaceController.h"
 
+using namespace sun;
+
 namespace 
 {
-    double RoundToNearest(double value, double divider) {
+    double RoundToNearest(double value, double divider) 
+    {
         return std::round(value / divider) * divider;
     }
 
-    gp_Pnt Rounded (const gp_Pnt& pnt) { 
+    gp_Pnt Rounded (const gp_Pnt& pnt) 
+    {
         return  {std::round(pnt.X()),std::round(pnt.Y()),std::round(pnt.Z())};
     };
 }
-
-using namespace sun;
 
 CreateBoxTool::CreateBoxTool()
     : Tool()
 {
 }
 
-bool CreateBoxTool::OnStart() {
+bool CreateBoxTool::OnStart() 
+{
     qDebug() << "Debug: CreateBoxTool::OnStart";
     _CurrentPhase = Phase::PivotPoint;
     auto pointAction = new PointAction();
@@ -41,7 +44,8 @@ bool CreateBoxTool::OnStart() {
     return true;
 }
 
-void CreateBoxTool::_EnsurePreviewShape() {
+void CreateBoxTool::_EnsurePreviewShape() 
+{
     if (!_PreviewShape.IsNull())
         return;
 
@@ -64,7 +68,8 @@ void CreateBoxTool::_EnsurePreviewShape() {
     //_VisualShape->SetIsSelectable(false);   
 }
 
-void CreateBoxTool::_PivotAction_Preview(PointAction::EventArgs* args) {
+void CreateBoxTool::_PivotAction_Preview(PointAction::EventArgs* args) 
+{
     qDebug() << "- CreateBoxTool::_PivotAction_Preview";
     if (_Coord2DHudElement) {
         _Coord2DHudElement->SetValues(args->Point.X(), args->Point.Y());

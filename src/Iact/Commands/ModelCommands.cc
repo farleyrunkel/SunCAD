@@ -50,7 +50,7 @@ namespace sun
 
         // Initialize command properties if not already set
         if (command.text().isEmpty()) {
-            command.setText(QObject::tr("Box"));
+            command.setText(QObject::tr("Cylinder"));
             command.setIcon(ResourceUtils::Icon("model/Prim-Cylinder"));
             command.setToolTip(QObject::tr("Creates a new body with a Cylinder shape."));
 
@@ -71,7 +71,7 @@ namespace sun
 
         // Initialize command properties if not already set
         if (command.text().isEmpty()) {
-            command.setText(QObject::tr("Box"));
+            command.setText(QObject::tr("Sphere"));
             command.setIcon(ResourceUtils::Icon("model/Prim-Sphere"));
             command.setToolTip(QObject::tr("Creates a new body with a Sphere shape."));
 

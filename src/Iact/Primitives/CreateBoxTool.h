@@ -1,7 +1,7 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_IACT_PRIMITIVES_CREATEBOXTOOL_H_
-#define SRC_IACT_PRIMITIVES_CREATEBOXTOOL_H_
+#ifndef IACT_PRIMITIVES_CREATEBOXTOOL_H_
+#define IACT_PRIMITIVES_CREATEBOXTOOL_H_
 
 #include <QObject>
 #include <QPointer>
@@ -16,13 +16,14 @@
 #include "Iact/ToolActions/PointAction.h"
 #include "Iact/Visual/VisualObject.h"
 
-namespace sun {
-
-class CreateBoxTool : public Tool 
+namespace sun 
 {
 
+class CreateBoxTool : public Tool
+{
 public:
-	enum Phase {
+	enum Phase 
+	{
 		PivotPoint,
 		BaseRect,
 		Height
@@ -53,7 +54,9 @@ private:
 	bool _IsTemporaryVisual;
 	Coord2DHudElement* _Coord2DHudElement = nullptr;
 	MultiValueHudElement* _MultiValueHudElement = nullptr;
-	sun::VisualObject* _VisualShape;
+	Handle(sun::VisualObject) _VisualShape;
 };
+
 }
-#endif // SRC_IACT_PRIMITIVES_CREATEBOXTOOL_H_
+
+#endif // IACT_PRIMITIVES_CREATEBOXTOOL_H_

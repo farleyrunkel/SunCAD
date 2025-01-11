@@ -1,21 +1,23 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_IACT_COMMANDS_COMMANDHELPER_H_
-#define SRC_IACT_COMMANDS_COMMANDHELPER_H_
+#ifndef IACT_COMMANDS_COMMANDHELPER_H_
+#define IACT_COMMANDS_COMMANDHELPER_H_
 
 #include "Iact/Framework/Tool.h"
 #include "Iact/Workspace/WorkspaceController.h"
 #include "Iact/Workspace/ModelController.h"
 
-namespace sun {
+namespace sun 
+{
 
-class CommandHelper {
- public:
+class CommandHelper 
+{
+public:
     static Handle(sun::WorkspaceController) WorkspaceController();
 
     static Handle(sun::ModelController) DocumentController();
 
-    //static Tool* currentTool();
+    static Handle(sun::Tool) CurrentTool();
 
     static bool StartTool(const Handle(sun::Tool)& tool);
 
@@ -28,5 +30,7 @@ class CommandHelper {
     static bool CanStartTool();
 
 };
-}
-#endif  // SRC_IACT_COMMANDS_COMMANDHELPER_H_
+
+}  // namespace sun
+ 
+#endif  // IACT_COMMANDS_COMMANDHELPER_H_

@@ -126,7 +126,8 @@ protected:
         RaisePropertyChanged(nameof(WorkspaceController));
     }
 
-    virtual void SetViewport(const Handle(sun::Viewport)& value) override {
+    virtual void SetViewport(const Handle(sun::Viewport)& value) override 
+    {
         CoreContext::SetViewport(value);
         if (value.IsNull()) {
             SetViewportController(nullptr);
@@ -140,7 +141,8 @@ protected:
         }
     }
 
-    void SetDocumentController(const Handle(sun::ModelController)& value) {
+    void SetDocumentController(const Handle(sun::ModelController)& value) 
+    {
         _DocumentController = value;
         RaisePropertyChanged();
     }

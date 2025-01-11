@@ -11,7 +11,8 @@
 
 namespace sun 
 {
-
+/// @brief The ViewportView class
+/// The ViewportView class is a QWidget that contains the ViewportPanel and a message bar.
 class ViewportView : public QScrollArea 
 {
     Q_OBJECT
@@ -19,11 +20,11 @@ public:
     explicit ViewportView(QWidget* parent = nullptr);
 
 private:
+    ViewportViewModel* _DataContext;
     ViewportPanel* _ViewportPanel;
     QLabel* _MessageBar;
-    ViewportViewModel* _DataContext;
 };
 
-} 
+} // namespace sun
 
 #endif  // APP_VIEWPORTVIEW_H_

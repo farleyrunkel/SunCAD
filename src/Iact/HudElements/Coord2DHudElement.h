@@ -8,7 +8,9 @@
 
 #include "Iact/HudElements/HudElement.h"
 
-namespace sun {
+namespace sun 
+{
+
 class Coord2DHudElement : public HudElement 
 {
     Q_OBJECT
@@ -30,5 +32,7 @@ private:
     double _CoordinateX;
     double _CoordinateY;
 };
+
 }
+
 #endif  // IACT_HUD_ELEMENTS_COORD2DHUDELEMENT_H_
