@@ -26,11 +26,11 @@ class ViewportViewModel
 public:
     // Constructor
     ViewportViewModel() 
-        : _updateMessage("") 
+        : _UpdateMessage("")
     {
         // Initialize commands
-        UpdateCommand = std::make_shared<RelayCommand>([this]() { this->_UpdateExecute(); });
-        DismissUpdateCommand = std::make_shared<RelayCommand>([this]() { this->_DismissUpdateExecute(); });
+        _UpdateCommand = std::make_shared<RelayCommand>([this]() { this->_UpdateExecute(); });
+        _DismissUpdateCommand = std::make_shared<RelayCommand>([this]() { this->_DismissUpdateExecute(); });
     }
 
     // Destructor
@@ -39,13 +39,13 @@ public:
     // Property for UpdateMessage
     const std::string& UpdateMessage() const 
     {
-        return _updateMessage;
+        return _UpdateMessage;
     }
 
     void SetUpdateMessage(const std::string& value) 
     {
-        if (_updateMessage != value) {
-            _updateMessage = value;
+        if (_UpdateMessage != value) {
+            _UpdateMessage = value;
             RaisePropertyChanged("UpdateMessage");
         }
     }
@@ -54,21 +54,21 @@ public:
     // Update Info handling
     void _VersionCheck_UpdateAvailable(const std::string& updateUrl, const std::string& updateVersion) 
     {
-        _updateMessage = "A new version is available for download: " + updateVersion;
+        _UpdateMessage = "A new version is available for download: " + updateVersion;
         RaisePropertyChanged("UpdateMessage");
 
         // Notify observers (trigger event)
         OnUpdateAvailable();
 
         // Normally would be passed to UI for user interaction
-        std::cout << _updateMessage << std::endl;
+        std::cout << _UpdateMessage << std::endl;
     }
 
     // Executes when update is available
     void _UpdateExecute() {
         _DismissUpdateExecute();
 
-        if (!_updateMessage.empty()) {
+        if (!_UpdateMessage.empty()) {
             // Open the update URL (simulated here with a print statement)
             std::cout << "Navigating to: " << "https://example.com/update" << std::endl;
         }
@@ -84,11 +84,11 @@ public:
     boost::signals2::signal<void()> OnUpdateAvailable;
 
 private:
-    std::string _updateMessage;
+    std::string _UpdateMessage;
 
     // Command handlers (private members)
-    std::shared_ptr<RelayCommand> UpdateCommand;
-    std::shared_ptr<RelayCommand> DismissUpdateCommand;
+    std::shared_ptr<RelayCommand> _UpdateCommand;
+    std::shared_ptr<RelayCommand> _DismissUpdateCommand;
 
     // Event-like mechanism: Notify property change
     void RaisePropertyChanged(const std::string& propertyName) {

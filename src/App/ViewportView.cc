@@ -22,7 +22,7 @@ using namespace sun;
 /// The ViewportPanel is a QWidget that contains the 3D view of the model.
 ViewportView::ViewportView(QWidget* parent)
     : QScrollArea(parent)
-	, _DataContext(new ViewportViewModel)
+	, _Model(new ViewportViewModel)
     , _ViewportPanel(nullptr)
 	, _MessageBar(nullptr)
 {
@@ -53,6 +53,19 @@ ViewportView::ViewportView(QWidget* parent)
     gridInfo->setStyleSheet(_MessageBar->styleSheet());
     mainLayout->addWidget(gridInfo);
 
-    setWidget(new ViewportPanel(this));
+	_ViewportPanel = new ViewportPanel(this);
+	setWidget(_ViewportPanel);
     setWidgetResizable(true);
+
+    _Model->OnUpdateAvailable.connect([this]() {
+        QString updateMessage = QString("A new version is available for download: %1").arg(QString::fromStdString(" "));
+        _MessageBar->setText(updateMessage);
+    });
+}
+
+sun::ViewportView::~ViewportView() 
+{
+    delete _Model;
+    delete _ViewportPanel;
+    delete _MessageBar;
 }
