@@ -2,8 +2,8 @@
 
 #include "Iact/Framework/Editor.h"
 
-namespace sun {
-	Editor::Editor() {}
+using namespace sun;
 
-	void Editor::StopTool() {}
-}
+Editor::Editor() {}
+
+void Editor::StopTool() {}

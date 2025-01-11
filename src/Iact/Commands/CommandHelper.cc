@@ -17,10 +17,10 @@ namespace sun {
     //    return /*WorkspaceController() ? WorkspaceController()->currentTool() :*/ nullptr;
     //}
 
-    //bool CommandHelper::startTool(Tool* tool) {
-    //    qDebug() << "Debug: CommandHelper::startTool";
-    //    return false; //WorkspaceController() && WorkspaceController()->startTool(tool);
-    //}
+    bool CommandHelper::StartTool(const Handle(sun::Tool)& tool) {
+        qDebug() << "Debug: CommandHelper::startTool";
+        return WorkspaceController() && WorkspaceController()->StartTool(tool);
+    }
 
     bool CommandHelper::CanExecuteOnViewport() {
         return false; /*Current::AppContext() && Current::AppContext()->viewportController()

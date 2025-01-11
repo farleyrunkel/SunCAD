@@ -46,18 +46,22 @@ public:
     }
 
     explicit Viewport(const Handle(Workspace)& workspace)
-        : _Workspace(workspace), _RenderMode(SolidShaded), _Twist(0.0), _Scale(100.0) {}
+        : _Workspace(workspace), _RenderMode(SolidShaded), _Twist(0.0), _Scale(100.0) 
+    {}
 
-    Handle(V3d_View) V3dView() {
+    Handle(V3d_View) V3dView() const 
+    {
         return _V3dView;
     }
 
-    Handle(sun::Workspace) Workspace() {
+    Handle(sun::Workspace) Workspace() const 
+    {
         return _Workspace;
     }
 
     // 获取器和设置器
-    gp_Pnt EyePoint() {
+    gp_Pnt EyePoint() 
+    {
         if (_V3dView) {
             double xEye = 0, yEye = 0, zEye = 0;
             _V3dView->Eye(xEye, yEye, zEye);

@@ -6,10 +6,11 @@
 #include <QWidget>
 #include <QSize>
 
-#include "Iact/Workspace/WorkspaceController.h"
+#include <Standard_Handle.hxx>
 
 namespace sun 
 {
+class WorkspaceController;
 
 class HudElement : public QWidget
 {

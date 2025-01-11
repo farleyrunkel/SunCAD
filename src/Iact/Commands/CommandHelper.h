@@ -3,7 +3,7 @@
 #ifndef SRC_IACT_COMMANDS_COMMANDHELPER_H_
 #define SRC_IACT_COMMANDS_COMMANDHELPER_H_
 
-//#include "Iact/Framework/Tool.h"
+#include "Iact/Framework/Tool.h"
 #include "Iact/Workspace/WorkspaceController.h"
 #include "Iact/Workspace/ModelController.h"
 
@@ -17,7 +17,7 @@ class CommandHelper {
 
     //static Tool* currentTool();
 
-    //static bool startTool(Tool* tool);
+    static bool StartTool(const Handle(sun::Tool)& tool);
 
     //static inline bool canExecuteOnWorkspace() {
     //    return workspaceController() && workspaceController()->workspace();

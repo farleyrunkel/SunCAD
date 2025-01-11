@@ -6,7 +6,8 @@
 
 using namespace sun;
 
-void Viewport::Init(bool useMsaa) {
+void Viewport::Init(bool useMsaa) 
+{
     if (_V3dView) {
         return;
     }

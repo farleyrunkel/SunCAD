@@ -14,7 +14,8 @@
 #include "Core/Topology/Document.h"
 #include "Core/Topology/Entity.h"
 
-namespace sun {
+namespace sun 
+{
 
 class Workspace;
 

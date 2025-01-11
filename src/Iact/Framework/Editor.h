@@ -1,20 +1,22 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_IACT_FRAMEWORK_EDITOR_H_
-#define SRC_IACT_FRAMEWORK_EDITOR_H_
+#ifndef IACT_FRAMEWORK_EDITOR_H_
+#define IACT_FRAMEWORK_EDITOR_H_
 
 #include <QObject>
 
 #include "Iact/Framework/WorkspaceControl.h"
 
-namespace sun {
+namespace sun 
+{
 
-class Editor : public WorkspaceControl {
-
- public:
-	explicit Editor();
-
+class Editor : public WorkspaceControl 
+{
+public:
+	Editor();
 	void StopTool();
 };
+
 }
-#endif  // SRC_IACT_FRAMEWORK_EDITOR_H_
+
+#endif  // IACT_FRAMEWORK_EDITOR_H_

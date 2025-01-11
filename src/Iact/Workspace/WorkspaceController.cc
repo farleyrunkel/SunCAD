@@ -17,7 +17,7 @@ using namespace sun;
 
 IMPLEMENT_STANDARD_RTTIEXT(WorkspaceController, Standard_Transient)
 
-Handle(sun::ViewportController) WorkspaceController::GetViewController(const Handle(sun::Viewport)& viewport) 
+Handle(sun::ViewportController) WorkspaceController::GetViewController(const Handle(sun::Viewport)& viewport) const
 {
     if (viewport.IsNull()) {
         return nullptr;
@@ -31,7 +31,8 @@ Handle(sun::ViewportController) WorkspaceController::GetViewController(const Han
     return (it != _ViewControllers.end()) ? *it : nullptr;
 }
 
-void WorkspaceController::_Workspace_GridChanged(const Handle(sun::Workspace)& sender) {
+void WorkspaceController::_Workspace_GridChanged(const Handle(sun::Workspace)& sender) 
+{
     if (Workspace() == sender) {
         _RecalculateGridSize();
         _GridNeedsUpdate = true;
@@ -40,7 +41,8 @@ void WorkspaceController::_Workspace_GridChanged(const Handle(sun::Workspace)& s
     }
 }
 
-void WorkspaceController::_Viewport_ViewportChanged(const Handle(sun::Viewport)& sender) {
+void WorkspaceController::_Viewport_ViewportChanged(const Handle(sun::Viewport)& sender) 
+{
     // 检查 _ViewControllers 是否包含对应的 Viewport
     auto it = std::find_if(_ViewControllers.begin(), _ViewControllers.end(),
                            [&sender](const auto& vc) { return vc->Viewport() == sender; });
@@ -53,7 +55,9 @@ void WorkspaceController::_Viewport_ViewportChanged(const Handle(sun::Viewport)&
     }
 }
 
-void WorkspaceController::_RecalculateGridSize() {}
+void WorkspaceController::_RecalculateGridSize() 
+{
+}
 
 void WorkspaceController::_UpdateParameter() {}
 
@@ -117,16 +121,17 @@ void WorkspaceController::_InitVisualSettings()
     aisContext->SetHighlightStyle(Prs3d_TypeOfHighlight::Prs3d_TypeOfHighlight_LocalDynamic, hilightLocalDrawer);
 }
 
-void WorkspaceController::_UpdateGrid() {
+void WorkspaceController::_UpdateGrid() 
+{
     if (!_GridNeedsUpdate)
         return;
 
     if (_Grid.IsNull())
         return;
 
-    auto wc = Workspace()->WorkingContext();
+    auto wc = _Workspace->WorkingContext();
 
-    if (Workspace()->GridEnabled()) {
+    if (_Workspace->GridEnabled()) {
         gp_Ax3 position = wc->WorkingPlane().Position();
         if (wc->GridRotation() != 0) {
             position.Rotate(wc->WorkingPlane().Axis(), wc->GridRotation());

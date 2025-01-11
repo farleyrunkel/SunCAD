@@ -7,6 +7,8 @@
 
 #include "Core/Viewport.h"
 #include "Core/Workspace.h"
+#include "Iact/Framework/Editor.h"
+#include "Iact/Framework/Tool.h"
 #include "Iact/HudElements/IHudManager.h"
 #include "Iact/Workspace/ViewportController.h"
 #include "Occt/AisExtensions/AISX_Grid.h"
@@ -40,7 +42,7 @@ public:
     void Dispose() {
     }
 
-    void Invalidate() {}
+    void Invalidate(bool immediateOnly = false, bool forceRedraw = false) {}
 
     void InitWorkspace() 
     {
@@ -71,15 +73,15 @@ public:
     }
 
 
-    Handle(sun::Workspace) Workspace() {
+    Handle(sun::Workspace) Workspace() const {
         return _Workspace;
     }
 
-    Handle(sun::Viewport) ActiveViewport() {
+    Handle(sun::Viewport) ActiveViewport() const {
         return _ActiveViewport;
     }
 
-    Handle(sun::ViewportController) ActiveViewportController() {
+    Handle(sun::ViewportController) ActiveViewportController() const {
         return GetViewController(_ActiveViewport);
     }
 
@@ -87,19 +89,74 @@ public:
         _ActiveViewport = value;
     }
 
-    Handle(sun::ViewportController) GetViewController(int viewIndex) {
+    Handle(sun::ViewportController) GetViewController(int viewIndex) const 
+    {
         if (viewIndex < 0 || viewIndex >= _ViewControllers.Size()) {
             return nullptr;
         }
         return _ViewControllers[viewIndex];
     }
 
-    Handle(sun::ViewportController) GetViewController(const Handle(sun::Viewport)& viewport);
+    Handle(sun::ViewportController) GetViewController(const Handle(sun::Viewport)& viewport) const;
 
-    void SetHudManager(IHudManager* value) {
+    void SetHudManager(IHudManager* value) 
+    {
         _HudManager = value;
     }
-    
+	Handle(sun::Tool) CurrentTool() const {
+		return _CurrentTool;
+	}
+
+	bool CancelTool(const Handle(sun::Tool)& tool, bool force) {
+        auto isCancelled = true;
+        assert(!tool.IsNull());
+		if (_CurrentTool != tool) {
+			return false;
+		}
+        if (!_CurrentTool.IsNull()) {
+            if (!_CurrentTool->Cancel(force)) {
+                isCancelled = false;
+            }
+        }
+
+        if (isCancelled) {
+            _CurrentTool = nullptr;
+            RaisePropertyChanged("Tool");
+        }
+
+        Invalidate();
+        UpdateSelection();
+		return false;
+	}
+    void UpdateSelection() {
+    }
+
+    bool StartTool(const Handle(sun::Tool)& tool) {
+        qDebug() << "Debug: _WorkspaceController::startTool";
+        try {
+            if (!_CurrentTool.IsNull() && !CancelTool(_CurrentTool, true)) {
+                return false;
+            }
+            if (!tool.IsNull()) {
+                tool->SetWorkspaceController(this);
+                _CurrentTool = tool;
+                if (!_CurrentEditor.IsNull()) {
+                    _CurrentEditor->StopTool();
+                }
+                if (!tool->Start()) {
+                    return false;
+                }
+
+                Invalidate(true);
+                return true;
+            }
+            return false;
+        }
+        catch (std::exception& e) {
+            qDebug() << e.what();
+            return false;
+        }
+    }
 private:
     void _Workspace_GridChanged(const Handle(sun::Workspace)& sender);
     void _Viewport_ViewportChanged(const Handle(sun::Viewport)& sender);
@@ -109,14 +166,16 @@ private:
     void _UpdateGrid();
 
 private:
+    Handle(sun::Editor) _CurrentEditor;
     Handle(sun::Workspace) _Workspace;
     NCollection_Vector<Handle(sun::ViewportController)> _ViewControllers;
     Handle(sun::Viewport) _ActiveViewport;
     IHudManager* _HudManager;
     Handle(AISX_Grid) _Grid;
-    bool _GridNeedsUpdate;
+    bool _GridNeedsUpdate = true;
     NCollection_Vector<Handle(AIS_InteractiveObject)> _CustomHighlights;
     gp_XY _LastGridSize = gp_XY(200.0, 200.0);
+    Handle(sun::Tool) _CurrentTool;
 };
 
 }

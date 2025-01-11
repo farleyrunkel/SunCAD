@@ -8,7 +8,7 @@
 
 #include "ResourceUtils.h"
 #include "Core/Core.h"
-//#include "Iact/Primitives/CreateBoxTool.h"
+#include "Iact/Primitives/CreateBoxTool.h"
 #include "Iact/Commands/CommandHelper.h"
 
 namespace sun 
@@ -17,7 +17,7 @@ namespace sun
     // Initialize the static command outside the class
     ActionCommand& ModelCommands::CreateBox() {
         static ActionCommand command(
-            []() { /*CommandHelper::startTool(new CreateBoxTool())*/; },
+            []() { CommandHelper::StartTool(new CreateBoxTool()); },
             []() { return CommandHelper::CanStartTool(); }
         );
 

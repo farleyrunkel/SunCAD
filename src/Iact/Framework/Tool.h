@@ -10,15 +10,16 @@
 #include <boost/signals2.hpp>
 
 #include "Iact/Framework/WorkspaceControl.h"
-#include "Iact/Framework/ToolAction.h"
 
-namespace sun 
+namespace sun
 {
+
+class ToolAction;
 
 class Tool : public WorkspaceControl 
 {
  public:
-	explicit Tool(QObject* parent = nullptr);
+	explicit Tool();
 
  public:
 	bool Start();
@@ -54,7 +55,7 @@ class Tool : public WorkspaceControl
 
 	void StopAllActions();
 
-	//signals
+//signals
 	boost::signals2::signal<void(ToolAction*)> ToolActionChanged;
 
  private:

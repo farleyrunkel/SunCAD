@@ -6,7 +6,8 @@
 
 #include "Comm/Types/Color.h"
 
-class ColorExtensions {
+class ColorExtensions 
+{
 public:
     // Convert Quantity_Color to Color
     static sun::Color ToColor(const Quantity_Color& color) {

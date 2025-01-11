@@ -109,7 +109,7 @@ private:
     Handle(AIS_InteractiveContext) _AisContext;
     Handle(sun::WorkingContext) _CurrentWorkingContext;
     Handle(sun::WorkingContext) _GlobalWorkingContext;
-    bool _GridEnabled;
+    bool _GridEnabled = true;
     NCollection_Vector<Handle(sun::Viewport)> _Viewports;
 };
 }
