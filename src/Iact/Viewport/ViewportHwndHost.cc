@@ -358,6 +358,8 @@ void ViewportHwndHost::keyPressEvent(QKeyEvent* theEvent) {
 // Purpose  :
 // ================================================================
 void ViewportHwndHost::mousePressEvent(QMouseEvent* theEvent) {
+    qDebug() << "ViewportHwndHost: Mouse Press event";
+
     QOpenGLWidget::mousePressEvent(theEvent);
     const Graphic3d_Vec2i aPnt(theEvent->pos().x(), theEvent->pos().y());
     const Aspect_VKeyFlags aFlags = qtMouseModifiers2VKeys(theEvent->modifiers());
@@ -391,8 +393,12 @@ void ViewportHwndHost::mouseReleaseEvent(QMouseEvent* theEvent) {
 // Function : mouseMoveEvent
 // Purpose  :
 // ================================================================
-void ViewportHwndHost::mouseMoveEvent(QMouseEvent* theEvent) {
+void ViewportHwndHost::mouseMoveEvent(QMouseEvent* theEvent) 
+{
+    qDebug() << "ViewportHwndHost: Mouse move event";
     QOpenGLWidget::mouseMoveEvent(theEvent);
+    qDebug() << "ViewportHwndHost aNewPos: " << theEvent->pos();
+
     const Graphic3d_Vec2i aNewPos(theEvent->pos().x(), theEvent->pos().y());
     if (!myView.IsNull()
         && UpdateMousePosition(aNewPos,

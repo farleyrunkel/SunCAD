@@ -24,7 +24,8 @@
 #include "Iact/Visual/VisualObject.h"
 #include "Occt/Managed/AIS_PointEx.h"
 
-namespace sun {
+namespace sun 
+{
 
 DEFINE_STANDARD_HANDLE(Marker, VisualObject);
 

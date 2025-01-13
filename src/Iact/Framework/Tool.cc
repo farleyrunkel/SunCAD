@@ -65,7 +65,8 @@ bool Tool::OnCancel() {
 
 void Tool::OnStop() {}
 
-void Tool::Cleanup() {
+void Tool::Cleanup() 
+{
 	//StopAllActions();
 	//RestoreAllVisualShapes();
 	//BaseCleanup();

@@ -3,9 +3,6 @@
 #ifndef IACT_PRIMITIVES_CREATEBOXTOOL_H_
 #define IACT_PRIMITIVES_CREATEBOXTOOL_H_
 
-#include <QObject>
-#include <QPointer>
-
 #include <gp_Pln.hxx>
 #include <gp_Pnt2d.hxx>
 
@@ -45,18 +42,18 @@ private:
 	void _MultiValueEntered(double newValue1, double newValue2);
 
 private:
-	Phase _CurrentPhase;
 	gp_Pln _Plane;
 	gp_Pnt2d _PointPlane1;
 	gp_Pnt2d _PointPlane2;
+	Phase _CurrentPhase;
+	Handle(sun::VisualObject) _VisualShape;
 	Handle(sun::Box) _PreviewShape;
-	double _Height;
-	bool _IsTemporaryVisual;
 	Coord2DHudElement* _Coord2DHudElement = nullptr;
 	MultiValueHudElement* _MultiValueHudElement = nullptr;
-	Handle(sun::VisualObject) _VisualShape;
+	double _Height;
+	bool _IsTemporaryVisual;
 };
 
-}
+}  // namespace sun
 
 #endif // IACT_PRIMITIVES_CREATEBOXTOOL_H_

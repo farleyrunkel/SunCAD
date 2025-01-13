@@ -35,8 +35,8 @@ private:
     void updateMouseMoveMode(QMouseEvent* mouseEvent, Qt::KeyboardModifiers ModifierKeys);
 
 private:
-    ViewportController::MouseMoveMode currentMouseMoveMode;
-    QPointF mouseDownPos;
+    ViewportController::MouseMoveMode _CurrentMouseMoveMode;
+    QPointF _MouseDownPos;
 };
 
 }  // namespace sun

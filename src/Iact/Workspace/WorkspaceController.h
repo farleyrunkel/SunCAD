@@ -99,6 +99,10 @@ public:
 
     Handle(sun::ViewportController) GetViewController(const Handle(sun::Viewport)& viewport) const;
 
+	bool IsSelecting() const {
+		return false;
+	}
+
     void SetHudManager(IHudManager* value) 
     {
         _HudManager = value;

@@ -27,10 +27,6 @@ public:
     IViewportMouseControl() = default;
     virtual ~IViewportMouseControl() = default;
 
-	Handle(sun::ViewportController) ViewportController() const 
-    {
-		return _ViewportController;
-	}
     // Set the viewport controller
     void SetViewportController(const Handle(sun::ViewportController)& controller) 
     { 
@@ -52,7 +48,7 @@ public:
     // Cancel any ongoing operation
     virtual void Cancel() = 0;
 
-private:
+protected:
     Handle(sun::ViewportController) _ViewportController;
 };
 

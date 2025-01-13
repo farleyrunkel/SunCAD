@@ -75,12 +75,16 @@ public:
 		return aWindow;
 	}
 
+	bool IsInRubberbandSelection() {
+		return false;
+	}
+
 	void MouseMove(const QPointF& pos, Qt::KeyboardModifiers modifiers,
 					MouseMoveMode mode = MouseMoveMode::None) {};
 	void MouseDown(Qt::KeyboardModifiers modifiers) {};
 	void MouseUp(Qt::KeyboardModifiers modifiers) {};
 	void StartEditing() {}
-	void StartRubberbandSelection() {}  // Add necessary parameters
+	void StartRubberbandSelection(const QPointF& pos) {}  // Add necessary parameters
 	void Zoom(const QPointF& pos, double delta) {}
 	void Rotate(double deltaX, double deltaY, double deltaZ) {}
 
