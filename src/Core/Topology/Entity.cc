@@ -2,66 +2,51 @@
 
 #include "Core/Topology/Entity.h"
 
-namespace sun 
-{
-    // For debugging or logging purposes
+// Constructor
+ Entity::Entity(QObject* parent)
+    : QObject(parent), _guid(QUuid::createUuid()),  _hasErrors(false) {
+    qDebug() << "_Entity created with GUID:" << _guid.toString();
+}
 
+// Guid property (using QUuid)
+QUuid Entity::guid() const {
+     return _guid;
+}
 
-    // Constructor
+void Entity::setGuid(const QUuid& guid) {
+}
 
-    Entity::Entity()
-        : _Guid(QUuid::createUuid()), _HasErrors(false)
-    {
-        qDebug() << "Entity created with GUID:" << _Guid.toString();
+// Type name property
+QString Entity::typeName() const {
+    return QString(metaObject()->className());
+}
+
+// Name property, virtual
+QString Entity::name() const {
+    return "Unknown";
+}
+
+void Entity::setName(const QString&) {
+    // Override in subclasses
+}
+
+// Error handling
+bool Entity::hasErrors() const {
+    return _hasErrors;
+}
+
+void Entity::setHasErrors(bool hasErrors) {
+    if (_hasErrors != hasErrors) {
+        _hasErrors = hasErrors;
+        emit hasErrorsChanged();
+        emit errorStateChanged();
     }
+}
 
+// Remove entity
+void Entity::remove() {
+}
 
-    // Guid property (using QUuid)
-
-    QUuid Entity::Guid() const {
-        return _Guid;
-    }
-
-    void Entity::SetGuid(const QUuid& Guid) {
-
-    }
-
-    // Type name property
-
-    QString Entity::TypeName() const {
-        return QString();
-    }
-
-    // Name property, virtual
-
-    QString Entity::Name() const {
-        return "Unknown";
-    }
-
-    void Entity::SetName(const QString&) {
-        // Override in subclasses
-    }
-
-    // Error handling
-
-    bool Entity::HasErrors() const {
-        return _HasErrors;
-    }
-
-    void Entity::SetHasErrors(bool HasErrors) {
-        if (_HasErrors != HasErrors) {
-            _HasErrors = HasErrors;
-        }
-    }
-
-
-    // Remove entity
-
-    void Entity::Remove() {
-
-    }
-
-    QString Entity::ToString() const {
-        return Name();
-    }
+QString Entity::toString() const {
+    return name();
 }

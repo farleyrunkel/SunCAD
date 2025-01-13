@@ -2,38 +2,36 @@
 
 #include <QIcon>
 
-#include "App/AboutDialog.h"
-#include "App/Application.h"
-#include "App/Commands/AppCommands.h"
+#include "ResourceUtils.h"
 #include "Core/Core.h"
+#include "App/Application.h"
+#include "App/AboutDialog.h"
+#include "App/Commands/AppCommands.h"
 #include "Iact/Commands/CommandHelper.h"
 #include "Iact/Commands/DocumentCommands.h"
-#include "ResourceUtils.h"
 
-using namespace sun;
-
-RelayCommand& AppCommands::InitApplication() {
+RelayCommand& AppCommands::initApplication() {
     static RelayCommand command(
-        []() { DocumentCommands::CreateNewModel().Execute(); }
+        []() { DocumentCommands::createNewModel().execute(); }
     );
 
     return command;
 }
 
-ActionCommand& AppCommands::ExitApplication() {
+ActionCommand& AppCommands::exitApplication() {
     static ActionCommand command(
-        []() { Current::MainWindow()->close(); }
+        []() { Core::mainWindow()->close(); }
     );
     // Initialize command properties if not already set
     if (command.text().isEmpty()) {
         command.setText(QObject::tr("Exit Program"));
-        command.setIcon(ResourceUtils::Icon("App/App-ExitApp"));
+        command.setIcon(ResourceUtils::icon("App/App-ExitApp"));
     }
     return command;
 }
 
-ActionCommand& AppCommands::ShowAboutDialog() {
-    static AboutDialog aboutDialog(Current::MainWindow());
+ActionCommand& AppCommands::showAboutDialog() {
+    static AboutDialog aboutDialog(Core::mainWindow());
     static ActionCommand command(
         []() { aboutDialog.show(); }
     );
@@ -41,41 +39,41 @@ ActionCommand& AppCommands::ShowAboutDialog() {
     if (command.text().isEmpty()) {
         command.setText(QObject::tr("About SunCAD"));
         command.setToolTip(QObject::tr("Shows version and license information."));
-        command.setIcon(ResourceUtils::Icon("App/App-AboutDialog"));
+        command.setIcon(ResourceUtils::icon("App/App-AboutDialog"));
     }
     return command;
 }
 
-ActionCommand& AppCommands::Settings() {
+ActionCommand& AppCommands::settings() {
     static ActionCommand command;
     // Initialize command properties if not already set
     if (command.text().isEmpty()) {
         command.setText(QObject::tr("Settings"));
-        command.setIcon(ResourceUtils::Icon("App/App-Settings"));
+        command.setIcon(ResourceUtils::icon("App/App-Settings"));
     }
     return command;
 }
 
-ActionCommand& AppCommands::ResetWindowLayout() {
+ActionCommand& AppCommands::resetWindowLayout() {
     static ActionCommand command(
-        []() { /*Current::mainWindow()->Docking.LoadWindowLayout("Default");*/ }
+        []() { /*Core::mainWindow()->Docking.LoadWindowLayout("Default");*/ }
     );
     // Initialize command properties if not already set
     if (command.text().isEmpty()) {
         command.setText(QObject::tr("Reset Window Layout"));
         command.setToolTip(QObject::tr("Resets the Window layout to the default layout."));
-        command.setIcon(ResourceUtils::Icon("App/App-RestoreLayout"));
+        command.setIcon(ResourceUtils::icon("App/App-RestoreLayout"));
     }
     return command;
 }
 
-ActionCommand& AppCommands::ShowDocumentExplorer() {
+ActionCommand& AppCommands::showDocumentExplorer() {
     static ActionCommand command;
     // Initialize command properties if not already set
     if (command.text().isEmpty()) {
-        command.setText(QObject::tr("Show Sun_Document Explorer"));
-        command.setToolTip(QObject::tr("Opens the Sun_Document Explorer"));
-        command.setIcon(ResourceUtils::Icon("App/App-ShowDocu"));
+        command.setText(QObject::tr("Show Document Explorer"));
+        command.setToolTip(QObject::tr("Opens the Document Explorer"));
+        command.setIcon(ResourceUtils::icon("App/App-ShowDocu"));
     }
     return command;
 }

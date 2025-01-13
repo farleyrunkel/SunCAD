@@ -1,25 +1,19 @@
 // Copyright [2024] SunCAD
 
-#ifndef APP_COMMANDS_APPCOMMANDS_H_
-#define APP_COMMANDS_APPCOMMANDS_H_
+#ifndef SRC_APP_COMMANDS_APPCOMMANDS_H_
+#define SRC_APP_COMMANDS_APPCOMMANDS_H_
 
 #include "Pres/Commands/ActionCommand.h"
 #include "Pres/Commands/RelayCommand.h"
 
-namespace sun 
-{
-
-class AppCommands 
-{
-public:
-    static  RelayCommand& InitApplication();
-    static ActionCommand& ExitApplication();
-    static ActionCommand& ShowAboutDialog();
-    static ActionCommand& Settings();
-    static ActionCommand& ResetWindowLayout();
-    static ActionCommand& ShowDocumentExplorer();
+class AppCommands {
+ public:
+    static  RelayCommand& initApplication();
+    static ActionCommand& exitApplication();
+    static ActionCommand& showAboutDialog();
+    static ActionCommand& settings();
+    static ActionCommand& resetWindowLayout();
+    static ActionCommand& showDocumentExplorer();
 };
 
-}  // namespace sun
-
-#endif  // APP_COMMANDS_APPCOMMANDS_H_
+#endif  // SRC_APP_COMMANDS_APPCOMMANDS_H_

@@ -6,13 +6,10 @@
 #include <QImage>
 #include <Image_PixMap.hxx>
 
-namespace sun {
-
 class PixMapHelper {
 
-public: 
-	static Handle(Image_PixMap) ConvertFromBitmap(const QImage& bitmap);
+ public: 
+	static Handle(Image_PixMap) convertFromBitmap(const QImage& bitmap);
 };
 
-}
 #endif  // SRC_COMM_PIXMAPHELPER_H_

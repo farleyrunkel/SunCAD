@@ -1,63 +1,44 @@
 // Copyright [2024] SunCAD
 
-// Own include
 #include "Core/CoreContext.h"
 
-// stl includes
-#include <vector>
+CoreContext::CoreContext() :
+    m_workspace(nullptr),
+    _Viewport(nullptr),
+    m_document(nullptr)
+{}
 
-#include <NCollection_Vector.hxx>
+void CoreContext::setDocument(Model* document) {
+    if (document != m_document) {
+        m_document = document;
+        emit documentChanged(document);
 
-// Projects includes
-#include "Core/Topology/Model.h"
-#include "Core/Viewport.h"
-#include "Core/Workspace.h"
-
-using namespace sun;
-
-namespace 
-{
-
-template<typename T>
-Handle(T) FirstOrDefault(const NCollection_Vector<Handle(T)>& vec) {
-    if (vec.IsEmpty()) {
-        return new T();
-    }
-    return vec.First();
-}
-
-}
-
-CoreContext* CoreContext::_Current = nullptr;
-
-void CoreContext::SetDocument(const Handle(sun::Model)& value)
-{
-    _Document = value;
-    RaisePropertyChanged("Document");
-    RaisePropertyChanged("UndoHandler");
-    RaisePropertyChanged("Layers");
-
-    if (!_Document.IsNull()) {
-        auto workspaces = _Document->Workspaces();
-        auto it = std::find(workspaces.begin(), workspaces.end(), _Workspace);
-        if (it == workspaces.end()) {
-            SetWorkspace(FirstOrDefault(_Document->Workspaces()));
+        if (m_document && !m_document->workspaces().contains(m_workspace)) {
+            Sun::Workspace* firstPrDefault = ( m_document->workspaces().empty()
+                                        ? new Sun::Workspace(m_document)
+                                        : m_document->workspaces().first() );
+            setWorkspace(firstPrDefault);
         }
     }
 }
 
-void CoreContext::SetWorkspace(const Handle(sun::Workspace)& value)
-{
-    _Workspace = value;
+void CoreContext::setWorkspace(Sun::Workspace* workspace) {
+    if (m_workspace != workspace) {
+        m_workspace = workspace;
+        emit workspaceChanged(workspace);
 
-    if (_Workspace) {
-        SetViewport(FirstOrDefault(_Workspace->Viewports()));
+        if (m_workspace) {
+            Sun_Viewport* firstPrDefault = ( m_workspace->viewports().empty()
+                                       ? new Sun_Viewport(m_workspace)
+                                       : m_workspace->viewports().first() );
+            setViewport(firstPrDefault);
+        }
     }
-    RaisePropertyChanged("Workspace");
 }
 
-void CoreContext::SetViewport(const Handle(sun::Viewport)& value)
-{
-    _Viewport = value;
-    RaisePropertyChanged("Viewport");
+void CoreContext::setViewport(Sun_Viewport* Viewport) {
+    if (_Viewport != Viewport) {
+        _Viewport = Viewport;
+        emit viewportChanged(Viewport);
+    }
 }

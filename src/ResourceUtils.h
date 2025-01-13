@@ -7,31 +7,25 @@
 #include <QFile>
 #include <QDebug>
 
-namespace sun 
-{
-
-class ResourceUtils 
-{
-public:
+class ResourceUtils {
+ public:
     static constexpr const char* ICON_PATH_PREFIX = "://icons/";
 
-    static QString IconPath(const QString& iconName) 
-    {
+    static QString iconPath(const QString& iconName) {
         return QString("%1%2.svg").arg(ICON_PATH_PREFIX, iconName);
     }
 
-    static QIcon Icon(const QString& iconName) 
-    {
-        return QIcon(IconPath(iconName));
+    static QIcon icon(const QString& iconName) {
+        return QIcon(iconPath(iconName));
     }
 
  public:
-    static bool IsResourcePathValid(const QString& resourcePath)
+    static bool isResourcePathValid(const QString& resourcePath)
     {
         QFile file(resourcePath);
         return file.exists();
     }
+
 };
 
-}
 #endif // SRC_RESOURCEUTILS_H_

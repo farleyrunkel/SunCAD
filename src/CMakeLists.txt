@@ -1,6 +1,8 @@
 
 set(PROJECT_SOURCES ${CMAKE_SOURCE_DIR}/src/SunCAD.cc)
-set(PROJECT_RESOURCES ${CMAKE_SOURCE_DIR}/res/SunCAD.qrc)
+set(PROJECT_RESOURCES 
+    ${CMAKE_SOURCE_DIR}/src/ResourceUtils.h
+    ${CMAKE_SOURCE_DIR}/res/SunCAD.qrc)
 
 # Recursively find all source and header files
 file(GLOB SUB_DIRECTORY_SOURCES
@@ -12,8 +14,12 @@ file(GLOB SUB_DIRECTORY_SOURCES
 
 list(APPEND PROJECT_SOURCES ${SUB_DIRECTORY_SOURCES})
 
+# check code style
+# include(cpplint)
+# add_cpplint_target(CpplintCheck ${SUB_DIRECTORY_SOURCES})
+
 # add executable target
-qt_add_executable(SunCAD
+qt_add_executable(${PROJECT_NAME}
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
     ${PROJECT_RESOURCES}
@@ -44,7 +50,7 @@ endforeach()
 if(${QT_VERSION} VERSION_LESS 6.1.0)
   set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.SunCAD)
 endif()
-set_target_properties(SunCAD PROPERTIES
+set_target_properties(${PROJECT_NAME} PROPERTIES
     ${BUNDLE_ID_OPTION}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -56,12 +62,20 @@ set_target_properties(SunCAD PROPERTIES
 include(GNUInstallDirs)
 
 # Install the executable or runtime (if Windows, RUNTIME is used)
-install(TARGETS SunCAD
+install(TARGETS ${PROJECT_NAME}
     BUNDLE DESTINATION .                                # For macOS app bundles (if applicable)
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}         # Shared libraries on Linux/macOS
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}         # Executables and Windows DLLs
 )
 
+# Use CMake's built-in shared library suffix variable
+file(GLOB OPENCASCADE_BINS "${OpenCASCADE_BINARY_DIR}/*${CMAKE_SHARED_LIBRARY_SUFFIX}")
+
+# Install the OpenCASCADE shared libraries
+install(FILES ${OPENCASCADE_BINS}
+    DESTINATION ${CMAKE_INSTALL_BINDIR}                 # Install libraries to the library directory
+)
+
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(SunCAD)
+    qt_finalize_executable(${PROJECT_NAME})
 endif()

@@ -8,7 +8,6 @@
 
 #include "Comm/Types/Color.h"
 
-namespace sun {
 // Enum definitions
 enum class PresentationMode {
     Wireframe,
@@ -38,45 +37,45 @@ enum class LineThickness {
 // Static Colors class
 class Colors {
 public:
-    static const Color Default;
-    static const Color Selection;
-    static const Color Highlight;
-    static const Color FilteredSubshapes;
-    static const Color FilteredSubshapesHot;
-    static const Color Ghost;
-    static const Color Auxillary;
-    static const Color Marker;
-    static const Color AttributeMarkerBackground;
-    static const Color AttributeMarkerSelection;
-    static const Color SketchEditorSegments;
-    static const Color SketchEditorHighlight;
-    static const Color SketchEditorSelection;
-    static const Color SketchEditorCreating;
-    static const Color SketchEditorAuxillary;
-    static const Color ActionBlue;
-    static const Color ActionRed;
-    static const Color ActionGreen;
-    static const Color ActionWhite;
+    static const Sun::Color Default;
+    static const Sun::Color Selection;
+    static const Sun::Color Highlight;
+    static const Sun::Color FilteredSubshapes;
+    static const Sun::Color FilteredSubshapesHot;
+    static const Sun::Color Ghost;
+    static const Sun::Color Auxillary;
+    static const Sun::Color Marker;
+    static const Sun::Color AttributeMarkerBackground;
+    static const Sun::Color AttributeMarkerSelection;
+    static const Sun::Color SketchEditorSegments;
+    static const Sun::Color SketchEditorHighlight;
+    static const Sun::Color SketchEditorSelection;
+    static const Sun::Color SketchEditorCreating;
+    static const Sun::Color SketchEditorAuxillary;
+    static const Sun::Color ActionBlue;
+    static const Sun::Color ActionRed;
+    static const Sun::Color ActionGreen;
+    static const Sun::Color ActionWhite;
 };
 
 // LineStyleDescription struct
 struct LineStyleDescription {
     LineStyle style;
-    std::string Name;
+    std::string name;
     std::vector<double> pattern;
 
     LineStyleDescription(LineStyle s, const std::string& n, const std::vector<double>& p)
-        : style(s), Name(n), pattern(p) {}
+        : style(s), name(n), pattern(p) {}
 };
 
 // LineThicknessDescription struct
 struct LineThicknessDescription {
     LineThickness thickness;
-    std::string Name;
+    std::string name;
     double width;
 
     LineThicknessDescription(LineThickness t, const std::string& n, double w)
-        : thickness(t), Name(n), width(w) {}
+        : thickness(t), name(n), width(w) {}
 };
 
 // StyleHelper class
@@ -114,5 +113,4 @@ struct LineThicknessDescription {
 //    {LineThickness::Thick, "Thick", 3.0},
 //} };
 
-}
 #endif  // SRC_CORE_PROJECT_VISUALSTYLES_H_

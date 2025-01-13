@@ -1,68 +1,51 @@
 // Copyright [2024] SunCAD
 
-#ifndef CORE_CORECONTEXT_H
-#define CORE_CORECONTEXT_H
+#ifndef SRC_CORE_CORECONTEXT_H_
+#define SRC_CORE_CORECONTEXT_H_
 
 #include <string>
 
-#include <boost/signals2.hpp>
+#include <QObject>
 
 #include "Comm/BaseObject.h"
 #include "Core/Topology/Model.h"
 #include "Core/Viewport.h"
-#include "Core/Workspace.h"
-
-namespace sun
-{
 
 // CoreContext class that follows the Singleton design pattern with lazy initialization
-class CoreContext : public BaseObject
-{
-protected:
-    CoreContext() {
-        _Current = this;
-    };
+class CoreContext : public BaseObject {
+    Q_OBJECT
+    Q_PROPERTY(Model* document READ document WRITE setDocument)
+    Q_PROPERTY(Sun::Workspace* workspace READ workspace WRITE setWorkspace)
+    Q_PROPERTY(Sun_Viewport* Viewport READ Viewport WRITE setViewport)
 
-    static CoreContext* Current() {
-        return _Current;
-    }
+ public:
+     CoreContext();
+     ~CoreContext() {};
 
-public:
-
-    Handle(sun::Model) Document() const {
-        return _Document;
-    }
-    Handle(sun::Workspace) Workspace() const {
-        return _Workspace;
-    }
-    Handle(sun::Viewport) Viewport() const {
-        return _Viewport;
-    }
-
-    virtual void SetDocument(const Handle(sun::Model)& document);
-    virtual void SetWorkspace(const Handle(sun::Workspace)& workspace);
-    virtual void SetViewport(const Handle(sun::Viewport)& Viewport);
-
+ public:
     // Example method to save settings
-    void SaveSettings(const std::string& Name) {
+    void saveSettings(const std::string& name) {
         // Implement saving logic here
     }
 
-// signals
-    boost::signals2::signal<void(const Handle(sun::Model)&)> DocumentChanged;
-    boost::signals2::signal<void(const Handle(sun::Workspace)&)> WorkspaceChanged;
-    boost::signals2::signal<void(const Handle(sun::Viewport)&)> ViewportChanged;
+ public:
+    Model* document() const { return m_document; }
+    Sun::Workspace* workspace() const { return m_workspace; }
+    Sun_Viewport* Viewport() const { return _Viewport; }
 
-private:
-    static CoreContext* _Current;
+    virtual void setDocument(Model* document);
+    virtual void setWorkspace(Sun::Workspace* workspace);
+    virtual void setViewport(Sun_Viewport* Viewport);
 
-private:
-    Handle(sun::Model) _Document;
-    Handle(sun::Workspace) _Workspace;
-    Handle(sun::Viewport) _Viewport;
+signals:
+    void documentChanged(Model* document);
+    void workspaceChanged(Sun::Workspace* workspace);
+    void viewportChanged(Sun_Viewport* Viewport);
 
+ protected:
+    Sun::Workspace* m_workspace;
+    Sun_Viewport* _Viewport;
+    Model* m_document;
 };
 
-}  // namespace sun
-
-#endif  // CORE_CORECONTEXT_H
+#endif  // SRC_CORE_CORECONTEXT_H_

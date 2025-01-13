@@ -4,6 +4,5 @@
 #include "Iact/Workspace/EditorState.h"
 
 //-----------------------------------------------------------------------------
-namespace sun {
-	EditorState::EditorState() {}
-}
+
+EditorState::EditorState() : QObject(nullptr) {}

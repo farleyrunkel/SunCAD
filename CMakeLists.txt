@@ -18,7 +18,6 @@ include(SetupOpenCASCADE)
 include(SetupSARibbon)
 include(SetupCxxopts)
 include(SetupQtAD)
-include(SetupBoost)
 include(SetupOpenGL)
 
 add_subdirectory(src)

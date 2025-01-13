@@ -3,75 +3,75 @@
 #ifndef SRC_IACT_FRAMEWORK_WORKSPACECONTROLL_H_
 #define SRC_IACT_FRAMEWORK_WORKSPACECONTROLL_H_
 
+#include <QObject>
 #include <QList>
-
-#include <Standard_Handle.hxx>
 
 #include "Iact/HudElements/HudElement.h"
 #include "Iact/Workspace/MouseEventData.h"
+
 #include "Iact/Visual/VisualObject.h"
 
-namespace sun {
+class Sun_WorkspaceController;
 
-DEFINE_STANDARD_HANDLE(WorkspaceControl, BaseObject);
+class WorkspaceControl : public QObject, public IMouseEventHandler {
+	Q_OBJECT
 
-class WorkspaceControl : public BaseObject, public IMouseEventHandler 
-{
  public:
-	explicit WorkspaceControl();
+	explicit WorkspaceControl(QObject* parent = nullptr);
 
-    Handle(sun::WorkspaceController) WorkspaceController() const;
-	void SetWorkspaceController(const Handle(sun::WorkspaceController)& WorkspaceController);
+	Sun_WorkspaceController* WorkspaceController() const;
+	void setWorkspaceController(Sun_WorkspaceController* WorkspaceController);
 
  protected:
-    virtual QList<Handle(WorkspaceControl)> GetChildren() const;
+    virtual QList<WorkspaceControl*> GetChildren() const;
     virtual void Cleanup() {}
 
     void SetHintMessage(const QString& message);
 
-    void Add(Handle(VisualObject) visual);
-    void Add(HudElement* hudElement);
+    void Add(VisualObject* visual);
+    void Add(IHudElement* hudElement);
 
  public:
-    virtual bool OnMouseMove(MouseEventData* data) override {
+    virtual bool onMouseMove(MouseEventData* data) override {
         auto children = GetChildren();
         return std::any_of(children.begin(), children.end(),
-            [data](Handle(WorkspaceControl) child) {
-                return child->OnMouseMove(data);
+            [data](WorkspaceControl* child) { 
+                return child->onMouseMove(data);
             });
     }
 
-    virtual bool OnMouseDown(MouseEventData* data) override {
+    virtual bool onMouseDown(MouseEventData* data) override {
         auto children = GetChildren();
         return std::any_of(children.begin(), children.end(),
-            [data](Handle(WorkspaceControl) child) {
-                return child->OnMouseDown(data); });
+            [data](WorkspaceControl* child) {
+                return child->onMouseDown(data); });
     }
 
-    virtual bool OnMouseUp(MouseEventData* data) override {
+    virtual bool onMouseUp(MouseEventData* data) override {
         auto children = GetChildren();
         return std::any_of(children.begin(), children.end(),
-            [data](Handle(WorkspaceControl) child) {
-                return child->OnMouseUp(data); });
+            [data](WorkspaceControl* child) {
+                return child->onMouseUp(data); });
     }
 
     virtual void enrichContextMenu(QList<QAction*>& itemList) {
         auto children = GetChildren();
         std::for_each(children.begin(), children.end(),
-            [&itemList](Handle(WorkspaceControl) child) { child->enrichContextMenu(itemList); });
+            [&itemList](WorkspaceControl* child) { child->enrichContextMenu(itemList); });
     }
 
-    virtual bool OnKeyPressed(MouseEventData* data) {
+    virtual bool onKeyPressed(MouseEventData* data) {
         auto children = GetChildren();
         return std::any_of(children.begin(), children.end(),
-            [data](Handle(WorkspaceControl) child) {
-               return child->OnKeyPressed(data); });
+            [data](WorkspaceControl* child) {
+               return child->onKeyPressed(data); });
     }
 
  private:
-    Handle(sun::WorkspaceController) _WorkspaceController;
-	QList<HudElement*> _HudElements;
-    QList<Handle(sun::VisualObject)> _VisualObjects;
+	Sun_WorkspaceController* _WorkspaceController;
+	QList<IHudElement*> _HudElements;
+    QList<VisualObject*> _VisualObjects;
+
 };
-}
+
 #endif  // SRC_IACT_FRAMEWORK_WORKSPACECONTROLL_H_

@@ -3,86 +3,68 @@
 #ifndef SRC_CORE_TOPOLOGY_LAYER_H_
 #define SRC_CORE_TOPOLOGY_LAYER_H_
 
+#include <QObject>
 #include <QString>
 #include <QColor>
-#include <limits>
-#include <memory>
-#include <boost/signals2.hpp>
-
-#include <Standard_Transient.hxx>
-#include <Standard_Handle.hxx>
 
 #include "Core/Topology/Entity.h"
 
-namespace sun {
+class SerializationContext {};
 
-class SerializationContext
-{
-};
+// Layer class as a declaration only, without actual implementation
+class Layer : public Entity {
+    Q_OBJECT
 
-DEFINE_STANDARD_HANDLE(Layer, Standard_Transient);
-
-class Layer : public sun::Entity
-{
 public:
-    Layer();
-
-    // Name Property
-    QString Name() const;
-    void SetName(const QString& value);
-
-    // Visibility Property
-    bool IsVisible() const;
-    void SetIsVisible(bool value);
-
-    // Lock Status Property
-    bool IsLocked() const;
-    void SetIsLocked(bool value);
-
-    // Color Property
-    QColor Color() const;
-    void SetColor(const QColor& value);
-
-    // Transparency Property
-    float Transparency() const;
-    void SetTransparency(float value);
-
-    void SaveUndo() {}
-    // Signals
-    boost::signals2::signal<void(const QString&)> OnNameChanged;
-    boost::signals2::signal<void(bool)> OnVisibilityChanged;
-    boost::signals2::signal<void(bool)> OnLockStatusChanged;
-    boost::signals2::signal<void(const QColor&)> OnColorChanged;
-    boost::signals2::signal<void(float)> OnTransparencyChanged;
-
-private:
-    QString _Name;
-    bool _IsVisible = true;
-    bool _IsLocked = false;
-    QColor _Color = QColor(Qt::white);
-    float _Transparency = 0.0f;
-
-    // Helper methods to emit signals
-    void _OnNameChanged(const QString& value) {
-        OnNameChanged(value);
-    }
-
-    void _OnVisibilityChanged(bool value) {
-        OnVisibilityChanged(value);
-    }
-
-    void _OnLockStatusChanged(bool value) {
-        OnLockStatusChanged(value);
-    }
-
-    void _OnColorChanged(const QColor& value) {
-        OnColorChanged(value);
-    }
-
-    void _OnTransparencyChanged(float value) {
-        OnTransparencyChanged(value);
-    }
+    explicit Layer(QObject* parent = nullptr);
+//
+//    // Properties
+//    QString name() const;                   // Name property
+//    void setName(const QString& name);
+//
+//    bool isVisible() const;                 // IsVisible property
+//    void setIsVisible(bool isVisible);
+//
+//    bool isLocked() const;                  // IsLocked property
+//    void setIsLocked(bool isLocked);
+//
+//    PresentationMode presentationMode() const; // PresentationMode property
+//    void setPresentationMode(PresentationMode mode);
+//
+//    QColor color() const;                   // Color property
+//    void setColor(const QColor& color);
+//
+//    float transparency() const;             // Transparency property
+//    void setTransparency(float transparency);
+//
+//    LineStyle lineStyle() const;            // LineStyle property
+//    void setLineStyle(LineStyle style);
+//
+//    LineThickness lineThickness() const;    // LineThickness property
+//    void setLineThickness(LineThickness thickness);
+//
+//    LayerCollection* collection() const;    // Collection property
+//    void setCollection(LayerCollection* collection);
+//
+//    bool isActive() const;                  // IsActive property
+//
+//signals:
+//    void presentationChanged(Layer* layer);     // Signal for Presentation change
+//    void interactivityChanged(Layer* layer);    // Signal for Interactivity change
+//
+//protected:
+//    void raisePropertyChanged(const QString& propertyName);  // Protected helper for property change notification
+//
+//private:
+//    QString _name;                        // Name
+//    bool _isVisible;                      // Visibility flag
+//    bool _isLocked;                       // Lock status
+//    PresentationMode _presentationMode;   // Presentation mode
+//    QColor _color;                        // Color
+//    float _transparency;                  // Transparency
+//    LineStyle _lineStyle;                 // Line style
+//    LineThickness _lineThickness;         // Line thickness
+//    LayerCollection* _collection;         // Associated collection
 };
 
- }
 #endif  // SRC_CORE_TOPOLOGY_LAYER_H_

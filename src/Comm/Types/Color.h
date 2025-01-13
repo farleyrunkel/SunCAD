@@ -1,18 +1,18 @@
-#ifndef COMMON_TYPES_COLOR_H_
-#define COMMON_TYPES_COLOR_H_
+#ifndef SRC_COMMON_TYPES_COLOR_H_
+#define SRC_COMMON_TYPES_COLOR_H_
 
-#include <array>
 #include <cassert>
-#include <iomanip>
 #include <sstream>
-#include <stdexcept>
+#include <iomanip>
 #include <string>
+#include <array>
+#include <stdexcept>
 
 #include <QColor>
 
 #include <Quantity_Color.hxx>
 
-namespace sun {
+namespace Sun {
 
 class Color : public QColor 
 {
@@ -43,6 +43,6 @@ public:
     size_t GetHashCode() const;
 };
 
-}  // namespace sun
+}  // end namespace sun
 
-#endif // COMMON_TYPES_COLOR_H_
+#endif // SRC_COMMON_TYPES_COLOR_H_

@@ -2,10 +2,8 @@
 
 #include "App/WelcomeDialog.h"
 
-using namespace sun;
-
 WelcomeDialog::WelcomeDialog(QWidget* parent) {
-	SetupUi();
+	setupUi();
 }
 
-void WelcomeDialog::SetupUi() {}
+void WelcomeDialog::setupUi() {}

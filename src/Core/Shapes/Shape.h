@@ -7,40 +7,29 @@
 #include <QList>
 
 #include <TopoDS_Shape.hxx>
-#include <Standard_Transient.hxx>
 
 #include "Core/Topology/Entity.h"
 #include "Core/Topology/Body.h"
-#include "Core/Shapes/IShapeOperand.h"
-
-namespace sun 
-{
-DEFINE_STANDARD_HANDLE(Shape, Standard_Transient)
 
 // Base class for shape
-class Shape : public Entity, public IShapeOperand, public IShapeDependent
-{
+class Shape : public Entity {
+    Q_OBJECT
 
  public:
     Shape() {}
-
     struct NamedSubshape
     {
     };
-
-    Handle(sun::Body) Body();
-
-    //virtual Sun_ShapeType ShapeType() const = 0;
 
  private:
     bool _IsSkipped;
     bool _IsLoadedFromCache;
     bool _IsInvalidating;
-    Handle(sun::Body) _Body = new sun::Body;
+    Body _Body;
     QString _Name;
     Handle(TopoDS_Shape) _BRep;
     Handle(TopoDS_Shape) _TransformedBRep;
     QList<NamedSubshape> _NamedSubshapes;
 };
-}
+
 #endif  // SRC_CORE_SHAPES_SHAPE_H_

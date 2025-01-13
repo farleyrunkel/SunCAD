@@ -3,7 +3,6 @@
 #include "Pres/Commands/CommandManager.h"
 
 // Constructor
-namespace sun {
-	CommandManager::CommandManager() {
-	}
+
+CommandManager::CommandManager() {
 }

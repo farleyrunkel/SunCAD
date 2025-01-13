@@ -1,35 +1,29 @@
 // Copyright [2024] SunCAD
 
-#ifndef IACT_WORKSPACE_MODELCONTROLLER_H_
-#define IACT_WORKSPACE_MODELCONTROLLER_H_
+#ifndef SRC_IACT_WORKSPACE_MODELCONTROLLER_H_
+#define SRC_IACT_WORKSPACE_MODELCONTROLLER_H_
 
-#include <string>
+#include <QObject>
+#include <QString>
 
-#include "Comm/BaseObject.h"
 #include "Core/Topology/Model.h"
 
-namespace sun
-{
+class ModelController : public QObject {
+    Q_OBJECT
 
-DEFINE_STANDARD_HANDLE(ModelController, BaseObject)
-
-class ModelController : public BaseObject
-{
 public:
-    ModelController() {}
-    ~ModelController() {}
-    void Dispose() {
-    }
+    explicit ModelController(QObject* parent = nullptr);;
 
-    bool AskForSavingModelChanges() {
-        return true;
-    }
+    void dispose();
 
-    Handle(sun::Model) NewModel();
+    Model* newModel();
+    bool openModelFrom(const QString& initialDirectory);
+    bool openModel(const QString& file);
+    bool saveModel();
 
-    void OpenModelFrom(const std::string&) {}
+    bool saveModelAs();
+
+    bool askForSavingModelChanges();
 };
 
-} // namespace sun
-
-#endif // IACT_WORKSPACE_MODELCONTROLLER_H_
+#endif // SRC_IACT_WORKSPACE_MODELCONTROLLER_H_

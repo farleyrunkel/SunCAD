@@ -4,39 +4,24 @@
 #define SRC_CORE_APP_H_
 
 #include "App/Application.h"
-#include "App/AppContext.h"
-#include "App/MainWindow.h"
 
-namespace sun 
-{
-
-class Current
-{
-public:
-     static sun::Application* Application() noexcept 
-     {
-         return static_cast<sun::Application*>(Application::instance());
+class Core {
+ public:
+     static Application* application() noexcept {
+         return static_cast<Application*>(Application::instance());
      }
 
-     static sun::MainWindow* MainWindow() noexcept 
-     {
-         return Application()->MainWindow();
+     static CommandManager* commandManager() noexcept {
+         return application()->m_commandManager;
      }
 
-     static sun::AppContext* AppContext() noexcept
-     {
-         return Application()->AppContext();
+     static AppContext* appContext() noexcept {
+         return application()->m_appContext;
      }
 
-     static sun::InteractiveContext* InteractiveContext() noexcept {
-         return Application()->AppContext();
+     static MainWindow* mainWindow() noexcept {
+         return application()->m_mainWindow;
      }
-
-     //static CommandManager* commandManager() noexcept 
-     //{
-     //    return application()->m_commandManager;
-     //}
 };
 
-}
 #endif  // SRC_CORE_APP_H_

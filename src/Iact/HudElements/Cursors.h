@@ -8,30 +8,27 @@
 #include <QString>
 #include <QDebug>
 
-namespace sun {
+class Cursors {
+ public:
+    static QCursor wait();
+    static QCursor move();
+    static QCursor Rotate();
+    static QCursor selectShape();
+    static QCursor selectVertex();
+    static QCursor selectEdge();
+    static QCursor selectWire();
+    static QCursor selectFace();
+    static QCursor setPoint();
+    static QCursor setRadius();
+    static QCursor setHeight();
+    static QCursor WorkingPlane();
+    static QCursor plus();
+    static QCursor minus();
 
-    class Cursors
-    {
-    public:
-        static QCursor Wait();
-        static QCursor Move();
-        static QCursor Rotate();
-        static QCursor SelectShape();
-        static QCursor SelectVertex();
-        static QCursor SelectEdge();
-        static QCursor SelectWire();
-        static QCursor SelectFace();
-        static QCursor SetPoint();
-        static QCursor SetRadius();
-        static QCursor SetHeight();
-        static QCursor WorkingPlane();
-        static QCursor Plus();
-        static QCursor Minus();
+ private:
+    static QMap<QString, QCursor> s_cursors;
 
-    private:
-        static QMap<QString, QCursor> _Cursors;
+    static QCursor getOrCreate(const QString& cursor_id);
+};
 
-        static QCursor GetOrCreate(const QString& cursor_id);
-    };
-}
 #endif  // IACT_HUD_ELEMENTS_CURSORS_H_

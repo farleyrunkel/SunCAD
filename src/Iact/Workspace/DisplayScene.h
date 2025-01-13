@@ -22,55 +22,54 @@ typedef NCollection_DataMap < TDF_Label,
     // , TDF_LabelMapHasher
 >
 LabelPrsMap;
-namespace sun {
-    //! Redisplays all objects in the viewer.
-    class DisplayScene : public Standard_Transient
-    {
-    public:
 
-        // OCCT RTTI
-        DEFINE_STANDARD_RTTI_INLINE(DisplayScene, Standard_Transient)
+//! Redisplays all objects in the viewer.
+class DisplayScene : public Standard_Transient {
+public:
 
-    public:
+    // OCCT RTTI
+    DEFINE_STANDARD_RTTI_INLINE(DisplayScene, Standard_Transient)
 
-        //! Ctor accepting the interactive context to use.
-        //! \param[in] doc the XDE document to visualize.
-        //! \param[in] ctx the interactive context instance.
-        DisplayScene(const Handle(TDocStd_Document)& doc,
-                     const Handle(AIS_InteractiveContext)& ctx) : Standard_Transient(),
-            m_doc(doc),
-            m_ctx(ctx) {}
+public:
 
-    public:
+    //! Ctor accepting the interactive context to use.
+    //! \param[in] doc the XDE document to visualize.
+    //! \param[in] ctx the interactive context instance.
+    DisplayScene(const Handle(TDocStd_Document)& doc,
+        const Handle(AIS_InteractiveContext)& ctx) : Standard_Transient(),
+        m_doc(doc),
+        m_ctx(ctx) {}
 
-        //! Executes this visualization command.
-        //! \return execution status (true for success, false for failure).
-        virtual bool Execute();
+public:
 
-    protected:
+    //! Executes this visualization command.
+    //! \return execution status (true for success, false for failure).
+    virtual bool Execute();
 
-        //! Display items conatined in the XDE document.
-        //! \param[in] label          the OCAF label with assembly or shape to display.
-        //! \param[in] parentTrsf     the transformation of the  parent assembly.
-        //! \param[in] parentStyle    the style of the parent.
-        //! \param[in] parentId       the entry of the parent label.
-        //! \param[in] mapOfOriginals the map of the created AIS objects. New parts are
-        //!                           connected to already created objects contained in the map.
-        //! \param[in] processed      the map of processed items.
-        void displayItem(const TDF_Label& label,
-                         const TopLoc_Location& parentTrsf,
-                         const XCAFPrs_Style& parentStyle,
-                         const TCollection_AsciiString& parentId,
-                         LabelPrsMap& mapOfOriginals);
+protected:
 
-    protected:
+    //! Display items conatined in the XDE document.
+    //! \param[in] label          the OCAF label with assembly or shape to display.
+    //! \param[in] parentTrsf     the transformation of the  parent assembly.
+    //! \param[in] parentStyle    the style of the parent.
+    //! \param[in] parentId       the entry of the parent label.
+    //! \param[in] mapOfOriginals the map of the created AIS objects. New parts are
+    //!                           connected to already created objects contained in the map.
+    //! \param[in] processed      the map of processed items.
+    void displayItem(const TDF_Label& label,
+        const TopLoc_Location& parentTrsf,
+        const XCAFPrs_Style& parentStyle,
+        const TCollection_AsciiString& parentId,
+        LabelPrsMap& mapOfOriginals);
 
-        //! XDE document to visualize.
-        Handle(TDocStd_Document) m_doc;
+protected:
 
-        //! Interactive context facade to work with AIS.
-        Handle(AIS_InteractiveContext) m_ctx;
+    //! XDE document to visualize.
+    Handle(TDocStd_Document) m_doc;
 
-    };
-}
+    //! Interactive context facade to work with AIS.
+    Handle(AIS_InteractiveContext) m_ctx;
+
+};
+
 #endif // SRC_IACT_WORKSPACE_DISPLAYSCENE_H_

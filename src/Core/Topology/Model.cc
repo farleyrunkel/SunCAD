@@ -1,11 +1,10 @@
 // Copyright [2024] SunCAD
 
 #include "Core/Topology/Model.h"
-#include "Core/Workspace.h"
 
-using namespace sun;
+Model::Model() {
+}
 
-Model::Model() 
-{
-    _Workspaces.Append(new sun::Workspace(this));
+QVector<Sun::Workspace*>& Model::workspaces() {
+	return m_workspaces; 
 }

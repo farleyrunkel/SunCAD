@@ -1,116 +1,111 @@
 // Copyright [2024] SunCAD
 
-#ifndef CORE_WORKSPACE_H
-#define CORE_WORKSPACE_H
+#ifndef SRC_CORE_WORKSPACE_H_
+#define SRC_CORE_WORKSPACE_H_
 
-#include <boost/signals2.hpp>
+#include <QObject>
+#include <QList>
 
-#include <NCollection_Vector.hxx>
 #include <AIS_InteractiveContext.hxx>
-#include <gp_Pln.hxx>
 #include <V3d_Viewer.hxx>
+#include <AIS_DisplayMode.hxx>
+#include <Prs3d_LineAspect.hxx>
 
 #include "Comm/BaseObject.h"
-#include "Core/Viewport.h"
-#include "Core/Topology/Model.h"
+#include "Core/Project/VisualStyles.h"
+#include "Core/Extensions/ColorExtensions.h"
+#include "Occt/ValueTypes/Pln.h"
 
+class Model;
+class Sun_Viewport;
+class Sun_WorkingContext;
 
-namespace sun
+namespace Sun {
+
+class Workspace : public BaseObject 
 {
+    Q_OBJECT
+    Q_PROPERTY(QList<Sun_Viewport*> Viewports READ viewports)
+    Q_PROPERTY(Handle(V3d_Viewer) V3dViewer READ v3dViewer)
+    Q_PROPERTY(Handle(AIS_InteractiveContext) AisContext READ aisContext)
+    Q_PROPERTY(bool NeedsRedraw READ needsRedraw WRITE setNeedsRedraw)
+    Q_PROPERTY(bool NeedsImmediateRedraw READ needsImmediateRedraw WRITE setNeedsImmediateRedraw)
+    Q_PROPERTY(Model* Model READ model)
+    Q_PROPERTY(bool GridEnabled READ gridEnabled WRITE setGridEnabled)
+    Q_PROPERTY(GridTypes GridType READ GridType WRITE SetGridType)
+    Q_PROPERTY(double GridStep)
+    Q_PROPERTY(double GridRotation)
+    Q_PROPERTY(int GridDivisions)
+    Q_PROPERTY(Pln _WorkingPlane)
+    Q_PROPERTY(Sun_WorkingContext Sun_WorkingContext)
+    Q_PROPERTY(Sun_WorkingContext GlobalWorkingContext)
 
-class WorkingContext;
-
-DEFINE_STANDARD_HANDLE(Workspace, BaseObject)
-
-class Workspace final : public BaseObject
-{
 public:
-    enum GridTypes
-    {
+    enum GridTypes {
         Rectangular,
         Circular
     };
 
-public:
-    Workspace()
-    {
-        Init();
-    }
+ public:
+    Workspace();
+    Workspace(Model* model);;
+    ~Workspace() {};
 
-    Workspace(const Handle(sun::Model)& model) 
-    {
-        Init();
-        _Model = model;
+    // Initialize 3D viewer and context
+    void initV3dViewer();
+    void initAisContext();
 
-        // Create default setup
-        _Viewports.Append(new Viewport(this));
-    }
+    bool gridEnabled() const { return _GridEnabled; }
+    void setGridEnabled(bool value);
 
-    ~Workspace() {
-    }
+    GridTypes GridType() const;
+    void SetGridType(GridTypes) { return; }
 
-    void Dispose() {}
+    Sun_WorkingContext* workingContext() const;
 
-    void Init();
+    const gp_Pln& WorkingPlane() const;
 
-    void InitAisContext();
+    void SetWorkingPlane(const gp_Pln& value);
 
-    void InitV3dViewer();
+    // Viewports management
+    QList<Sun_Viewport*>& viewports() { return _Viewports; }
+    Handle(V3d_Viewer) v3dViewer() const;
+    Handle(AIS_InteractiveContext) aisContext() const;
 
-    Handle(V3d_Viewer) V3dViewer() const 
-    {
-        return _V3dViewer;
-    }
+    bool needsRedraw() const;
+    void setNeedsRedraw(bool value);
 
-    Handle(AIS_InteractiveContext) AisContext() const 
-    {
-        return _AisContext;
-    }
+    bool needsImmediateRedraw() const;
+    void setNeedsImmediateRedraw(bool value);
 
-    const gp_Pln& WorkingPlane() const 
-    {
-        return  gp_Pln();
-    }
-    Handle(sun::WorkingContext) WorkingContext() const 
-    {
-        return _CurrentWorkingContext;
-    }
-    bool GridEnabled() const {
-        return _GridEnabled;
-    }
-    void SetGridEnabled(bool value) {}
+    // Model management
+    Model* model() const { return _Model ; }
 
-    GridTypes GridType() const {
-        return Circular;
-    }
-
-    void SetGridType(GridTypes) {
-        return;
-    }
-
-    double GridStep() const {
-        return 0;
-    }
-    void SetGridStep(double) {}
-
-    NCollection_Vector<Handle(Viewport)>& Viewports() {
-        return _Viewports; 
-    }
-
-// signals
-    boost::signals2::signal<void(const Handle(sun::Workspace)&)> GridChanged;
+signals:
+    void GridChanged(Sun::Workspace*);
 
 private:
-    void _ApplyWorkingContext() {}
+     void Init();
+     void _ApplyWorkingContext();
+     void _RaiseGridChanged() {
+         emit GridChanged(this);
+     }
 
 private:
-    Handle(sun::Model) _Model;
-    Handle(V3d_Viewer) _V3dViewer;
-    Handle(AIS_InteractiveContext) _AisContext;
-    Handle(sun::WorkingContext) _CurrentWorkingContext;
-    Handle(sun::WorkingContext) _GlobalWorkingContext;
-    bool _GridEnabled = true;
-    NCollection_Vector<Handle(sun::Viewport)> _Viewports;
+    Handle(V3d_Viewer) _V3dViewer;  // 3D viewer handle
+    Handle(AIS_InteractiveContext) _AisContext;  // AIS context handle
+
+    bool _GridEnabled;  // Grid enabled status
+    bool _NeedsRedraw;  // Flag to check if redraw is needed
+    bool _NeedsImmediateRedraw;  // Flag for immediate redraw
+
+    QList<Sun_Viewport*> _Viewports;  // List of viewports
+    Model* _Model;  // The active model
+
+    Pln _WorkingPlane;
+    Sun_WorkingContext* _CurrentWorkingContext;
+    Sun_WorkingContext* _GlobalWorkingContext;
 };
+
 }
-#endif  // CORE_WORKSPACE_H
+#endif  // SRC_CORE_WORKSPACE_H_

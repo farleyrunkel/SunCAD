@@ -3,34 +3,29 @@
 #include "Iact/Commands/CommandHelper.h"
 
 #include "Core/Core.h"
-#include "Iact/Framework/Tool.h"
-#include "Iact/Workspace/ModelController.h"
-#include "Iact/Workspace/WorkspaceController.h"
 
-using namespace sun;
-
-Handle(sun::WorkspaceController) CommandHelper::WorkspaceController() {
-    return Current::AppContext() ? Current::AppContext()->WorkspaceController() : nullptr;
+ Sun_WorkspaceController* CommandHelper::WorkspaceController() {
+    return Core::appContext() ? Core::appContext()->WorkspaceController() : nullptr;
 }
 
-Handle(sun::ModelController) CommandHelper::DocumentController() {
-    return Current::AppContext() ? Current::AppContext()->DocumentController() : nullptr;
+ ModelController* CommandHelper::documentController() {
+    return Core::appContext() ? Core::appContext()->documentController() : nullptr;
 }
 
-Handle(sun::Tool) CommandHelper::CurrentTool() {
-    return !WorkspaceController().IsNull() ? WorkspaceController()->CurrentTool() : nullptr;
+ Tool* CommandHelper::currentTool() {
+    return WorkspaceController() ? WorkspaceController()->currentTool() : nullptr;
 }
 
-bool CommandHelper::StartTool(const Handle(sun::Tool)& tool) {
-    qDebug() << "Debug: CommandHelper::startTool";
-    return !WorkspaceController().IsNull() && WorkspaceController()->StartTool(tool);
+ bool CommandHelper::startTool(Tool* tool) {
+     qDebug() << "Debug: CommandHelper::startTool";
+    return WorkspaceController() && WorkspaceController()->startTool(tool);
 }
 
-bool CommandHelper::CanExecuteOnViewport() {
-    return false; /*Current::AppContext() && Current::AppContext()->viewportController()
-        && Current::AppContext()->viewportController()->Viewport()*/;
+ bool CommandHelper::canExecuteOnViewport() {
+    return Core::appContext() && Core::appContext()->viewportController()
+        && Core::appContext()->viewportController()->Viewport();
 }
 
-bool CommandHelper::CanStartTool() {
-    return !WorkspaceController().IsNull();
+ bool CommandHelper::canStartTool() {
+    return WorkspaceController() != nullptr;
 }

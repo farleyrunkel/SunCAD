@@ -1,35 +1,30 @@
 // Copyright [2024] SunCAD
 
-#ifndef PRES_COMMANDS_RELAYCOMMAND_H_
-#define PRES_COMMANDS_RELAYCOMMAND_H_
+#ifndef SRC_PRES_COMMANDS_RELAYCOMMAND_H_
+#define SRC_PRES_COMMANDS_RELAYCOMMAND_H_
 
 #include <functional>
 #include <utility>
 
 #include "Pres/Commands/ICommand.h"
 
-namespace sun 
-{
-
-class RelayCommand : public ICommand
-{
-public:
-    // Constructor
-    RelayCommand(std::function<void()> Execute);
+class RelayCommand : public ICommand {
+ public:
+     // Constructor
+    RelayCommand(std::function<void()> execute);
 
     // Constructor
-    RelayCommand(std::function<void()> Execute, std::function<bool()> CanExecute);
+    RelayCommand(std::function<void()> execute, std::function<bool()> canExecute);
 
     // Method to execute the command
-    void Execute() override;
+    void execute() override;
 
     // Method to check if the command can be executed
-    bool CanExecute() const override;
+    bool canExecute() const override;
 
-private:
-    std::function<void()> _Execute;      // Function to execute the command
-    std::function<bool()> _CanExecute;   // Function to check if the command can be executed
+ private:
+    std::function<void()> m_execute;      // Function to execute the command
+    std::function<bool()> m_canExecute;   // Function to check if the command can be executed
 };
-}
 
-#endif  // PRES_COMMANDS_RELAYCOMMAND_H_
+#endif  // SRC_PRES_COMMANDS_RELAYCOMMAND_H_

@@ -24,13 +24,13 @@
 #include "Iact/Visual/VisualObject.h"
 #include "Occt/Managed/AIS_PointEx.h"
 
-namespace sun 
-{
-
-DEFINE_STANDARD_HANDLE(Marker, VisualObject);
-
 class Marker : public VisualObject 
 {
+    Q_OBJECT
+    Q_PROPERTY(Sun::Color Color READ Color WRITE SetColor)
+    Q_PROPERTY(Sun::Color BackgroundColor READ BackgroundColor WRITE SetBackgroundColor)
+    Q_PROPERTY(bool IsSelectable READ IsSelectable WRITE SetSelectable)
+
 public:
      enum Styles {
          Bitmap = 1,
@@ -49,16 +49,16 @@ public:
      };
 
 public:
-    Marker(const Handle(sun::WorkspaceController)& WorkspaceController, Styles styles, const MarkerImage& image);
-    Marker(const Handle(sun::WorkspaceController)& WorkspaceController, Styles styles, QString imageName, int size);
+    Marker(Sun_WorkspaceController* WorkspaceController, Styles styles, const MarkerImage& image);
+    Marker(Sun_WorkspaceController* WorkspaceController, Styles styles, QString imageName, int size);
 
 public:
     // 获取/设置颜色
-    sun::Color Color() const;
-    void SetColor(const sun::Color& color);
+    Sun::Color Color() const;
+    void SetColor(const Sun::Color& color);
 
-    sun::Color BackgroundColor() const;
-    void SetBackgroundColor(const sun::Color& color);
+    Sun::Color BackgroundColor() const;
+    void SetBackgroundColor(const Sun::Color& color);
 
     bool IsSelectable() const;
     void SetSelectable(bool selectable);
@@ -83,7 +83,7 @@ public:
     void SetImage(MarkerImage image);
 
     static Handle(Prs3d_PointAspect) CreateBitmapPointAspect(
-        const MarkerImage& image, sun::Color color);
+        const MarkerImage& image, Sun::Color color);
 
     static Handle(Prs3d_PointAspect) CreateImagePointAspect(
         const MarkerImage& image);
@@ -96,18 +96,18 @@ private:
     void _UpdatePresentation();
 
     // Static method to load marker images
-    static Marker::MarkerImage _GetMarkerImage(const QString& Name, int size);
-    static Handle(Image_PixMap) _TryGetMarkerAsImage(const QString& Name, int size);
+    static Marker::MarkerImage _GetMarkerImage(const QString& name, int size);
+    static Handle(Image_PixMap) _TryGetMarkerAsImage(const QString& name, int size);
 
 private:
     Styles _Styles;
     MarkerImage _Image;
-    Handle(Geom_CartesianPoint) _P = nullptr; // OCCT 坐标点
     Handle(AIS_PointEx) _AisPoint = nullptr; // OCCT 点对象
+    Handle(Geom_CartesianPoint) _P; // OCCT 坐标点
     Handle(Prs3d_PointAspect) _PointAspect = nullptr;
-    sun::Color _Color; // 标记颜色
-    sun::Color _ColorBg; // 背景颜色
+    Sun::Color _Color; // 标记颜色
+    Sun::Color _ColorBg; // 背景颜色
     bool _IsSelectable; // 是否可选择
 };
-}
+
 #endif  // SRC_IACT_VISUAL_MARKER_H_

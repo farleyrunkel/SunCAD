@@ -5,11 +5,10 @@
 
 #include "Pres/Commands/ActionCommand.h"
 
-namespace sun {
 class DocumentCommands {
 public:
-    static ActionCommand& CreateNewModel();
-    static ActionCommand& OpenModelFrom();
+    static ActionCommand& createNewModel();
+    static ActionCommand& openModelFrom();
 };
-}
+
 #endif  // SRC_IACT_COMMANDS_DOCUMENTCOMMANDS_H_

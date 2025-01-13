@@ -5,23 +5,12 @@
 
 #include <QObject>
 
-#include <gp.hxx>
-#include <gp_Pnt.hxx>
-#include <Standard_Transient.hxx>
-#include <gp_Quaternion.hxx>
+#include "Core/Topology/InteractiveEntity.h"
 
-#include "Comm/BaseObject.h"
+class Body : public InteractiveEntity {
+    Q_OBJECT
 
-namespace sun {
-    DEFINE_STANDARD_HANDLE(Body, Standard_Transient)
-
-    class Body : public BaseObject
-    {
-    public:
-        void SetPosition(const gp_Pnt& pnt) {}
-    };
-
-}
-
+ public:
+};
 
 #endif  // SRC_CORE_TOPOLOGY_BODY_H_

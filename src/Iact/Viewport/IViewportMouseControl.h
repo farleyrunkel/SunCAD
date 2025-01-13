@@ -1,57 +1,46 @@
 // Copyright [2024] SunCAD
 
-#ifndef IACT_VIEWPORT_IVIEWPORTMOUSECONTROL_H_
-#define IACT_VIEWPORT_IVIEWPORTMOUSECONTROL_H_
+#ifndef SRC_IACT_VIEWPORT_IVIEWPORTMOUSECONTROL_H_
+#define SRC_IACT_VIEWPORT_IVIEWPORTMOUSECONTROL_H_
 
 #include <QPointF>
 #include <QMouseEvent>
 #include <QInputEvent>
-#include <QWheelEvent>
 
 #include "Iact/Workspace/ViewportController.h"
 
-namespace sun 
-{
-/// @brief  
-class IViewportMouseControl 
-{
-public:
+// Interface for viewport mouse control
+class IViewportMouseControl {
+ public:
     // Enum to represent mouse wheel direction
-    enum MouseWheelEnum 
-    {
+    enum class MouseWheel {
         Vertical,
         Horizontal
     };
 
-public:
     IViewportMouseControl() = default;
     virtual ~IViewportMouseControl() = default;
 
     // Set the viewport controller
-    void SetViewportController(const Handle(sun::ViewportController)& controller) 
-    { 
-        _ViewportController = controller; 
-    }
+    virtual void setViewportController(Sun_ViewportController* controller) { m_viewportController = controller; }
 
     // Handle mouse move event
-    virtual void MouseMove(const QPointF& pos, QMouseEvent* mouseEvent, Qt::KeyboardModifiers ModifierKeys) = 0;
+    virtual void MouseMove(const QPointF& pos, QMouseEvent* mouseEvent, Qt::KeyboardModifiers modifierKeys) = 0;
 
     // Handle mouse wheel event
-    virtual void MouseWheel(const QPointF& pos, MouseWheelEnum wheel, int delta, QInputEvent* device, Qt::KeyboardModifiers ModifierKeys) = 0;
+    virtual void mouseWheel(const QPointF& pos, MouseWheel wheel, int delta, QInputEvent* device, Qt::KeyboardModifiers modifierKeys) = 0;
 
     // Handle mouse down event
-    virtual void MouseDown(const QPointF& pos, Qt::MouseButton changedButton, int clickCount, QMouseEvent* mouseEvent, Qt::KeyboardModifiers ModifierKeys) = 0;
+    virtual void MouseDown(const QPointF& pos, Qt::MouseButton changedButton, int clickCount, QMouseEvent* mouseEvent, Qt::KeyboardModifiers modifierKeys) = 0;
 
     // Handle mouse up event
-    virtual void MouseUp(const QPointF& pos, Qt::MouseButton changedButton, QMouseEvent* mouseEvent, Qt::KeyboardModifiers ModifierKeys) = 0;
+    virtual void MouseUp(const QPointF& pos, Qt::MouseButton changedButton, QMouseEvent* mouseEvent, Qt::KeyboardModifiers modifierKeys) = 0;
 
     // Cancel any ongoing operation
-    virtual void Cancel() = 0;
+    virtual void cancel() = 0;
 
-protected:
-    Handle(sun::ViewportController) _ViewportController;
+ private:
+    Sun_ViewportController* m_viewportController;
 };
 
-}  // namespace sun
-
-#endif  // IACT_VIEWPORT_IVIEWPORTMOUSECONTROL_H_
+#endif  // SRC_IACT_VIEWPORT_IVIEWPORTMOUSECONTROL_H_

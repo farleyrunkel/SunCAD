@@ -12,9 +12,6 @@
 #include "Iact/HudElements/IHudManager.h"
 #include "Iact/HudElements/HudElement.h"
 
-namespace sun 
-{
-
 class HudContainer : public QFrame, public IHudManager
 {
 	Q_OBJECT
@@ -23,14 +20,14 @@ class HudContainer : public QFrame, public IHudManager
 public:
 	explicit HudContainer(QWidget* parent = nullptr);
 
-	virtual void AddElement(HudElement* element) override;
-	virtual void RemoveElement(HudElement* element) override {}
-	virtual void RemoveElements(std::function<bool(HudElement*)> predicate) override {}
+	virtual void AddElement(IHudElement* element) override;
+	virtual void RemoveElement(IHudElement* element) override {}
+	virtual void RemoveElements(std::function<bool(IHudElement*)> predicate) override {}
 
 	// virtual void SetCursor(QObject* owner, Cursor* cursor)  {}
 	virtual void SetHintMessage(const QString& message) override;
 
-	QList<HudElement*>& HudElements() {
+	QList<IHudElement*>& HudElements() {
 		return _HudElements;
 	}
 
@@ -39,13 +36,26 @@ protected:
 		emit MouseMoved(theEvent->x(), theEvent->y());
 	}
 
+private:
+	void _UpdateSize()
+	{
+		int maxWidth = 0;
+		int accHeight = 0;
+		for (auto* element : _HudElements) {
+			maxWidth = std::max(maxWidth, element->width());
+			accHeight += element->height();		
+		}
+		qDebug() << "_UpdateSize: " << maxWidth << ", " << accHeight;
+		setFixedSize(maxWidth, accHeight);
+	}
+
 signals:
 	void MouseMoved(int x, int y);
 	void HintMessageChanged(const QString& message);
 
 private:
 	QString _HintMessage;
-	QList<HudElement*> _HudElements;
+	QList<IHudElement*> _HudElements;
 };
-}
+
 #endif  // IACT_HUD_ELEMENTS_HUDCONATAINER_H_

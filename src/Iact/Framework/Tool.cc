@@ -3,96 +3,87 @@
 #include "Iact/Framework/Tool.h"
 
 #include "Iact/Workspace/WorkspaceController.h"
-#include "Iact/Framework/ToolAction.h"
 
-using namespace sun;
-
-Tool::Tool() : WorkspaceControl(),
-	_Id(typeid(*this).name()) {
+Tool::Tool(QObject* parent) : WorkspaceControl(),
+	m_id(typeid(*this).name()) {
 }
 
-bool Tool::Start() {
+bool Tool::start() {
 	if (OnStart()) {
-		_IsActive = true;
+		m_isActive = true;
 		WorkspaceController()->Invalidate();
 		return true;
 	}
 	return false;
 }
 
-bool Tool::OnStart() {
-	return false;
+bool Tool::OnStart() { return false; }
+
+ToolAction* Tool::currentAction() const {
+	return m_toolActions.size() > 0 ? m_toolActions.first() : nullptr;
 }
 
-ToolAction* Tool::CurrentAction() const {
-	return _ToolActions.size() > 0 ? _ToolActions.first() : nullptr;
-}
-
-bool Tool::Cancel(bool force) {
-	if (!OnCancel() && !force)
+bool Tool::cancel(bool force) {
+	if (!onCancel() && !force)
 		return false;
 
-	if (_IsActive)
-		Stop();
+	if (m_isActive)
+		stop();
 	return true;
 }
 
-void Tool::Stop() {
-	_IsActive = false;
-	OnStop();
+void Tool::stop() {
+	m_isActive = false;
+	onStop();
 	Cleanup();
 
-	//WorkspaceController()->RemoveTool(this);
+	WorkspaceController()->removeTool(this);
 	WorkspaceController()->Invalidate();
 }
 
-QString Tool::Id() const {
-	return _Id;
+QString Tool::id() const { return m_id; }
+
+bool Tool::prepareUndo() {
+	return cancel(false);
 }
 
-bool Tool::PrepareUndo() {
-	return Cancel(false);
-}
-
-QList<Handle(WorkspaceControl)> Tool::GetChildren() const {
+QList<WorkspaceControl*> Tool::GetChildren() const {
 	qDebug() << "Debug: Tool::GetChildren";
-	return {_ToolActions.begin(), _ToolActions.end()};
+	return { m_toolActions.begin(), m_toolActions.end() };
 }
 
-bool Tool::OnCancel() {
+bool Tool::onCancel() {
 	return true;
 }
 
-void Tool::OnStop() {}
+void Tool::onStop() {}
 
-void Tool::Cleanup() 
-{
+void Tool::Cleanup() {
 	//StopAllActions();
 	//RestoreAllVisualShapes();
 	//BaseCleanup();
 }
 
-bool Tool::StartAction(ToolAction* toolAction, bool exclusive)
-{
-	if (_ToolActions.contains(toolAction)) {
+bool Tool::StartAction(ToolAction* toolAction, bool exclusive) {
+	if (!m_toolActions.isEmpty() && std::find(m_toolActions.begin(), m_toolActions.end(), toolAction) != m_toolActions.end())
 		return true;
-	}
 
 	try {
 		if (exclusive) {
-			StopAllActions();
+			stopAllActions();
 		}
 
 		if (toolAction != nullptr) {
-			toolAction->SetWorkspaceController(WorkspaceController());
-			if (!toolAction->Start())
+			toolAction->setWorkspaceController(WorkspaceController());
+			if (!toolAction->start())
 				return false;
 
-			_ToolActions.insert(_ToolActions.begin(), toolAction);
-			ToolActionChanged(toolAction);
+			m_toolActions.insert(m_toolActions.begin(), toolAction);
+			emit toolActionChanged(toolAction);
 		}
 		return true;
-	} catch (const std::exception& e) {
+	}
+	catch (const std::exception& e) {
 		// std::cerr << "Starting tool action failed: " << e.what() << std::endl;
 		return false;
 	}
@@ -102,17 +93,16 @@ void Tool::StopAction(ToolAction* toolAction) {
 	if (toolAction == nullptr)
 		return;
 
-	if (!_ToolActions.isEmpty()) {
-		_ToolActions.removeOne(toolAction);
-	}
+	if (!m_toolActions.isEmpty())
+		m_toolActions.erase(std::remove(m_toolActions.begin(), m_toolActions.end(), toolAction), m_toolActions.end());
 
-	toolAction->Stop();
-	emit ToolActionChanged(toolAction);
+	toolAction->stop();
+	emit toolActionChanged(toolAction);
 }
 
-void Tool::StopAllActions() {
-	for (const auto& action : _ToolActions) {
+void Tool::stopAllActions() {
+	for (const auto& action : m_toolActions) {
 		StopAction(action);
 	}
-	_ToolActions.clear();
+	m_toolActions.clear();
 }

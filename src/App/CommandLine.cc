@@ -5,33 +5,32 @@
 #include <iostream>
 #include <string>
 
-using namespace sun;
-
 CommandLine::CommandLine(int argc, char* argv[])
-    : _Options(argv[0], " - Command line options") {
+    : mOptions(argv[0], " - Command line options") {
     try {
         // Define mOptions
-        _Options.add_options()
-            ("sandbox", "Enable sandbox", cxxopts::value<bool>(_EnableSandbox)->default_value("false"))
-            ("nowelcome", "Disable welcome", cxxopts::value<bool>(_NoWelcomeDialog)->default_value("false"))
-            ("runscript", "Script to run", cxxopts::value<std::string>(_ScriptToRun))
-            ("input", "Path to open", cxxopts::value<std::string>(_PathToOpen))
+        mOptions.add_options()
+            ("sandbox", "Enable sandbox", cxxopts::value<bool>(mEnableSandbox)->default_value("false"))
+            ("nowelcome", "Disable welcome", cxxopts::value<bool>(mNoWelcomeDialog)->default_value("false"))
+            ("runscript", "Script to run", cxxopts::value<std::string>(mScriptToRun))
+            ("input", "Path to open", cxxopts::value<std::string>(mPathToOpen))
             ("help", "Show help");
 
         // Parse mOptions
-        auto result = _Options.parse(argc, argv);
+        auto result = mOptions.parse(argc, argv);
 
         // Show help if requested
         if (result.count("help")) {
-            std::cout << _Options.help() << std::endl;
+            std::cout << mOptions.help() << std::endl;
             return;  // Use return instead of exit
         }
 
         // Set path if unmatched arguments exist
         if (!result.unmatched().empty()) {
-            _PathToOpen = result.unmatched().at(0);
+            mPathToOpen = result.unmatched().at(0);
         }
-    } catch (const cxxopts::exceptions::exception& e) {
+    }
+    catch (const cxxopts::exceptions::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
         return;  // Use return instead of exit
     }

@@ -2,8 +2,6 @@
 
 #include "Iact/Framework/Editor.h"
 
-using namespace sun;
+Editor::Editor(QObject* parent) {}
 
-Editor::Editor() {}
-
-void Editor::StopTool() {}
+void Editor::stopTool() {}

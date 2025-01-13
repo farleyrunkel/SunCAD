@@ -1,74 +1,22 @@
 // Copyright [2024] SunCAD
 
-#ifndef COMM_BASEOBJECT_H_
-#define COMM_BASEOBJECT_H_
+#ifndef SRC_COMM_BASEOBJECT_H_
+#define SRC_COMM_BASEOBJECT_H_
 
-#include <any>
-#include <memory>
-#include <string>
+#include <QObject>
+#include <QString>
 
-#include <boost/signals2.hpp>
-#include <boost/uuid/nil_generator.hpp>
-#include <boost/uuid/uuid.hpp>
+class BaseObject : public QObject {
+	Q_OBJECT
 
-#include <Standard_Handle.hxx>
-#include <Standard_Transient.hxx>
+ public:
+	BaseObject(QObject* parent = nullptr) : QObject(parent) {}
 
-#include "Comm/PropertyChangedEventArgs.h"
+ protected: 
+	virtual void RaisePropertyChanged(const QString& propertyName = "");
 
-namespace sun 
-{
-
-class BaseObject : public Standard_Transient
-{
-public:
-    BaseObject() : SuppressPropertyChangedEvent(false), IsDeserializing(false) {}
-
-    // Property to control event suppression
-    bool SuppressPropertyChangedEvent;
-
-    // To handle the event notification
-    virtual void RaisePropertyChanged(const std::string& propertyName = "") 
-    {
-        if (PropertyChanged.num_slots() != 0 && !SuppressPropertyChangedEvent) {
-            PropertyChanged(std::make_shared<PropertyChangedEventArgs>(propertyName, this));
-        }
-    }
-
-    // Serialization and deserialization state
-    bool IsDeserializing;
-
-    virtual void OnBeforeUndo() {}
-
-    virtual void OnAfterUndo() {}
-
-    // Serialization methods (placeholders)
-    virtual void OnBeginSerializing() {}
-
-    virtual void OnSerialized() {}
-
-    virtual void OnBeginDeserializing() 
-    {
-        IsDeserializing = true;
-    }
-
-    virtual void OnDeserialized() 
-    {
-        IsDeserializing = false;
-    }
-
-    // Guid equivalent method
-    virtual boost::uuids::uuid GetReferenceId() 
-    {
-        return boost::uuids::nil_uuid();  // Return nil UUID as default
-    }
-
-//signals:
-    boost::signals2::signal<void(const std::shared_ptr<PropertyChangedEventArgs>&)> PropertyChanged;
+ signals:
+	void propertyChanged(const QString& property);
 };
 
-#define nameof(T) T::get_type_name()
-
-}  // namespace sun
-
-#endif  // COMM_BASEOBJECT_H_
+#endif  // SRC_COMM_BASEOBJECT_H_

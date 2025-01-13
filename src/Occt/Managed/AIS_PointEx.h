@@ -4,17 +4,12 @@
 #define OCCT_MANAGED_AIS_POINTEX_H_
 
 #include <AIS_Point.hxx>
-#include <Geom_Point.hxx>
 #include <Prs3d_Drawer.hxx>
-#include <Prs3d_Presentation.hxx>
-#include <PrsMgr_PresentationManager.hxx>
+#include <Geom_Point.hxx>
 #include <Quantity_Color.hxx>
-#include <Standard_Handle.hxx>
+#include <PrsMgr_PresentationManager.hxx>
+#include <Prs3d_Presentation.hxx>
 
-
-namespace sun {
-
-DEFINE_STANDARD_HANDLE(AIS_PointEx, AIS_Point);
 
 class AIS_PointEx : public AIS_Point
 {
@@ -29,8 +24,9 @@ public:
                  const opencascade::handle<Prs3d_Presentation>& aPresentation, Standard_Integer aMode) override;
 
 private:
-    Handle(Prs3d_Drawer) myBackgroundDrawer = nullptr;
+    Handle(Prs3d_Drawer) myBackgroundDrawer;
 };
 
-}
+DEFINE_STANDARD_HANDLE(AIS_PointEx, AIS_Point)
+
 #endif  // OCCT_MANAGED_AIS_POINTEX_H_

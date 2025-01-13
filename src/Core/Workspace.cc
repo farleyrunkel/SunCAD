@@ -3,67 +3,68 @@
 #include "Core/Workspace.h"
 
 #include <AIS_ViewCube.hxx>
-#include <Aspect_DisplayConnection.hxx>
 #include <Aspect_Handle.hxx>
+#include <Aspect_DisplayConnection.hxx>
 #include <Graphic3d_GraphicDriver.hxx>
-#include <OpenGl_GraphicDriver.hxx>
 #include <Prs3d_ArrowAspect.hxx>
-#include <Quantity_Color.hxx>
+#include <OpenGl_GraphicDriver.hxx>
+#include <V3d_View.hxx>
 #include <V3d_AmbientLight.hxx>
-#include <V3d_DirectionalLight.hxx>
 #include <V3d_TypeOfOrientation.hxx>
 #include <V3d_TypeOfVisualization.hxx>
-#include <V3d_View.hxx>
+#include <Quantity_Color.hxx>
+#include <V3d_DirectionalLight.hxx>
 
-#include "Core/Extensions/ColorExtensions.h"
-#include "Core/Project/VisualStyles.h"
+#include "Core/Viewport.h"
+#include "Core/Topology/Model.h"
 #include "Core/Project/WorkingContext.h"
 
-using namespace sun;
+//--------------------------------------------------------------------------------------------------
+// Constructor and Destructor
 
-void Workspace::Init() 
-{
-    _GlobalWorkingContext = new sun::WorkingContext();
+Sun::Workspace::Workspace()
+    : _V3dViewer(nullptr),
+      _AisContext(nullptr),
+      _GridEnabled(true),
+      _NeedsRedraw(false),
+      _NeedsImmediateRedraw(false),
+      _CurrentWorkingContext(nullptr),
+      _GlobalWorkingContext(new Sun_WorkingContext),
+      _Model(nullptr) {
+    Init();
+}
+
+Sun::Workspace::Workspace(Model* model) 
+    : Sun::Workspace() {
+    Init();
+    _Model = model;
+    _Viewports.append(new Sun_Viewport(this));
+}
+
+//Workspace::~Workspace() {
+//    // Cleanup Viewports
+//    for (auto viewport : m_viewports) {
+//        delete viewport;
+//    }
+//    m_viewports.clear();
+//}
+
+void Sun::Workspace::Init() {
     _CurrentWorkingContext = _GlobalWorkingContext;
-    _GridEnabled = true;
 }
 
-void Workspace::InitAisContext() 
-{
-    if (_V3dViewer.IsNull()) {
-        InitV3dViewer();
-    }
-
+void Sun::Workspace::_ApplyWorkingContext() {
     if (_AisContext.IsNull()) {
-        _AisContext = new AIS_InteractiveContext(_V3dViewer);
-        _AisContext->UpdateCurrentViewer();
+        //_V3dViewer->SetPrivilegedPlane(_CurrentWorkingContext->WorkingPlane.Position());
     }
-
-    _AisContext->SetAutoActivateSelection(true);
-    _AisContext->SetToHilightSelected(false);
-    _AisContext->SetPickingStrategy(SelectMgr_PickingStrategy::SelectMgr_PickingStrategy_OnlyTopmost);
-    _AisContext->SetDisplayMode(AIS_DisplayMode::AIS_Shaded, false);
-    _V3dViewer->DisplayPrivilegedPlane(false, 1.0);
-    _AisContext->EnableDrawHiddenLine();
-
-    // Reinit ais parameters
-    _ApplyWorkingContext();
-    _AisContext->SetPixelTolerance(2);
-
-    auto drawer = _AisContext->DefaultDrawer();
-    drawer->SetWireAspect(new Prs3d_LineAspect(ColorExtensions::ToQuantityColor(Colors::Selection), Aspect_TOL_SOLID, 1.0));
-    drawer->SetTypeOfHLR(Prs3d_TypeOfHLR::Prs3d_TOH_PolyAlgo);
-
-    // try to set all AIS_InteractiveContext options for test 
-    auto style = new Prs3d_Drawer();
-    style->SetFaceBoundaryDraw(true);
-    style->SetArrowAspect(new Prs3d_ArrowAspect(1.0, 35.0));
-    style->SetFaceBoundaryAspect(new Prs3d_LineAspect(Quantity_NOC_BLACK, Aspect_TOL_SOLID, 1.0));
-    _AisContext->SetHighlightStyle(style);
+    //RaisePropertyChanged(nameof(WorkingPlane));
+    emit GridChanged(this);
 }
 
-void Workspace::InitV3dViewer() 
-{
+//--------------------------------------------------------------------------------------------------
+// Initialize V3d_Viewer and AIS_InteractiveContext
+
+void Sun::Workspace::initV3dViewer() {
     if (_V3dViewer.IsNull()) {
         Handle(Aspect_DisplayConnection) aDisp = new Aspect_DisplayConnection();
         Handle(OpenGl_GraphicDriver) aDriver = new OpenGl_GraphicDriver(aDisp, false);
@@ -84,10 +85,115 @@ void Workspace::InitV3dViewer()
 
     _V3dViewer->SetDefaultViewSize(1000.0);
     _V3dViewer->SetDefaultViewProj(V3d_TypeOfOrientation::V3d_XposYposZpos);
-    _V3dViewer->SetDefaultBackgroundColor(Quantity_Color(NCollection_Vec3{0.3f, 0.3f, 0.3f}));
+    _V3dViewer->SetDefaultBackgroundColor(Quantity_Color(NCollection_Vec3{ 0.3f, 0.3f, 0.3f }));
     _V3dViewer->SetDefaultVisualization(V3d_TypeOfVisualization::V3d_ZBUFFER);
     _V3dViewer->SetLightOn(new V3d_DirectionalLight(V3d_TypeOfOrientation::V3d_Zneg, Quantity_Color(Quantity_NOC_WHITE), true));
     _V3dViewer->SetLightOn(new V3d_AmbientLight(Quantity_Color(Quantity_NOC_WHITE)));
 
     _ApplyWorkingContext();
 }
+
+void Sun::Workspace::initAisContext() {
+    if (_V3dViewer.IsNull()) {
+        initV3dViewer();
+    }
+
+    if (_AisContext.IsNull()) {
+        _AisContext = new AIS_InteractiveContext(_V3dViewer);
+        _AisContext->UpdateCurrentViewer();
+    }
+
+    _AisContext->SetAutoActivateSelection(true);
+    _AisContext->SetToHilightSelected(false);
+    _AisContext->SetPickingStrategy(SelectMgr_PickingStrategy::SelectMgr_PickingStrategy_OnlyTopmost);
+    _AisContext->SetDisplayMode(AIS_DisplayMode::AIS_Shaded, false);
+    _V3dViewer->DisplayPrivilegedPlane(false, 1.0);
+    _AisContext->EnableDrawHiddenLine();
+
+    // Reinit ais parameters
+    _ApplyWorkingContext();
+    _AisContext->SetPixelTolerance(2);
+
+    auto drawer = _AisContext->DefaultDrawer();
+    drawer->SetWireAspect(new Prs3d_LineAspect(ColorExtensions::toQuantityColor(Colors::Selection), Aspect_TOL_SOLID, 1.0));
+    drawer->SetTypeOfHLR(Prs3d_TypeOfHLR::Prs3d_TOH_PolyAlgo);
+
+    // try to set all AIS_InteractiveContext options for test 
+    auto style = new Prs3d_Drawer();
+    style->SetFaceBoundaryDraw(true);
+    style->SetArrowAspect(new Prs3d_ArrowAspect(1.0, 35.0));
+    style->SetFaceBoundaryAspect(new Prs3d_LineAspect(Quantity_NOC_BLACK, Aspect_TOL_SOLID, 1.0));
+    _AisContext->SetHighlightStyle(style);
+}
+
+void Sun::Workspace::SetWorkingPlane(const gp_Pln& value) {
+    _CurrentWorkingContext->SetWorkingPlane(value);
+    //Model::MarkAsUnsaved();
+    _ApplyWorkingContext();
+}
+
+Handle(V3d_Viewer) Sun::Workspace::v3dViewer() const {
+    return _V3dViewer;
+}
+
+Handle(AIS_InteractiveContext) Sun::Workspace::aisContext() const {
+    return _AisContext;
+}
+
+bool Sun::Workspace::needsRedraw() const {
+    return _NeedsRedraw;
+}
+
+bool Sun::Workspace::needsImmediateRedraw() const {
+    return _NeedsImmediateRedraw;
+}
+
+void Sun::Workspace::setGridEnabled(bool value) {
+    if (_GridEnabled != value) {
+        _GridEnabled = value;
+        //Model.MarkAsUnsaved();
+        RaisePropertyChanged();
+        _RaiseGridChanged();
+    }
+}
+
+Sun::Workspace::GridTypes Sun::Workspace::GridType() const {
+    return _CurrentWorkingContext->GridType(); 
+}
+
+Sun_WorkingContext* Sun::Workspace::workingContext() const {
+    return _CurrentWorkingContext; 
+}
+
+const gp_Pln& Sun::Workspace::WorkingPlane() const {
+    return _CurrentWorkingContext->WorkingPlane();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Setters
+
+void Sun::Workspace::setNeedsRedraw(bool value) {
+    _NeedsRedraw = value;
+}
+
+void Sun::Workspace::setNeedsImmediateRedraw(bool value) {
+    _NeedsImmediateRedraw = value;
+}
+
+//--------------------------------------------------------------------------------------------------
+// Viewport handling
+//
+//std::vector<Viewport*>& Workspace::viewports() {
+//    return m_viewports;
+//}
+
+//--------------------------------------------------------------------------------------------------
+// Model handling
+
+//const Model* Workspace::model() const {
+//    return m_model;
+//}
+//
+//void Workspace::setModel(Model* model) {
+//    m_model = model;
+//}

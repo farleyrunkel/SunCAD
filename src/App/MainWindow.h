@@ -1,7 +1,7 @@
 // Copyright [2024] SunCAD
 
-#ifndef APP_MAINWINDOW_H_
-#define APP_MAINWINDOW_H_
+#ifndef SRC_APP_MAINWINDOW_H_
+#define SRC_APP_MAINWINDOW_H_
 
 #include <QWidget>
 
@@ -12,34 +12,28 @@
 
 #include "App/Commands/AppCommands.h"
 
-namespace sun 
-{
-
-class MainWindow : public SARibbonMainWindow 
-{
+class MainWindow : public SARibbonMainWindow {
     Q_OBJECT
 
-public:
-    explicit MainWindow(QWidget* parent = nullptr);
+ public:
+     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow() override;
 
-private:
-    void SetupUi();
-    void SetupDockWidgets();
-    void SetupAppButton();
-    void SetupCategories();
+ private:
+    void setupUi();
+    void setupDockWidgets();
+    void setupAppButton();
+    void setupCategories();
 
-    QAction* CreateAction(const QString& text, const QString& iconurl);
+    QAction* createAction(const QString& text, const QString& iconurl);
 
-    void OnMainWindowLoaded();
+    void onMainWindowLoaded();
 
-private:
-    QMenu* _AppButton = nullptr;
-    SARibbonBar* _RibbonBar = nullptr;
+ private:
+    QMenu* m_appButton = nullptr;
+    SARibbonBar* m_ribbonBar = nullptr;
     // The main container for docking
-    ads::CDockManager* _DockManager = nullptr;
+    ads::CDockManager* m_dockManager = nullptr;
 };
 
-}  // namespace sun
-
-#endif  // APP_MAINWINDOW_H_
+#endif  // SRC_APP_MAINWINDOW_H_

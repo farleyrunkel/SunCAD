@@ -1,69 +1,33 @@
 // Copyright [2024] SunCAD
 
-#ifndef CORE_TOPOLOGY_MODEL_H_
-#define CORE_TOPOLOGY_MODEL_H_
+#ifndef SRC_CORE_TOPOLOGY_MODEL_H_
+#define SRC_CORE_TOPOLOGY_MODEL_H_
 
-#include <string>
+#include <QObject>
+#include <QVector>
 
-#include <boost/signals2.hpp>
+#include "Core/Workspace.h"
 
-#include <NCollection_Vector.hxx>
-#include <Standard_Handle.hxx>
+class Model : public QObject {
+	Q_OBJECT
 
-#include "Comm/BaseObject.h"
-#include "Core/Topology/Document.h"
-#include "Core/Topology/Entity.h"
+ public:
+	Model();
 
-namespace sun 
-{
+	QVector<Sun::Workspace*>& workspaces();
 
-class Workspace;
+ public:
+	static QString fileExtension() { return "step"; };
+	QString filePath() { return ""; }
+	bool save() { return false; }
 
-DEFINE_STANDARD_HANDLE(Model, Document)
+	bool hasUnsavedChanges() { return false; }
 
-class Model : public Document
-{
-public:
-    Model();
+ signals:
+	void resetUnsavedChanges();
 
-    virtual void RegisterInstance(const Handle(Entity)& entity) {}
-    virtual void UnregisterInstance(const Handle(Entity)& entity) {}
-    virtual Handle(Entity) FindInstance(const QUuid& instanceGuid) {
-        return nullptr;
-    }
-
-    virtual void InstanceChanged(const Handle(Entity)& entity) {}
-
-    NCollection_Vector<Handle(sun::Workspace)>& Workspaces() {
-        return _Workspaces;
-    }
-
-    static std::string FileExtension() {
-        return "step";
-    }
-
-    std::string FilePath() const {
-        return "";
-    }
-
-    bool Save() const {
-        return false;
-    }
-
-    bool HasUnsavedChanges() const {
-        return false;
-    }
-
-    void ResetUnsavedChanges() {}
-
-public:
-    // Signals
-    boost::signals2::signal<void()> OnResetUnsavedChanges;
-
-private:
-    NCollection_Vector<Handle(sun::Workspace)> _Workspaces;
+ private:
+	QVector<Sun::Workspace*> m_workspaces;
 };
 
-} // namespace sun
- 
-#endif  // CORE_TOPOLOGY_MODEL_H_
+#endif  // SRC_CORE_TOPOLOGY_MODEL_H_

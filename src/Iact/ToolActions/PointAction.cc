@@ -6,55 +6,49 @@
 
 #include "Iact/Workspace/WorkspaceController.h"
 
-using namespace sun;
-
-PointAction::PointAction()
-    : ToolAction()
-    , _Marker(nullptr) 
-{
+PointAction::PointAction() 
+    : ToolAction(),
+      _IsFinished(false),
+      _Marker(nullptr){
     qDebug() << "Debug: PointAction::PointAction";
 }
 
-bool PointAction::OnStart()
+bool PointAction::onStart() 
 {
     qDebug() << "Debug: PointAction::OnStart";
     return true;
 }
 
-bool PointAction::OnMouseMove(MouseEventData* data) 
-{
-    qDebug() << "- PointAction::OnMouseMove";
+bool PointAction::onMouseMove(MouseEventData* data) {
+    qDebug() << "Debug: PointAction::onMouseMove";
     if (!_IsFinished) {
         _EnsureMarker();
         ProcessMouseInput(data);
-        auto workingPlane = WorkspaceController()->Workspace()->WorkingPlane();
-
         EventArgs* args = new EventArgs(
             _CurrentPoint,
-            ProjLib::Project(workingPlane, _CurrentPoint),
+            ProjLib::Project(WorkspaceController()->Workspace()->WorkingPlane(), _CurrentPoint),
             _CurrentPoint,
             data
         );
 
-        Preview(args);
+        emit Preview(args);
+        qDebug() << "Debug: _Marker->Set(args->Point): " << args->Point.X() << " " << args->Point.Y();
 
         _Marker->Set(args->Point);
         WorkspaceController()->Invalidate();
-        return ToolAction::OnMouseMove(data);
+        return ToolAction::onMouseMove(data);
     }
 
     return false;
 }
 
-bool PointAction::OnMouseDown(MouseEventData* data) 
-{
-    return false;
+bool PointAction::onMouseDown(MouseEventData* data) { 
+    return false; 
 }
 
-bool PointAction::OnMouseUp(MouseEventData* data) 
-{
+bool PointAction::onMouseUp(MouseEventData* data) {
     if (!_IsFinished) {
-
+        
         ProcessMouseInput(data);
         _IsFinished = true;
         auto args = new EventArgs(
@@ -64,21 +58,19 @@ bool PointAction::OnMouseUp(MouseEventData* data)
             data
         );
 
-        Finished(args);
+        emit Finished(args);
     }
-    return false;
+    return false; 
 }
 
-void PointAction::_EnsureMarker() 
-{
-    if (_Marker.IsNull()) {
+void PointAction::_EnsureMarker() {
+    if (_Marker == nullptr) {
         _Marker = new Marker(WorkspaceController(), Marker::Styles::Bitmap, Marker::PlusImage());
         Add(_Marker);
     }
 }
 
-void PointAction::ProcessMouseInput(MouseEventData* data) 
-{
+void PointAction::ProcessMouseInput(MouseEventData* data) {
     qDebug() << "Debug: PointAction::ProcessMouseInput";
     {
         _CurrentPoint = data->PointOnPlane;
