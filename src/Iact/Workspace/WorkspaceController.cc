@@ -40,12 +40,12 @@ Sun_WorkspaceController::Sun_WorkspaceController(Sun::Workspace* workspace)
 
 void Sun_WorkspaceController::InitWorkspace() {
     // init V3dViewer and AisContext
-    Workspace()->initV3dViewer();
-    Workspace()->initAisContext();
+    workspace()->initV3dViewer();
+    workspace()->initAisContext();
     initVisualSettings();
 
-    // 遍历所有 Viewport 并添加到 _viewControllers 列表
-    for (auto& View : Workspace()->viewports()) {
+    // 遍历所有 viewport 并添加到 _viewControllers 列表
+    for (auto& View : workspace()->viewports()) {
         _ViewportControllers.append(new Sun_ViewportController(View, this));
     }
 
@@ -54,8 +54,8 @@ void Sun_WorkspaceController::InitWorkspace() {
 
     AisHelper::disableGlobalClipPlanes(_Grid);
 
-    if (Workspace()->aisContext()) {
-       Workspace()->aisContext()->Display(_Grid, 0, -1, false);
+    if (workspace()->aisContext()) {
+       workspace()->aisContext()->Display(_Grid, 0, -1, false);
     }
 
     //// 初始化 VisualObjects 并更新网格
@@ -63,7 +63,27 @@ void Sun_WorkspaceController::InitWorkspace() {
     _UpdateGrid();
 }
 
-Tool* Sun_WorkspaceController::currentTool() const { 
+Sun_ViewportController* Sun_WorkspaceController::GetViewController(int viewIndex) const {
+    if (viewIndex < 0 || viewIndex >= _ViewportControllers.size()) {
+        return nullptr;
+    }
+    return _ViewportControllers[viewIndex];
+}
+
+Sun_ViewportController* Sun_WorkspaceController::GetViewController(Sun_Viewport* viewport) const {
+    if (viewport == nullptr) {
+        return nullptr;
+    }
+
+    auto it = std::find_if(_ViewportControllers.begin(), _ViewportControllers.end(),
+                           [viewport](Sun_ViewportController* vc) {
+        return vc->viewport() == viewport;
+    });
+
+    return (it != _ViewportControllers.end()) ? *it : nullptr;
+}
+
+Tool* Sun_WorkspaceController::currentTool() const {
     return _CurrentTool; 
 }
 
@@ -117,7 +137,7 @@ void Sun_WorkspaceController::_Viewport_ViewportChanged(Sun_Viewport* sender)
 {
     if (std::any_of(_ViewportControllers.begin(), _ViewportControllers.end(),
         [sender](Sun_ViewportController* vc) {
-            return vc->Viewport() == sender;
+            return vc->viewport() == sender;
         })) {
         _RecalculateGridSize();
         _UpdateParameter();
@@ -137,9 +157,9 @@ void Sun_WorkspaceController::_UpdateGrid()
     if (_Grid.IsNull())
         return;
 
-    Sun_WorkingContext* wc = Workspace()->workingContext();
+    Sun_WorkingContext* wc = workspace()->workingContext();
 
-    if (Workspace()->gridEnabled())
+    if (workspace()->gridEnabled())
     {
         gp_Ax3 position = wc->WorkingPlane().Position();
         if (wc->GridRotation() != 0)
@@ -152,16 +172,16 @@ void Sun_WorkspaceController::_UpdateGrid()
 
         if (wc->GridType() == Sun::Workspace::GridTypes::Rectangular)
         {
-            Workspace()->aisContext()->SetDisplayMode(_Grid, 1, false);
+            workspace()->aisContext()->SetDisplayMode(_Grid, 1, false);
         }
         else
         {
-            Workspace()->aisContext()->SetDisplayMode(_Grid, 2, false);
+            workspace()->aisContext()->SetDisplayMode(_Grid, 2, false);
         }
     }
     else
     {
-        Workspace()->aisContext()->SetDisplayMode(_Grid, 0, false);
+        workspace()->aisContext()->SetDisplayMode(_Grid, 0, false);
     }
 
     _GridNeedsUpdate = false;
@@ -169,7 +189,7 @@ void Sun_WorkspaceController::_UpdateGrid()
 
 void Sun_WorkspaceController::initVisualSettings() 
 {
-    auto aisContext = Workspace()->aisContext();
+    auto aisContext = workspace()->aisContext();
 
     // _UpdateParameter();
 
@@ -230,7 +250,7 @@ void Sun_WorkspaceController::MouseMove(Sun_ViewportController* vc, QPointF pos,
 {   
     gp_Pnt planePoint;
 
-    if (!vc->Viewport()->ScreenToPoint(Workspace()->WorkingPlane(), (int)pos.x(), (int)pos.y(), planePoint)) {
+    if (!vc->viewport()->ScreenToPoint(workspace()->WorkingPlane(), (int)pos.x(), (int)pos.y(), planePoint)) {
         SetCursorPosition(gp_Pnt());
         SetCursorPosition2d(gp_Pnt2d());
     }
@@ -239,7 +259,7 @@ void Sun_WorkspaceController::MouseMove(Sun_ViewportController* vc, QPointF pos,
     _LastDetectedAisObject = nullptr;
     _LastDetectedOwner = nullptr;
 
-    _MouseEventData->set(vc->Viewport(), pos, planePoint, modifiers);
+    _MouseEventData->set(vc->viewport(), pos, planePoint, modifiers);
 
     qDebug() << "Debug: _WorkspaceController::MouseMove: " << pos;
     for (const auto& handler : enumerateControls()) {
@@ -271,7 +291,7 @@ bool Sun_WorkspaceController::cancelTool(Tool* tool, bool force) {
     return true;
 }
 
-Sun::Workspace* Sun_WorkspaceController::Workspace() const { 
+Sun::Workspace* Sun_WorkspaceController::workspace() const { 
     return _Workspace; 
 }
 
@@ -290,7 +310,7 @@ Sun_ViewportController* Sun_WorkspaceController::viewportController(Sun_Viewport
 
     auto it = std::find_if(_ViewportControllers.begin(), _ViewportControllers.end(),
         [Viewport](const Sun_ViewportController* vc) {
-            return vc->Viewport() == Viewport;
+            return vc->viewport() == Viewport;
         });
 
     return (it != _ViewportControllers.end()) ? *it : nullptr;

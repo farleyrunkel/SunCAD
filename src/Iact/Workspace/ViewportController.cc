@@ -44,28 +44,28 @@ QString Sun_ViewportController::DumpInfo(bool theIsBasic, bool theToPrint) {
 }
 
 void Sun_ViewportController::MouseMove(const QPointF& pos, Qt::KeyboardModifiers modifiers, MouseMoveMode mode) {
-	WorkspaceController()->MouseMove(this, pos, modifiers);
-	WorkspaceController()->Invalidate();
+	workspaceController()->MouseMove(this, pos, modifiers);
+	workspaceController()->Invalidate();
 }
 
 void Sun_ViewportController::MouseDown(Qt::KeyboardModifiers modifiers) {
-	WorkspaceController()->MouseDown(this, modifiers);
-	WorkspaceController()->Invalidate();
+	workspaceController()->MouseDown(this, modifiers);
+	workspaceController()->Invalidate();
 }
 
 void Sun_ViewportController::MouseUp(Qt::KeyboardModifiers modifiers) {
-	WorkspaceController()->MouseUp(this, modifiers);
-	WorkspaceController()->Invalidate();
+	workspaceController()->MouseUp(this, modifiers);
+	workspaceController()->Invalidate();
 }
 
 void Sun_ViewportController::SetPredefinedView(PredefinedViews predefinedView) {
 	if (predefinedView == PredefinedViews::WorkingPlane) {
-		const auto& plane = WorkspaceController()->Workspace()->WorkingPlane();
+		const auto& plane = workspaceController()->workspace()->WorkingPlane();
 		const auto& dir = plane.Axis().Direction();
-		Viewport()->View()->SetProj(dir.X(), dir.Y(), dir.Z());
+		viewport()->View()->SetProj(dir.X(), dir.Y(), dir.Z());
 
 		const auto& up = plane.YAxis().Direction();
-		Viewport()->View()->SetUp(up.X(), up.Y(), up.Z());
+		viewport()->View()->SetUp(up.X(), up.Y(), up.Z());
 		return;
 	}
 
@@ -101,7 +101,7 @@ void Sun_ViewportController::SetPredefinedView(PredefinedViews predefinedView) {
 	_ViewCube->HandleClick(viewCubeOwner);
 	viewCubeOwner->~AIS_ViewCubeOwner();
 
-	WorkspaceController()->Invalidate();
+	workspaceController()->Invalidate();
 }
 
 
@@ -123,23 +123,23 @@ void Sun_ViewportController::SetLockedToPlane(bool value)
 }
 
 void Sun_ViewportController::_SetViewCube(bool isVisible) {
-	auto aisContext = WorkspaceController()->Workspace()->aisContext();
+	auto aisContext = workspaceController()->workspace()->aisContext();
 
 	if (_ViewCube.IsNull())
 		return;
 
 	if (isVisible && !aisContext->IsDisplayed(_ViewCube)) {
 		aisContext->Display(_ViewCube, false);
-		WorkspaceController()->Invalidate(true);
+		workspaceController()->Invalidate(true);
 	}
 	else if (!isVisible && aisContext->IsDisplayed(_ViewCube)) {
 		aisContext->Remove(_ViewCube, false);
-		WorkspaceController()->Invalidate(true);
+		workspaceController()->Invalidate(true);
 	}
 }
 
 void Sun_ViewportController::_SetViewCube(bool isVisible, uint32_t size, double duration) {
-	auto aisContext = WorkspaceController()->Workspace()->aisContext();
+	auto aisContext = workspaceController()->workspace()->aisContext();
 
 	// 如果视图立方体已存在，则使用现有方法更新其显示状态
 	if (!_ViewCube.IsNull()) {
@@ -166,9 +166,9 @@ void Sun_ViewportController::_SetViewCube(bool isVisible, uint32_t size, double 
 
 	// 初始化视图立方体
 	_ViewCube = new AIS_ViewCube();
-	//m_viewCube->SetSize(size * Viewport::dpiScale());
-	//m_viewCube->SetBoxFacetExtension(size * Viewport::dpiScale() * 0.15);
-	//m_viewCube->SetViewAnimation(Viewport::aisAnimationCamera());
+	//m_viewCube->SetSize(size * viewport::dpiScale());
+	//m_viewCube->SetBoxFacetExtension(size * viewport::dpiScale() * 0.15);
+	//m_viewCube->SetViewAnimation(viewport::aisAnimationCamera());
 	_ViewCube->SetFixedAnimationLoop(false);
 	_ViewCube->SetDrawAxes(false);
 	_ViewCube->SetDuration(duration);
@@ -212,5 +212,5 @@ void Sun_ViewportController::_SetViewCube(bool isVisible, uint32_t size, double 
 	//    }
 	//}
 
-	WorkspaceController()->Invalidate(true);
+	workspaceController()->Invalidate(true);
 }

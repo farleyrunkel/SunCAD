@@ -12,7 +12,7 @@ class Sun_WorkingContext : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(gp_Pln WorkingPlane READ WorkingPlane WRITE SetWorkingPlane NOTIFY WorkingPlaneChanged)
-    //Q_PROPERTY(Sun::Workspace::GridTypes GridType READ GridType WRITE SetGridType NOTIFY GridTypeChanged)
+    //Q_PROPERTY(Sun::workspace::GridTypes GridType READ GridType WRITE SetGridType NOTIFY GridTypeChanged)
     Q_PROPERTY(double GridStep READ GridStep WRITE SetGridStep NOTIFY GridStepChanged)
     Q_PROPERTY(double GridRotation READ GridRotation WRITE SetGridRotation NOTIFY GridRotationChanged)
     Q_PROPERTY(int GridDivisions READ GridDivisions WRITE SetGridDivisions NOTIFY GridDivisionsChanged)

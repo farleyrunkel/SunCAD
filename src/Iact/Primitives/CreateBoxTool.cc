@@ -44,7 +44,7 @@ void CreateBoxTool::_PivotAction_Finished(PointAction::EventArgs* args) {
 		return;
 	}
 
-	_Plane = WorkspaceController()->Workspace()->WorkingPlane();
+	_Plane = WorkspaceController()->workspace()->WorkingPlane();
 	_PointPlane1 = args->PointOnPlane;
 
 	StopAction(action);

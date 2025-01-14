@@ -32,7 +32,7 @@ public:
 class Sun_WorkspaceController : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(Sun::Workspace* Workspace READ Workspace CONSTANT)
+    Q_PROPERTY(Sun::Workspace* workspace READ workspace CONSTANT)
     Q_PROPERTY(Sun_Viewport* ActiveViewport READ ActiveViewport WRITE SetActiveViewport NOTIFY ActiveViewportChanged)
     //Q_PROPERTY(ViewportController* ActiveViewController READ ActiveViewControlller CONSTANT)
     //Q_PROPERTY(IHudManager* HudManager READ HudManager WRITE SetHudManager NOTIFY HudManagerChanged)
@@ -49,6 +49,11 @@ public:
 
 public:
     void InitWorkspace();
+
+    Sun_ViewportController* GetViewController(int viewIndex) const;
+
+    Sun_ViewportController* GetViewController(Sun_Viewport* viewport) const;
+
 
     Tool* currentTool() const;
     void removeTool(Tool* tool) {}
@@ -76,7 +81,7 @@ public:
     void recalculateGridSize();
 
 public:
-    Sun::Workspace* Workspace() const;
+    Sun::Workspace* workspace() const;
     Sun_Viewport* ActiveViewport() const { return _ActiveViewport; }
     VisualObjectManager* VisualObjects() const { return _VisualObjectManager; }
     gp_Pnt CursorPosition() const { return _CursorPosition; }

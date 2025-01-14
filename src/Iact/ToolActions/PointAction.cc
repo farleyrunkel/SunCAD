@@ -26,7 +26,7 @@ bool PointAction::onMouseMove(MouseEventData* data) {
         ProcessMouseInput(data);
         EventArgs* args = new EventArgs(
             _CurrentPoint,
-            ProjLib::Project(WorkspaceController()->Workspace()->WorkingPlane(), _CurrentPoint),
+            ProjLib::Project(WorkspaceController()->workspace()->WorkingPlane(), _CurrentPoint),
             _CurrentPoint,
             data
         );
@@ -53,7 +53,7 @@ bool PointAction::onMouseUp(MouseEventData* data) {
         _IsFinished = true;
         auto args = new EventArgs(
             _CurrentPoint,
-            ProjLib::Project(WorkspaceController()->Workspace()->WorkingPlane(), _CurrentPoint),
+            ProjLib::Project(WorkspaceController()->workspace()->WorkingPlane(), _CurrentPoint),
             _CurrentPoint,
             data
         );

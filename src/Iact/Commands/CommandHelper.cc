@@ -23,7 +23,7 @@
 
  bool CommandHelper::canExecuteOnViewport() {
     return Core::appContext() && Core::appContext()->viewportController()
-        && Core::appContext()->viewportController()->Viewport();
+        && Core::appContext()->viewportController()->viewport();
 }
 
  bool CommandHelper::canStartTool() {

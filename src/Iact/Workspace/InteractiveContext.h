@@ -19,6 +19,11 @@
 #include "Iact/Workspace/EditorState.h"
 
 //-----------------------------------------------------------------------------
+class InteractionModule 
+{
+public:
+    static void Initialize() {};
+};
 
 class InteractiveContext : public CoreContext 
 {
@@ -31,7 +36,7 @@ class InteractiveContext : public CoreContext
     InteractiveContext();
     ~InteractiveContext() override;
 
-    static InteractiveContext* Current() {
+    static InteractiveContext* current() {
         return _Current;
     }
 
@@ -39,7 +44,7 @@ class InteractiveContext : public CoreContext
     ModelController* documentController() const;
     void setDocumentController(ModelController* controller);
 
-    // WorkspaceController getter/setter
+    // workspaceController getter/setter
     Sun_WorkspaceController* workspaceController() const;
     void setWorkspaceController(Sun_WorkspaceController* controller);
 
@@ -57,9 +62,6 @@ class InteractiveContext : public CoreContext
     QList<QString> recentUsedScripts() const;
 
     void addToScriptMruList(const QString& filePath);
-
- private:
-     void initialize();
 
  signals:
     void workspaceControllerChanged(Sun_WorkspaceController*);

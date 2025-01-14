@@ -42,7 +42,7 @@ Sun::Workspace::Workspace(Model* model)
     _Viewports.append(new Sun_Viewport(this));
 }
 
-//Workspace::~Workspace() {
+//workspace::~workspace() {
 //    // Cleanup Viewports
 //    for (auto viewport : m_viewports) {
 //        delete viewport;
@@ -58,7 +58,7 @@ void Sun::Workspace::_ApplyWorkingContext() {
     if (_AisContext.IsNull()) {
         //_V3dViewer->SetPrivilegedPlane(_CurrentWorkingContext->WorkingPlane.Position());
     }
-    //RaisePropertyChanged(nameof(WorkingPlane));
+    //raisePropertyChanged(nameof(WorkingPlane));
     emit GridChanged(this);
 }
 
@@ -153,7 +153,7 @@ void Sun::Workspace::setGridEnabled(bool value) {
     if (_GridEnabled != value) {
         _GridEnabled = value;
         //Model.MarkAsUnsaved();
-        RaisePropertyChanged("");
+        raisePropertyChanged("");
         _RaiseGridChanged();
     }
 }
@@ -182,19 +182,19 @@ void Sun::Workspace::setNeedsImmediateRedraw(bool value) {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Viewport handling
+// viewport handling
 //
-//std::vector<Viewport*>& Workspace::viewports() {
+//std::vector<viewport*>& workspace::viewports() {
 //    return m_viewports;
 //}
 
 //--------------------------------------------------------------------------------------------------
 // Model handling
 
-//const Model* Workspace::model() const {
+//const Model* workspace::model() const {
 //    return m_model;
 //}
 //
-//void Workspace::setModel(Model* model) {
+//void workspace::setModel(Model* model) {
 //    m_model = model;
 //}

@@ -15,7 +15,7 @@ Sun_WorkspaceController* VisualObject::WorkspaceController() const {
 }
 
 Handle(AIS_InteractiveContext) VisualObject::AisContext() const { 
-    return _WorkspaceController->Workspace()->aisContext();
+    return _WorkspaceController->workspace()->aisContext();
 }
 
 bool VisualObject::IsSelected() const {

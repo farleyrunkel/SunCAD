@@ -14,7 +14,7 @@ public:
 	BaseObject(QObject* parent = nullptr) : QObject(parent) {}
 
 protected: 
-	virtual void RaisePropertyChanged(const QString& propertyName);
+	virtual void raisePropertyChanged(const QString& propertyName);
 
 signals:
 	void propertyChanged(const QString& property);

@@ -60,7 +60,7 @@ class Sun_Viewport : public QObject
     // Destructor
     ~Sun_Viewport();
 
-    // Initialize Viewport with MSAA support
+    // Initialize viewport with MSAA support
     void Init(bool useMsaa);
 
     // Getters and setters for properties
@@ -94,6 +94,9 @@ class Sun_Viewport : public QObject
     Handle(V3d_View) V3dView() const {
         return mV3dView;
     }
+	Sun::Workspace* workspace() const {
+		return mWorkspace;
+	}
 
     bool ScreenToPoint(gp_Pln plane, int screenX, int screenY, gp_Pnt& resultPnt);
 

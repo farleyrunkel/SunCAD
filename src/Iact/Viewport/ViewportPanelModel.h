@@ -13,15 +13,16 @@
 #include "Iact/Workspace/ViewportController.h"
 #include "Iact/Workspace/WorkspaceController.h"
 
+
 class ViewportPanelModel : public BaseObject, public IHudManager
 {
 public:
 	ViewportPanelModel() 
     {
         ////Entity.ErrorStateChanged += _Entity_ErrorStateChanged;
-        //InteractiveContext::Current()->PropertyChanged.connect(std::bind(&ViewportPanelModel::Context_PropertyChanged, this, std::placeholders::_1));
-        setWorkspaceController(InteractiveContext::Current()->workspaceController());
-        setViewportController(InteractiveContext::Current()->viewportController());
+		connect(InteractiveContext::current(), &InteractiveContext::propertyChanged, this, &ViewportPanelModel::context_PropertyChanged);
+        setWorkspaceController(InteractiveContext::current()->workspaceController());
+        setViewportController(InteractiveContext::current()->viewportController());
     }
 
     virtual void addElement(IHudElement* element) override {}
@@ -44,7 +45,7 @@ public:
         _ViewportController = value;
     }
 
-    // WorkspaceController getter/setter
+    // workspaceController getter/setter
     void setWorkspaceController(Sun_WorkspaceController* value) {
         if (_WorkspaceController != value) {
             _WorkspaceController = value;
@@ -58,26 +59,26 @@ public:
         }
     }
 
-    //void Context_PropertyChanged(const std::shared_ptr<PropertyChangedEventArgs>& e)
-    //{
-    //    if (e->PropertyName() == WorkspaceController::get_type_name()) {
-    //        if (!_WorkspaceController.IsNull()) {
-    //            //_WorkspaceController.Selection.SelectionChanged -= _Selection_SelectionChanged;
-    //        }
-    //        if (auto sender = dynamic_cast<InteractiveContext*>(e->Sender())) {
-    //            SetWorkspaceController(sender->WorkspaceController());
-    //        }
+    void context_PropertyChanged(const QString& e)
+    {
+        if (e == "workspaceController") {
+            if (_WorkspaceController != nullptr) {
+                //_WorkspaceController.Selection.SelectionChanged -= _Selection_SelectionChanged;
+            }
+            if (auto asender = dynamic_cast<InteractiveContext*>(sender())) {
+                setWorkspaceController(asender->workspaceController());
+            }
 
-    //        if (!_WorkspaceController.IsNull()) {
-    //            //_WorkspaceController.Selection.SelectionChanged += _Selection_SelectionChanged;
-    //        }
-    //    }
-    //    else if (e->PropertyName() == ViewportController::get_type_name()) {
-    //        if (auto sender = dynamic_cast<InteractiveContext*>(e->Sender())) {
-    //            SetViewportController(sender->ViewportController());
-    //        }
-    //    }
-    //}
+            if (_WorkspaceController != nullptr) {
+                //_WorkspaceController.Selection.SelectionChanged += _Selection_SelectionChanged;
+            }
+        }
+        else if (e == "viewportController") {
+            if (auto asender = dynamic_cast<InteractiveContext*>(sender())) {
+                setViewportController(asender->viewportController());
+            }
+        }
+    }
 
 private:
     Sun_WorkspaceController* _WorkspaceController = nullptr;

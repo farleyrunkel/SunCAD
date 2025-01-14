@@ -23,8 +23,8 @@
 class Sun_ViewportController : public QObject
 {
 	Q_OBJECT
-	Q_PROPERTY(Sun_WorkspaceController* WorkspaceController READ WorkspaceController CONSTANT)
-	Q_PROPERTY(Sun_Viewport* Viewport READ Viewport CONSTANT)
+	Q_PROPERTY(Sun_WorkspaceController* workspaceController READ workspaceController CONSTANT)
+	Q_PROPERTY(Sun_Viewport* viewport READ viewport CONSTANT)
 	Q_PROPERTY(bool LockedToPlane READ LockedToPlane WRITE SetLockedToPlane NOTIFY LockedToPlaneChanged)
 	Q_PROPERTY(bool IsInRubberbandSelection READ IsInRubberbandSelection CONSTANT)
 
@@ -48,7 +48,7 @@ public:
 	~Sun_ViewportController();
 
 	Handle(V3d_View) View() const {
-		return this->Viewport() ? this->Viewport()->View() : nullptr;
+		return this->viewport() ? this->viewport()->View() : nullptr;
 	}
 
 	Handle(AIS_ViewCube) ViewCube() const { return _ViewCube; }
@@ -86,10 +86,10 @@ public:
 	}
 	void SetPredefinedView(PredefinedViews predefinedView);
 
-	Sun_WorkspaceController* WorkspaceController() const {
+	Sun_WorkspaceController* workspaceController() const {
 		return _WorkspaceController;
 	}
-	Sun_Viewport* Viewport() const { return _Viewport; }
+	Sun_Viewport* viewport() const { return _Viewport; }
 
 	// Getter for lockedToPlane
 	bool LockedToPlane() const { return _LockedToPlane; }
@@ -98,7 +98,7 @@ public:
 	void SetLockedToPlane(bool value);
 
 private:
-	void Init() { Viewport()->Init(true); }
+	void Init() { viewport()->Init(true); }
 
 	void _SetViewCube(bool isVisible);
 	void _SetViewCube(bool isVisible, uint32_t size, double duration);

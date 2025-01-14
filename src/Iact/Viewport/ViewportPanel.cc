@@ -27,13 +27,15 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 	_ViewportControllerChanged();
 }
 
-void ViewportPanel::_Model_PropertyChanged(const QString& propertyName ) {
-	if (propertyName == "ViewportController") {
+void ViewportPanel::_Model_PropertyChanged(const QString& propertyName ) 
+{
+	if (propertyName == "viewportController") {
 		_ViewportControllerChanged();
 	}
 }
 
-void ViewportPanel::_ViewportControllerChanged() {
+void ViewportPanel::_ViewportControllerChanged() 
+{
 	auto viewportController = _Model->viewportController();
 
 	if (viewportController==nullptr)

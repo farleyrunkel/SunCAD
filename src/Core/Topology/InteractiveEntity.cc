@@ -15,7 +15,7 @@ void InteractiveEntity::setName(const QString& name) {
     //if (_name != name) {
     //    SaveUndo();
     //    _name = name;
-    //    emit propertyChanged();  // Equivalent to RaisePropertyChanged
+    //    emit propertyChanged();  // Equivalent to raisePropertyChanged
     //    if (!IsDeserializing && CoreContext::current()) {
     //        if (Document* doc = Document::current()) {
     //            doc->instanceChanged(this);

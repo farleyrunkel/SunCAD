@@ -22,7 +22,7 @@ void ViewportMouseControlDefault::MouseMove(const QPointF& pos, QMouseEvent* mou
     else {
         if (mouseEvent->buttons() & Qt::LeftButton && (pos - mouseDownPos).manhattanLength() > 10
             && !viewportController->IsInRubberbandSelection()
-            && viewportController->WorkspaceController()->IsSelecting()) {
+            && viewportController->workspaceController()->IsSelecting()) {
             // viewportController->startRubberbandSelection(mouseDownPos);
         }
 
