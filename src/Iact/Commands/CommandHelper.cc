@@ -4,8 +4,8 @@
 
 #include "Core/Core.h"
 
- Sun_WorkspaceController* CommandHelper::WorkspaceController() {
-    return Core::appContext() ? Core::appContext()->WorkspaceController() : nullptr;
+ Sun_WorkspaceController* CommandHelper::workspaceController() {
+    return Core::appContext() ? Core::appContext()->workspaceController() : nullptr;
 }
 
  ModelController* CommandHelper::documentController() {
@@ -13,12 +13,12 @@
 }
 
  Tool* CommandHelper::currentTool() {
-    return WorkspaceController() ? WorkspaceController()->currentTool() : nullptr;
+    return workspaceController() ? workspaceController()->currentTool() : nullptr;
 }
 
  bool CommandHelper::startTool(Tool* tool) {
      qDebug() << "Debug: CommandHelper::startTool";
-    return WorkspaceController() && WorkspaceController()->startTool(tool);
+    return workspaceController() && workspaceController()->startTool(tool);
 }
 
  bool CommandHelper::canExecuteOnViewport() {
@@ -27,5 +27,5 @@
 }
 
  bool CommandHelper::canStartTool() {
-    return WorkspaceController() != nullptr;
+    return workspaceController() != nullptr;
 }

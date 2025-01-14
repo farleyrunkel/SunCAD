@@ -21,7 +21,7 @@ bool CreateBoxTool::OnStart() {
 	connect(pointAction, &PointAction::Preview, this, &CreateBoxTool::_PivotAction_Preview);
 	connect(pointAction, &PointAction::Finished, this, &CreateBoxTool::_PivotAction_Finished);
 
-	SetHintMessage("Select corner point.");
+	setHintMessage("Select corner point.");
 	_Coord2DHudElement = new Coord2DHudElement;
 	Add(_Coord2DHudElement);
 	return true;
@@ -57,7 +57,7 @@ void CreateBoxTool::_PivotAction_Finished(PointAction::EventArgs* args) {
 		return;
 
 	_CurrentPhase = Phase::BaseRect;
-	SetHintMessage("Select opposite corner point, press `k:Ctrl` to round length and width to grid stepping.");
+	setHintMessage("Select opposite corner point, press `k:Ctrl` to round length and width to grid stepping.");
 
 	if (_MultiValueHudElement == nullptr)
 	{

@@ -28,15 +28,15 @@ void WorkspaceControl::Add(IHudElement* hudElement) {
 		return;
 	}
 	_HudElements.append(hudElement);
-	if (auto wc = Core::appContext()->WorkspaceController(); wc->hudManager()) {
-		wc->hudManager()->AddElement(hudElement);
+	if (auto wc = Core::appContext()->workspaceController(); wc->hudManager()) {
+		wc->hudManager()->addElement(hudElement);
 	}
 }
 
-void WorkspaceControl::SetHintMessage(const QString& message) {
-	auto hudManager = WorkspaceController()->hudManager();
-	if (hudManager)
-		hudManager->SetHintMessage(message);
+void WorkspaceControl::setHintMessage(const QString& message) {
+	//auto hudManager = workspaceController()->hudManager();
+	//if (hudManager)
+	//	hudManager->setHintMessage(message);
 }
 
 void WorkspaceControl::Add(VisualObject* visual) {

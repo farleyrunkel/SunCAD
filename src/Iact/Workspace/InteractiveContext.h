@@ -24,19 +24,23 @@ class InteractiveContext : public CoreContext
 {
     Q_OBJECT
     Q_PROPERTY(ModelController* documentController READ documentController WRITE setDocumentController)
-    Q_PROPERTY(Sun_WorkspaceController* WorkspaceController READ WorkspaceController WRITE setWorkspaceController)
+    Q_PROPERTY(Sun_WorkspaceController* workspaceController READ workspaceController WRITE setWorkspaceController)
     Q_PROPERTY(Sun_ViewportController* viewportController READ viewportController WRITE setViewportController)
 
  public:
     InteractiveContext();
     ~InteractiveContext() override;
 
+    static InteractiveContext* Current() {
+        return _Current;
+    }
+
     // ModelController getter/setter
     ModelController* documentController() const;
     void setDocumentController(ModelController* controller);
 
     // WorkspaceController getter/setter
-    Sun_WorkspaceController* WorkspaceController() const;
+    Sun_WorkspaceController* workspaceController() const;
     void setWorkspaceController(Sun_WorkspaceController* controller);
 
     // ViewportController getter/setter
@@ -71,6 +75,8 @@ class InteractiveContext : public CoreContext
     QList<QColor> m_recentUsedColors;
     QList<QString> m_recentUsedScripts;
     const int m_maxScriptMruCount = 10;
+
+    static InteractiveContext* _Current;
 };
 
 #endif  // SRC_IACT_WORKSPACE_INTERACTIVECONTEXT_H_

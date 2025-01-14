@@ -32,7 +32,7 @@ class Workspace : public BaseObject
     Q_PROPERTY(bool NeedsImmediateRedraw READ needsImmediateRedraw WRITE setNeedsImmediateRedraw)
     Q_PROPERTY(Model* Model READ model)
     Q_PROPERTY(bool GridEnabled READ gridEnabled WRITE setGridEnabled)
-    Q_PROPERTY(GridTypes GridType READ GridType WRITE SetGridType)
+    //Q_PROPERTY(GridTypes GridType READ GridType WRITE SetGridType)
     Q_PROPERTY(double GridStep)
     Q_PROPERTY(double GridRotation)
     Q_PROPERTY(int GridDivisions)
@@ -58,7 +58,8 @@ public:
     bool gridEnabled() const { return _GridEnabled; }
     void setGridEnabled(bool value);
 
-    GridTypes GridType() const;
+    GridTypes gridType() const;
+
     void SetGridType(GridTypes) { return; }
 
     Sun_WorkingContext* workingContext() const;

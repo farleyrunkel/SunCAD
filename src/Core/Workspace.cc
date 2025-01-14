@@ -19,6 +19,7 @@
 #include "Core/Topology/Model.h"
 #include "Core/Project/WorkingContext.h"
 
+
 //--------------------------------------------------------------------------------------------------
 // Constructor and Destructor
 
@@ -152,13 +153,13 @@ void Sun::Workspace::setGridEnabled(bool value) {
     if (_GridEnabled != value) {
         _GridEnabled = value;
         //Model.MarkAsUnsaved();
-        RaisePropertyChanged();
+        RaisePropertyChanged("");
         _RaiseGridChanged();
     }
 }
 
-Sun::Workspace::GridTypes Sun::Workspace::GridType() const {
-    return _CurrentWorkingContext->GridType(); 
+Sun::Workspace::GridTypes Sun::Workspace::gridType() const {
+    return _CurrentWorkingContext->GridType();
 }
 
 Sun_WorkingContext* Sun::Workspace::workingContext() const {

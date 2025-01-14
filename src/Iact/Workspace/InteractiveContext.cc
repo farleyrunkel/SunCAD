@@ -2,12 +2,17 @@
 
 #include "Iact/Workspace/InteractiveContext.h"
 
+InteractiveContext* InteractiveContext::_Current = nullptr;
+
 InteractiveContext::InteractiveContext() 
     : CoreContext(),
       m_editorState(nullptr),
       m_documentController(new ModelController(this)),
       m_viewportController(nullptr),
-      _WorkspaceController(nullptr) {
+      _WorkspaceController(nullptr) 
+{
+    _Current = this;
+
     initialize();
 }
 
@@ -38,7 +43,7 @@ void InteractiveContext::setDocumentController(ModelController* controller) {
     }
 }
 
-Sun_WorkspaceController* InteractiveContext::WorkspaceController() const { 
+Sun_WorkspaceController* InteractiveContext::workspaceController() const { 
     return _WorkspaceController; 
 }
 
@@ -77,15 +82,15 @@ void InteractiveContext::setWorkspace(Sun::Workspace* workspace) {
 void InteractiveContext::setViewport(Sun_Viewport* Viewport) {
     if (_Viewport != Viewport) {
         if (Viewport) {
-            if (WorkspaceController()) {
-                WorkspaceController()->SetActiveViewport(Viewport);
-                setViewportController(WorkspaceController()->viewportController(Viewport));
+            if (workspaceController()) {
+                workspaceController()->SetActiveViewport(Viewport);
+                setViewportController(workspaceController()->viewportController(Viewport));
             }
         }
         else {
             setViewportController(nullptr);
-            if (WorkspaceController()) {
-                WorkspaceController()->SetActiveViewport(nullptr);
+            if (workspaceController()) {
+                workspaceController()->SetActiveViewport(nullptr);
             }
         }
         CoreContext::setViewport(Viewport);

@@ -2,6 +2,7 @@
 
 #include "Comm/BaseObject.h"
 
-void BaseObject::RaisePropertyChanged(const QString& propertyName) {
+void BaseObject::RaisePropertyChanged(const QString& propertyName) 
+{
 	emit propertyChanged(propertyName);
 }

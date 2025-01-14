@@ -26,7 +26,7 @@ HudContainer::HudContainer(QWidget* parent)
     setStyleSheet("background-color: rgba(128, 128, 128, 128);"); // °ëÍ¸Ã÷»ÒÉ«
 }
 
-void HudContainer::AddElement(IHudElement* element) {
+void HudContainer::addElement(IHudElement* element) {
 	layout()->addWidget(element);
 	_HudElements.append(element);
 
@@ -35,7 +35,7 @@ void HudContainer::AddElement(IHudElement* element) {
     _UpdateSize();
 }
 
-void HudContainer::SetHintMessage(const QString& message) {
+void HudContainer::setHintMessage(const QString& message) {
 	if (_HintMessage != message) {
 		_HintMessage = message;
 		emit HintMessageChanged(message);

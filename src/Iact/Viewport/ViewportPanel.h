@@ -1,130 +1,88 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_IACT_VIEWPORT_VIEWPORTPANEL_H_
-#define SRC_IACT_VIEWPORT_VIEWPORTPANEL_H_
+#ifndef IACT_VIEWPORT_VIEWPORTPANEL_H_
+#define IACT_VIEWPORT_VIEWPORTPANEL_H_
 
-#include <QOpenGLWidget>
-#include <QString>
-#include <QList>
-#include <QPointer>
-#include <QMouseEvent>
+// stl includes
+#include <functional>
+#include <memory>
+#include <string>
 
-#include <OpenGl_Context.hxx>
-#include <Standard_WarningsDisable.hxx>
-#include <Standard_WarningsRestore.hxx>
-#include <V3d_View.hxx>
-#include <AIS_ViewCube.hxx>
-#include <AIS_ViewController.hxx>
-#include <AIS_InteractiveContext.hxx>
+// boost includes
+#include <boost/signals2.hpp>
 
-#include "Comm/BaseObject.h"
-#include "Iact/Workspace/ViewportController.h"
-#include "Iact/Workspace/WorkspaceController.h"
+// Qt includes
+#include <QWidget>
+#include <QDebug>
+#include <QPointF>
+#include <QMenu>
+#include <QAction>
+
+// Project includes
+#include "Comm/PropertyChangedEventArgs.h"
 #include "Iact/Viewport/IViewportMouseControl.h"
-#include "Iact/HudElements/HudContainer.h"
+#include "Iact/Viewport/ViewportHwndHost.h"
+#include "Iact/Viewport/ViewportPanelModel.h"
 
-
-class ViewportPanel : public QOpenGLWidget, public AIS_ViewController
+/// @brief ViewportPanel class
+class ViewportPanel : public QWidget 
 {
-    Q_OBJECT
+	Q_OBJECT
+public:
+	explicit ViewportPanel(QWidget* parent = nullptr);
+	~ViewportPanel() override {}
 
- public:
-    explicit ViewportPanel(QWidget* parent = nullptr);
+protected:
+	virtual void resizeEvent(QResizeEvent* event) override {}
+	virtual void mouseMoveEvent(QMouseEvent* event) override {
+		qDebug() << "ViewportPanel: Mouse move event";
+		QWidget::mouseMoveEvent(event);
 
-    //! Destructor.
-    virtual ~ViewportPanel();
+		_MouseControl->MouseMove(event->pos(), event, event->modifiers());
+	}
 
-    // WorkspaceController getter/setter
-    Sun_WorkspaceController* WorkspaceController() const;
+	virtual void mousePressEvent(QMouseEvent* event) override {
+		qDebug() << "ViewportPanel: Mouse press event";
 
-    void setWorkspaceController(Sun_WorkspaceController* controller);
+	}
+	virtual void mouseReleaseEvent(QMouseEvent* event) override {}
+	virtual void wheelEvent(QWheelEvent* event) override {}
+	virtual void keyPressEvent(QKeyEvent* event) override {}
+	virtual void keyReleaseEvent(QKeyEvent* event) override {}
+	// 重载 contextMenuEvent 以显示右键菜单
+	virtual void contextMenuEvent(QContextMenuEvent* event) override {
+		qDebug() << "ViewportPanel: Context menu event";
+		// 创建一个 QMenu 对象
+		QMenu contextMenu(this);
 
-    // ViewportController getter/setter
-    Sun_ViewportController* viewportController() const;
-    void setViewportController(Sun_ViewportController* controller);
+		// 创建菜单项并连接槽函数
+		QAction* action1 = contextMenu.addAction("Option 1");
+		QAction* action2 = contextMenu.addAction("Option 2");
 
-    //! Return AIS context.
-    const Handle(AIS_InteractiveContext)& Context() const { return m_context; }
+		// 显示菜单
+		contextMenu.exec(event->globalPos());
+	}
 
-    //! Return Viewer.
-    const Handle(V3d_Viewer)& Viewer() const { return m_viewer; }
+	virtual bool eventFilter(QObject* watched, QEvent* event) override {
+		if (event->type() == QEvent::MouseMove) {
+			mouseMoveEvent(static_cast<QMouseEvent*>(event));
+		}
 
-    //! Return View.
-    const Handle(V3d_View)& View() const { return m_view; }
-    
-    void setAisContext(const Handle(AIS_InteractiveContext)& theCtx) { m_context = theCtx; }
-
-    void setViewer(const Handle(V3d_Viewer)& theViewer) { m_viewer = theViewer; }
-
-    void setView(const Handle(V3d_View)& theView) { m_view = theView; }
-
-    //! Return OpenGL info.
-    const QString& getGlInfo() const { return m_glInfo; }
-
-    //! Minial widget size.
-    virtual QSize minimumSizeHint() const override { return QSize(200, 200); }
-
-    //! Default widget size.
-    virtual QSize sizeHint()        const override { return QSize(720, 480); }
-
- public:
-    //! Handle subview focus change.
-    virtual void OnSubviewChanged(const Handle(AIS_InteractiveContext)&,
-        const Handle(V3d_View)&,
-        const Handle(V3d_View)& theNewView) override;
-
- protected: // user input events
-    virtual void closeEvent(QCloseEvent* theEvent) override;
-    virtual void keyPressEvent(QKeyEvent* theEvent) override;
-    virtual void mousePressEvent(QMouseEvent* theEvent) override;
-    virtual void mouseReleaseEvent(QMouseEvent* theEvent) override;
-    virtual void mouseMoveEvent(QMouseEvent* theEvent) override;
-    virtual void wheelEvent(QWheelEvent* theEvent) override;
+		return false;
+	}
 
 private:
-    void _InitHudContainer();
-
-    //! Dump OpenGL info.
-    void dumpGlInfo(bool theIsBasic, bool theToPrint);
-
-    //! Request widget paintGL() event.
-    void updateView();
-
-    //! Handle view redraw.
-    virtual void handleViewRedraw(const Handle(AIS_InteractiveContext)& theCtx,
-        const Handle(V3d_View)& theView) override;
-
- protected: // OpenGL events
-    virtual void initializeGL() override;
-    void setupWindow(const Handle(V3d_View)& theView);
-    virtual void paintGL() override;
-    virtual void resizeGL(int width, int height) override;
-
- signals:
-    void workspaceControllerChanged(Sun_WorkspaceController*);
-    void viewportControllerChanged(Sun_ViewportController*);
-    void hudElementCollectionChanged();
-    void hintMessageChanged(const QString& property);
-    void MouseMoved(int x, int y);
+	void _Model_PropertyChanged(const QString& propertyName);
+	void _ViewportControllerChanged();
 
 private:
-    IViewportMouseControl* m_mouseControl;
-    Sun_ViewportController* m_viewportController;
-    Sun_WorkspaceController* _WorkspaceController;
+	ViewportPanelModel* _Model;
+	ViewportHwndHost* _ViewportHwndHost;
+	IViewportMouseControl* _MouseControl;
+	QPointF _MouseMovePosition;
+	bool _SuppressContextMenu;
 
-    HudContainer* _HudContainer;
-    QList<IHudElement*> m_hudElements;
 
- private:
-    Handle(V3d_Viewer)             m_viewer;
-    Handle(V3d_View)               m_view;
-    Handle(AIS_InteractiveContext) m_context;
-    Handle(AIS_ViewCube)           _ViewCube;
-    Handle(V3d_View)               m_focusView;
-    Handle(OpenGl_Context)         m_glContext;
-
-    QString m_glInfo;
-    bool m_isCoreProfile;
 };
 
-#endif  // SRC_IACT_VIEWPORT_VIEWPORTPANEL_H_
+#endif  // IACT_VIEWPORT_VIEWPORTPANEL_H_

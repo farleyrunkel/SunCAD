@@ -81,6 +81,9 @@ public:
 		return false;
 	}
 
+	Handle(Aspect_NeutralWindow) initWindow() {
+		return nullptr;
+	}
 	void SetPredefinedView(PredefinedViews predefinedView);
 
 	Sun_WorkspaceController* WorkspaceController() const {

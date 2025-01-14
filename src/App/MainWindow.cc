@@ -25,7 +25,8 @@
 #include "Iact/Commands/DocumentCommands.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : SARibbonMainWindow(parent) {
+    : SARibbonMainWindow(parent) 
+{
 	setupUi();
 
     setupAppButton();
@@ -38,7 +39,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow() {}
 
-void MainWindow::setupUi() {
+void MainWindow::setupUi()
+{
     resize(1260, 800);
 
     setWindowTitle(tr("SunCAD"));
@@ -63,7 +65,8 @@ void MainWindow::setupUi() {
     m_ribbonBar->setContentsMargins(5, 0, 5, 0);
 }
 
-void MainWindow::setupAppButton() {
+void MainWindow::setupAppButton()
+{
     if (!m_ribbonBar) {
         return;
     }
@@ -92,7 +95,8 @@ void MainWindow::setupAppButton() {
     appBtn->setMenu(m_appButton);
 }
 
-void MainWindow::setupCategories() {
+void MainWindow::setupCategories() 
+{
     if (SARibbonCategory* aCategory = m_ribbonBar->addCategoryPage(tr("Edit"))) {
         if (SARibbonPannel* aPannel = aCategory->addPannel(tr("Panel 1"))) {
             QAction* aAction = new QAction;
@@ -122,7 +126,8 @@ void MainWindow::setupCategories() {
     }
 }
 
-void MainWindow::setupDockWidgets() {
+void MainWindow::setupDockWidgets() 
+{
     // Set up a central dock widget 
 
     ads::CDockWidget* CentralDockWidget = new ads::CDockWidget("Sun::Workspace");
@@ -151,11 +156,13 @@ void MainWindow::setupDockWidgets() {
     connect(&AppCommands::showDocumentExplorer(), &QAction::triggered, documentDock->toggleViewAction(), &QAction::trigger);
 }
 
-void MainWindow::onMainWindowLoaded() {
+void MainWindow::onMainWindowLoaded() 
+{
     AppCommands::initApplication().execute();
 }
 
-QAction* MainWindow::createAction(const QString& text, const QString& iconurl) {
+QAction* MainWindow::createAction(const QString& text, const QString& iconurl) 
+{
     QAction* action = new QAction(this);
     action->setText(text);
     action->setIcon(QIcon(iconurl));

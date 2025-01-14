@@ -15,17 +15,17 @@
 class HudContainer : public QFrame, public IHudManager
 {
 	Q_OBJECT
-	Q_PROPERTY(QString _HintMessage WRITE SetHintMessage)
+	Q_PROPERTY(QString _HintMessage WRITE setHintMessage)
 
 public:
 	explicit HudContainer(QWidget* parent = nullptr);
 
-	virtual void AddElement(IHudElement* element) override;
-	virtual void RemoveElement(IHudElement* element) override {}
-	virtual void RemoveElements(std::function<bool(IHudElement*)> predicate) override {}
+	virtual void addElement(IHudElement* element) override;
+	virtual void removeElement(IHudElement* element) override {}
+	virtual void removeElements(std::function<bool(IHudElement*)> predicate) override {}
 
 	// virtual void SetCursor(QObject* owner, Cursor* cursor)  {}
-	virtual void SetHintMessage(const QString& message) override;
+	virtual void setHintMessage(const QString& message) override;
 
 	QList<IHudElement*>& HudElements() {
 		return _HudElements;
