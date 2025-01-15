@@ -4,11 +4,14 @@
 
 #include "Iact/Workspace/WorkspaceController.h"
 
-Tool::Tool(QObject* parent) : WorkspaceControl(),
-	m_id(typeid(*this).name()) {
+Tool::Tool(QObject* parent) 
+	: WorkspaceControl()
+	, m_id(typeid(*this).name()) 
+{
 }
 
-bool Tool::start() {
+bool Tool::start() 
+{
 	if (onStart()) {
 		m_isActive = true;
 		workspaceController()->invalidate();
@@ -19,11 +22,13 @@ bool Tool::start() {
 
 bool Tool::onStart() { return false; }
 
-ToolAction* Tool::currentAction() const {
+ToolAction* Tool::currentAction() const 
+{
 	return m_toolActions.size() > 0 ? m_toolActions.first() : nullptr;
 }
 
-bool Tool::cancel(bool force) {
+bool Tool::cancel(bool force) 
+{
 	if (!onCancel() && !force)
 		return false;
 
@@ -32,7 +37,8 @@ bool Tool::cancel(bool force) {
 	return true;
 }
 
-void Tool::stop() {
+void Tool::stop() 
+{
 	m_isActive = false;
 	onStop();
 	cleanup();
@@ -41,24 +47,29 @@ void Tool::stop() {
 	workspaceController()->invalidate();
 }
 
-QString Tool::id() const { return m_id; }
+QString Tool::id() const 
+{ return m_id; }
 
-bool Tool::prepareUndo() {
+bool Tool::prepareUndo() 
+{
 	return cancel(false);
 }
 
-QList<WorkspaceControl*> Tool::getChildren() const {
+QList<WorkspaceControl*> Tool::getChildren() const 
+{
 	qDebug() << "Debug: Tool::getChildren";
 	return { m_toolActions.begin(), m_toolActions.end() };
 }
 
-bool Tool::onCancel() {
+bool Tool::onCancel() 
+{
 	return true;
 }
 
 void Tool::onStop() {}
 
-void Tool::cleanup() {
+void Tool::cleanup() 
+{
 	//StopAllActions();
 	//RestoreAllVisualShapes();
 	//BaseCleanup();
@@ -90,7 +101,8 @@ bool Tool::startAction(ToolAction* toolAction, bool exclusive)
 	}
 }
 
-void Tool::StopAction(ToolAction* toolAction) {
+void Tool::stopAction(ToolAction* toolAction) 
+{
 	if (toolAction == nullptr)
 		return;
 
@@ -101,9 +113,10 @@ void Tool::StopAction(ToolAction* toolAction) {
 	emit toolActionChanged(toolAction);
 }
 
-void Tool::stopAllActions() {
+void Tool::stopAllActions() 
+{
 	for (const auto& action : m_toolActions) {
-		StopAction(action);
+		stopAction(action);
 	}
 	m_toolActions.clear();
 }

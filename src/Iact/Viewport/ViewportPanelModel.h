@@ -17,9 +17,11 @@
 class ViewportPanelModel : public BaseObject, public IHudManager
 {
 public:
-	ViewportPanelModel() 
+	ViewportPanelModel()
+        : m_workspaceController(nullptr)
+        , m_viewportController(nullptr)
     {
-        ////Entity.ErrorStateChanged += _Entity_ErrorStateChanged;
+        //Entity.ErrorStateChanged += _Entity_ErrorStateChanged;
 		connect(InteractiveContext::current(), &InteractiveContext::propertyChanged, this, &ViewportPanelModel::context_PropertyChanged);
         setWorkspaceController(InteractiveContext::current()->workspaceController());
         setViewportController(InteractiveContext::current()->viewportController());
@@ -33,30 +35,30 @@ public:
     virtual void setHintMessage(const QString& message) override {}
 
     Sun_WorkspaceController* workspaceController() const {
-        return _WorkspaceController;
+        return m_workspaceController;
     }
 
     // ViewportController getter/setter
     Sun_ViewportController* viewportController() const {
-        return _ViewportController;
+        return m_viewportController;
     }
 
     void setViewportController(Sun_ViewportController* value) {
-        _ViewportController = value;
+        m_viewportController = value;
         raisePropertyChanged("viewportController");
     }
 
     // workspaceController getter/setter
     void setWorkspaceController(Sun_WorkspaceController* value) {
-        if (_WorkspaceController != value) {
-            _WorkspaceController = value;
-            if (_WorkspaceController != nullptr) {
-                //m_workspaceController->SetHudManager(this);
+        if (m_workspaceController != value) {
+            m_workspaceController = value;
+            if (m_workspaceController != nullptr) {
+                m_workspaceController->setHudManager(this);
             }
             else {
                 //HudElements.Clear();
             }
-            _WorkspaceController = value;
+            m_workspaceController = value;
             raisePropertyChanged("workspaceController");
         }
     }
@@ -64,14 +66,14 @@ public:
     void context_PropertyChanged(const QString& propertyName)
     {
         if (propertyName == "workspaceController") {
-            if (_WorkspaceController != nullptr) {
+            if (m_workspaceController != nullptr) {
                 //m_workspaceController.Selection.SelectionChanged -= _Selection_SelectionChanged;
             }
             if (auto context = dynamic_cast<InteractiveContext*>(sender())) {
                 setWorkspaceController(context->workspaceController());
             }
 
-            if (_WorkspaceController != nullptr) {
+            if (m_workspaceController != nullptr) {
                 //m_workspaceController.Selection.SelectionChanged += _Selection_SelectionChanged;
             }
         }
@@ -83,8 +85,8 @@ public:
     }
 
 private:
-    Sun_WorkspaceController* _WorkspaceController = nullptr;
-    Sun_ViewportController* _ViewportController = nullptr;
+    Sun_WorkspaceController* m_workspaceController;
+    Sun_ViewportController* m_viewportController;
     //ObservableCollection<HudElement*> HudElements;
 };
 

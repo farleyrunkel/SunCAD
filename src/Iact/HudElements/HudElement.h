@@ -19,7 +19,7 @@ public:
 	 Sun_WorkspaceController* WorkspaceController() const;
 	 void setWorkspaceController(Sun_WorkspaceController* controller);
 
-	 virtual void Initialize() = 0;
+	 virtual void Initialize() {};
 
 signals:
 	void SizeChanged(const QSize&);

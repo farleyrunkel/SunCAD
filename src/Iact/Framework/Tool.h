@@ -1,7 +1,7 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_IACT_FRAMEWORK_TOOL_H_
-#define SRC_IACT_FRAMEWORK_TOOL_H_
+#ifndef IACT_FRAMEWORK_TOOL_H_
+#define IACT_FRAMEWORK_TOOL_H_
 
 #include <QObject>
 #include <QString>
@@ -10,13 +10,13 @@
 #include "Iact/Framework/WorkspaceControl.h"
 #include "Iact/Framework/ToolAction.h"
 
-class Tool : public WorkspaceControl {
+class Tool : public WorkspaceControl 
+{
 	Q_OBJECT
-
- public:
+public:
 	explicit Tool(QObject* parent = nullptr);
 
- public:
+public:
 	bool start();
 
 	virtual bool onStart();
@@ -31,7 +31,7 @@ class Tool : public WorkspaceControl {
 
 	virtual bool prepareUndo();
 
- protected:
+protected:
 	virtual QList<WorkspaceControl*> getChildren() const;
 
 	virtual bool onCancel();
@@ -46,17 +46,17 @@ class Tool : public WorkspaceControl {
 
 	bool startAction(ToolAction* toolAction, bool exclusive = true);
 
-	void StopAction(ToolAction* toolAction);
+	void stopAction(ToolAction* toolAction);
 
 	void stopAllActions();
 
- signals:
+signals:
 	void toolActionChanged(ToolAction*);
 
- private:
+private:
 	QList<ToolAction*> m_toolActions;
 	QString m_id;
 	bool m_isActive;
 };
 
-#endif  // SRC_IACT_FRAMEWORK_TOOL_H_
+#endif  // IACT_FRAMEWORK_TOOL_H_

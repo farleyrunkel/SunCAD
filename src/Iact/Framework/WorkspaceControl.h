@@ -13,16 +13,16 @@
 
 class Sun_WorkspaceController;
 
-class WorkspaceControl : public QObject, public IMouseEventHandler {
+class WorkspaceControl : public QObject, public IMouseEventHandler 
+{
 	Q_OBJECT
-
- public:
+public:
 	explicit WorkspaceControl(QObject* parent = nullptr);
 
 	Sun_WorkspaceController* workspaceController() const;
 	void setWorkspaceController(Sun_WorkspaceController* WorkspaceController);
 
- protected:
+protected:
     virtual QList<WorkspaceControl*> getChildren() const;
     virtual void cleanup() {}
 
@@ -31,7 +31,7 @@ class WorkspaceControl : public QObject, public IMouseEventHandler {
     void add(VisualObject* visual);
     void add(IHudElement* hudElement);
 
- public:
+public:
     virtual bool onMouseMove(MouseEventData* data) override 
     {
         auto children = getChildren();
@@ -72,11 +72,10 @@ class WorkspaceControl : public QObject, public IMouseEventHandler {
                return child->onKeyPressed(data); });
     }
 
- private:
+private:
 	Sun_WorkspaceController* _WorkspaceController;
-	QList<IHudElement*> _HudElements;
+	QList<IHudElement*> m_hudElements;
     QList<VisualObject*> _VisualObjects;
-
 };
 
 #endif  // SRC_IACT_FRAMEWORK_WORKSPACECONTROLL_H_

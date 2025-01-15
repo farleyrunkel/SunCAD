@@ -1,17 +1,17 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_IACT_FRAMEWORK_TOOLACTION_H_
-#define SRC_IACT_FRAMEWORK_TOOLACTION_H_
+#ifndef IACT_FRAMEWORK_TOOLACTION_H_
+#define IACT_FRAMEWORK_TOOLACTION_H_
 
 #include <QObject>
 #include "Iact/Framework/WorkspaceControl.h"
 
 class Sun_WorkspaceController;
 
-class ToolAction : public WorkspaceControl {
+class ToolAction : public WorkspaceControl 
+{
     Q_OBJECT
-
- public:
+public:
     explicit ToolAction(QObject* parent = nullptr) {};
 
     // Start and stop functions
@@ -20,7 +20,7 @@ class ToolAction : public WorkspaceControl {
     void stop() { onStop(); cleanup(); assert(cleanedUp()); }
 
     bool isFinished() const { return m_isFinished; }
- protected:
+protected:
     // Virtual function for subclasses to override
     virtual bool onStart() { return false; }
     virtual void onStop() {}
@@ -31,7 +31,7 @@ class ToolAction : public WorkspaceControl {
     //     return true;
     // }
 
- private:
+private:
     // Assuming cleanup and cleanedUp are functions from the base class
     void cleanup() {
         // Resource cleanup implementation
@@ -45,4 +45,4 @@ private:
     bool m_isFinished = false;
 };
 
-#endif  // SRC_IACT_FRAMEWORK_TOOLACTION_H_
+#endif  // IACT_FRAMEWORK_TOOLACTION_H_

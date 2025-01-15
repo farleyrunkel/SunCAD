@@ -17,10 +17,10 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 	: QWidget(parent)
 	, _Model(new ViewportPanelModel())
 	, _MouseControl(new ViewportMouseControlDefault())
-	, _ViewportHwndHost(nullptr) 
+	, m_hudContainer(new QFrame(this))
+	, _ViewportHwndHost(nullptr)
 {
 	connect(_Model, &ViewportPanelModel::propertyChanged, this, &ViewportPanel::_Model_PropertyChanged);
-
 	// Initialize layout for the panel
 	setLayout(new QVBoxLayout(this));
 

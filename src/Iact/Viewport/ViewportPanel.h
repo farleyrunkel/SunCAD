@@ -17,6 +17,7 @@
 #include <QPointF>
 #include <QMenu>
 #include <QAction>
+#include <QFrame>
 
 // Project includes
 #include "Comm/PropertyChangedEventArgs.h"
@@ -34,11 +35,14 @@ public:
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event) override {}
-	virtual void mouseMoveEvent(QMouseEvent* event) override {
+	virtual void mouseMoveEvent(QMouseEvent* event) override 
+	{
 		qDebug() << "ViewportPanel: Mouse move event";
 		QWidget::mouseMoveEvent(event);
+		_MouseMovePosition = event->localPos();
 
 		_MouseControl->MouseMove(event->pos(), event, event->modifiers());
+		_UpdateHud(_MouseMovePosition);
 	}
 
 	virtual void mousePressEvent(QMouseEvent* event) override {
@@ -74,11 +78,17 @@ protected:
 private:
 	void _Model_PropertyChanged(const QString& propertyName);
 	void _ViewportControllerChanged();
+	void _UpdateHud(const QPointF& pos) {
+		int x = pos.x();
+		int y = pos.y();
+		m_hudContainer->move(x, y);
+	}
 
 private:
 	ViewportPanelModel* _Model;
 	ViewportHwndHost* _ViewportHwndHost;
 	IViewportMouseControl* _MouseControl;
+	QFrame* m_hudContainer;
 	QPointF _MouseMovePosition;
 	bool _SuppressContextMenu;
 

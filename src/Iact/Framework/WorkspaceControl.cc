@@ -2,34 +2,40 @@
 
 #include "Iact/Framework/WorkspaceControl.h"
 
-#include "Iact/Workspace/WorkspaceController.h"
 #include "Iact/Visual/VisualObject.h"
-#include "Core/Core.h"
+#include "Iact/Workspace/InteractiveContext.h"
+#include "Iact/Workspace/WorkspaceController.h"
 
 WorkspaceControl::WorkspaceControl(QObject* parent) 
-	: QObject(parent) ,
-	_WorkspaceController(nullptr) {
+	: QObject(parent) 
+	,_WorkspaceController(nullptr) 
+{
 }
 
-Sun_WorkspaceController* WorkspaceControl::workspaceController() const { 
+Sun_WorkspaceController* WorkspaceControl::workspaceController() const 
+{ 
 	return _WorkspaceController; 
 }
 
-void WorkspaceControl::setWorkspaceController(Sun_WorkspaceController* WorkspaceController) {
+void WorkspaceControl::setWorkspaceController(Sun_WorkspaceController* WorkspaceController) 
+{
 	_WorkspaceController = WorkspaceController;
 }
 
-QList<WorkspaceControl*> WorkspaceControl::getChildren() const {
+QList<WorkspaceControl*> WorkspaceControl::getChildren() const 
+{
 	return {};
 }
 
 void WorkspaceControl::add(IHudElement* hudElement) 
 {
-	if (hudElement == nullptr || _HudElements.contains(hudElement)) {
+	if (hudElement == nullptr || m_hudElements.contains(hudElement)) 
+	{
 		return;
 	}
-	_HudElements.append(hudElement);
-	if (auto wc = Core::appContext()->workspaceController(); wc->hudManager()) {
+	m_hudElements.append(hudElement);
+	auto wc = InteractiveContext::current()->workspaceController();
+	if (wc && wc->hudManager()) {
 		wc->hudManager()->addElement(hudElement);
 	}
 }

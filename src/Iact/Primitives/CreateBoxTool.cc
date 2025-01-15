@@ -52,7 +52,7 @@ void CreateBoxTool::_PivotAction_Finished(const std::shared_ptr<PointAction::Eve
 	_Plane = workspaceController()->workspace()->workingPlane();
 	_PointPlane1 = args->PointOnPlane;
 
-	StopAction(action);
+	stopAction(action);
 	auto newAction = new PointAction();
 
 	connect(newAction, &PointAction::preview, this, &CreateBoxTool::_BaseRectAction_Preview);

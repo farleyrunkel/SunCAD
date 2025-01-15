@@ -13,7 +13,6 @@ class Coord2DHudElement : public IHudElement
     Q_OBJECT
     Q_PROPERTY(double coordinateX READ CoordinateX)
     Q_PROPERTY(double coordinateY READ CoordinateY)
-
 public:
     explicit Coord2DHudElement(QWidget* parent = nullptr);
 
@@ -21,11 +20,9 @@ public:
     double CoordinateY() const { return _CoordinateY; }
 
     void setValues(double coordX, double coordY);
-
-    virtual void Initialize() override;
-
 private:
-    QLabel* _Label;
+    QLabel* _LabelX;
+    QLabel* _LabelY;
     double _CoordinateX;
     double _CoordinateY;
 };
