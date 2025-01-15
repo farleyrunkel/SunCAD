@@ -88,7 +88,7 @@ Tool* Sun_WorkspaceController::currentTool() const {
 }
 
 bool Sun_WorkspaceController::startTool(Tool* tool) {
-    qDebug() << "Debug: _WorkspaceController::startTool";
+    qDebug() << "Debug: m_workspaceController::startTool";
     try {
         if (currentTool() != nullptr && !cancelTool(currentTool(), true)) {
             return false;
@@ -261,7 +261,7 @@ void Sun_WorkspaceController::MouseMove(Sun_ViewportController* vc, QPointF pos,
 
     _MouseEventData->set(vc->viewport(), pos, planePoint, modifiers);
 
-    qDebug() << "Debug: _WorkspaceController::MouseMove: " << pos;
+    qDebug() << "Debug: m_workspaceController::MouseMove: " << pos;
     for (const auto& handler : enumerateControls()) {
         if (handler->onMouseMove(_MouseEventData))
             break;
@@ -269,7 +269,7 @@ void Sun_WorkspaceController::MouseMove(Sun_ViewportController* vc, QPointF pos,
 }
 
 void Sun_WorkspaceController::MouseDown(Sun_ViewportController* viewportController, Qt::KeyboardModifiers modifiers) {
-    qDebug() << "Debug: _WorkspaceController::MouseDown: " << modifiers;
+    qDebug() << "Debug: m_workspaceController::MouseDown: " << modifiers;
     for (const auto& handler : enumerateControls()) {
         if (handler->onMouseDown(_MouseEventData))
             break;
@@ -277,7 +277,7 @@ void Sun_WorkspaceController::MouseDown(Sun_ViewportController* viewportControll
 }
 
 void Sun_WorkspaceController::MouseUp(Sun_ViewportController* viewportController, Qt::KeyboardModifiers modifiers) {
-    qDebug() << "Debug: _WorkspaceController::MouseUp: " << modifiers;
+    qDebug() << "Debug: m_workspaceController::MouseUp: " << modifiers;
     for (const auto& handler : enumerateControls()) {
         if (handler->onMouseUp(_MouseEventData))
             break;
@@ -319,7 +319,7 @@ Sun_ViewportController* Sun_WorkspaceController::viewportController(Sun_Viewport
 void Sun_WorkspaceController::dispose() {}
 
 QList<WorkspaceControl*> Sun_WorkspaceController::enumerateControls() {
-    qDebug() << "Debug: _WorkspaceController::enumerateControls";
+    qDebug() << "Debug: m_workspaceController::enumerateControls";
     QList<WorkspaceControl*> controls;
 
     if (_CurrentTool) {

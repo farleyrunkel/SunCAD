@@ -43,39 +43,41 @@ public:
 
     void setViewportController(Sun_ViewportController* value) {
         _ViewportController = value;
+        raisePropertyChanged("viewportController");
     }
 
     // workspaceController getter/setter
     void setWorkspaceController(Sun_WorkspaceController* value) {
         if (_WorkspaceController != value) {
             _WorkspaceController = value;
-            if (_WorkspaceController!=nullptr) {
-                //_WorkspaceController->SetHudManager(this);
+            if (_WorkspaceController != nullptr) {
+                //m_workspaceController->SetHudManager(this);
             }
             else {
                 //HudElements.Clear();
             }
             _WorkspaceController = value;
+            raisePropertyChanged("workspaceController");
         }
     }
 
-    void context_PropertyChanged(const QString& e)
+    void context_PropertyChanged(const QString& propertyName)
     {
-        if (e == "workspaceController") {
+        if (propertyName == "workspaceController") {
             if (_WorkspaceController != nullptr) {
-                //_WorkspaceController.Selection.SelectionChanged -= _Selection_SelectionChanged;
+                //m_workspaceController.Selection.SelectionChanged -= _Selection_SelectionChanged;
             }
-            if (auto asender = dynamic_cast<InteractiveContext*>(sender())) {
-                setWorkspaceController(asender->workspaceController());
+            if (auto context = dynamic_cast<InteractiveContext*>(sender())) {
+                setWorkspaceController(context->workspaceController());
             }
 
             if (_WorkspaceController != nullptr) {
-                //_WorkspaceController.Selection.SelectionChanged += _Selection_SelectionChanged;
+                //m_workspaceController.Selection.SelectionChanged += _Selection_SelectionChanged;
             }
         }
-        else if (e == "viewportController") {
-            if (auto asender = dynamic_cast<InteractiveContext*>(sender())) {
-                setViewportController(asender->viewportController());
+        else if (propertyName == "viewportController") {
+            if (auto context = dynamic_cast<InteractiveContext*>(sender())) {
+                setViewportController(context->viewportController());
             }
         }
     }

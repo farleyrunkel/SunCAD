@@ -36,9 +36,7 @@ class InteractiveContext : public CoreContext
     InteractiveContext();
     ~InteractiveContext() override;
 
-    static InteractiveContext* current() {
-        return _Current;
-    }
+    static InteractiveContext* current();
 
     // ModelController getter/setter
     ModelController* documentController() const;
@@ -63,22 +61,17 @@ class InteractiveContext : public CoreContext
 
     void addToScriptMruList(const QString& filePath);
 
- signals:
-    void workspaceControllerChanged(Sun_WorkspaceController*);
-    void documentControllerChanged(ModelController*);
-    void viewportControllerChanged(Sun_ViewportController*);
-
  private:
     EditorState* m_editorState;
     ModelController* m_documentController;
-    Sun_WorkspaceController* _WorkspaceController;
+    Sun_WorkspaceController* m_workspaceController;
     Sun_ViewportController* m_viewportController;
 
     QList<QColor> m_recentUsedColors;
     QList<QString> m_recentUsedScripts;
     const int m_maxScriptMruCount = 10;
 
-    static InteractiveContext* _Current;
+    static InteractiveContext* s_current;
 };
 
 #endif  // SRC_IACT_WORKSPACE_INTERACTIVECONTEXT_H_
