@@ -12,10 +12,11 @@
 #include "Iact/Framework/ToolAction.h"
 #include "Iact/Workspace/MouseEventData.h"
 
-class PointAction : public ToolAction {
+class PointAction : public ToolAction
+{
     Q_OBJECT
 
- public:
+public:
     class EventArgs {
     public:
         EventArgs() {}
@@ -27,23 +28,23 @@ class PointAction : public ToolAction {
         gp_Pnt MarkerPosition;
     };
 
- public:
+public:
     explicit PointAction();;
  
- protected:
+protected:
     bool onStart() override;
 
     bool onMouseMove(MouseEventData* data) override;
     bool onMouseDown(MouseEventData* data) override;
     bool onMouseUp(MouseEventData* data) override;
 
- private:
+private:
      void _EnsureMarker();
      void ProcessMouseInput(MouseEventData* data);
 
- signals:
-    void Preview(PointAction::EventArgs* args);
-    void Finished(PointAction::EventArgs* args);
+signals:
+    void Preview(const std::shared_ptr<PointAction::EventArgs>& args);
+    void Finished(const std::shared_ptr<PointAction::EventArgs>& args);
 
 private:
     bool _IsFinished;

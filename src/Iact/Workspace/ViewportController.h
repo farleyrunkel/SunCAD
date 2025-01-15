@@ -67,7 +67,7 @@ public:
 	void MouseDown(Qt::KeyboardModifiers modifiers);
 	void MouseUp(Qt::KeyboardModifiers modifiers);
 	void StartEditing() {}
-	void StartRubberbandSelection() {}  // Add necessary parameters
+	void StartRubberbandSelection() {}  // add necessary parameters
 	void Zoom(const QPointF& pos, double delta) {}
 	void Rotate(double deltaX, double deltaY, double deltaZ) {}
 

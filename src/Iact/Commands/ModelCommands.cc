@@ -12,7 +12,8 @@
 #include "Iact/Commands/CommandHelper.h"
 
 // Initialize the static command outside the class
-ActionCommand& ModelCommands::CreateBox() {
+ActionCommand& ModelCommands::createBox() 
+{
     static ActionCommand command (
         []() { CommandHelper::startTool(new CreateBoxTool()); },
         []() { return CommandHelper::canStartTool(); }
@@ -27,18 +28,21 @@ ActionCommand& ModelCommands::CreateBox() {
         command.connect(Core::commandManager(), &CommandManager::updateEnabled,
             []() { command.setEnabled(command.canExecute()); }
         );
-        //command.connect(Core::appContext(), &InteractiveContext::workspaceControllerChanged,
-        //    [](workspaceController* controller) { 
+        //command.connect(Core::appContext(), &InteractiveContext::propertyChanged,
+        //                [](const QString& propertyName) {
+        //    if (propertyName == "workspaceController") {
+        //        auto controller = Core::appContext()->workspaceController();
         //        auto currentTool = controller->currentTool();
         //        command.setCheckable(currentTool && qobject_cast<CreateBoxTool*>(currentTool) != nullptr);
         //    }
+        //}
         //);
     }
 
     return command; 
 }
 
-ActionCommand& ModelCommands::CreateCylinder()
+ActionCommand& ModelCommands::createCylinder()
 {
     static ActionCommand command(
         []() { CommandHelper::startTool(new CreateBoxTool()); },
@@ -59,7 +63,7 @@ ActionCommand& ModelCommands::CreateCylinder()
     return command;
 }
 
-ActionCommand& ModelCommands::CreateSphere()
+ActionCommand& ModelCommands::createSphere()
 {
     static ActionCommand command(
         []() { CommandHelper::startTool(new CreateBoxTool()); },

@@ -1,7 +1,7 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_APP_APPLICATION_H_
-#define SRC_APP_APPLICATION_H_
+#ifndef APP_APPLICATION_H_
+#define APP_APPLICATION_H_
 
 #include <QString>
 #include <QApplication>
@@ -14,24 +14,25 @@
 
 class Core;
 
-class Application : public QApplication {
+class Application : public QApplication 
+{
     Q_OBJECT
 
- public:
+public:
     Application(int& argc, char** argv);
     ~Application();
 
- private:
+private:
     void initTranslation();
 
- private:
+private:
     friend class Core;
 
- private:
+private:
     MainWindow* m_mainWindow;
     WelcomeDialog* m_welcomeDialog;
     AppContext* m_appContext;
     CommandManager* m_commandManager;
 };
 
-#endif  // SRC_APP_APPLICATION_H_
+#endif  // APP_APPLICATION_H_

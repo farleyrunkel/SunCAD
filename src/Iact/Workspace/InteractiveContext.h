@@ -1,14 +1,12 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_IACT_WORKSPACE_INTERACTIVECONTEXT_H_
-#define SRC_IACT_WORKSPACE_INTERACTIVECONTEXT_H_
+#ifndef IACT_WORKSPACE_INTERACTIVECONTEXT_H_
+#define IACT_WORKSPACE_INTERACTIVECONTEXT_H_
 
 #include <QObject>
 #include <QList>
 #include <QString>
 #include <QColor>
-#include <QScopedPointer>
-#include <QSharedPointer>
 
 #include "Comm/BaseObject.h"
 #include "Core/CoreContext.h"
@@ -32,7 +30,7 @@ class InteractiveContext : public CoreContext
     Q_PROPERTY(Sun_WorkspaceController* workspaceController READ workspaceController WRITE setWorkspaceController)
     Q_PROPERTY(Sun_ViewportController* viewportController READ viewportController WRITE setViewportController)
 
- public:
+public:
     InteractiveContext();
     ~InteractiveContext() override;
 
@@ -61,7 +59,7 @@ class InteractiveContext : public CoreContext
 
     void addToScriptMruList(const QString& filePath);
 
- private:
+private:
     EditorState* m_editorState;
     ModelController* m_documentController;
     Sun_WorkspaceController* m_workspaceController;
@@ -74,4 +72,4 @@ class InteractiveContext : public CoreContext
     static InteractiveContext* s_current;
 };
 
-#endif  // SRC_IACT_WORKSPACE_INTERACTIVECONTEXT_H_
+#endif  // IACT_WORKSPACE_INTERACTIVECONTEXT_H_

@@ -32,14 +32,14 @@ public:
 
 protected:
 	virtual bool OnStart() override;
-	virtual void Cleanup() override {}
+	virtual void cleanup() override {}
 
 private:
 	void _EnsurePreviewShape();
-	void _PivotAction_Preview(PointAction::EventArgs* args);
-	void _PivotAction_Finished(PointAction::EventArgs* args);
-	void _BaseRectAction_Preview(PointAction::EventArgs* args);
-	void _BaseRectAction_Finished(PointAction::EventArgs* args);
+	void _PivotAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args);
+	void _PivotAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args);
+	void _BaseRectAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args);
+	void _BaseRectAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args);
 	void _MultiValueEntered(double newValue1, double newValue2);
 
 private:

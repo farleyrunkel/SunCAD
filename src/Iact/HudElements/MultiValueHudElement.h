@@ -97,7 +97,7 @@ public:
         int textWidth = metrics.horizontalAdvance(_edit1->text());
 
         // Set the width dynamically based on the text width
-        _edit1->setFixedWidth(std::min(textWidth + 10, 50)); // Add some padding for aesthetic purposes
+        _edit1->setFixedWidth(std::min(textWidth + 10, 50)); // add some padding for aesthetic purposes
     }
 
     void SetValue2(double value)
@@ -108,7 +108,7 @@ public:
         int textWidth = metrics.horizontalAdvance(_edit2->text());
 
         // Set the width dynamically based on the text width
-        _edit2->setFixedWidth(std::min(textWidth + 10, 50)); // Add some padding for aesthetic purposes
+        _edit2->setFixedWidth(std::min(textWidth + 10, 50)); // add some padding for aesthetic purposes
     }
 
 protected:

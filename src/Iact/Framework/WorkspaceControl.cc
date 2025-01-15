@@ -11,7 +11,7 @@ WorkspaceControl::WorkspaceControl(QObject* parent)
 	_WorkspaceController(nullptr) {
 }
 
-Sun_WorkspaceController* WorkspaceControl::WorkspaceController() const { 
+Sun_WorkspaceController* WorkspaceControl::workspaceController() const { 
 	return _WorkspaceController; 
 }
 
@@ -19,11 +19,11 @@ void WorkspaceControl::setWorkspaceController(Sun_WorkspaceController* Workspace
 	_WorkspaceController = WorkspaceController;
 }
 
-QList<WorkspaceControl*> WorkspaceControl::GetChildren() const {
+QList<WorkspaceControl*> WorkspaceControl::getChildren() const {
 	return {};
 }
 
-void WorkspaceControl::Add(IHudElement* hudElement) {
+void WorkspaceControl::add(IHudElement* hudElement) {
 	if (hudElement == nullptr || _HudElements.contains(hudElement)) {
 		return;
 	}
@@ -39,9 +39,9 @@ void WorkspaceControl::setHintMessage(const QString& message) {
 	//	hudManager->setHintMessage(message);
 }
 
-void WorkspaceControl::Add(VisualObject* visual) {
+void WorkspaceControl::add(VisualObject* visual) {
 	if (_VisualObjects.contains(visual))
 		return;
 	_VisualObjects.append(visual);
-	WorkspaceController()->Invalidate();
+	workspaceController()->Invalidate();
 }

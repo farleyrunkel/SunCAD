@@ -110,15 +110,15 @@ void MainWindow::setupCategories()
 
     if (SARibbonCategory* aCategory = m_ribbonBar->addCategoryPage(tr("Model"))) {
         if (SARibbonPannel* aPannel = aCategory->addPannel(tr("Create"))) {
-            aPannel->addAction(&ModelCommands::CreateBox(), SARibbonPannelItem::Large);
-            aPannel->addAction(&ModelCommands::CreateCylinder(), SARibbonPannelItem::Large);
-            aPannel->addAction(&ModelCommands::CreateSphere(), SARibbonPannelItem::Large);
+            aPannel->addAction(&ModelCommands::createBox(), SARibbonPannelItem::Large);
+            aPannel->addAction(&ModelCommands::createCylinder(), SARibbonPannelItem::Large);
+            aPannel->addAction(&ModelCommands::createSphere(), SARibbonPannelItem::Large);
         }
     }
 
     if (SARibbonCategory* aCategory = m_ribbonBar->addCategoryPage(tr("View"))) {
         if (SARibbonPannel* aPannel = aCategory->addPannel(tr("Widgets"))) {
-            aPannel->addAction(&ModelCommands::CreateBox(), SARibbonPannelItem::Large);
+            aPannel->addAction(&ModelCommands::createBox(), SARibbonPannelItem::Large);
         }
         if (SARibbonPannel* aPannel = aCategory->addPannel(tr("Panels"))) {
             aPannel->addAction(&AppCommands::showDocumentExplorer(), SARibbonPannelItem::Large);
@@ -147,7 +147,7 @@ void MainWindow::setupDockWidgets()
     ads::CDockWidget* messageDock = new ads::CDockWidget("Message");
     messageDock->setWidget(new WelcomeDialog());
 
-    // Add dock widgets to specific dock areas
+    // add dock widgets to specific dock areas
     m_dockManager->addAutoHideDockWidget(ads::SideBarLocation::SideBarRight, propertiesDock)->setSize(240);
     m_dockManager->addAutoHideDockWidget(ads::SideBarLocation::SideBarLeft, documentDock)->setSize(240);
     m_dockManager->addAutoHideDockWidget(ads::SideBarLocation::SideBarLeft, layersDock)->setSize(240);

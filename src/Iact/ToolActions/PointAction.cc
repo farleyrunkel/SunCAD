@@ -24,9 +24,9 @@ bool PointAction::onMouseMove(MouseEventData* data) {
     if (!_IsFinished) {
         _EnsureMarker();
         ProcessMouseInput(data);
-        EventArgs* args = new EventArgs(
+        auto args = std::make_shared<EventArgs>(
             _CurrentPoint,
-            ProjLib::Project(WorkspaceController()->workspace()->WorkingPlane(), _CurrentPoint),
+            ProjLib::Project(workspaceController()->workspace()->WorkingPlane(), _CurrentPoint),
             _CurrentPoint,
             data
         );
@@ -35,7 +35,7 @@ bool PointAction::onMouseMove(MouseEventData* data) {
         qDebug() << "Debug: _Marker->Set(args->Point): " << args->Point.X() << " " << args->Point.Y();
 
         _Marker->Set(args->Point);
-        WorkspaceController()->Invalidate();
+        workspaceController()->Invalidate();
         return ToolAction::onMouseMove(data);
     }
 
@@ -51,9 +51,9 @@ bool PointAction::onMouseUp(MouseEventData* data) {
         
         ProcessMouseInput(data);
         _IsFinished = true;
-        auto args = new EventArgs(
+        auto args = std::make_shared<EventArgs>(
             _CurrentPoint,
-            ProjLib::Project(WorkspaceController()->workspace()->WorkingPlane(), _CurrentPoint),
+            ProjLib::Project(workspaceController()->workspace()->WorkingPlane(), _CurrentPoint),
             _CurrentPoint,
             data
         );
@@ -65,8 +65,8 @@ bool PointAction::onMouseUp(MouseEventData* data) {
 
 void PointAction::_EnsureMarker() {
     if (_Marker == nullptr) {
-        _Marker = new Marker(WorkspaceController(), Marker::Styles::Bitmap, Marker::PlusImage());
-        Add(_Marker);
+        _Marker = new Marker(workspaceController(), Marker::Styles::Bitmap, Marker::PlusImage());
+        add(_Marker);
     }
 }
 

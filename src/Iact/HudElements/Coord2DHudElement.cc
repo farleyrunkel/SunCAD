@@ -27,7 +27,7 @@ void Coord2DHudElement::SetValues(double coordX, double coordY)
     int textWidth = metrics.horizontalAdvance(displayText);
 
     // Set the width dynamically based on the text width
-    setFixedWidth(textWidth + 20); // Add some padding for aesthetic purposes
+    setFixedWidth(textWidth + 20); // add some padding for aesthetic purposes
     adjustSize();
 
     emit SizeChanged(size());

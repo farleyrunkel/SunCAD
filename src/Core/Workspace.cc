@@ -43,7 +43,7 @@ Sun::Workspace::Workspace(Model* model)
 }
 
 //workspace::~workspace() {
-//    // Cleanup Viewports
+//    // cleanup Viewports
 //    for (auto viewport : m_viewports) {
 //        delete viewport;
 //    }

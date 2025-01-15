@@ -36,7 +36,7 @@ class EntityContainer : public Entity {
     virtual void add(Entity* entity, bool update = true) {
         entityList.append(entity);
         if (update) {
-            // Emit signal that an item has been added
+         // Emit signal that an item has been added
             emit collectionChanged(NotifyCollectionChangedAction::Add, entity, entityList.size() - 1);
         }
     }

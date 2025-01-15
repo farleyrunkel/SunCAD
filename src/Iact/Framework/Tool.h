@@ -32,13 +32,13 @@ class Tool : public WorkspaceControl {
 	virtual bool prepareUndo();
 
  protected:
-	virtual QList<WorkspaceControl*> GetChildren() const;
+	virtual QList<WorkspaceControl*> getChildren() const;
 
 	virtual bool onCancel();
 
 	virtual void onStop();
 
-	virtual void Cleanup() override;
+	virtual void cleanup() override;
 
 	//void BaseCleanup() {
 	//	CleanedUp = true;

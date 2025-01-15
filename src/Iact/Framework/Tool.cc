@@ -11,7 +11,7 @@ Tool::Tool(QObject* parent) : WorkspaceControl(),
 bool Tool::start() {
 	if (OnStart()) {
 		m_isActive = true;
-		WorkspaceController()->Invalidate();
+		workspaceController()->Invalidate();
 		return true;
 	}
 	return false;
@@ -35,10 +35,10 @@ bool Tool::cancel(bool force) {
 void Tool::stop() {
 	m_isActive = false;
 	onStop();
-	Cleanup();
+	cleanup();
 
-	WorkspaceController()->removeTool(this);
-	WorkspaceController()->Invalidate();
+	workspaceController()->removeTool(this);
+	workspaceController()->Invalidate();
 }
 
 QString Tool::id() const { return m_id; }
@@ -47,8 +47,8 @@ bool Tool::prepareUndo() {
 	return cancel(false);
 }
 
-QList<WorkspaceControl*> Tool::GetChildren() const {
-	qDebug() << "Debug: Tool::GetChildren";
+QList<WorkspaceControl*> Tool::getChildren() const {
+	qDebug() << "Debug: Tool::getChildren";
 	return { m_toolActions.begin(), m_toolActions.end() };
 }
 
@@ -58,7 +58,7 @@ bool Tool::onCancel() {
 
 void Tool::onStop() {}
 
-void Tool::Cleanup() {
+void Tool::cleanup() {
 	//StopAllActions();
 	//RestoreAllVisualShapes();
 	//BaseCleanup();
@@ -74,7 +74,7 @@ bool Tool::StartAction(ToolAction* toolAction, bool exclusive) {
 		}
 
 		if (toolAction != nullptr) {
-			toolAction->setWorkspaceController(WorkspaceController());
+			toolAction->setWorkspaceController(workspaceController());
 			if (!toolAction->start())
 				return false;
 

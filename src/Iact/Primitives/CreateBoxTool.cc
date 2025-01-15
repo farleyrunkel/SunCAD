@@ -10,7 +10,8 @@ CreateBoxTool::CreateBoxTool()
 {	
 }
 
-bool CreateBoxTool::OnStart() {
+bool CreateBoxTool::OnStart() 
+{
 	qDebug() << "Debug: CreateBoxTool::OnStart";
 	_CurrentPhase = Phase::PivotPoint;
 	auto pointAction = new PointAction();
@@ -23,20 +24,24 @@ bool CreateBoxTool::OnStart() {
 
 	setHintMessage("Select corner point.");
 	_Coord2DHudElement = new Coord2DHudElement;
-	Add(_Coord2DHudElement);
+	add(_Coord2DHudElement);
 	return true;
 }
 
-void CreateBoxTool::_EnsurePreviewShape() {}
+void CreateBoxTool::_EnsurePreviewShape() 
+{
+}
 
-void CreateBoxTool::_PivotAction_Preview(PointAction::EventArgs* args) {
+void CreateBoxTool::_PivotAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args)
+{
 	qDebug() << "Debug: CreateBoxTool::_PivotAction_Preview";
 	if (_Coord2DHudElement) {
 		_Coord2DHudElement->SetValues(args->Point.X(), args->Point.Y());
 	}
 }
 
-void CreateBoxTool::_PivotAction_Finished(PointAction::EventArgs* args) {
+void CreateBoxTool::_PivotAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args)
+{
 	qDebug() << "Debug: CreateBoxTool::_PivotAction_Finished";
 
 	PointAction* action = qobject_cast<PointAction*>(sender());
@@ -44,7 +49,7 @@ void CreateBoxTool::_PivotAction_Finished(PointAction::EventArgs* args) {
 		return;
 	}
 
-	_Plane = WorkspaceController()->workspace()->WorkingPlane();
+	_Plane = workspaceController()->workspace()->WorkingPlane();
 	_PointPlane1 = args->PointOnPlane;
 
 	StopAction(action);
@@ -65,16 +70,16 @@ void CreateBoxTool::_PivotAction_Finished(PointAction::EventArgs* args) {
 		_MultiValueHudElement->SetLabel("Length:", "Width:");
 		connect(_MultiValueHudElement, &MultiValueHudElement::MultiValueEntered, 
 				this, &CreateBoxTool::_MultiValueEntered);
-		Add(_MultiValueHudElement);
+		add(_MultiValueHudElement);
 	}
 }
 
-void CreateBoxTool::_BaseRectAction_Preview(PointAction::EventArgs* args) 
+void CreateBoxTool::_BaseRectAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args)
 {
 	qDebug() << "Debug: CreateBoxTool::_BaseRectAction_Preview";
 }
 
-void CreateBoxTool::_BaseRectAction_Finished(PointAction::EventArgs* args) 
+void CreateBoxTool::_BaseRectAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args)
 {
 
 }

@@ -42,7 +42,7 @@ ViewportView::ViewportView(QWidget* parent)
     _MessageBar->setStyleSheet("background-color: lightyellow;");
     mainLayout->addWidget(_MessageBar);
 
-    // Add spacer between the labels
+    // add spacer between the labels
     mainLayout->addStretch(1);
 
     // Grid information display
