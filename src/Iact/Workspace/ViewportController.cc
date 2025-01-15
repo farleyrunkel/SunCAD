@@ -43,7 +43,8 @@ QString Sun_ViewportController::DumpInfo(bool theIsBasic, bool theToPrint) {
 	return QString::fromUtf8(anInfo.ToCString());
 }
 
-void Sun_ViewportController::MouseMove(const QPointF& pos, Qt::KeyboardModifiers modifiers, MouseMoveMode mode) {
+void Sun_ViewportController::MouseMove(const QPointF& pos, Qt::KeyboardModifiers modifiers, MouseMoveMode mode) 
+{
 	workspaceController()->MouseMove(this, pos, modifiers);
 	workspaceController()->invalidate();
 }

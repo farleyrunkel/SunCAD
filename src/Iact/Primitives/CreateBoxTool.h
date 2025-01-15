@@ -1,7 +1,7 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_IACT_PRIMITIVES_CREATEBOXTOOL_H_
-#define SRC_IACT_PRIMITIVES_CREATEBOXTOOL_H_
+#ifndef IACT_PRIMITIVES_CREATEBOXTOOL_H_
+#define IACT_PRIMITIVES_CREATEBOXTOOL_H_
 
 #include <QObject>
 #include <QPointer>
@@ -54,4 +54,4 @@ private:
 	QPointer<VisualObject> _VisualShape;
 };
 
-#endif // SRC_IACT_PRIMITIVES_CREATEBOXTOOL_H_
+#endif // IACT_PRIMITIVES_CREATEBOXTOOL_H_

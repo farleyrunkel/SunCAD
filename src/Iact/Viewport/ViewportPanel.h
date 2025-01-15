@@ -8,9 +8,6 @@
 #include <memory>
 #include <string>
 
-// boost includes
-#include <boost/signals2.hpp>
-
 // Qt includes
 #include <QWidget>
 #include <QDebug>

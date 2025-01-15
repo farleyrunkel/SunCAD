@@ -28,10 +28,10 @@ public:
         _isInKeyboardMode2(false),
         _firstFromKeyboard(true)
     {
-        Initialize();
+        initialize();
     }
 
-    virtual void Initialize() override
+    virtual void initialize() override
     {
         setFixedSize(100, 65);
         // Set up the layout

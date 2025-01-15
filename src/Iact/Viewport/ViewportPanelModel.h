@@ -6,6 +6,7 @@
 #include <any>
 
 #include "Comm/BaseObject.h"
+#include "Comm/ObservableCollection.h"
 #include "Comm/PropertyChangedEventArgs.h"
 #include "Iact/HudElements/HudElement.h"
 #include "Iact/HudElements/IHudManager.h"
@@ -27,29 +28,43 @@ public:
         setViewportController(InteractiveContext::current()->viewportController());
     }
 
-    virtual void addElement(IHudElement* element) override {}
+    virtual void addElement(IHudElement* element) override 
+    {
+        if (m_hudElements.contains(element)) {
+            return;
+        }
+
+        element->setWorkspaceController(m_workspaceController);
+        element->initialize();
+        m_hudElements.add(element);
+    }
+
     virtual void removeElement(IHudElement* element) {}
     virtual void removeElements(std::function<bool(IHudElement*)> predicate) override {}
 
     // virtual void SetCursor(QObject* owner, Cursor* cursor) override {}
     virtual void setHintMessage(const QString& message) override {}
 
-    Sun_WorkspaceController* workspaceController() const {
+    Sun_WorkspaceController* workspaceController() const 
+    {
         return m_workspaceController;
     }
 
     // ViewportController getter/setter
-    Sun_ViewportController* viewportController() const {
+    Sun_ViewportController* viewportController() const 
+    {
         return m_viewportController;
     }
 
-    void setViewportController(Sun_ViewportController* value) {
+    void setViewportController(Sun_ViewportController* value) 
+    {
         m_viewportController = value;
         raisePropertyChanged("viewportController");
     }
 
     // workspaceController getter/setter
-    void setWorkspaceController(Sun_WorkspaceController* value) {
+    void setWorkspaceController(Sun_WorkspaceController* value) 
+    {
         if (m_workspaceController != value) {
             m_workspaceController = value;
             if (m_workspaceController != nullptr) {
@@ -87,7 +102,7 @@ public:
 private:
     Sun_WorkspaceController* m_workspaceController;
     Sun_ViewportController* m_viewportController;
-    //ObservableCollection<HudElement*> HudElements;
+    ObservableCollection<IHudElement*> m_hudElements;
 };
 
 #endif  // APP_VIEWPORTPANELMODEL_H_

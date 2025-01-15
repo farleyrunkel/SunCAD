@@ -20,11 +20,14 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 	, m_hudContainer(new QFrame(this))
 	, _ViewportHwndHost(nullptr)
 {
+	m_hudContainer->setFixedSize(100, 120);
+	m_hudContainer->installEventFilter(this);
 	connect(_Model, &ViewportPanelModel::propertyChanged, this, &ViewportPanel::_Model_PropertyChanged);
 	// Initialize layout for the panel
 	setLayout(new QVBoxLayout(this));
 
 	_ViewportControllerChanged();
+	m_hudContainer->raise();
 }
 
 void ViewportPanel::_Model_PropertyChanged(const QString& propertyName ) 
@@ -32,6 +35,7 @@ void ViewportPanel::_Model_PropertyChanged(const QString& propertyName )
 	if (propertyName == "viewportController") {
 		_ViewportControllerChanged();
 	}
+	m_hudContainer->raise();
 }
 
 void ViewportPanel::_ViewportControllerChanged() 
