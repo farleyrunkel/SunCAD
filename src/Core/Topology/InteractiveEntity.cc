@@ -78,7 +78,7 @@ void InteractiveEntity::setLayer(Layer* layer) {
     //}
 }
 
-// Invalidate method
+// invalidate method
 void InteractiveEntity::invalidate() {
     // Logic for invalidating entity
 }

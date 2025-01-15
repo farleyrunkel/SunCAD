@@ -30,8 +30,9 @@ class TopoDS_Shape;
 class Sun_Viewport;
 //--------------------------------------------------------------------------------------------------
 // 鼠标事件数据结构
-class MouseEventData {
- public:
+class MouseEventData 
+{
+public:
     // 定义元素类，包含交互对象、实体和形状信息
     struct Element {
         AIS_InteractiveObject* aisObject;

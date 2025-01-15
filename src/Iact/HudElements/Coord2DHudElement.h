@@ -20,7 +20,7 @@ public:
     double CoordinateX() const { return _CoordinateX; }
     double CoordinateY() const { return _CoordinateY; }
 
-    void SetValues(double coordX, double coordY);
+    void setValues(double coordX, double coordY);
 
     virtual void Initialize() override;
 

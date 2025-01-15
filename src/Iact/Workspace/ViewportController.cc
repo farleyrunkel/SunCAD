@@ -45,22 +45,22 @@ QString Sun_ViewportController::DumpInfo(bool theIsBasic, bool theToPrint) {
 
 void Sun_ViewportController::MouseMove(const QPointF& pos, Qt::KeyboardModifiers modifiers, MouseMoveMode mode) {
 	workspaceController()->MouseMove(this, pos, modifiers);
-	workspaceController()->Invalidate();
+	workspaceController()->invalidate();
 }
 
 void Sun_ViewportController::MouseDown(Qt::KeyboardModifiers modifiers) {
 	workspaceController()->MouseDown(this, modifiers);
-	workspaceController()->Invalidate();
+	workspaceController()->invalidate();
 }
 
 void Sun_ViewportController::MouseUp(Qt::KeyboardModifiers modifiers) {
 	workspaceController()->MouseUp(this, modifiers);
-	workspaceController()->Invalidate();
+	workspaceController()->invalidate();
 }
 
 void Sun_ViewportController::SetPredefinedView(PredefinedViews predefinedView) {
 	if (predefinedView == PredefinedViews::WorkingPlane) {
-		const auto& plane = workspaceController()->workspace()->WorkingPlane();
+		const auto& plane = workspaceController()->workspace()->workingPlane();
 		const auto& dir = plane.Axis().Direction();
 		viewport()->View()->SetProj(dir.X(), dir.Y(), dir.Z());
 
@@ -101,7 +101,7 @@ void Sun_ViewportController::SetPredefinedView(PredefinedViews predefinedView) {
 	_ViewCube->HandleClick(viewCubeOwner);
 	viewCubeOwner->~AIS_ViewCubeOwner();
 
-	workspaceController()->Invalidate();
+	workspaceController()->invalidate();
 }
 
 
@@ -130,11 +130,11 @@ void Sun_ViewportController::_SetViewCube(bool isVisible) {
 
 	if (isVisible && !aisContext->IsDisplayed(_ViewCube)) {
 		aisContext->Display(_ViewCube, false);
-		workspaceController()->Invalidate(true);
+		workspaceController()->invalidate(true);
 	}
 	else if (!isVisible && aisContext->IsDisplayed(_ViewCube)) {
 		aisContext->Remove(_ViewCube, false);
-		workspaceController()->Invalidate(true);
+		workspaceController()->invalidate(true);
 	}
 }
 
@@ -212,5 +212,5 @@ void Sun_ViewportController::_SetViewCube(bool isVisible, uint32_t size, double 
 	//    }
 	//}
 
-	workspaceController()->Invalidate(true);
+	workspaceController()->invalidate(true);
 }

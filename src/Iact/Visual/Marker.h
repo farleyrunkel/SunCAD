@@ -77,10 +77,10 @@ public:
     virtual void Remove() override;
     virtual void Update() override;
 
-    void Set(const gp_Pnt& p);
-    void Set(const Handle(Geom_CartesianPoint)& p);
-    void Set(const gp_Pnt2d& p, const gp_Pln& plane);
-    void SetImage(MarkerImage image);
+    void set(const gp_Pnt& p);
+    void set(const Handle(Geom_CartesianPoint)& p);
+    void set(const gp_Pnt2d& p, const gp_Pln& plane);
+    void setImage(MarkerImage image);
 
     static Handle(Prs3d_PointAspect) CreateBitmapPointAspect(
         const MarkerImage& image, Sun::Color color);

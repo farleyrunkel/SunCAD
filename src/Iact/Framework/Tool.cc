@@ -9,15 +9,15 @@ Tool::Tool(QObject* parent) : WorkspaceControl(),
 }
 
 bool Tool::start() {
-	if (OnStart()) {
+	if (onStart()) {
 		m_isActive = true;
-		workspaceController()->Invalidate();
+		workspaceController()->invalidate();
 		return true;
 	}
 	return false;
 }
 
-bool Tool::OnStart() { return false; }
+bool Tool::onStart() { return false; }
 
 ToolAction* Tool::currentAction() const {
 	return m_toolActions.size() > 0 ? m_toolActions.first() : nullptr;
@@ -38,7 +38,7 @@ void Tool::stop() {
 	cleanup();
 
 	workspaceController()->removeTool(this);
-	workspaceController()->Invalidate();
+	workspaceController()->invalidate();
 }
 
 QString Tool::id() const { return m_id; }
@@ -64,7 +64,8 @@ void Tool::cleanup() {
 	//BaseCleanup();
 }
 
-bool Tool::StartAction(ToolAction* toolAction, bool exclusive) {
+bool Tool::startAction(ToolAction* toolAction, bool exclusive) 
+{
 	if (!m_toolActions.isEmpty() && std::find(m_toolActions.begin(), m_toolActions.end(), toolAction) != m_toolActions.end())
 		return true;
 

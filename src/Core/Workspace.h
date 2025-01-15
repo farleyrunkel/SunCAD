@@ -64,7 +64,7 @@ public:
 
     Sun_WorkingContext* workingContext() const;
 
-    const gp_Pln& WorkingPlane() const;
+    const gp_Pln& workingPlane() const;
 
     void SetWorkingPlane(const gp_Pln& value);
 

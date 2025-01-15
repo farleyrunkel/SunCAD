@@ -56,9 +56,9 @@ void Sun::Workspace::Init() {
 
 void Sun::Workspace::_ApplyWorkingContext() {
     if (_AisContext.IsNull()) {
-        //_V3dViewer->SetPrivilegedPlane(_CurrentWorkingContext->WorkingPlane.Position());
+        //_V3dViewer->SetPrivilegedPlane(_CurrentWorkingContext->workingPlane.Position());
     }
-    //raisePropertyChanged(nameof(WorkingPlane));
+    //raisePropertyChanged(nameof(workingPlane));
     emit GridChanged(this);
 }
 
@@ -158,15 +158,18 @@ void Sun::Workspace::setGridEnabled(bool value) {
     }
 }
 
-Sun::Workspace::GridTypes Sun::Workspace::gridType() const {
+Sun::Workspace::GridTypes Sun::Workspace::gridType() const 
+{
     return _CurrentWorkingContext->GridType();
 }
 
-Sun_WorkingContext* Sun::Workspace::workingContext() const {
+Sun_WorkingContext* Sun::Workspace::workingContext() const 
+{
     return _CurrentWorkingContext; 
 }
 
-const gp_Pln& Sun::Workspace::WorkingPlane() const {
+const gp_Pln& Sun::Workspace::workingPlane() const 
+{
     return _CurrentWorkingContext->WorkingPlane();
 }
 

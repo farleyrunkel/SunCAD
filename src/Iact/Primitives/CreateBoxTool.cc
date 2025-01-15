@@ -1,8 +1,8 @@
 // Copyright [2024] SunCAD
 
-#include "Iact/Primitives/CreateBoxTool.h"
 #include "Iact/HudElements/Coord2DHudElement.h"
 #include "Iact/HudElements/MultiValueHudElement.h"
+#include "Iact/Primitives/CreateBoxTool.h"
 #include "Iact/Workspace/WorkspaceController.h"
 
 CreateBoxTool::CreateBoxTool() 
@@ -10,17 +10,17 @@ CreateBoxTool::CreateBoxTool()
 {	
 }
 
-bool CreateBoxTool::OnStart() 
+bool CreateBoxTool::onStart() 
 {
-	qDebug() << "Debug: CreateBoxTool::OnStart";
-	_CurrentPhase = Phase::PivotPoint;
+	qDebug() << "Debug: CreateBoxTool::onStart";
+	m_currentPhase = Phase::PivotPoint;
 	auto pointAction = new PointAction();
-	if (!StartAction(pointAction)) {
+	if (!startAction(pointAction)) {
 		return false;
 	}
 
-	connect(pointAction, &PointAction::Preview, this, &CreateBoxTool::_PivotAction_Preview);
-	connect(pointAction, &PointAction::Finished, this, &CreateBoxTool::_PivotAction_Finished);
+	connect(pointAction, &PointAction::preview, this, &CreateBoxTool::_PivotAction_Preview);
+	connect(pointAction, &PointAction::finished, this, &CreateBoxTool::_PivotAction_Finished);
 
 	setHintMessage("Select corner point.");
 	_Coord2DHudElement = new Coord2DHudElement;
@@ -36,7 +36,7 @@ void CreateBoxTool::_PivotAction_Preview(const std::shared_ptr<PointAction::Even
 {
 	qDebug() << "Debug: CreateBoxTool::_PivotAction_Preview";
 	if (_Coord2DHudElement) {
-		_Coord2DHudElement->SetValues(args->Point.X(), args->Point.Y());
+		_Coord2DHudElement->setValues(args->Point.X(), args->Point.Y());
 	}
 }
 
@@ -49,19 +49,19 @@ void CreateBoxTool::_PivotAction_Finished(const std::shared_ptr<PointAction::Eve
 		return;
 	}
 
-	_Plane = workspaceController()->workspace()->WorkingPlane();
+	_Plane = workspaceController()->workspace()->workingPlane();
 	_PointPlane1 = args->PointOnPlane;
 
 	StopAction(action);
 	auto newAction = new PointAction();
 
-	connect(newAction, &PointAction::Preview, this, &CreateBoxTool::_BaseRectAction_Preview);
-	connect(newAction, &PointAction::Finished, this, &CreateBoxTool::_BaseRectAction_Finished);
+	connect(newAction, &PointAction::preview, this, &CreateBoxTool::_BaseRectAction_Preview);
+	connect(newAction, &PointAction::finished, this, &CreateBoxTool::_BaseRectAction_Finished);
 
-	if (!StartAction(newAction))
+	if (!startAction(newAction))
 		return;
 
-	_CurrentPhase = Phase::BaseRect;
+	m_currentPhase = Phase::BaseRect;
 	setHintMessage("Select opposite corner point, press `k:Ctrl` to round length and width to grid stepping.");
 
 	if (_MultiValueHudElement == nullptr)
@@ -86,7 +86,7 @@ void CreateBoxTool::_BaseRectAction_Finished(const std::shared_ptr<PointAction::
 
 void CreateBoxTool::_MultiValueEntered(double newValue1, double newValue2)
 {
-	if (_CurrentPhase == Phase::BaseRect)
+	if (m_currentPhase == Phase::BaseRect)
 	{
 		_PointPlane2 = gp_Pnt2d(_PointPlane1.X() + newValue1, _PointPlane1.Y() + newValue2);
 		_BaseRectAction_Preview(nullptr);

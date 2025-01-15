@@ -59,7 +59,7 @@ public:
     void removeTool(Tool* tool) {}
     bool startTool(Tool* tool);
     bool IsSelecting() { return false; }
-    void Invalidate(bool immediateOnly = false, bool forceRedraw = false);
+    void invalidate(bool immediateOnly = false, bool forceRedraw = false);
     ;
     bool cancelTool(Tool* tool, bool force);
 

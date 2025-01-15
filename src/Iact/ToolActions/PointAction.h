@@ -39,12 +39,12 @@ protected:
     bool onMouseUp(MouseEventData* data) override;
 
 private:
-     void _EnsureMarker();
+     void _ensureMarker();
      void ProcessMouseInput(MouseEventData* data);
 
 signals:
-    void Preview(const std::shared_ptr<PointAction::EventArgs>& args);
-    void Finished(const std::shared_ptr<PointAction::EventArgs>& args);
+    void preview(const std::shared_ptr<PointAction::EventArgs>& args);
+    void finished(const std::shared_ptr<PointAction::EventArgs>& args);
 
 private:
     bool _IsFinished;

@@ -50,12 +50,12 @@ void Marker::Update()
     }
 }
 
-inline void Marker::Set(const gp_Pnt& p)
+inline void Marker::set(const gp_Pnt& p)
 {
-    Set(new Geom_CartesianPoint(p));
+    set(new Geom_CartesianPoint(p));
 }
 
-inline void Marker::Set(const Handle(Geom_CartesianPoint)& p)
+inline void Marker::set(const Handle(Geom_CartesianPoint)& p)
 {
     _P = p;
 
@@ -66,14 +66,14 @@ inline void Marker::Set(const Handle(Geom_CartesianPoint)& p)
     Update();
 }
 
-void Marker::Set(const gp_Pnt2d& p, const gp_Pln& plane)
+void Marker::set(const gp_Pnt2d& p, const gp_Pln& plane)
 {
     gp_Pnt pnt;
     ElSLib::D0(p.X(), p.Y(), plane, pnt);
-    Set(pnt);
+    set(pnt);
 }
 
-void Marker::SetImage(MarkerImage image)
+void Marker::setImage(MarkerImage image)
 {
     if (_Image.PixMap == image.PixMap)
         return;

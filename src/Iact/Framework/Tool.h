@@ -19,7 +19,7 @@ class Tool : public WorkspaceControl {
  public:
 	bool start();
 
-	virtual bool OnStart();
+	virtual bool onStart();
 
 	ToolAction* currentAction() const;
 
@@ -44,7 +44,7 @@ class Tool : public WorkspaceControl {
 	//	CleanedUp = true;
 	//}
 
-	bool StartAction(ToolAction* toolAction, bool exclusive = true);
+	bool startAction(ToolAction* toolAction, bool exclusive = true);
 
 	void StopAction(ToolAction* toolAction);
 

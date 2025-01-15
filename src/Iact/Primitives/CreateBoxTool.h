@@ -31,7 +31,7 @@ public:
 	CreateBoxTool();
 
 protected:
-	virtual bool OnStart() override;
+	virtual bool onStart() override;
 	virtual void cleanup() override {}
 
 private:
@@ -43,7 +43,7 @@ private:
 	void _MultiValueEntered(double newValue1, double newValue2);
 
 private:
-	Phase _CurrentPhase;
+	Phase m_currentPhase;
 	gp_Pln _Plane;
 	gp_Pnt2d _PointPlane1;
 	gp_Pnt2d _PointPlane2;

@@ -23,7 +23,8 @@ QList<WorkspaceControl*> WorkspaceControl::getChildren() const {
 	return {};
 }
 
-void WorkspaceControl::add(IHudElement* hudElement) {
+void WorkspaceControl::add(IHudElement* hudElement) 
+{
 	if (hudElement == nullptr || _HudElements.contains(hudElement)) {
 		return;
 	}
@@ -39,9 +40,10 @@ void WorkspaceControl::setHintMessage(const QString& message) {
 	//	hudManager->setHintMessage(message);
 }
 
-void WorkspaceControl::add(VisualObject* visual) {
+void WorkspaceControl::add(VisualObject* visual) 
+{
 	if (_VisualObjects.contains(visual))
 		return;
 	_VisualObjects.append(visual);
-	workspaceController()->Invalidate();
+	workspaceController()->invalidate();
 }

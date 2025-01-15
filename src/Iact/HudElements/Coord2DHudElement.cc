@@ -11,7 +11,7 @@ Coord2DHudElement::Coord2DHudElement(QWidget* parent)
     Initialize();
 }
 
-void Coord2DHudElement::SetValues(double coordX, double coordY)
+void Coord2DHudElement::setValues(double coordX, double coordY)
 {
     _CoordinateX = coordX;
     _CoordinateY = coordY;

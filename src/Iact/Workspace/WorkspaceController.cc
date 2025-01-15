@@ -103,7 +103,7 @@ bool Sun_WorkspaceController::startTool(Tool* tool) {
                 return false;
             }
 
-            Invalidate(true);
+            invalidate(true);
             return true;
         }
         return false;
@@ -114,7 +114,7 @@ bool Sun_WorkspaceController::startTool(Tool* tool) {
     }
 }
 
-void Sun_WorkspaceController::Invalidate(bool immediateOnly, bool forceRedraw) {
+void Sun_WorkspaceController::invalidate(bool immediateOnly, bool forceRedraw) {
     _Workspace->setNeedsImmediateRedraw(true);
     if (!immediateOnly)
         _Workspace->setNeedsRedraw(true);
@@ -129,7 +129,7 @@ void Sun_WorkspaceController::_Workspace_GridChanged(Sun::Workspace* sender)
         recalculateGridSize();
         _GridNeedsUpdate = true;
         _UpdateGrid();
-        Invalidate();
+        invalidate();
     }
 }
 
@@ -141,7 +141,7 @@ void Sun_WorkspaceController::_Viewport_ViewportChanged(Sun_Viewport* sender)
         })) {
         _RecalculateGridSize();
         _UpdateParameter();
-        Invalidate();
+        invalidate();
     }
 }
 
@@ -250,7 +250,7 @@ void Sun_WorkspaceController::MouseMove(Sun_ViewportController* vc, QPointF pos,
 {   
     gp_Pnt planePoint;
 
-    if (!vc->viewport()->ScreenToPoint(workspace()->WorkingPlane(), (int)pos.x(), (int)pos.y(), planePoint)) {
+    if (!vc->viewport()->ScreenToPoint(workspace()->workingPlane(), (int)pos.x(), (int)pos.y(), planePoint)) {
         SetCursorPosition(gp_Pnt());
         SetCursorPosition2d(gp_Pnt2d());
     }

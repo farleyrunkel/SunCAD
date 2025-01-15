@@ -9,61 +9,68 @@
 PointAction::PointAction() 
     : ToolAction(),
       _IsFinished(false),
-      _Marker(nullptr){
+      _Marker(nullptr)
+{
     qDebug() << "Debug: PointAction::PointAction";
 }
 
 bool PointAction::onStart() 
 {
-    qDebug() << "Debug: PointAction::OnStart";
+    qDebug() << "Debug: PointAction::onStart";
     return true;
 }
 
-bool PointAction::onMouseMove(MouseEventData* data) {
+bool PointAction::onMouseMove(MouseEventData* data) 
+{
     qDebug() << "Debug: PointAction::onMouseMove";
     if (!_IsFinished) {
-        _EnsureMarker();
+
+        _ensureMarker();
         ProcessMouseInput(data);
+
         auto args = std::make_shared<EventArgs>(
             _CurrentPoint,
-            ProjLib::Project(workspaceController()->workspace()->WorkingPlane(), _CurrentPoint),
+            ProjLib::Project(workspaceController()->workspace()->workingPlane(), _CurrentPoint),
             _CurrentPoint,
             data
         );
 
-        emit Preview(args);
+        emit preview(args);
         qDebug() << "Debug: _Marker->Set(args->Point): " << args->Point.X() << " " << args->Point.Y();
 
-        _Marker->Set(args->Point);
-        workspaceController()->Invalidate();
+        _Marker->set(args->Point);
+        workspaceController()->invalidate();
         return ToolAction::onMouseMove(data);
     }
 
     return false;
 }
 
-bool PointAction::onMouseDown(MouseEventData* data) { 
+bool PointAction::onMouseDown(MouseEventData* data) 
+{ 
     return false; 
 }
 
-bool PointAction::onMouseUp(MouseEventData* data) {
+bool PointAction::onMouseUp(MouseEventData* data) 
+{
     if (!_IsFinished) {
         
         ProcessMouseInput(data);
         _IsFinished = true;
         auto args = std::make_shared<EventArgs>(
             _CurrentPoint,
-            ProjLib::Project(workspaceController()->workspace()->WorkingPlane(), _CurrentPoint),
+            ProjLib::Project(workspaceController()->workspace()->workingPlane(), _CurrentPoint),
             _CurrentPoint,
             data
         );
 
-        emit Finished(args);
+        emit finished(args);
     }
     return false; 
 }
 
-void PointAction::_EnsureMarker() {
+void PointAction::_ensureMarker() 
+{
     if (_Marker == nullptr) {
         _Marker = new Marker(workspaceController(), Marker::Styles::Bitmap, Marker::PlusImage());
         add(_Marker);
