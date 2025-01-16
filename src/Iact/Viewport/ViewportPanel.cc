@@ -22,6 +22,8 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 {
 	m_hudContainer->setFixedSize(100, 120);
 	m_hudContainer->installEventFilter(this);
+	m_hudContainer->setAttribute(Qt::WA_Hover, true);
+
 	connect(_Model, &ViewportPanelModel::propertyChanged, this, &ViewportPanel::_Model_PropertyChanged);
 	// Initialize layout for the panel
 	setLayout(new QVBoxLayout(this));

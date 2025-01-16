@@ -36,10 +36,15 @@ protected:
 	{
 		qDebug() << "ViewportPanel: Mouse move event";
 		QWidget::mouseMoveEvent(event);
-		_MouseMovePosition = event->localPos();
+
+		// 获取鼠标在窗口中的全局位置
+		_MouseMovePosition = event->globalPos();
+
+		// 将全局坐标转换为相对于当前控件的局部坐标
+		auto localPos = mapFromGlobal(_MouseMovePosition);
 
 		_MouseControl->MouseMove(event->pos(), event, event->modifiers());
-		_UpdateHud(_MouseMovePosition);
+		_UpdateHud(localPos);
 	}
 
 	virtual void mousePressEvent(QMouseEvent* event) override {
@@ -64,8 +69,23 @@ protected:
 		contextMenu.exec(event->globalPos());
 	}
 
-	virtual bool eventFilter(QObject* watched, QEvent* event) override {
+	virtual bool eventFilter(QObject* watched, QEvent* event) override 
+	{
+		qDebug() << "watched: " << watched->metaObject()->className();
+		qDebug() << "watched: " << event->type();
+
 		if (event->type() == QEvent::MouseMove) {
+			qDebug() << "watched: " << watched->metaObject()->className();
+			mouseMoveEvent(static_cast<QMouseEvent*>(event));
+		}
+
+		if (event->type() == QEvent::HoverMove) {
+
+			auto e = static_cast<QHoverEvent*>(event);
+
+			qDebug() << "watched: " << watched->metaObject()->className();
+			qDebug() << "watched: " << event->type();
+			qDebug() << "postion: " << e->pos();
 			mouseMoveEvent(static_cast<QMouseEvent*>(event));
 		}
 
