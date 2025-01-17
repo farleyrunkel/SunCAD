@@ -199,9 +199,9 @@ public:
 // Purpose  :
 // ================================================================
 ViewportHwndHost::ViewportHwndHost(Sun_ViewportController* vc, QWidget* theParent)
-    : _ViewportController(vc),
-    QOpenGLWidget(theParent),
-    myIsCoreProfile(true) 
+    : _ViewportController(vc)
+    , QOpenGLWidget(theParent)
+    , myIsCoreProfile(true) 
 {
     Handle(Aspect_DisplayConnection) aDisp = new Aspect_DisplayConnection();
     Handle(OpenGl_GraphicDriver) aDriver = new OpenGl_GraphicDriver(aDisp, false);

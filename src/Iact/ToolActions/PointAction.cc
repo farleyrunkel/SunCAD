@@ -26,7 +26,7 @@ bool PointAction::onMouseMove(MouseEventData* data)
     if (!_IsFinished) {
 
         _ensureMarker();
-        ProcessMouseInput(data);
+        processMouseInput(data);
 
         auto args = std::make_shared<EventArgs>(
             _CurrentPoint,
@@ -55,7 +55,7 @@ bool PointAction::onMouseUp(MouseEventData* data)
 {
     if (!_IsFinished) {
         
-        ProcessMouseInput(data);
+        processMouseInput(data);
         _IsFinished = true;
         auto args = std::make_shared<EventArgs>(
             _CurrentPoint,
@@ -77,8 +77,8 @@ void PointAction::_ensureMarker()
     }
 }
 
-void PointAction::ProcessMouseInput(MouseEventData* data) {
-    qDebug() << "Debug: PointAction::ProcessMouseInput";
+void PointAction::processMouseInput(MouseEventData* data) {
+    qDebug() << "Debug: PointAction::processMouseInput";
     {
         _CurrentPoint = data->PointOnPlane;
         //Remove(_HintLine);

@@ -3,8 +3,10 @@
 #ifndef APP_VIEWPORTPANELMODEL_H_
 #define APP_VIEWPORTPANELMODEL_H_
 
+// stl includes
 #include <any>
 
+// Project includes
 #include "Comm/BaseObject.h"
 #include "Comm/ObservableCollection.h"
 #include "Comm/PropertyChangedEventArgs.h"
@@ -14,33 +16,16 @@
 #include "Iact/Workspace/ViewportController.h"
 #include "Iact/Workspace/WorkspaceController.h"
 
-
 class ViewportPanelModel : public BaseObject, public IHudManager
 {
+    Q_OBJECT
 public:
-	ViewportPanelModel()
-        : m_workspaceController(nullptr)
-        , m_viewportController(nullptr)
-    {
-        //Entity.ErrorStateChanged += _Entity_ErrorStateChanged;
-		connect(InteractiveContext::current(), &InteractiveContext::propertyChanged, this, &ViewportPanelModel::context_PropertyChanged);
-        setWorkspaceController(InteractiveContext::current()->workspaceController());
-        setViewportController(InteractiveContext::current()->viewportController());
-    }
+	ViewportPanelModel();
 
-    virtual void addElement(IHudElement* element) override 
-    {
-        if (m_hudElements.contains(element)) {
-            return;
-        }
+    virtual void addElement(IHudElement* element) override;
 
-        element->setWorkspaceController(m_workspaceController);
-        element->initialize();
-        m_hudElements.add(element);
-    }
-
-    virtual void removeElement(IHudElement* element) {}
-    virtual void removeElements(std::function<bool(IHudElement*)> predicate) override {}
+    virtual void removeElement(IHudElement* element) override;
+    virtual void removeElements(std::function<bool(IHudElement*)> predicate) override;
 
     // virtual void SetCursor(QObject* owner, Cursor* cursor) override {}
     virtual void setHintMessage(const QString& message) override {}
@@ -56,53 +41,21 @@ public:
         return m_viewportController;
     }
 
-    void setViewportController(Sun_ViewportController* value) 
-    {
-        m_viewportController = value;
-        raisePropertyChanged("viewportController");
-    }
+    void setViewportController(Sun_ViewportController* value);
 
     // workspaceController getter/setter
-    void setWorkspaceController(Sun_WorkspaceController* value) 
-    {
-        if (m_workspaceController != value) {
-            m_workspaceController = value;
-            if (m_workspaceController != nullptr) {
-                m_workspaceController->setHudManager(this);
-            }
-            else {
-                //HudElements.Clear();
-            }
-            m_workspaceController = value;
-            raisePropertyChanged("workspaceController");
-        }
-    }
+    void setWorkspaceController(Sun_WorkspaceController* value);
 
-    void context_PropertyChanged(const QString& propertyName)
-    {
-        if (propertyName == "workspaceController") {
-            if (m_workspaceController != nullptr) {
-                //m_workspaceController.Selection.SelectionChanged -= _Selection_SelectionChanged;
-            }
-            if (auto context = dynamic_cast<InteractiveContext*>(sender())) {
-                setWorkspaceController(context->workspaceController());
-            }
+    void context_PropertyChanged(const QString& propertyName);
 
-            if (m_workspaceController != nullptr) {
-                //m_workspaceController.Selection.SelectionChanged += _Selection_SelectionChanged;
-            }
-        }
-        else if (propertyName == "viewportController") {
-            if (auto context = dynamic_cast<InteractiveContext*>(sender())) {
-                setViewportController(context->viewportController());
-            }
-        }
-    }
+signals: 
+    void hudElementsAdded(IHudElement*);
+    void hudElementsRemoved(IHudElement*);
 
 private:
     Sun_WorkspaceController* m_workspaceController;
     Sun_ViewportController* m_viewportController;
-    ObservableCollection<IHudElement*> m_hudElements;
+    QList<IHudElement*> m_hudElements;
 };
 
 #endif  // APP_VIEWPORTPANELMODEL_H_

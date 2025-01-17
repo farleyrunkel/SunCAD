@@ -49,6 +49,6 @@ void Coord2DHudElement::setValues(double coordX, double coordY)
 
     adjustSize();
 
-    emit SizeChanged(size());
+    emit sizeChanged(size());
 }
 

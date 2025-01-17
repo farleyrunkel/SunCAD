@@ -13,19 +13,23 @@ class IHudElement : public QWidget
 	Q_OBJECT
 
 public:
-	 explicit IHudElement(QWidget* parent) : QWidget(parent) {}
+	 explicit IHudElement(QWidget* parent = nullptr) 
+		 : QWidget(parent)
+		 , m_workspaceController(nullptr)
+	 {
+	 }
 
 public:
-	 Sun_WorkspaceController* WorkspaceController() const;
+	 Sun_WorkspaceController* workspaceController() const;
 	 void setWorkspaceController(Sun_WorkspaceController* controller);
 
 	 virtual void initialize() {};
 
 signals:
-	void SizeChanged(const QSize&);
+	void sizeChanged(const QSize&);
 
 private:
-	Sun_WorkspaceController* _WorkspaceController;
+	Sun_WorkspaceController* m_workspaceController;
 };
 
 #endif  // IACT_HUD_ELEMENTS_HUDELEMENT_H_

@@ -86,7 +86,7 @@ public:
         QSize size2 = {_label2->width() + _edit2->width(), _label2->height() + _edit2->height()};
         QSize size = {std::max(size1.width(), size2.width()) + 5, size1.height() + size2.height() + 5};
         setFixedSize(size);
-        emit SizeChanged(size);
+        emit sizeChanged(size);
     }
 
     void SetValue1(double value)

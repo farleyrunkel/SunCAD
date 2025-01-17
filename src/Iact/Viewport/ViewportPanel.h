@@ -9,12 +9,12 @@
 #include <string>
 
 // Qt includes
-#include <QWidget>
-#include <QDebug>
-#include <QPointF>
-#include <QMenu>
 #include <QAction>
+#include <QDebug>
 #include <QFrame>
+#include <QMenu>
+#include <QPointF>
+#include <QWidget>
 
 // Project includes
 #include "Comm/PropertyChangedEventArgs.h"
@@ -31,82 +31,30 @@ public:
 	~ViewportPanel() override {}
 
 protected:
-	virtual void resizeEvent(QResizeEvent* event) override {}
-	virtual void mouseMoveEvent(QMouseEvent* event) override 
-	{
-		qDebug() << "ViewportPanel: Mouse move event";
-		QWidget::mouseMoveEvent(event);
+	virtual void resizeEvent(QResizeEvent* event) override;
+	virtual void mouseMoveEvent(QMouseEvent* event) override;
 
-		// 获取鼠标在窗口中的全局位置
-		_MouseMovePosition = event->globalPos();
-
-		// 将全局坐标转换为相对于当前控件的局部坐标
-		auto localPos = mapFromGlobal(_MouseMovePosition);
-
-		_MouseControl->MouseMove(event->pos(), event, event->modifiers());
-		_UpdateHud(localPos);
-	}
-
-	virtual void mousePressEvent(QMouseEvent* event) override {
-		qDebug() << "ViewportPanel: Mouse press event";
-
-	}
-	virtual void mouseReleaseEvent(QMouseEvent* event) override {}
-	virtual void wheelEvent(QWheelEvent* event) override {}
+	virtual void mousePressEvent(QMouseEvent* event) override;
+	virtual void mouseReleaseEvent(QMouseEvent* event) override;
+	virtual void wheelEvent(QWheelEvent* event) override;
 	virtual void keyPressEvent(QKeyEvent* event) override {}
 	virtual void keyReleaseEvent(QKeyEvent* event) override {}
 	// 重载 contextMenuEvent 以显示右键菜单
-	virtual void contextMenuEvent(QContextMenuEvent* event) override {
-		qDebug() << "ViewportPanel: Context menu event";
-		// 创建一个 QMenu 对象
-		QMenu contextMenu(this);
+	virtual void contextMenuEvent(QContextMenuEvent* event) override;
 
-		// 创建菜单项并连接槽函数
-		QAction* action1 = contextMenu.addAction("Option 1");
-		QAction* action2 = contextMenu.addAction("Option 2");
-
-		// 显示菜单
-		contextMenu.exec(event->globalPos());
-	}
-
-	virtual bool eventFilter(QObject* watched, QEvent* event) override 
-	{
-		qDebug() << "watched: " << watched->metaObject()->className();
-		qDebug() << "watched: " << event->type();
-
-		if (event->type() == QEvent::MouseMove) {
-			qDebug() << "watched: " << watched->metaObject()->className();
-			mouseMoveEvent(static_cast<QMouseEvent*>(event));
-		}
-
-		if (event->type() == QEvent::HoverMove) {
-
-			auto e = static_cast<QHoverEvent*>(event);
-
-			qDebug() << "watched: " << watched->metaObject()->className();
-			qDebug() << "watched: " << event->type();
-			qDebug() << "postion: " << e->pos();
-			mouseMoveEvent(static_cast<QMouseEvent*>(event));
-		}
-
-		return false;
-	}
+	virtual bool eventFilter(QObject* watched, QEvent* event) override;
 
 private:
-	void _Model_PropertyChanged(const QString& propertyName);
-	void _ViewportControllerChanged();
-	void _UpdateHud(const QPointF& pos) {
-		int x = pos.x();
-		int y = pos.y();
-		m_hudContainer->move(x, y);
-	}
+	void _model_PropertyChanged(const QString& propertyName);
+	void _viewportControllerChanged();
+	void _updateHud(const QPointF& pos);
 
 private:
-	ViewportPanelModel* _Model;
-	ViewportHwndHost* _ViewportHwndHost;
-	IViewportMouseControl* _MouseControl;
+	ViewportPanelModel* m_dataContext;
+	ViewportHwndHost* m_viewportHwndHost;
+	IViewportMouseControl* m_mouseControl;
 	QFrame* m_hudContainer;
-	QPointF _MouseMovePosition;
+	QPointF m_mouseMovePosition;
 	bool _SuppressContextMenu;
 
 

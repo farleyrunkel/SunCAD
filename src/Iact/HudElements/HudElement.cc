@@ -4,13 +4,15 @@
 
 #include "Iact/Workspace/WorkspaceController.h"
 
-Sun_WorkspaceController* IHudElement::WorkspaceController() const { 
-	return _WorkspaceController; 
+Sun_WorkspaceController* IHudElement::workspaceController() const
+{ 
+	return m_workspaceController; 
 }
 
-void IHudElement::setWorkspaceController(Sun_WorkspaceController* controller) {
-	if (_WorkspaceController != nullptr && _WorkspaceController != controller) {
-		throw std::logic_error("Sun_WorkspaceController cannot be changed");
+void IHudElement::setWorkspaceController(Sun_WorkspaceController* controller) 
+{
+	if (m_workspaceController != nullptr && m_workspaceController != controller) {
+		throw std::logic_error("workspaceController cannot be changed");
 	}
-	_WorkspaceController = controller;
+	m_workspaceController = controller;
 }

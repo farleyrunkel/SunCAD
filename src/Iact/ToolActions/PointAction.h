@@ -21,7 +21,12 @@ public:
     public:
         EventArgs() {}
         EventArgs(const gp_Pnt& p, const gp_Pnt2d& pp, const gp_Pnt& mp, MouseEventData* m)
-             : Point(p), PointOnPlane(pp), MarkerPosition(mp), MouseEventData(m) {}
+            : Point(p)
+            , PointOnPlane(pp)
+            , MarkerPosition(mp)
+            , MouseEventData(m) 
+        {
+        }
         gp_Pnt Point;
         gp_Pnt2d PointOnPlane;
         MouseEventData* MouseEventData;
@@ -29,7 +34,7 @@ public:
     };
 
 public:
-    explicit PointAction();;
+    explicit PointAction();
  
 protected:
     bool onStart() override;
@@ -40,7 +45,7 @@ protected:
 
 private:
      void _ensureMarker();
-     void ProcessMouseInput(MouseEventData* data);
+     void processMouseInput(MouseEventData* data);
 
 signals:
     void preview(const std::shared_ptr<PointAction::EventArgs>& args);
