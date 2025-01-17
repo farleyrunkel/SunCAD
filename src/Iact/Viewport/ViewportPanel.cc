@@ -19,9 +19,10 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 	, m_mouseControl(new ViewportMouseControlDefault())
 	, m_hudContainer(new QFrame(this))
 	, m_viewportHwndHost(nullptr)
+	, m_mouseMovePosition(0.0, 0.0)
 {
 	m_hudContainer->setFrameShape(QFrame::NoFrame);
-	m_hudContainer->setBaseSize(100, 25);
+	//m_hudContainer->setBaseSize(100, 25);
 	m_hudContainer->setMouseTracking(true);
 	m_hudContainer->setVisible(false);
 	m_hudContainer->setLayout(new QVBoxLayout);
@@ -31,10 +32,12 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 	m_hudContainer->setStyleSheet("background-color: rgba(128, 128, 128, 0.5);");
 
 	connect(m_dataContext, &ViewportPanelModel::hudElementsAdded
-			, [this](IHudElement* cnt) {
-		m_hudContainer->layout()->addWidget(cnt);
-		m_hudContainer->setVisible(true);
-		_updateHud(m_mouseMovePosition); }
+			, [this](IHudElement* element) {
+			m_hudContainer->layout()->addWidget(element);
+			m_hudContainer->setVisible(true);
+			qDebug() << "mouseMovePosition connect: " << m_mouseMovePosition;
+			_updateHud(m_mouseMovePosition); 
+		}
 	);
 
 	connect(m_dataContext, &ViewportPanelModel::propertyChanged
@@ -54,6 +57,7 @@ void ViewportPanel::mouseMoveEvent(QMouseEvent* event)
 	QWidget::mouseMoveEvent(event);
 
 	m_mouseMovePosition = event->globalPos();
+	qDebug() << "mouseMovePosition mouseMoveEvent: " << m_mouseMovePosition;
 
 	auto localPos = this->mapFromGlobal(m_mouseMovePosition);
 	qDebug() << "Local1: " << localPos;
@@ -63,7 +67,7 @@ void ViewportPanel::mouseMoveEvent(QMouseEvent* event)
 		qDebug() << "Local2: " << local;
 		m_mouseControl->MouseMove(local, event, event->modifiers());
 	}
-
+	m_hudContainer->adjustSize();
 	_updateHud(localPos);
 }
 

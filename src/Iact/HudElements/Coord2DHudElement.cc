@@ -19,12 +19,15 @@ Coord2DHudElement::Coord2DHudElement(QWidget* parent)
 	QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
 	setLayout(layout);
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);  // 设置为根据内容大小自动调整
 
 	_LabelX = new QLabel(this);
 	_LabelY = new QLabel(this);
+    _LabelX->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);  // 设置为根据内容大小自动调整
+    _LabelY->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);  // 设置为根据内容大小自动调整
 
     layout->addWidget(_LabelX);
-	layout->addSpacing(5);
+	layout->addSpacing(10);
 	layout->addWidget(_LabelY);
 
     setBaseSize(120, 25);
@@ -42,10 +45,7 @@ void Coord2DHudElement::setValues(double coordX, double coordY)
     QString yStr = QString::number(_CoordinateY, 'f', 3);
 
     _LabelX->setText(xStr);
-    _LabelX->adjustSize();
-
     _LabelY->setText(yStr);
-    _LabelY->adjustSize();
 
     adjustSize();
 

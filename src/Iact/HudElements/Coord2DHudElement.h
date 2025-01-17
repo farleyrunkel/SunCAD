@@ -20,6 +20,7 @@ public:
     double CoordinateY() const { return _CoordinateY; }
 
     void setValues(double coordX, double coordY);
+
 private:
     QLabel* _LabelX;
     QLabel* _LabelY;
