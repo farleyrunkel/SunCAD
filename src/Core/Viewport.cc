@@ -18,15 +18,15 @@ Sun_Viewport::Sun_Viewport(Sun::Workspace* workspace, QObject* parent)
 
  // Getters and setters for properties
 
-  gp_Pnt Sun_Viewport::eyePoint() 
-  {
+gp_Pnt Sun_Viewport::eyePoint() 
+{
      if (mV3dView) {
          double xEye = 0, yEye = 0, zEye = 0;
          mV3dView->Eye(xEye, yEye, zEye);
          mEyePoint = gp_Pnt(xEye, yEye, zEye);
      }
      return mEyePoint;
- }
+}
 
    void Sun_Viewport::setEyePoint(const gp_Pnt& point) {
       mEyePoint = point;
@@ -87,11 +87,13 @@ Sun_Viewport::Sun_Viewport(Sun::Workspace* workspace, QObject* parent)
       }
   }
 
-   Sun_Viewport::RenderModes Sun_Viewport::renderMode() const {
+   Sun_Viewport::RenderModes Sun_Viewport::renderMode() const 
+   {
       return mRenderMode;
   }
 
-   void Sun_Viewport::setRenderMode(RenderModes mode) {
+   void Sun_Viewport::setRenderMode(RenderModes mode) 
+   {
       if (mRenderMode != mode) {
           mRenderMode = mode;
           updateRenderMode();
@@ -99,7 +101,8 @@ Sun_Viewport::Sun_Viewport(Sun::Workspace* workspace, QObject* parent)
       }
   }
 
-  void Sun_Viewport::Init(bool useMsaa) {
+  void Sun_Viewport::Init(bool useMsaa) 
+  {
     if (mV3dView || !mWorkspace) {
         return;
     }
@@ -131,7 +134,8 @@ Sun_Viewport::Sun_Viewport(Sun::Workspace* workspace, QObject* parent)
 
 // Function to update render mode
 
- void Sun_Viewport::updateRenderMode() {
+ void Sun_Viewport::updateRenderMode() 
+ {
     if (!mV3dView) return;
 
     mV3dView->SetComputedMode(mRenderMode == HLR);
@@ -146,7 +150,7 @@ Sun_Viewport::Sun_Viewport(Sun::Workspace* workspace, QObject* parent)
 }
 
 bool Sun_Viewport::ScreenToPoint(gp_Pln plane, int screenX, int screenY, gp_Pnt& resultPnt)
- {
+{
     if (!V3dView().IsNull())
     {
         try
@@ -186,7 +190,8 @@ bool Sun_Viewport::ScreenToPoint(gp_Pln plane, int screenX, int screenY, gp_Pnt&
 
 // Destructor
 
- Sun_Viewport::~Sun_Viewport() {
+ Sun_Viewport::~Sun_Viewport() 
+ {
     delete mAisAnimationCamera;
     if (mV3dView) {
         mV3dView->Remove();

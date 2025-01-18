@@ -8,7 +8,7 @@
 
 PointAction::PointAction() 
     : ToolAction(),
-      _IsFinished(false),
+      m_isFinished(false),
       _Marker(nullptr)
 {
     qDebug() << "Debug: PointAction::PointAction";
@@ -23,15 +23,15 @@ bool PointAction::onStart()
 bool PointAction::onMouseMove(MouseEventData* data) 
 {
     qDebug() << "Debug: PointAction::onMouseMove";
-    if (!_IsFinished) {
+    if (!m_isFinished) {
 
         _ensureMarker();
         processMouseInput(data);
 
         auto args = std::make_shared<EventArgs>(
-            _CurrentPoint,
-            ProjLib::Project(workspaceController()->workspace()->workingPlane(), _CurrentPoint),
-            _CurrentPoint,
+            m_currentPoint,
+            ProjLib::Project(workspaceController()->workspace()->workingPlane(), m_currentPoint),
+            m_currentPoint,
             data
         );
 
@@ -48,25 +48,24 @@ bool PointAction::onMouseMove(MouseEventData* data)
 
 bool PointAction::onMouseDown(MouseEventData* data) 
 { 
-    return false; 
+    return true; 
 }
 
 bool PointAction::onMouseUp(MouseEventData* data) 
 {
-    if (!_IsFinished) {
-        
+    if (!m_isFinished) {       
         processMouseInput(data);
-        _IsFinished = true;
+        m_isFinished = true;
         auto args = std::make_shared<EventArgs>(
-            _CurrentPoint,
-            ProjLib::Project(workspaceController()->workspace()->workingPlane(), _CurrentPoint),
-            _CurrentPoint,
+            m_currentPoint,
+            ProjLib::Project(workspaceController()->workspace()->workingPlane(), m_currentPoint),
+            m_currentPoint,
             data
         );
 
         emit finished(args);
     }
-    return false; 
+    return true;
 }
 
 void PointAction::_ensureMarker() 
@@ -80,7 +79,7 @@ void PointAction::_ensureMarker()
 void PointAction::processMouseInput(MouseEventData* data) {
     qDebug() << "Debug: PointAction::processMouseInput";
     {
-        _CurrentPoint = data->PointOnPlane;
+        m_currentPoint = data->PointOnPlane;
         //Remove(_HintLine);
     }
 }

@@ -31,9 +31,8 @@ public:
 	~ViewportPanel() override {}
 
 protected:
-	virtual void resizeEvent(QResizeEvent* event) override;
 	virtual void mouseMoveEvent(QMouseEvent* event) override;
-
+	virtual void resizeEvent(QResizeEvent* event) override;
 	virtual void mousePressEvent(QMouseEvent* event) override;
 	virtual void mouseReleaseEvent(QMouseEvent* event) override;
 	virtual void wheelEvent(QWheelEvent* event) override;
@@ -41,8 +40,6 @@ protected:
 	virtual void keyReleaseEvent(QKeyEvent* event) override {}
 	// 重载 contextMenuEvent 以显示右键菜单
 	virtual void contextMenuEvent(QContextMenuEvent* event) override;
-
-	virtual bool eventFilter(QObject* watched, QEvent* event) override;
 
 private:
 	void _model_PropertyChanged(const QString& propertyName);
@@ -56,8 +53,7 @@ private:
 	QFrame* m_hudContainer;
 	QPointF m_mouseMovePosition;
 	bool _SuppressContextMenu;
-
-
+	bool _ContextMenuIsOpen;
 };
 
 #endif  // IACT_VIEWPORT_VIEWPORTPANEL_H_

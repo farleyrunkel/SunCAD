@@ -374,7 +374,8 @@ void ViewportHwndHost::mousePressEvent(QMouseEvent* theEvent) {
 // Function : mouseReleaseEvent
 // Purpose  :
 // ================================================================
-void ViewportHwndHost::mouseReleaseEvent(QMouseEvent* theEvent) {
+void ViewportHwndHost::mouseReleaseEvent(QMouseEvent* theEvent) 
+{
     QOpenGLWidget::mouseReleaseEvent(theEvent);
     const Graphic3d_Vec2i aPnt(theEvent->pos().x(), theEvent->pos().y());
     const Aspect_VKeyFlags aFlags = qtMouseModifiers2VKeys(theEvent->modifiers());

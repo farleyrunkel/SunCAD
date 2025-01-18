@@ -49,7 +49,8 @@ void Sun_ViewportController::MouseMove(const QPointF& pos, Qt::KeyboardModifiers
 	workspaceController()->invalidate();
 }
 
-void Sun_ViewportController::MouseDown(Qt::KeyboardModifiers modifiers) {
+void Sun_ViewportController::MouseDown(Qt::KeyboardModifiers modifiers) 
+{
 	workspaceController()->MouseDown(this, modifiers);
 	workspaceController()->invalidate();
 }

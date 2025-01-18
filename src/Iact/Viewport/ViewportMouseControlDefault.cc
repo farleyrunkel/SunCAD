@@ -31,7 +31,8 @@ void ViewportMouseControlDefault::MouseMove(const QPointF& pos, QMouseEvent* mou
     updateMouseMoveMode(mouseEvent, modifierKeys);
 }
 
-void ViewportMouseControlDefault::MouseDown(const QPointF& pos, Qt::MouseButton changedButton, int clickCount, QMouseEvent*, Qt::KeyboardModifiers modifierKeys) {
+void ViewportMouseControlDefault::MouseDown(const QPointF& pos, Qt::MouseButton changedButton, int clickCount, Qt::MouseButton button, Qt::KeyboardModifiers modifierKeys)
+{
     if (!viewportController) return;
 
     if (changedButton == Qt::LeftButton) {

@@ -6,12 +6,14 @@
 // Qt Libraries
 #include <QVBoxLayout>
 #include <QWidget>
+#include <QScreen>
+#include <QWindow>
+#include <QGuiApplication>
 
 // Project Libraries
 #include "Comm/PropertyChangedEventArgs.h"
 #include "Iact/Viewport/ViewportMouseControlDefault.h"
 #include "Iact/Viewport/ViewportPanelModel.h"
-
 
 ViewportPanel::ViewportPanel(QWidget* parent)
 	: QWidget(parent)
@@ -22,11 +24,9 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 	, m_mouseMovePosition(0.0, 0.0)
 {
 	m_hudContainer->setFrameShape(QFrame::NoFrame);
-	//m_hudContainer->setBaseSize(100, 25);
 	m_hudContainer->setMouseTracking(true);
 	m_hudContainer->setVisible(false);
 	m_hudContainer->setLayout(new QVBoxLayout);
-	m_hudContainer->installEventFilter(this);
 
 	m_hudContainer->setAutoFillBackground(false);
 	m_hudContainer->setStyleSheet("background-color: rgba(128, 128, 128, 0.5);");
@@ -42,48 +42,62 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 
 	connect(m_dataContext, &ViewportPanelModel::propertyChanged
 			, this, &ViewportPanel::_model_PropertyChanged);
+
 	// Initialize layout for the panel
 	setLayout(new QVBoxLayout(this));
+	setMouseTracking(true);
 
 	_viewportControllerChanged();
 	m_hudContainer->raise();
 }
-
-void ViewportPanel::resizeEvent(QResizeEvent* event) {}
 
 void ViewportPanel::mouseMoveEvent(QMouseEvent* event)
 {
 	qDebug() << "ViewportPanel: Mouse move event";
 	QWidget::mouseMoveEvent(event);
 
-	m_mouseMovePosition = event->globalPos();
-	qDebug() << "mouseMovePosition mouseMoveEvent: " << m_mouseMovePosition;
-
-	auto localPos = this->mapFromGlobal(m_mouseMovePosition);
-	qDebug() << "Local1: " << localPos;
+	m_mouseMovePosition = this->mapFromGlobal(event->globalPos());
 
 	if (m_viewportHwndHost) {
-		auto local = m_viewportHwndHost->mapFromParent(localPos);
-		qDebug() << "Local2: " << local;
-		m_mouseControl->MouseMove(local, event, event->modifiers());
+		auto p = m_viewportHwndHost->mapFromParent(m_mouseMovePosition);
+		m_mouseControl->MouseMove(p, event, event->modifiers());
 	}
 	m_hudContainer->adjustSize();
-	_updateHud(localPos);
+	_updateHud(m_mouseMovePosition);
 }
 
-void ViewportPanel::mousePressEvent(QMouseEvent* event) {
+void ViewportPanel::wheelEvent(QWheelEvent* event) 
+{
+	QWidget::wheelEvent(event);
+}
+
+void ViewportPanel::mousePressEvent(QMouseEvent* event) 
+{
 	qDebug() << "ViewportPanel: Mouse press event";
 
 }
 
-void ViewportPanel::mouseReleaseEvent(QMouseEvent* event) {}
+void ViewportPanel::resizeEvent(QResizeEvent* event) 
+{
+	QWidget::resizeEvent(event);
+}
 
-void ViewportPanel::wheelEvent(QWheelEvent* event) {}
+void ViewportPanel::mouseReleaseEvent(QMouseEvent* event) 
+{
+	QWidget::mouseReleaseEvent(event);
+	m_mouseMovePosition = this->mapFromGlobal(event->globalPos());
+
+	if (m_viewportHwndHost) {
+		auto p = m_viewportHwndHost->mapFromParent(m_mouseMovePosition);
+		m_mouseControl->MouseDown(p, event->button(), 0, event->button(), event->modifiers());
+	}
+}
 
 
 // 重载 contextMenuEvent 以显示右键菜单
 
-void ViewportPanel::contextMenuEvent(QContextMenuEvent* event) {
+void ViewportPanel::contextMenuEvent(QContextMenuEvent* event) 
+{
 	qDebug() << "ViewportPanel: Context menu event";
 	// 创建一个 QMenu 对象
 	QMenu contextMenu(this);
@@ -96,29 +110,7 @@ void ViewportPanel::contextMenuEvent(QContextMenuEvent* event) {
 	contextMenu.exec(event->globalPos());
 }
 
-bool ViewportPanel::eventFilter(QObject* watched, QEvent* event) {
-	qDebug() << "watched: " << watched->metaObject()->className();
-	qDebug() << "watched: " << event->type();
-
-	if (event->type() == QEvent::MouseMove) {
-		qDebug() << "watched: " << watched->metaObject()->className();
-		mouseMoveEvent(static_cast<QMouseEvent*>(event));
-	}
-
-	if (event->type() == QEvent::HoverMove) {
-
-		auto e = static_cast<QHoverEvent*>(event);
-
-		qDebug() << "watched: " << watched->metaObject()->className();
-		qDebug() << "watched: " << event->type();
-		qDebug() << "postion: " << e->pos();
-		mouseMoveEvent(static_cast<QMouseEvent*>(event));
-	}
-
-	return false;
-}
-
-void ViewportPanel::_model_PropertyChanged(const QString& propertyName )
+void ViewportPanel::_model_PropertyChanged(const QString& propertyName)
 {
 	if (propertyName == "viewportController") {
 		_viewportControllerChanged();
@@ -130,7 +122,7 @@ void ViewportPanel::_viewportControllerChanged()
 {
 	auto viewportController = m_dataContext->viewportController();
 
-	if (viewportController==nullptr)
+	if (viewportController == nullptr)
 		return;
 
 	if (m_mouseControl != nullptr) {
@@ -138,7 +130,6 @@ void ViewportPanel::_viewportControllerChanged()
 	}
 
 	auto newHost = new ViewportHwndHost(viewportController, this);
-	newHost->installEventFilter(this);
 
 	if (m_viewportHwndHost != nullptr) {
 		layout()->replaceWidget(m_viewportHwndHost, newHost);
@@ -150,7 +141,8 @@ void ViewportPanel::_viewportControllerChanged()
 	m_viewportHwndHost = newHost;
 }
 
-void ViewportPanel::_updateHud(const QPointF& pos) {
+void ViewportPanel::_updateHud(const QPointF& pos) 
+{
 	int x = pos.x() + 10;
 	int y = pos.y() - 10 - m_hudContainer->height();
 	m_hudContainer->move(x, y);

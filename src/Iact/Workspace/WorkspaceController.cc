@@ -18,7 +18,7 @@
 
 Sun_WorkspaceController::Sun_WorkspaceController(Sun::Workspace* workspace)
     : _Workspace(workspace),
-      _MouseEventData(new MouseEventData),
+      m_mouseEventData(new MouseEventData),
       _CurrentTool(nullptr),
       _CurrentEditor(nullptr),
       _ActiveViewport(nullptr),
@@ -259,27 +259,37 @@ void Sun_WorkspaceController::MouseMove(Sun_ViewportController* vc, QPointF pos,
     _LastDetectedAisObject = nullptr;
     _LastDetectedOwner = nullptr;
 
-    _MouseEventData->set(vc->viewport(), pos, planePoint, modifiers);
+    m_mouseEventData->set(vc->viewport(), pos, planePoint, modifiers);
 
     qDebug() << "Debug: m_workspaceController::MouseMove: " << pos;
     for (const auto& handler : enumerateControls()) {
-        if (handler->onMouseMove(_MouseEventData))
+        if (handler->onMouseMove(m_mouseEventData))
             break;
     }
 }
 
-void Sun_WorkspaceController::MouseDown(Sun_ViewportController* viewportController, Qt::KeyboardModifiers modifiers) {
+void Sun_WorkspaceController::MouseDown(Sun_ViewportController* viewportController, Qt::KeyboardModifiers modifiers) 
+{
+    m_lastModifierKeys = modifiers;
+    m_mouseEventData->modifierKeys = modifiers;
+
+    bool handed = false;
     qDebug() << "Debug: m_workspaceController::MouseDown: " << modifiers;
     for (const auto& handler : enumerateControls()) {
-        if (handler->onMouseDown(_MouseEventData))
+        handed = handler->onMouseDown(m_mouseEventData);
+        if (handed)
             break;
     }
+
+    if (handed)
+        return;
+    m_isSelecting = true;
 }
 
 void Sun_WorkspaceController::MouseUp(Sun_ViewportController* viewportController, Qt::KeyboardModifiers modifiers) {
     qDebug() << "Debug: m_workspaceController::MouseUp: " << modifiers;
     for (const auto& handler : enumerateControls()) {
-        if (handler->onMouseUp(_MouseEventData))
+        if (handler->onMouseUp(m_mouseEventData))
             break;
     }
 }

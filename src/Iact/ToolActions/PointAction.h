@@ -52,9 +52,9 @@ signals:
     void finished(const std::shared_ptr<PointAction::EventArgs>& args);
 
 private:
-    bool _IsFinished;
+    bool m_isFinished;
     Marker* _Marker;
-    gp_Pnt _CurrentPoint;
+    gp_Pnt m_currentPoint;
 };
 
 #endif  // SRC_IACT_TOOLACTION_POINTACTION_H_

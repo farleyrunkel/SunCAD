@@ -121,14 +121,15 @@ private:
 private:
     QList<Sun_ViewportController*> _ViewportControllers;
 
-    MouseEventData* _MouseEventData;
+    MouseEventData* m_mouseEventData;
     QPointF _LastMouseMovePosition;
     Sun_ViewportController* _LastMouseMoveViewportController;
-    Qt::Modifiers _LastModifierKeys;
+    Qt::KeyboardModifiers m_lastModifierKeys;
     Handle(AIS_InteractiveObject) _LastDetectedAisObject;
     Handle(SelectMgr_EntityOwner) _LastDetectedOwner;
     gp_Pnt _CursorPosition;
     gp_Pnt2d _CursorPosition2d;
+    bool m_isSelecting;
 };
 
 
