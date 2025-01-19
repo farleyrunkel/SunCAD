@@ -3,14 +3,15 @@
 #ifndef IACT_HUD_ELEMENTS_MULTIVALUEHUDELEMENT_H_
 #define IACT_HUD_ELEMENTS_MULTIVALUEHUDELEMENT_H_
 
-#include <QWidget>
+// Qt includes
+#include <QDoubleValidator>
+#include <QGridLayout>
+#include <QKeyEvent>
 #include <QLabel>
 #include <QLineEdit>
-#include <QGridLayout>
-#include <QDoubleValidator>
-#include <QKeyEvent>
-#include <QFontMetrics>
+#include <QWidget>
 
+// Project includes
 #include "Iact/HudElements/HudElement.h"
 
 class MultiValueHudElement : public IHudElement

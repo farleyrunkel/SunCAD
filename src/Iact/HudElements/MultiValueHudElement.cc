@@ -1,6 +1,18 @@
 // Copyright [2024] SunCAD
 
+// Own include
 #include "Iact/HudElements/MultiValueHudElement.h"
+
+// Qt includes
+#include <QDoubleValidator>
+#include <QGridLayout>
+#include <QKeyEvent>
+#include <QLabel>
+#include <QLineEdit>
+#include <QWidget>
+
+// Project includes
+#include "Iact/HudElements/HudElement.h"
 
 MultiValueHudElement::MultiValueHudElement(const QString& text1, const QString& text2, QWidget* parent)
     : IHudElement(parent)
