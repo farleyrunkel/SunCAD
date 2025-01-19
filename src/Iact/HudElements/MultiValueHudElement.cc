@@ -43,34 +43,34 @@ MultiValueHudElement::MultiValueHudElement(const QString& text1, const QString& 
     connect(m_edit2, &QLineEdit::editingFinished, this, &MultiValueHudElement::_onEdit2Finished);
 }
 
-void MultiValueHudElement::SetLabel(const QString& text1, const QString& text2) 
+void MultiValueHudElement::setLabel(const QString& text1, const QString& text2) 
 {
-    SetLabel1(text1);
-    SetLabel2(text2);
+    setLabel1(text1);
+    setLabel2(text2);
 }
 
-void MultiValueHudElement::SetLabel1(const QString& text) 
+void MultiValueHudElement::setLabel1(const QString& text) 
 {
     m_label1->setText(text);
 }
 
-void MultiValueHudElement::SetLabel2(const QString& text) 
+void MultiValueHudElement::setLabel2(const QString& text) 
 {
     m_label2->setText(text);
 }
 
-void MultiValueHudElement::SetValues(double value1, double value2) 
+void MultiValueHudElement::setValues(double value1, double value2) 
 {
-    SetValue1(value1);
-    SetValue2(value2);
+    setValue1(value1);
+    setValue2(value2);
 }
 
-void MultiValueHudElement::SetValue1(double value) 
+void MultiValueHudElement::setValue1(double value) 
 {
     m_edit1->setText(QString::number(value, 'f', 3));
 }
 
-void MultiValueHudElement::SetValue2(double value) 
+void MultiValueHudElement::setValue2(double value) 
 {
     m_edit2->setText(QString::number(value, 'f', 3));
 }
