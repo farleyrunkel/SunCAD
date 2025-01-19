@@ -34,7 +34,7 @@ class IViewportMouseControl {
     virtual void MouseDown(const QPointF& pos, Qt::MouseButton changedButton, int clickCount, Qt::MouseButton button, Qt::KeyboardModifiers modifierKeys) = 0;
 
     // Handle mouse up event
-    virtual void MouseUp(const QPointF& pos, Qt::MouseButton changedButton, QMouseEvent* mouseEvent, Qt::KeyboardModifiers modifierKeys) = 0;
+    virtual void MouseUp(const QPointF& pos, Qt::MouseButton changedButton, Qt::MouseButtons device, Qt::KeyboardModifiers modifierKeys) = 0;
 
     // Cancel any ongoing operation
     virtual void cancel() = 0;

@@ -49,7 +49,7 @@ void CreateBoxTool::pivotAction_Finished(const std::shared_ptr<PointAction::Even
 
 	PointAction* action = qobject_cast<PointAction*>(sender());
 	if (action == nullptr) {
-		return;
+	 	return;
 	}
 
 	_Plane = workspaceController()->workspace()->workingPlane();
@@ -69,8 +69,7 @@ void CreateBoxTool::pivotAction_Finished(const std::shared_ptr<PointAction::Even
 
 	if (_MultiValueHudElement == nullptr)
 	{
-		_MultiValueHudElement = new MultiValueHudElement();
-		_MultiValueHudElement->SetLabel("Length:", "Width:");
+		_MultiValueHudElement = new MultiValueHudElement("Length:", "Width:");
 		connect(_MultiValueHudElement, &MultiValueHudElement::MultiValueEntered, 
 				this, &CreateBoxTool::_MultiValueEntered);
 		add(_MultiValueHudElement);

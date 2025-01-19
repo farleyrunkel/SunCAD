@@ -25,9 +25,6 @@ public:
 
 	 virtual void initialize() {};
 
-signals:
-	void sizeChanged(const QSize&);
-
 private:
 	Sun_WorkspaceController* m_workspaceController;
 };

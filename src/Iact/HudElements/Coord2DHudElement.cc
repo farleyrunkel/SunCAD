@@ -47,7 +47,5 @@ void Coord2DHudElement::setValues(double coordX, double coordY)
     _LabelY->setText(yStr);
 
     adjustSize();
-
-    emit sizeChanged(size());
 }
 

@@ -26,19 +26,19 @@
 class ViewportPanel : public QWidget 
 {
 	Q_OBJECT
+
 public:
 	explicit ViewportPanel(QWidget* parent = nullptr);
 	~ViewportPanel() override {}
 
 protected:
 	virtual void mouseMoveEvent(QMouseEvent* event) override;
-	virtual void resizeEvent(QResizeEvent* event) override;
 	virtual void mousePressEvent(QMouseEvent* event) override;
 	virtual void mouseReleaseEvent(QMouseEvent* event) override;
 	virtual void wheelEvent(QWheelEvent* event) override;
 	virtual void keyPressEvent(QKeyEvent* event) override {}
 	virtual void keyReleaseEvent(QKeyEvent* event) override {}
-	// 重载 contextMenuEvent 以显示右键菜单
+	virtual void resizeEvent(QResizeEvent* event) override;
 	virtual void contextMenuEvent(QContextMenuEvent* event) override;
 
 private:

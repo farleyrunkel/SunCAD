@@ -63,6 +63,7 @@ void ViewportPanel::mouseMoveEvent(QMouseEvent* event)
 		m_mouseControl->MouseMove(p, event, event->modifiers());
 	}
 	m_hudContainer->adjustSize();
+	m_hudContainer->update();  // 强制重新绘制控件
 	_updateHud(m_mouseMovePosition);
 }
 
@@ -89,8 +90,11 @@ void ViewportPanel::mouseReleaseEvent(QMouseEvent* event)
 
 	if (m_viewportHwndHost) {
 		auto p = m_viewportHwndHost->mapFromParent(m_mouseMovePosition);
-		m_mouseControl->MouseDown(p, event->button(), 0, event->button(), event->modifiers());
+		m_mouseControl->MouseUp(p, event->button(), event->buttons(), event->modifiers());
 	}
+	m_hudContainer->adjustSize();
+	m_hudContainer->update();
+	_updateHud(m_mouseMovePosition);
 }
 
 

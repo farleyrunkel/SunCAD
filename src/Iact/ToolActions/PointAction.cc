@@ -48,14 +48,16 @@ bool PointAction::onMouseMove(MouseEventData* data)
 
 bool PointAction::onMouseDown(MouseEventData* data) 
 { 
-    return true; 
+    return true;
 }
 
 bool PointAction::onMouseUp(MouseEventData* data) 
 {
-    if (!m_isFinished) {       
+    if (!m_isFinished) {
         processMouseInput(data);
+        workspaceController()->invalidate();
         m_isFinished = true;
+
         auto args = std::make_shared<EventArgs>(
             m_currentPoint,
             ProjLib::Project(workspaceController()->workspace()->workingPlane(), m_currentPoint),
