@@ -1,7 +1,7 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_IACT_TOOLACTION_POINTACTION_H_
-#define SRC_IACT_TOOLACTION_POINTACTION_H_
+#ifndef IACT_TOOLACTION_POINTACTION_H_
+#define IACT_TOOLACTION_POINTACTION_H_
 
 #include <QMessageBox>
 
@@ -46,8 +46,8 @@ protected:
     bool onMouseUp(MouseEventData* data) override;
 
 private:
-     void _ensureMarker();
-     void processMouseInput(MouseEventData* data);
+    void _ensureMarker();
+    void processMouseInput(MouseEventData* data);
 
 signals:
     void preview(const std::shared_ptr<PointAction::EventArgs>& args);
@@ -59,4 +59,4 @@ private:
     gp_Pnt m_currentPoint;
 };
 
-#endif  // SRC_IACT_TOOLACTION_POINTACTION_H_
+#endif  // IACT_TOOLACTION_POINTACTION_H_

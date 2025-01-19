@@ -21,7 +21,8 @@ class CreateBoxTool : public Tool
 	Q_OBJECT
 
 public:
-	enum Phase {
+	enum Phase 
+	{
 		PivotPoint,
 		BaseRect,
 		Height
@@ -37,21 +38,21 @@ protected:
 private:
 	void _ensurePreviewShape();
 	void _pivotAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args);
-	void pivotAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args);
+	void _pivotAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args);
 	void _BaseRectAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args);
 	void _BaseRectAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args);
 	void _MultiValueEntered(double newValue1, double newValue2);
 
 private:
 	Phase m_currentPhase;
-	gp_Pln _Plane;
-	gp_Pnt2d _PointPlane1;
-	gp_Pnt2d _PointPlane2;
-	double _Height;
-	bool _IsTemporaryVisual;
-	Coord2DHudElement* m_coord2DHudElement = nullptr;
-	MultiValueHudElement* _MultiValueHudElement = nullptr;
-	QPointer<VisualObject> _VisualShape;
+	gp_Pln m_plane;
+	gp_Pnt2d m_pointPlane1;
+	gp_Pnt2d m_pointPlane2;
+	double m_height;
+	bool m_isTemporaryVisual;
+	Coord2DHudElement* m_coord2DHudElement;
+	MultiValueHudElement* m_multiValueHudElement;
+	QPointer<VisualObject> m_visualShape;
 };
 
 #endif // IACT_PRIMITIVES_CREATEBOXTOOL_H_

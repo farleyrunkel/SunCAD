@@ -1,16 +1,19 @@
 // Copyright [2024] SunCAD
 
+// Own include
 #include "Iact/ToolActions/PointAction.h"
 
+// Occt includes
 #include <ProjLib.hxx>
 #include <gp_Pln.hxx>
 
+// Project include
 #include "Iact/Workspace/WorkspaceController.h"
 
 PointAction::PointAction() 
-    : ToolAction(),
-      m_isFinished(false),
-      m_marker(nullptr)
+    : ToolAction()
+    , m_isFinished(false)
+    , m_marker(nullptr)
 {
     qDebug() << "Debug: PointAction::PointAction";
 }
@@ -43,7 +46,6 @@ bool PointAction::onMouseMove(MouseEventData* data)
         workspaceController()->invalidate();
         return ToolAction::onMouseMove(data);
     }
-
     return false;
 }
 

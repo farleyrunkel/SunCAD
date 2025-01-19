@@ -23,7 +23,7 @@ bool CreateBoxTool::onStart()
 	}
 
 	connect(pointAction, &PointAction::preview, this, &CreateBoxTool::_pivotAction_Preview);
-	connect(pointAction, &PointAction::finished, this, &CreateBoxTool::pivotAction_Finished);
+	connect(pointAction, &PointAction::finished, this, &CreateBoxTool::_pivotAction_Finished);
 
 	setHintMessage("Select corner point.");
 	m_coord2DHudElement = new Coord2DHudElement;
@@ -43,17 +43,17 @@ void CreateBoxTool::_pivotAction_Preview(const std::shared_ptr<PointAction::Even
 	}
 }
 
-void CreateBoxTool::pivotAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args)
+void CreateBoxTool::_pivotAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args)
 {
-	qDebug() << "Debug: CreateBoxTool::pivotAction_Finished";
+	qDebug() << "Debug: CreateBoxTool::_pivotAction_Finished";
 
 	PointAction* action = qobject_cast<PointAction*>(sender());
 	if (action == nullptr) {
 	 	return;
 	}
 
-	_Plane = workspaceController()->workspace()->workingPlane();
-	_PointPlane1 = args->PointOnPlane;
+	m_plane = workspaceController()->workspace()->workingPlane();
+	m_pointPlane1 = args->PointOnPlane;
 
 	stopAction(action);
 	auto newAction = new PointAction();
@@ -67,12 +67,12 @@ void CreateBoxTool::pivotAction_Finished(const std::shared_ptr<PointAction::Even
 	m_currentPhase = Phase::BaseRect;
 	setHintMessage("Select opposite corner point, press `k:Ctrl` to round length and width to grid stepping.");
 
-	if (_MultiValueHudElement == nullptr)
+	if (m_multiValueHudElement == nullptr)
 	{
-		_MultiValueHudElement = new MultiValueHudElement("Length:", "Width:");
-		connect(_MultiValueHudElement, &MultiValueHudElement::MultiValueEntered, 
+		m_multiValueHudElement = new MultiValueHudElement("Length:", "Width:");
+		connect(m_multiValueHudElement, &MultiValueHudElement::MultiValueEntered, 
 				this, &CreateBoxTool::_MultiValueEntered);
-		add(_MultiValueHudElement);
+		add(m_multiValueHudElement);
 	}
 }
 
@@ -80,34 +80,35 @@ void CreateBoxTool::_BaseRectAction_Preview(const std::shared_ptr<PointAction::E
 {
 	qDebug() << "Debug: CreateBoxTool::_BaseRectAction_Preview";
 	if (args != nullptr) {
-		_PointPlane2 = args->PointOnPlane;
+		m_pointPlane2 = args->PointOnPlane;
 	}
-	qDebug() << "Debug: CreateBoxTool::_BaseRectAction_Preview: " << _PointPlane2.X() << _PointPlane2.Y();
+	qDebug() << "Debug: CreateBoxTool::_BaseRectAction_Preview 1: " << m_pointPlane1.X() << m_pointPlane1.Y();
+	qDebug() << "Debug: CreateBoxTool::_BaseRectAction_Preview 2: " << m_pointPlane2.X() << m_pointPlane2.Y();
 
-	auto dimX = std::round(std::abs(_PointPlane1.X() - _PointPlane2.X()));
-	auto dimY = std::round(std::abs(_PointPlane1.Y() - _PointPlane2.Y()));
+	auto dimX = /*std::round(*/std::abs(m_pointPlane1.X() - m_pointPlane2.X())/*)*/;
+	auto dimY = /*std::round(*/std::abs(m_pointPlane1.Y() - m_pointPlane2.Y())/*)*/;
 
 	double posX;
-	if (_PointPlane1.X() < _PointPlane2.X()) {
-		posX = _PointPlane1.X();
-		_PointPlane2.SetX(_PointPlane1.X() + dimX);
+	if (m_pointPlane1.X() < m_pointPlane2.X()) {
+		posX = m_pointPlane1.X();
+		m_pointPlane2.SetX(m_pointPlane1.X() + dimX);
 	}
 	else {
-		posX = _PointPlane1.X() - dimX;
-		_PointPlane2.SetX(posX);
+		posX = m_pointPlane1.X() - dimX;
+		m_pointPlane2.SetX(posX);
 	}
 
 	double posY;
-	if (_PointPlane1.Y() < _PointPlane2.Y()) {
-		posY = _PointPlane1.Y();
-		_PointPlane2.SetY(_PointPlane1.Y() + dimY);
+	if (m_pointPlane1.Y() < m_pointPlane2.Y()) {
+		posY = m_pointPlane1.Y();
+		m_pointPlane2.SetY(m_pointPlane1.Y() + dimY);
 	}
 	else {
-		posY = _PointPlane1.Y() - dimY;
-		_PointPlane2.SetY(posY);
+		posY = m_pointPlane1.Y() - dimY;
+		m_pointPlane2.SetY(posY);
 	}
 
-	m_coord2DHudElement->setValues(_PointPlane2.X(), _PointPlane2.Y());
+	m_coord2DHudElement->setValues(m_pointPlane2.X(), m_pointPlane2.Y());
 }
 
 void CreateBoxTool::_BaseRectAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args)
@@ -118,7 +119,7 @@ void CreateBoxTool::_MultiValueEntered(double newValue1, double newValue2)
 {
 	if (m_currentPhase == Phase::BaseRect)
 	{
-		_PointPlane2 = gp_Pnt2d(_PointPlane1.X() + newValue1, _PointPlane1.Y() + newValue2);
+		m_pointPlane2 = gp_Pnt2d(m_pointPlane1.X() + newValue1, m_pointPlane1.Y() + newValue2);
 		_BaseRectAction_Preview(nullptr);
 		_ensurePreviewShape();
 		_BaseRectAction_Finished(nullptr);
