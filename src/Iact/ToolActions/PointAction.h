@@ -35,10 +35,12 @@ public:
 
 public:
     explicit PointAction();
- 
+    ~PointAction() {
+        m_marker->deleteLater();
+    }
+
 protected:
     bool onStart() override;
-
     bool onMouseMove(MouseEventData* data) override;
     bool onMouseDown(MouseEventData* data) override;
     bool onMouseUp(MouseEventData* data) override;
@@ -53,7 +55,7 @@ signals:
 
 private:
     bool m_isFinished;
-    Marker* _Marker;
+    Marker* m_marker;
     gp_Pnt m_currentPoint;
 };
 

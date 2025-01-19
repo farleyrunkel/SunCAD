@@ -3,13 +3,14 @@
 #include "Iact/ToolActions/PointAction.h"
 
 #include <ProjLib.hxx>
+#include <gp_Pln.hxx>
 
 #include "Iact/Workspace/WorkspaceController.h"
 
 PointAction::PointAction() 
     : ToolAction(),
       m_isFinished(false),
-      _Marker(nullptr)
+      m_marker(nullptr)
 {
     qDebug() << "Debug: PointAction::PointAction";
 }
@@ -22,23 +23,23 @@ bool PointAction::onStart()
 
 bool PointAction::onMouseMove(MouseEventData* data) 
 {
-    qDebug() << "Debug: PointAction::onMouseMove";
     if (!m_isFinished) {
 
         _ensureMarker();
         processMouseInput(data);
 
+        auto workingPlane = workspaceController()->workspace()->workingPlane();
+
         auto args = std::make_shared<EventArgs>(
             m_currentPoint,
-            ProjLib::Project(workspaceController()->workspace()->workingPlane(), m_currentPoint),
+            ProjLib::Project(workingPlane, m_currentPoint),
             m_currentPoint,
             data
         );
 
         emit preview(args);
-        qDebug() << "Debug: _Marker->Set(args->Point): " << args->Point.X() << " " << args->Point.Y();
 
-        _Marker->set(args->Point);
+        m_marker->set(args->Point);
         workspaceController()->invalidate();
         return ToolAction::onMouseMove(data);
     }
@@ -58,9 +59,11 @@ bool PointAction::onMouseUp(MouseEventData* data)
         workspaceController()->invalidate();
         m_isFinished = true;
 
+        auto workingPlane = workspaceController()->workspace()->workingPlane();
+
         auto args = std::make_shared<EventArgs>(
             m_currentPoint,
-            ProjLib::Project(workspaceController()->workspace()->workingPlane(), m_currentPoint),
+            ProjLib::Project(workingPlane, m_currentPoint),
             m_currentPoint,
             data
         );
@@ -72,16 +75,20 @@ bool PointAction::onMouseUp(MouseEventData* data)
 
 void PointAction::_ensureMarker() 
 {
-    if (_Marker == nullptr) {
-        _Marker = new Marker(workspaceController(), Marker::Styles::Bitmap, Marker::PlusImage());
-        add(_Marker);
+    if (m_marker == nullptr) {
+        m_marker = new Marker(workspaceController(), Marker::Styles::Bitmap, Marker::PlusImage());
+        add(m_marker);
     }
 }
 
-void PointAction::processMouseInput(MouseEventData* data) {
+void PointAction::processMouseInput(MouseEventData* data) 
+{
     qDebug() << "Debug: PointAction::processMouseInput";
     {
         m_currentPoint = data->PointOnPlane;
+        qDebug() << "Debug: PointAction::processMouseInput X: " << m_currentPoint.X();
+        qDebug() << "Debug: PointAction::processMouseInput Y: " << m_currentPoint.Y();
+
         //Remove(_HintLine);
     }
 }

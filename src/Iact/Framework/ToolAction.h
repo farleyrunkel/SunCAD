@@ -11,6 +11,7 @@ class Sun_WorkspaceController;
 class ToolAction : public WorkspaceControl 
 {
     Q_OBJECT
+
 public:
     explicit ToolAction(QObject* parent = nullptr) {};
 
@@ -20,6 +21,7 @@ public:
     void stop() { onStop(); cleanup(); assert(cleanedUp()); }
 
     bool isFinished() const { return m_isFinished; }
+
 protected:
     // Virtual function for subclasses to override
     virtual bool onStart() { return false; }
@@ -34,8 +36,10 @@ protected:
 private:
     // Assuming cleanup and cleanedUp are functions from the base class
     void cleanup() {
+        this->deleteLater();
         // Resource cleanup implementation
     }
+
     bool cleanedUp() const {
         // Check if cleanup is complete
         return true;

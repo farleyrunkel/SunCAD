@@ -1,7 +1,7 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_CORE_WORKSPACE_H_
-#define SRC_CORE_WORKSPACE_H_
+#ifndef CORE_WORKSPACE_H_
+#define CORE_WORKSPACE_H_
 
 #include <QObject>
 #include <QList>
@@ -10,11 +10,11 @@
 #include <V3d_Viewer.hxx>
 #include <AIS_DisplayMode.hxx>
 #include <Prs3d_LineAspect.hxx>
+#include <gp_Pln.hxx>
 
 #include "Comm/BaseObject.h"
 #include "Core/Project/VisualStyles.h"
 #include "Core/Extensions/ColorExtensions.h"
-#include "Occt/ValueTypes/Pln.h"
 
 class Model;
 class Sun_Viewport;
@@ -55,7 +55,7 @@ public:
     void initV3dViewer();
     void initAisContext();
 
-    bool gridEnabled() const { return _GridEnabled; }
+    bool gridEnabled() const { return m_gridEnabled; }
     void setGridEnabled(bool value);
 
     GridTypes gridType() const;
@@ -69,7 +69,7 @@ public:
     void SetWorkingPlane(const gp_Pln& value);
 
     // Viewports management
-    QList<Sun_Viewport*>& viewports() { return _Viewports; }
+    QList<Sun_Viewport*>& viewports() { return m_viewports; }
     Handle(V3d_Viewer) v3dViewer() const;
     Handle(AIS_InteractiveContext) aisContext() const;
 
@@ -80,33 +80,33 @@ public:
     void setNeedsImmediateRedraw(bool value);
 
     // Model management
-    Model* model() const { return _Model ; }
+    Model* model() const { return m_model ; }
 
 signals:
     void GridChanged(Sun::Workspace*);
 
 private:
-     void Init();
-     void _ApplyWorkingContext();
+     void init();
+     void _applyWorkingContext();
      void _RaiseGridChanged() {
          emit GridChanged(this);
      }
 
 private:
-    Handle(V3d_Viewer) _V3dViewer;  // 3D viewer handle
-    Handle(AIS_InteractiveContext) _AisContext;  // AIS context handle
+    Handle(V3d_Viewer) m_v3dViewer;  // 3D viewer handle
+    Handle(AIS_InteractiveContext) m_aisContext;  // AIS context handle
 
-    bool _GridEnabled;  // Grid enabled status
-    bool _NeedsRedraw;  // Flag to check if redraw is needed
-    bool _NeedsImmediateRedraw;  // Flag for immediate redraw
+    bool m_gridEnabled;  // Grid enabled status
+    bool m_needsRedraw;  // Flag to check if redraw is needed
+    bool m_needsImmediateRedraw;  // Flag for immediate redraw
 
-    QList<Sun_Viewport*> _Viewports;  // List of viewports
-    Model* _Model;  // The active model
+    QList<Sun_Viewport*> m_viewports;  // List of viewports
+    Model* m_model;  // The active model
 
-    Pln _WorkingPlane;
-    Sun_WorkingContext* _CurrentWorkingContext;
-    Sun_WorkingContext* _GlobalWorkingContext;
+    gp_Pln _WorkingPlane;
+    Sun_WorkingContext* m_currentWorkingContext;
+    Sun_WorkingContext* m_globalWorkingContext;
 };
 
 }
-#endif  // SRC_CORE_WORKSPACE_H_
+#endif  // CORE_WORKSPACE_H_

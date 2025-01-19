@@ -2,24 +2,26 @@
 
 #include "Core/Project/WorkingContext.h"
 
-Sun_WorkingContext::Sun_WorkingContext()
-    : QObject(),
-    _WorkingPlane(gp::XOY()),
-    _GridType(Sun::Workspace::GridTypes::Rectangular),
-    _GridStep(1.0),
-    _GridRotation(0),
-    _GridDivisions(8) 
-{}
+#include <gp.hxx>
 
-Sun_WorkingContext* Sun_WorkingContext::Clone() const {
+Sun_WorkingContext::Sun_WorkingContext()
+    : QObject()
+    , _WorkingPlane(gp::XOY())
+    , _GridType(Sun::Workspace::GridTypes::Rectangular)
+    , _GridStep(1.0)
+    , _GridRotation(0)
+    , _GridDivisions(8)
+{
+}
+
+Sun_WorkingContext* Sun_WorkingContext::Clone() const 
+{
     Sun_WorkingContext* wc = new Sun_WorkingContext();
     wc->CopyFrom(*this);
     return wc;
 }
 
-
 // CopyFrom ·½·¨
-
 void Sun_WorkingContext::CopyFrom(const Sun_WorkingContext& other) {
     _WorkingPlane = other.WorkingPlane();
     _GridType = other.GridType();
@@ -28,7 +30,10 @@ void Sun_WorkingContext::CopyFrom(const Sun_WorkingContext& other) {
     _GridRotation = other.GridRotation();
 }
 
-gp_Pln Sun_WorkingContext::WorkingPlane() const { return _WorkingPlane; }
+gp_Pln Sun_WorkingContext::WorkingPlane() const 
+{ 
+    return _WorkingPlane;
+}
 
 void Sun_WorkingContext::SetWorkingPlane(const gp_Pln& plane) {
     if (_WorkingPlane.Distance(plane) > gp::Resolution()) {

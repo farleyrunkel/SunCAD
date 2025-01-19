@@ -27,7 +27,7 @@ MultiValueHudElement::MultiValueHudElement(const QString& text1, const QString& 
     // Set up the layout
     auto* layout = new QGridLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
-    layout->setSpacing(0);
+    layout->setSpacing(2);
 
     setLayout(layout);
 
@@ -39,10 +39,10 @@ MultiValueHudElement::MultiValueHudElement(const QString& text1, const QString& 
     m_label2->setStyleSheet(m_label1->styleSheet());
 
     // Set up label and line edits
-    m_edit1->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    m_edit1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     m_edit1->setValidator(new QDoubleValidator(this));
 
-    m_edit2->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    m_edit2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     m_edit2->setValidator(new QDoubleValidator(this));
 
     layout->addWidget(m_label1, 0, 0);

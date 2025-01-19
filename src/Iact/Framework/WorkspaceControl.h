@@ -73,9 +73,9 @@ public:
     }
 
 private:
-	Sun_WorkspaceController* _WorkspaceController;
+	Sun_WorkspaceController* m_workspaceController;
 	QList<IHudElement*> m_hudElements;
-    QList<VisualObject*> _VisualObjects;
+    QList<VisualObject*> m_visualObjects;
 };
 
 #endif  // SRC_IACT_FRAMEWORK_WORKSPACECONTROLL_H_

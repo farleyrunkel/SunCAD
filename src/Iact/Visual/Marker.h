@@ -1,7 +1,7 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_IACT_VISUAL_MARKER_H_
-#define SRC_IACT_VISUAL_MARKER_H_
+#ifndef IACT_VISUAL_MARKER_H_
+#define IACT_VISUAL_MARKER_H_
 
 #include <QObject>
 #include <QImage>
@@ -32,21 +32,21 @@ class Marker : public VisualObject
     Q_PROPERTY(bool IsSelectable READ IsSelectable WRITE SetSelectable)
 
 public:
-     enum Styles {
+    enum Styles {
          Bitmap = 1,
          Image = 2,
          ModeMask = 0x000f,
          NoClipPlane = 1 << 15,
          Topmost = 1 << 16,
          Background = 1 << 18
-     };
+    };
 
-     struct MarkerImage {
+    struct MarkerImage {
          Handle(Image_PixMap) PixMap;
          int Width;
          int Height;
          Handle(TColStd_HArray1OfByte) Bytes;
-     };
+    };
 
 public:
     Marker(Sun_WorkspaceController* WorkspaceController, Styles styles, const MarkerImage& image);
@@ -110,4 +110,4 @@ private:
     bool _IsSelectable; // ÊÇ·ñ¿ÉÑ¡Ôñ
 };
 
-#endif  // SRC_IACT_VISUAL_MARKER_H_
+#endif  // IACT_VISUAL_MARKER_H_

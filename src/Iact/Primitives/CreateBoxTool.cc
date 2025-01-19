@@ -13,7 +13,7 @@ CreateBoxTool::CreateBoxTool()
 {	
 }
 
-bool CreateBoxTool::onStart() 
+bool CreateBoxTool::onStart()
 {
 	qDebug() << "Debug: CreateBoxTool::onStart";
 	m_currentPhase = Phase::PivotPoint;
@@ -79,11 +79,39 @@ void CreateBoxTool::pivotAction_Finished(const std::shared_ptr<PointAction::Even
 void CreateBoxTool::_BaseRectAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args)
 {
 	qDebug() << "Debug: CreateBoxTool::_BaseRectAction_Preview";
+	if (args != nullptr) {
+		_PointPlane2 = args->PointOnPlane;
+	}
+	qDebug() << "Debug: CreateBoxTool::_BaseRectAction_Preview: " << _PointPlane2.X() << _PointPlane2.Y();
+
+	auto dimX = std::round(std::abs(_PointPlane1.X() - _PointPlane2.X()));
+	auto dimY = std::round(std::abs(_PointPlane1.Y() - _PointPlane2.Y()));
+
+	double posX;
+	if (_PointPlane1.X() < _PointPlane2.X()) {
+		posX = _PointPlane1.X();
+		_PointPlane2.SetX(_PointPlane1.X() + dimX);
+	}
+	else {
+		posX = _PointPlane1.X() - dimX;
+		_PointPlane2.SetX(posX);
+	}
+
+	double posY;
+	if (_PointPlane1.Y() < _PointPlane2.Y()) {
+		posY = _PointPlane1.Y();
+		_PointPlane2.SetY(_PointPlane1.Y() + dimY);
+	}
+	else {
+		posY = _PointPlane1.Y() - dimY;
+		_PointPlane2.SetY(posY);
+	}
+
+	m_coord2DHudElement->setValues(_PointPlane2.X(), _PointPlane2.Y());
 }
 
 void CreateBoxTool::_BaseRectAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args)
 {
-
 }
 
 void CreateBoxTool::_MultiValueEntered(double newValue1, double newValue2)

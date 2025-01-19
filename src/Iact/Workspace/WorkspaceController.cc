@@ -17,12 +17,12 @@
 #include <gp_Pnt2d.hxx>
 
 Sun_WorkspaceController::Sun_WorkspaceController(Sun::Workspace* workspace)
-    : _Workspace(workspace),
-      m_mouseEventData(new MouseEventData),
-      _CurrentTool(nullptr),
-      _CurrentEditor(nullptr),
-      _ActiveViewport(nullptr),
-      _HudManager(nullptr) 
+    : _Workspace(workspace)
+    , m_mouseEventData(new MouseEventData)
+    , _CurrentTool(nullptr)
+    , _CurrentEditor(nullptr)
+    , _ActiveViewport(nullptr)
+    , _HudManager(nullptr)
 {
     assert(_Workspace != nullptr);
     connect(_Workspace, &Sun::Workspace::GridChanged, this, &Sun_WorkspaceController::_Workspace_GridChanged);
@@ -297,11 +297,13 @@ void Sun_WorkspaceController::MouseUp(Sun_ViewportController* viewportController
 void Sun_WorkspaceController::recalculateGridSize() {
 }
 
-bool Sun_WorkspaceController::cancelTool(Tool* tool, bool force) {
+bool Sun_WorkspaceController::cancelTool(Tool* tool, bool force) 
+{
     return true;
 }
 
-Sun::Workspace* Sun_WorkspaceController::workspace() const { 
+Sun::Workspace* Sun_WorkspaceController::workspace() const 
+{ 
     return _Workspace; 
 }
 

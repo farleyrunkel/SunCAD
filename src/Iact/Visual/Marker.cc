@@ -145,8 +145,6 @@ bool Marker::_EnsureAisObject()
     }
 
     AisContext()->Display(_AisPoint, 0, 0, false);
-
-
     AisContext()->SetSelectionSensitivity(_AisPoint, 0, std::min(_Image.Height, _Image.Width));
 
     return true;
@@ -270,7 +268,9 @@ void Marker::SetColor(const Sun::Color& color)
     Update();
 }
 
-Sun::Color Marker::BackgroundColor() const { return _ColorBg; }
+Sun::Color Marker::BackgroundColor() const 
+{ return _ColorBg; 
+}
 
 void Marker::SetBackgroundColor(const Sun::Color& color)
 {
@@ -280,7 +280,10 @@ void Marker::SetBackgroundColor(const Sun::Color& color)
     Update();
 }
 
-bool Marker::IsSelectable() const { return _IsSelectable; }
+bool Marker::IsSelectable() const 
+{ 
+    return _IsSelectable; 
+}
 
 void Marker::SetSelectable(bool selectable) 
 {

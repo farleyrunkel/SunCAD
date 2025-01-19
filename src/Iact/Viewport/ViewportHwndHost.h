@@ -15,10 +15,11 @@
 
 class AIS_ViewCube;
 
-class ViewportHwndHost : public QOpenGLWidget, public AIS_ViewController {
+class ViewportHwndHost : public QOpenGLWidget, public AIS_ViewController 
+{
     Q_OBJECT
-public:
 
+public:
     //! Main constructor.
     ViewportHwndHost(Sun_ViewportController* vc, QWidget* parent = nullptr);
 
@@ -56,20 +57,17 @@ public:
     }
 
 public:
-
     //! Handle subview focus change.
     virtual void OnSubviewChanged(const Handle(AIS_InteractiveContext)&,
                                   const Handle(V3d_View)&,
                                   const Handle(V3d_View)& theNewView) override;
 
 protected: // OpenGL events
-
     virtual void initializeGL() override;
     virtual void paintGL() override;
     //virtual void resizeGL(int , int ) override;
 
 protected: // user input events
-
     virtual void closeEvent(QCloseEvent* theEvent) override;
     virtual void keyPressEvent(QKeyEvent* theEvent) override;
     virtual void mousePressEvent(QMouseEvent* theEvent) override;
@@ -78,7 +76,6 @@ protected: // user input events
     virtual void wheelEvent(QWheelEvent* theEvent) override;
 
 private:
-
     //! Dump OpenGL info.
     void dumpGlInfo(bool theIsBasic, bool theToPrint);
 
@@ -95,7 +92,6 @@ private:
     Handle(V3d_View)               myView;
     Handle(AIS_InteractiveContext) myContext;
     Handle(AIS_ViewCube)           myViewCube;
-
     Handle(V3d_View)               myFocusView;
 
     QString myGlInfo;
