@@ -1,0 +1,11 @@
+// Copyright [2024] SunCAD
+
+#ifndef CORE_SHAPES_PRIMITIVES_BOX_H_
+#define CORE_SHAPES_PRIMITIVES_BOX_H_
+
+class Box
+{
+
+};
+
+#endif  // CORE_SHAPES_PRIMITIVES_BOX_H_

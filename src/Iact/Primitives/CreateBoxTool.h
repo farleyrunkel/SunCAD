@@ -9,6 +9,7 @@
 #include <gp_Pln.hxx>
 #include <gp_Pnt2d.hxx>
 
+#include "Core/Shapes/Primitives/Box.h"
 #include "Iact/Framework/Tool.h"
 #include "Iact/HudElements/Coord2DHudElement.h"
 #include "Iact/HudElements/MultiValueHudElement.h"
@@ -36,10 +37,10 @@ protected:
 	virtual void cleanup() override {}
 
 private:
-	void _ensurePreviewShape();
+	void ensurePreviewShape();
 	void _pivotAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args);
 	void _pivotAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args);
-	void _baseRectAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args);
+	void baseRectAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args);
 	void _baseRectAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args);
 	void _multiValueEntered(double newValue1, double newValue2);
 
@@ -53,6 +54,7 @@ private:
 	Coord2DHudElement* m_coord2DHudElement;
 	MultiValueHudElement* m_multiValueHudElement;
 	QPointer<VisualObject> m_visualShape;
+	Box m_previewShape;
 };
 
 #endif // IACT_PRIMITIVES_CREATEBOXTOOL_H_
