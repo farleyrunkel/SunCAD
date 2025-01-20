@@ -176,7 +176,7 @@ class Document : public EntityContainer, public IDocument {
 //    bool _hasUnsavedChanges;
 
     // Instances map
-    QMap<QUuid, QWeakPointer<Entity>> _instances;
+    //QMap<QUuid, QWeakPointer<Entity>> _instances;
 };
 
 #endif // SRC_CORE_TOPOLOGY_DOCUMENT_H_

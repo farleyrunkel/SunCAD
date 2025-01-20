@@ -9,6 +9,7 @@
 
 #include "Comm/BaseObject.h"
 
+class IDocument;
 class Entity : public BaseObject
 {
     Q_OBJECT
@@ -40,6 +41,9 @@ public:
     // For debugging or logging purposes
     virtual QString toString() const;
 
+    void setDocument(IDocument* ) {
+    }
+
 signals:
     // Signal when the entity is removed
     void entityRemoved();
@@ -53,9 +57,11 @@ signals:
     // Signal when hasErrors changes
     void hasErrorsChanged();
 
- protected:
+protected:
+
     QUuid _guid;
     bool _hasErrors;
+    IDocument* m_document;
 };
 
 #endif  // CORE_TOPOLOGY_ENTITY_H_

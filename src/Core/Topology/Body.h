@@ -15,14 +15,16 @@ class Body : public InteractiveEntity
     Q_OBJECT
 
 public:
+    Body() {}
+
+public:
     void setRotation(const gp_Quaternion& rotation){
         m_rotation = rotation;
     }
 
 public:
-    static Body* create(Shape* shape) {
-        return nullptr;
-    }
+    static Body* create(Shape* shape);
+    bool addShape(Shape* shape, bool b);
 
 private:
     gp_Quaternion m_rotation;

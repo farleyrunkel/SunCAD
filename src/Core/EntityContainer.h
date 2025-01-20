@@ -18,7 +18,8 @@ enum class NotifyCollectionChangedAction {
     Reset
 };
 
-class EntityContainer : public Entity {
+class EntityContainer : public Entity 
+{
     Q_OBJECT
 
  public:
