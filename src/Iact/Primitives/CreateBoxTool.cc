@@ -10,6 +10,8 @@
 
 CreateBoxTool::CreateBoxTool() 
 	: Tool()
+	, m_coord2DHudElement(nullptr)
+	, m_multiValueHudElement(nullptr)
 {	
 }
 
@@ -37,7 +39,6 @@ void CreateBoxTool::_ensurePreviewShape()
 
 void CreateBoxTool::_pivotAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args)
 {
-	qDebug() << "Debug: CreateBoxTool::_pivotAction_Preview";
 	if (m_coord2DHudElement) {
 		m_coord2DHudElement->setValues(args->Point.X(), args->Point.Y());
 	}
@@ -45,8 +46,6 @@ void CreateBoxTool::_pivotAction_Preview(const std::shared_ptr<PointAction::Even
 
 void CreateBoxTool::_pivotAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args)
 {
-	qDebug() << "Debug: CreateBoxTool::_pivotAction_Finished";
-
 	PointAction* action = qobject_cast<PointAction*>(sender());
 	if (action == nullptr) {
 	 	return;
@@ -58,8 +57,8 @@ void CreateBoxTool::_pivotAction_Finished(const std::shared_ptr<PointAction::Eve
 	stopAction(action);
 	auto newAction = new PointAction();
 
-	connect(newAction, &PointAction::preview, this, &CreateBoxTool::_BaseRectAction_Preview);
-	connect(newAction, &PointAction::finished, this, &CreateBoxTool::_BaseRectAction_Finished);
+	connect(newAction, &PointAction::preview, this, &CreateBoxTool::_baseRectAction_Preview);
+	connect(newAction, &PointAction::finished, this, &CreateBoxTool::_baseRectAction_Finished);
 
 	if (!startAction(newAction))
 		return;
@@ -71,19 +70,19 @@ void CreateBoxTool::_pivotAction_Finished(const std::shared_ptr<PointAction::Eve
 	{
 		m_multiValueHudElement = new MultiValueHudElement("Length:", "Width:");
 		connect(m_multiValueHudElement, &MultiValueHudElement::MultiValueEntered, 
-				this, &CreateBoxTool::_MultiValueEntered);
+				this, &CreateBoxTool::_multiValueEntered);
 		add(m_multiValueHudElement);
 	}
 }
 
-void CreateBoxTool::_BaseRectAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args)
+void CreateBoxTool::_baseRectAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args)
 {
-	qDebug() << "Debug: CreateBoxTool::_BaseRectAction_Preview";
+	qDebug() << "Debug: CreateBoxTool::_baseRectAction_Preview";
 	if (args != nullptr) {
 		m_pointPlane2 = args->PointOnPlane;
 	}
-	qDebug() << "Debug: CreateBoxTool::_BaseRectAction_Preview 1: " << m_pointPlane1.X() << m_pointPlane1.Y();
-	qDebug() << "Debug: CreateBoxTool::_BaseRectAction_Preview 2: " << m_pointPlane2.X() << m_pointPlane2.Y();
+	qDebug() << "Debug: CreateBoxTool::_baseRectAction_Preview 1: " << m_pointPlane1.X() << m_pointPlane1.Y();
+	qDebug() << "Debug: CreateBoxTool::_baseRectAction_Preview 2: " << m_pointPlane2.X() << m_pointPlane2.Y();
 
 	auto dimX = /*std::round(*/std::abs(m_pointPlane1.X() - m_pointPlane2.X())/*)*/;
 	auto dimY = /*std::round(*/std::abs(m_pointPlane1.Y() - m_pointPlane2.Y())/*)*/;
@@ -111,17 +110,17 @@ void CreateBoxTool::_BaseRectAction_Preview(const std::shared_ptr<PointAction::E
 	m_coord2DHudElement->setValues(m_pointPlane2.X(), m_pointPlane2.Y());
 }
 
-void CreateBoxTool::_BaseRectAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args)
+void CreateBoxTool::_baseRectAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args)
 {
 }
 
-void CreateBoxTool::_MultiValueEntered(double newValue1, double newValue2)
+void CreateBoxTool::_multiValueEntered(double newValue1, double newValue2)
 {
 	if (m_currentPhase == Phase::BaseRect)
 	{
 		m_pointPlane2 = gp_Pnt2d(m_pointPlane1.X() + newValue1, m_pointPlane1.Y() + newValue2);
-		_BaseRectAction_Preview(nullptr);
+		_baseRectAction_Preview(nullptr);
 		_ensurePreviewShape();
-		_BaseRectAction_Finished(nullptr);
+		_baseRectAction_Finished(nullptr);
 	}
 }

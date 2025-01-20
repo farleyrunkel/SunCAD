@@ -32,6 +32,19 @@ void ViewportPanelModel::removeElements(std::function<bool(IHudElement*)> predic
 {
 }
 
+// virtual void SetCursor(QObject* owner, Cursor* cursor) override {}
+
+void ViewportPanelModel::setHintMessage(const QString& message) 
+{
+    m_hintMessage = message;
+    emit propertyChanged("hintMessage");
+}
+
+QString ViewportPanelModel::hintMessage() 
+{
+    return m_hintMessage;
+}
+
 void ViewportPanelModel::setViewportController(Sun_ViewportController* value) 
 {
     m_viewportController = value;

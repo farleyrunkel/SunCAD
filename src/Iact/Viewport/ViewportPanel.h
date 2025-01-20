@@ -31,6 +31,11 @@ public:
 	explicit ViewportPanel(QWidget* parent = nullptr);
 	~ViewportPanel() override {}
 
+public:
+	ViewportPanelModel* dataContext() const {
+		return m_dataContext;
+	}
+
 protected:
 	virtual void mouseMoveEvent(QMouseEvent* event) override;
 	virtual void mousePressEvent(QMouseEvent* event) override;

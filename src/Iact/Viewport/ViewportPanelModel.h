@@ -19,6 +19,8 @@
 class ViewportPanelModel : public BaseObject, public IHudManager
 {
     Q_OBJECT
+    Q_PROPERTY(QString hintMessage READ hintMessage WRITE setHintMessage)
+
 public:
 	ViewportPanelModel();
 
@@ -28,7 +30,9 @@ public:
     virtual void removeElements(std::function<bool(IHudElement*)> predicate) override;
 
     // virtual void SetCursor(QObject* owner, Cursor* cursor) override {}
-    virtual void setHintMessage(const QString& message) override {}
+    virtual void setHintMessage(const QString& message) override;
+
+    QString hintMessage();
 
     Sun_WorkspaceController* workspaceController() const 
     {
@@ -56,6 +60,7 @@ private:
     Sun_WorkspaceController* m_workspaceController;
     Sun_ViewportController* m_viewportController;
     QList<IHudElement*> m_hudElements;
+    QString m_hintMessage;
 };
 
 #endif  // APP_VIEWPORTPANELMODEL_H_

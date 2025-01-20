@@ -39,9 +39,9 @@ private:
 	void _ensurePreviewShape();
 	void _pivotAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args);
 	void _pivotAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args);
-	void _BaseRectAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args);
-	void _BaseRectAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args);
-	void _MultiValueEntered(double newValue1, double newValue2);
+	void _baseRectAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args);
+	void _baseRectAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args);
+	void _multiValueEntered(double newValue1, double newValue2);
 
 private:
 	Phase m_currentPhase;

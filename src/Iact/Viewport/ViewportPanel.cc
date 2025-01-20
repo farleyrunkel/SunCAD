@@ -32,13 +32,13 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 	m_hudContainer->setStyleSheet("background-color: rgba(128, 128, 128, 0.5);");
 
 	connect(m_dataContext, &ViewportPanelModel::hudElementsAdded
-			, [this](IHudElement* element) {
-			m_hudContainer->layout()->addWidget(element);
-			m_hudContainer->setVisible(true);
-			qDebug() << "mouseMovePosition connect: " << m_mouseMovePosition;
-			_updateHud(m_mouseMovePosition); 
-		}
-	);
+			, [this](IHudElement* element) 
+	{
+		m_hudContainer->layout()->addWidget(element);
+		m_hudContainer->setVisible(true);
+		qDebug() << "mouseMovePosition connect: " << m_mouseMovePosition;
+		_updateHud(m_mouseMovePosition); 
+	});
 
 	connect(m_dataContext, &ViewportPanelModel::propertyChanged
 			, this, &ViewportPanel::_model_PropertyChanged);
@@ -119,7 +119,9 @@ void ViewportPanel::_model_PropertyChanged(const QString& propertyName)
 	if (propertyName == "viewportController") {
 		_viewportControllerChanged();
 	}
-	m_hudContainer->raise();
+	if (propertyName == "hintMessage") {
+
+	}
 }
 
 void ViewportPanel::_viewportControllerChanged() 
@@ -143,6 +145,7 @@ void ViewportPanel::_viewportControllerChanged()
 		layout()->addWidget(newHost);
 	}
 	m_viewportHwndHost = newHost;
+	m_hudContainer->raise();
 }
 
 void ViewportPanel::_updateHud(const QPointF& pos) 

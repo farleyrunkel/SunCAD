@@ -42,9 +42,9 @@ void WorkspaceControl::add(IHudElement* hudElement)
 
 void WorkspaceControl::setHintMessage(const QString& message) 
 {
-	//auto hudManager = workspaceController()->hudManager();
-	//if (hudManager)
-	//	hudManager->setHintMessage(message);
+	auto hudManager = workspaceController()->hudManager();
+	if (hudManager)
+		hudManager->setHintMessage(message);
 }
 
 void WorkspaceControl::add(VisualObject* visual) 
