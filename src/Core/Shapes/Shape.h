@@ -1,7 +1,7 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_CORE_SHAPES_SHAPE_H_
-#define SRC_CORE_SHAPES_SHAPE_H_
+#ifndef CORE_SHAPES_SHAPE_H_
+#define CORE_SHAPES_SHAPE_H_
 
 #include <QString>
 #include <QList>
@@ -12,16 +12,17 @@
 #include "Core/Topology/Body.h"
 
 // Base class for shape
-class Shape : public Entity {
+class Shape : public Entity 
+{
     Q_OBJECT
 
- public:
+public:
     Shape() {}
     struct NamedSubshape
     {
     };
 
- private:
+private:
     bool _IsSkipped;
     bool _IsLoadedFromCache;
     bool _IsInvalidating;
@@ -32,4 +33,4 @@ class Shape : public Entity {
     QList<NamedSubshape> _NamedSubshapes;
 };
 
-#endif  // SRC_CORE_SHAPES_SHAPE_H_
+#endif  // CORE_SHAPES_SHAPE_H_

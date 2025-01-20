@@ -1,16 +1,17 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_CORE_TOPOLOGY_BODY_H_
-#define SRC_CORE_TOPOLOGY_BODY_H_
+#ifndef CORE_TOPOLOGY_BODY_H_
+#define CORE_TOPOLOGY_BODY_H_
 
 #include <QObject>
 
 #include "Core/Topology/InteractiveEntity.h"
 
-class Body : public InteractiveEntity {
+class Body : public InteractiveEntity 
+{
     Q_OBJECT
+public:
 
- public:
 };
 
-#endif  // SRC_CORE_TOPOLOGY_BODY_H_
+#endif  // CORE_TOPOLOGY_BODY_H_

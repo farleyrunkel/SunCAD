@@ -4,6 +4,7 @@
 #include "Iact/Primitives/CreateBoxTool.h"
 
 // Project includes
+#include "Core/Shapes/Primitives/Box.h"
 #include "Iact/HudElements/Coord2DHudElement.h"
 #include "Iact/HudElements/MultiValueHudElement.h"
 #include "Iact/Workspace/WorkspaceController.h"
@@ -12,6 +13,7 @@ CreateBoxTool::CreateBoxTool()
 	: Tool()
 	, m_coord2DHudElement(nullptr)
 	, m_multiValueHudElement(nullptr)
+	, m_previewShape(nullptr)
 {	
 }
 
@@ -24,8 +26,8 @@ bool CreateBoxTool::onStart()
 		return false;
 	}
 
-	connect(pointAction, &PointAction::preview, this, &CreateBoxTool::_pivotAction_Preview);
-	connect(pointAction, &PointAction::finished, this, &CreateBoxTool::_pivotAction_Finished);
+	connect(pointAction, &PointAction::preview, this, &CreateBoxTool::pivotAction_Preview);
+	connect(pointAction, &PointAction::finished, this, &CreateBoxTool::pivotAction_Finished);
 
 	setHintMessage("Select corner point.");
 	m_coord2DHudElement = new Coord2DHudElement;
@@ -35,17 +37,20 @@ bool CreateBoxTool::onStart()
 
 void CreateBoxTool::ensurePreviewShape()
 {
-
+	if (m_previewShape != nullptr) {
+		return;
+	}
+	m_previewShape = new Box(0.01, 0.01, 0.01);
 }
 
-void CreateBoxTool::_pivotAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args)
+void CreateBoxTool::pivotAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args)
 {
 	if (m_coord2DHudElement) {
 		m_coord2DHudElement->setValues(args->Point.X(), args->Point.Y());
 	}
 }
 
-void CreateBoxTool::_pivotAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args)
+void CreateBoxTool::pivotAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args)
 {
 	PointAction* action = qobject_cast<PointAction*>(sender());
 	if (action == nullptr) {
@@ -59,7 +64,7 @@ void CreateBoxTool::_pivotAction_Finished(const std::shared_ptr<PointAction::Eve
 	auto newAction = new PointAction();
 
 	connect(newAction, &PointAction::preview, this, &CreateBoxTool::baseRectAction_Preview);
-	connect(newAction, &PointAction::finished, this, &CreateBoxTool::_baseRectAction_Finished);
+	connect(newAction, &PointAction::finished, this, &CreateBoxTool::baseRectAction_Finished);
 
 	if (!startAction(newAction))
 		return;
@@ -71,7 +76,7 @@ void CreateBoxTool::_pivotAction_Finished(const std::shared_ptr<PointAction::Eve
 	{
 		m_multiValueHudElement = new MultiValueHudElement("Length:", "Width:");
 		connect(m_multiValueHudElement, &MultiValueHudElement::MultiValueEntered, 
-				this, &CreateBoxTool::_multiValueEntered);
+				this, &CreateBoxTool::multiValueEntered);
 		add(m_multiValueHudElement);
 	}
 }
@@ -112,17 +117,17 @@ void CreateBoxTool::baseRectAction_Preview(const std::shared_ptr<PointAction::Ev
 	m_coord2DHudElement->setValues(m_pointPlane2.X(), m_pointPlane2.Y());
 }
 
-void CreateBoxTool::_baseRectAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args)
+void CreateBoxTool::baseRectAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args)
 {
 }
 
-void CreateBoxTool::_multiValueEntered(double newValue1, double newValue2)
+void CreateBoxTool::multiValueEntered(double newValue1, double newValue2)
 {
 	if (m_currentPhase == Phase::BaseRect)
 	{
 		m_pointPlane2 = gp_Pnt2d(m_pointPlane1.X() + newValue1, m_pointPlane1.Y() + newValue2);
 		baseRectAction_Preview(nullptr);
 		ensurePreviewShape();
-		_baseRectAction_Finished(nullptr);
+		baseRectAction_Finished(nullptr);
 	}
 }

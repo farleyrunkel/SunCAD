@@ -1,9 +1,9 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_IACT_VISUAL_VISUALSHAPE_H_
-#define SRC_IACT_VISUAL_VISUALSHAPE_H_
+#ifndef IACT_VISUAL_VISUALSHAPE_H_
+#define IACT_VISUAL_VISUALSHAPE_H_
 
-#include<AIS_InteractiveObject.hxx>
+#include <AIS_InteractiveObject.hxx>
 
 #include "Iact/Visual/VisualObject.h"
 
@@ -17,8 +17,6 @@ public:
     virtual Handle(AIS_InteractiveObject) AisObject() const override {
         return Handle(AIS_InteractiveObject) {};
     }
-
-
 };
 
-#endif  // SRC_IACT_VISUAL_VISUALSHAPE_H_
+#endif  // IACT_VISUAL_VISUALSHAPE_H_

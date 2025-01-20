@@ -1,17 +1,19 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_CORE_TOPOLOGY_ENTITY_H_
-#define SRC_CORE_TOPOLOGY_ENTITY_H_
+#ifndef CORE_TOPOLOGY_ENTITY_H_
+#define CORE_TOPOLOGY_ENTITY_H_
 
 #include <QObject>
 #include <QUuid>
 #include <QDebug>
 
-// Base class for Entity, assuming Entity is derived from QObject for signal/slot support
-class Entity : public QObject {
+#include "Comm/BaseObject.h"
+
+class Entity : public BaseObject
+{
     Q_OBJECT
 
- public:
+public:
     // Constructor
     explicit Entity(QObject* parent = nullptr);
 
@@ -24,8 +26,8 @@ class Entity : public QObject {
     QString typeName() const;
 
     // Name property, virtual
-    virtual QString name() const = 0;
-    virtual void setName(const QString&) = 0;
+    virtual QString name() const;
+    virtual void setName(const QString&);
 
     // Error handling
     bool hasErrors() const;
@@ -38,7 +40,7 @@ class Entity : public QObject {
     // For debugging or logging purposes
     virtual QString toString() const;
 
- signals:
+signals:
     // Signal when the entity is removed
     void entityRemoved();
 
@@ -56,5 +58,5 @@ class Entity : public QObject {
     bool _hasErrors;
 };
 
-#endif  // SRC_CORE_TOPOLOGY_ENTITY_H_
+#endif  // CORE_TOPOLOGY_ENTITY_H_
 

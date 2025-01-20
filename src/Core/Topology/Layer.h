@@ -1,7 +1,7 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_CORE_TOPOLOGY_LAYER_H_
-#define SRC_CORE_TOPOLOGY_LAYER_H_
+#ifndef CORE_TOPOLOGY_LAYER_H_
+#define CORE_TOPOLOGY_LAYER_H_
 
 #include <QObject>
 #include <QString>
@@ -12,7 +12,8 @@
 class SerializationContext {};
 
 // Layer class as a declaration only, without actual implementation
-class Layer : public Entity {
+class Layer : public Entity 
+{
     Q_OBJECT
 
 public:
@@ -67,4 +68,4 @@ public:
 //    LayerCollection* _collection;         // Associated collection
 };
 
-#endif  // SRC_CORE_TOPOLOGY_LAYER_H_
+#endif  // CORE_TOPOLOGY_LAYER_H_

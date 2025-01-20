@@ -1,7 +1,7 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_CORE_TOPOLOGY_OMTERACTIVEENTITY_H_
-#define SRC_CORE_TOPOLOGY_OMTERACTIVEENTITY_H_
+#ifndef CORE_TOPOLOGY_OMTERACTIVEENTITY_H_
+#define CORE_TOPOLOGY_OMTERACTIVEENTITY_H_
 
 #include <QObject>
 #include <QUuid>
@@ -11,7 +11,8 @@
 #include "Core/Topology/Entity.h"
 #include "Core/Topology/Layer.h"
 
-class InteractiveEntity : public Entity {
+class InteractiveEntity : public Entity 
+{
     Q_OBJECT
 
 public:
@@ -49,4 +50,4 @@ private:
     QUuid _layerId;
 };
 
-#endif  // SRC_CORE_TOPOLOGY_OMTERACTIVEENTITY_H_
+#endif  // CORE_TOPOLOGY_OMTERACTIVEENTITY_H_

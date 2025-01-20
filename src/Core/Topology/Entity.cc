@@ -3,39 +3,49 @@
 #include "Core/Topology/Entity.h"
 
 // Constructor
- Entity::Entity(QObject* parent)
-    : QObject(parent), _guid(QUuid::createUuid()),  _hasErrors(false) {
+Entity::Entity(QObject* parent)
+    : BaseObject(parent)
+    , _guid(QUuid::createUuid())
+    ,  _hasErrors(false) 
+{
     qDebug() << "_Entity created with GUID:" << _guid.toString();
 }
 
 // Guid property (using QUuid)
-QUuid Entity::guid() const {
+QUuid Entity::guid() const 
+{
      return _guid;
 }
 
-void Entity::setGuid(const QUuid& guid) {
+void Entity::setGuid(const QUuid& guid) 
+{
 }
 
 // Type name property
-QString Entity::typeName() const {
+QString Entity::typeName() const 
+{
     return QString(metaObject()->className());
 }
 
 // Name property, virtual
-QString Entity::name() const {
+QString Entity::name() const 
+{
     return "Unknown";
 }
 
-void Entity::setName(const QString&) {
+void Entity::setName(const QString&) 
+{
     // Override in subclasses
 }
 
 // Error handling
-bool Entity::hasErrors() const {
+bool Entity::hasErrors() const 
+{
     return _hasErrors;
 }
 
-void Entity::setHasErrors(bool hasErrors) {
+void Entity::setHasErrors(bool hasErrors) 
+{
     if (_hasErrors != hasErrors) {
         _hasErrors = hasErrors;
         emit hasErrorsChanged();
@@ -44,9 +54,11 @@ void Entity::setHasErrors(bool hasErrors) {
 }
 
 // Remove entity
-void Entity::remove() {
+void Entity::remove() 
+{
 }
 
-QString Entity::toString() const {
+QString Entity::toString() const 
+{
     return name();
 }

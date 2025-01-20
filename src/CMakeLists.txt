@@ -10,13 +10,11 @@ file(GLOB SUB_DIRECTORY_SOURCES
     "${CMAKE_SOURCE_DIR}/src/*/*.cc"
     "${CMAKE_SOURCE_DIR}/src/*/*/*.h"
     "${CMAKE_SOURCE_DIR}/src/*/*/*.cc"
+    "${CMAKE_SOURCE_DIR}/src/*/*/*/*.h"
+    "${CMAKE_SOURCE_DIR}/src/*/*/*/*.cc"
 )
 
 list(APPEND PROJECT_SOURCES ${SUB_DIRECTORY_SOURCES})
-
-# check code style
-# include(cpplint)
-# add_cpplint_target(CpplintCheck ${SUB_DIRECTORY_SOURCES})
 
 # add executable target
 qt_add_executable(${PROJECT_NAME}

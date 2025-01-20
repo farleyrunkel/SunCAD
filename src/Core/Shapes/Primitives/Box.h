@@ -3,9 +3,26 @@
 #ifndef CORE_SHAPES_PRIMITIVES_BOX_H_
 #define CORE_SHAPES_PRIMITIVES_BOX_H_
 
-class Box
-{
+#include <QObject>
 
+#include "Core/Shapes/Shape.h"
+
+class Box : public Shape
+{
+    Q_OBJECT
+
+public:
+   explicit Box(double dimX, double dimY, double dimZ)
+       : _DimensionX(dimX)
+       , _DimensionY(dimY)
+       , _DimensionZ(dimZ)
+   {
+   }
+
+private:
+     double _DimensionX;
+     double _DimensionY;
+     double _DimensionZ;
 };
 
 #endif  // CORE_SHAPES_PRIMITIVES_BOX_H_

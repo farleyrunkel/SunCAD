@@ -1,7 +1,7 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_IACT_VISUAL_VISUALOBJECT_H_
-#define SRC_IACT_VISUAL_VISUALOBJECT_H_
+#ifndef IACT_VISUAL_VISUALOBJECT_H_
+#define IACT_VISUAL_VISUALOBJECT_H_
 
 // Qt includes
 #include <QObject>
@@ -56,4 +56,4 @@ private:
     QVariant _Tag;
 };
 
-#endif  // SRC_IACT_VISUAL_VISUALOBJECT_H_
+#endif  // IACT_VISUAL_VISUALOBJECT_H_
