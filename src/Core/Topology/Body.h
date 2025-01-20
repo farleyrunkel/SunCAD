@@ -5,13 +5,27 @@
 
 #include <QObject>
 
+#include <gp_Quaternion.hxx>
+
+#include "Core/Shapes/Shape.h"
 #include "Core/Topology/InteractiveEntity.h"
 
 class Body : public InteractiveEntity 
 {
     Q_OBJECT
-public:
 
+public:
+    void setRotation(const gp_Quaternion& rotation){
+        m_rotation = rotation;
+    }
+
+public:
+    static Body* create(Shape* shape) {
+        return nullptr;
+    }
+
+private:
+    gp_Quaternion m_rotation;
 };
 
 #endif  // CORE_TOPOLOGY_BODY_H_

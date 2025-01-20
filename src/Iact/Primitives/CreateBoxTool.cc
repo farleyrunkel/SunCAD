@@ -5,6 +5,7 @@
 
 // Project includes
 #include "Core/Shapes/Primitives/Box.h"
+#include "Core/Topology/Body.h"
 #include "Iact/HudElements/Coord2DHudElement.h"
 #include "Iact/HudElements/MultiValueHudElement.h"
 #include "Iact/Workspace/WorkspaceController.h"
@@ -41,6 +42,9 @@ void CreateBoxTool::ensurePreviewShape()
 		return;
 	}
 	m_previewShape = new Box(0.01, 0.01, 0.01);
+
+	auto body = Body::create(m_previewShape);
+	m_previewShape->body()->setRotation(workspaceController()->workspace()->getWorkingPlaneRotation());
 }
 
 void CreateBoxTool::pivotAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args)

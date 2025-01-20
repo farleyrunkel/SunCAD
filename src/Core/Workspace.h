@@ -11,6 +11,7 @@
 #include <AIS_DisplayMode.hxx>
 #include <Prs3d_LineAspect.hxx>
 #include <gp_Pln.hxx>
+#include <gp_Quaternion.hxx>
 
 #include "Comm/BaseObject.h"
 #include "Core/Project/VisualStyles.h"
@@ -81,6 +82,16 @@ public:
 
     // Model management
     Model* model() const { return m_model ; }
+
+    gp_Quaternion getWorkingPlaneRotation() {
+        auto& wp = workingPlane();
+        gp_Mat mat(
+            wp.XAxis().Direction().XYZ(),
+            wp.YAxis().Direction().XYZ(),
+            wp.Position().Direction().XYZ());
+
+        return gp_Quaternion(mat);
+    }
 
 signals:
     void GridChanged(Sun::Workspace*);

@@ -9,24 +9,27 @@
 #include <TopoDS_Shape.hxx>
 
 #include "Core/Topology/Entity.h"
-#include "Core/Topology/Body.h"
 
 // Base class for shape
+class Body;
+
 class Shape : public Entity 
 {
     Q_OBJECT
 
 public:
-    Shape() {}
+    Shape();
     struct NamedSubshape
     {
     };
+
+    Body* body();
 
 private:
     bool _IsSkipped;
     bool _IsLoadedFromCache;
     bool _IsInvalidating;
-    Body _Body;
+    Body* _Body;
     QString _Name;
     Handle(TopoDS_Shape) _BRep;
     Handle(TopoDS_Shape) _TransformedBRep;

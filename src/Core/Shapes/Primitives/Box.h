@@ -7,6 +7,7 @@
 
 #include "Core/Shapes/Shape.h"
 
+class Body;
 class Box : public Shape
 {
     Q_OBJECT
