@@ -5,3 +5,5 @@
 Layer::Layer(QObject* parent)
 {
 }
+
+LayerSignalHub* Layer::s_signalHub = new LayerSignalHub;

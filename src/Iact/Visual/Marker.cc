@@ -1,12 +1,14 @@
 // Copyright [2024] SunCAD
 
+// Own include
 #include "Iact/Visual/Marker.h"
 
+// Qt includes
 #include <QSharedPointer>
 
+// Project includes
 #include "Iact/Workspace/WorkspaceController.h"
 #include "Occt/Managed/AIS_PointEx.h"
-
 
 Marker::Marker(Sun_WorkspaceController* workspaceController, Styles styles, const MarkerImage& image)
     : VisualObject(workspaceController, nullptr), 

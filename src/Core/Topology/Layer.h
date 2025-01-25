@@ -11,6 +11,17 @@
 
 class SerializationContext {};
 
+class Layer;
+class LayerSignalHub : public QObject
+{
+    Q_OBJECT
+public:
+    LayerSignalHub() = default;
+signals:
+    void PresentationChanged(Layer*);
+    void InteractivityChanged(Layer*);
+};
+
 // Layer class as a declaration only, without actual implementation
 class Layer : public Entity 
 {
@@ -23,6 +34,10 @@ public:
 //    QString name() const;                   // Name property
 //    void setName(const QString& name);
 //
+    static LayerSignalHub* signalHub() {
+        return s_signalHub;
+    }
+
     bool isVisible() const {
         return false;
     };                 // IsVisible property
@@ -68,6 +83,7 @@ public:
 //    LineStyle _lineStyle;                 // Line style
 //    LineThickness _lineThickness;         // Line thickness
 //    LayerCollection* _collection;         // Associated collection
+    static LayerSignalHub* s_signalHub;
 };
 
 #endif  // CORE_TOPOLOGY_LAYER_H_

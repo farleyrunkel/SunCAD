@@ -19,15 +19,33 @@ class Sun_WorkspaceController;
 class Body;
 class VisualObject;
 
+class VisualObjectManager;
+
+class VisualObjectManagerSignalHub : public QObject 
+{
+	Q_OBJECT
+public:
+	VisualObjectManagerSignalHub() = default;
+signals:
+	void IsolatedEntitiesChanged(VisualObjectManager*);
+};
+
 class VisualObjectManager : public QObject
 {
+	Q_OBJECT
+
 public:
 	VisualObjectManager(Sun_WorkspaceController*) {}
 
 	VisualObject* get(Body*, bool b) {
 		return nullptr;
 	}
+	static VisualObjectManagerSignalHub* signalHub() {
+		return s_signalHub;
+	}
 
+private:
+	static VisualObjectManagerSignalHub* s_signalHub;
 };
 
 #endif // IACT_VISUAL_VISUALOBJECTMANAGER_H_
