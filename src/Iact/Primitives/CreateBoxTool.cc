@@ -3,6 +3,9 @@
 // Own include
 #include "Iact/Primitives/CreateBoxTool.h"
 
+//
+#include <ElSLib.hxx>
+
 // Project includes
 #include "Core/Shapes/Primitives/Box.h"
 #include "Core/Topology/Body.h"
@@ -127,7 +130,13 @@ void CreateBoxTool::baseRectAction_Preview(const std::shared_ptr<PointAction::Ev
 		m_pointPlane2.SetY(posY);
 	}
 	ensurePreviewShape();
-
+	auto position = ElSLib::Value(posX, posY, m_plane);
+	m_previewShape->body()->setPosition(position);
+	m_previewShape->setDimensionX(dimX);
+	m_previewShape->setDimensionY(dimY);
+	if (m_isTemporaryVisual) {
+		m_visualShape->update();
+	}
 	m_coord2DHudElement->setValues(m_pointPlane2.X(), m_pointPlane2.Y());
 }
 

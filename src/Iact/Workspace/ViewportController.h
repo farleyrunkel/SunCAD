@@ -87,7 +87,7 @@ public:
 	void SetPredefinedView(PredefinedViews predefinedView);
 
 	Sun_WorkspaceController* workspaceController() const {
-		return _WorkspaceController;
+		return m_workspaceController;
 	}
 	Sun_Viewport* viewport() const { return _Viewport; }
 
@@ -109,7 +109,7 @@ signals:
 
 private:
 	Sun_Viewport* _Viewport = nullptr;
-	Sun_WorkspaceController* _WorkspaceController = nullptr;
+	Sun_WorkspaceController* m_workspaceController = nullptr;
 	Handle(AIS_ViewCube) _ViewCube = nullptr;
 	
 	Handle(AIS_RubberBand) _AisRubberBand = nullptr;

@@ -5,7 +5,7 @@
 Sun_ViewportController::Sun_ViewportController(Sun_Viewport* Viewport, Sun_WorkspaceController* workspacecontroller)
 	: QObject(),
 	_Viewport(Viewport),
-	_WorkspaceController(workspacecontroller)
+	m_workspaceController(workspacecontroller)
 {
 	assert(Viewport != nullptr);
 	Init();

@@ -39,7 +39,7 @@ Sun_WorkspaceController::Sun_WorkspaceController(Sun::Workspace* workspace)
 }
 
 void Sun_WorkspaceController::InitWorkspace() {
-    // init V3dViewer and AisContext
+    // init V3dViewer and aisContext
     workspace()->initV3dViewer();
     workspace()->initAisContext();
     initVisualSettings();

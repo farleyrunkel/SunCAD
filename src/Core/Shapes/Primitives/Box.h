@@ -20,6 +20,10 @@ public:
    {
    }
 
+   void setDimensionX(double) {}
+   void setDimensionY(double) {}
+   void setDimensionZ(double) {}
+
 private:
      double _DimensionX;
      double _DimensionY;

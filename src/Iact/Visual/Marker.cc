@@ -8,8 +8,8 @@
 #include "Occt/Managed/AIS_PointEx.h"
 
 
-Marker::Marker(Sun_WorkspaceController* WorkspaceController, Styles styles, const MarkerImage& image)
-    : VisualObject(WorkspaceController, nullptr), 
+Marker::Marker(Sun_WorkspaceController* workspaceController, Styles styles, const MarkerImage& image)
+    : VisualObject(workspaceController, nullptr), 
     _Styles(styles), 
     _Image(image),
     _Color(Qt::yellow), 
@@ -19,8 +19,8 @@ Marker::Marker(Sun_WorkspaceController* WorkspaceController, Styles styles, cons
 {
 }
 
-Marker::Marker(Sun_WorkspaceController* WorkspaceController, Styles styles, QString imageName, int size)
-    : VisualObject(WorkspaceController, nullptr),
+Marker::Marker(Sun_WorkspaceController* workspaceController, Styles styles, QString imageName, int size)
+    : VisualObject(workspaceController, nullptr),
     _Styles(styles),
     _Image(_GetMarkerImage(imageName, size)),
     _Color(Qt::yellow),
@@ -30,7 +30,7 @@ Marker::Marker(Sun_WorkspaceController* WorkspaceController, Styles styles, QStr
 {
 }
 
-void Marker::Update() 
+void Marker::update() 
 {
     // 确保 AIS_Point 对象存在
     if (_AisPoint.IsNull()) {
@@ -38,15 +38,15 @@ void Marker::Update()
     }
     else {
         _UpdatePresentation();
-        // 在 AisContext 上进行重新显示
-        AisContext()->Redisplay(_AisPoint, true);
+        // 在 aisContext 上进行重新显示
+        aisContext()->Redisplay(_AisPoint, true);
     }
 
     if (_IsSelectable) {
-        AisContext()->Activate(_AisPoint);
+        aisContext()->Activate(_AisPoint);
     }
     else {
-        AisContext()->Deactivate(_AisPoint);
+        aisContext()->Deactivate(_AisPoint);
     }
 }
 
@@ -63,7 +63,7 @@ inline void Marker::set(const Handle(Geom_CartesianPoint)& p)
         return;
 
     _AisPoint->SetComponent(_P);
-    Update();
+    update();
 }
 
 void Marker::set(const gp_Pnt2d& p, const gp_Pln& plane)
@@ -80,22 +80,22 @@ void Marker::setImage(MarkerImage image)
 
     _Image = image;
 
-    Remove();
+    remove();
     _EnsureAisObject();
 }
 
 // 获取 AIS_Object（OCCT）
 
-Handle(AIS_InteractiveObject) Marker::AisObject() const 
+Handle(AIS_InteractiveObject) Marker::aisObject() const 
 {
     return _AisPoint;
 }
 
-void Marker::Remove() 
+void Marker::remove() 
 {
     if (!_AisPoint.IsNull())
     {
-        AisContext()->Erase(_AisPoint, false);
+        aisContext()->Erase(_AisPoint, false);
         _AisPoint.Nullify();
     }
 }
@@ -144,8 +144,8 @@ bool Marker::_EnsureAisObject()
         _AisPoint->DynamicHilightAttributes()->SetZLayer(-4);
     }
 
-    AisContext()->Display(_AisPoint, 0, 0, false);
-    AisContext()->SetSelectionSensitivity(_AisPoint, 0, std::min(_Image.Height, _Image.Width));
+    aisContext()->Display(_AisPoint, 0, 0, false);
+    aisContext()->SetSelectionSensitivity(_AisPoint, 0, std::min(_Image.Height, _Image.Width));
 
     return true;
 }
@@ -265,7 +265,7 @@ void Marker::SetColor(const Sun::Color& color)
     if (_Color == color)
         return;
     _Color = color;
-    Update();
+    update();
 }
 
 Sun::Color Marker::BackgroundColor() const 
@@ -277,10 +277,10 @@ void Marker::SetBackgroundColor(const Sun::Color& color)
     if (_ColorBg == color)
         return;
     _ColorBg = color;
-    Update();
+    update();
 }
 
-bool Marker::IsSelectable() const 
+bool Marker::isSelectable() const 
 { 
     return _IsSelectable; 
 }
@@ -290,5 +290,5 @@ void Marker::SetSelectable(bool selectable)
     if (_IsSelectable == selectable)
         return;
     _IsSelectable = selectable;
-    Update();
+    update();
 }

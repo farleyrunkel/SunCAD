@@ -28,7 +28,7 @@ class Workspace : public BaseObject
     Q_OBJECT
     Q_PROPERTY(QList<Sun_Viewport*> Viewports READ viewports)
     Q_PROPERTY(Handle(V3d_Viewer) V3dViewer READ v3dViewer)
-    Q_PROPERTY(Handle(AIS_InteractiveContext) AisContext READ aisContext)
+    Q_PROPERTY(Handle(AIS_InteractiveContext) aisContext READ aisContext)
     Q_PROPERTY(bool NeedsRedraw READ needsRedraw WRITE setNeedsRedraw)
     Q_PROPERTY(bool NeedsImmediateRedraw READ needsImmediateRedraw WRITE setNeedsImmediateRedraw)
     Q_PROPERTY(Model* Model READ model)

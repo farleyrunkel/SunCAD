@@ -1,34 +1,46 @@
 // Copyright [2024] SunCAD
 
+// Own include
 #include "Iact/Visual/VisualObject.h"
 
+// Occt includes
 #include <AIS_InteractiveContext.hxx>
 #include <gp_Trsf.hxx>
 
+// Project includes
 #include "Iact/Workspace/WorkspaceController.h"
 
-VisualObject::VisualObject(Sun_WorkspaceController* WorkspaceController, InteractiveEntity* entity)
-    : QObject(nullptr), _WorkspaceController(WorkspaceController), _Entity(entity) {}
-
-Sun_WorkspaceController* VisualObject::WorkspaceController() const { 
-    return _WorkspaceController; 
+VisualObject::VisualObject(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity)
+    : QObject(nullptr)
+    , m_workspaceController(workspaceController)
+    , m_entity(entity) 
+{
 }
 
-Handle(AIS_InteractiveContext) VisualObject::AisContext() const { 
-    return _WorkspaceController->workspace()->aisContext();
+Sun_WorkspaceController* VisualObject::workspaceController() const 
+{ 
+    return m_workspaceController; 
 }
 
-bool VisualObject::IsSelected() const {
-    return AisContext()->IsSelected(AisObject());
+Handle(AIS_InteractiveContext) VisualObject::aisContext() const 
+{ 
+    return m_workspaceController->workspace()->aisContext();
 }
 
-void VisualObject::SetIsSelected(bool value) {
-    if (AisContext()->IsSelected(AisObject()) != value) {
-        AisContext()->AddOrRemoveSelected(AisObject(), false);
+bool VisualObject::isSelected() const
+{
+    return aisContext()->IsSelected(aisObject());
+}
+
+void VisualObject::setIsSelected(bool value) 
+{
+    if (aisContext()->IsSelected(aisObject()) != value) {
+        aisContext()->AddOrRemoveSelected(aisObject(), false);
     }
 }
 
-void VisualObject::SetLocalTransformation(const gp_Trsf& transformation) {
-    if (!AisObject()) return;
-    AisObject()->SetLocalTransformation(transformation);
+void VisualObject::setLocalTransformation(const gp_Trsf& transformation) 
+{
+    if (!aisObject()) return;
+    aisObject()->SetLocalTransformation(transformation);
 }

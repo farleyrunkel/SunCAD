@@ -29,7 +29,7 @@ class Marker : public VisualObject
     Q_OBJECT
     Q_PROPERTY(Sun::Color Color READ Color WRITE SetColor)
     Q_PROPERTY(Sun::Color BackgroundColor READ BackgroundColor WRITE SetBackgroundColor)
-    Q_PROPERTY(bool IsSelectable READ IsSelectable WRITE SetSelectable)
+    Q_PROPERTY(bool isSelectable READ isSelectable WRITE SetSelectable)
 
 public:
     enum Styles {
@@ -49,8 +49,8 @@ public:
     };
 
 public:
-    Marker(Sun_WorkspaceController* WorkspaceController, Styles styles, const MarkerImage& image);
-    Marker(Sun_WorkspaceController* WorkspaceController, Styles styles, QString imageName, int size);
+    Marker(Sun_WorkspaceController* workspaceController, Styles styles, const MarkerImage& image);
+    Marker(Sun_WorkspaceController* workspaceController, Styles styles, QString imageName, int size);
 
 public:
     // 获取/设置颜色
@@ -60,7 +60,7 @@ public:
     Sun::Color BackgroundColor() const;
     void SetBackgroundColor(const Sun::Color& color);
 
-    bool IsSelectable() const;
+    bool isSelectable() const;
     void SetSelectable(bool selectable);
 
 public:
@@ -73,9 +73,9 @@ public:
 
 public:
     // 获取 AIS_Object（OCCT）
-    virtual Handle(AIS_InteractiveObject) AisObject() const override;
-    virtual void Remove() override;
-    virtual void Update() override;
+    virtual Handle(AIS_InteractiveObject) aisObject() const override;
+    virtual void remove() override;
+    virtual void update() override;
 
     void set(const gp_Pnt& p);
     void set(const Handle(Geom_CartesianPoint)& p);

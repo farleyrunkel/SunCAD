@@ -20,7 +20,7 @@ public:
 	explicit WorkspaceControl(QObject* parent = nullptr);
 
 	Sun_WorkspaceController* workspaceController() const;
-	void setWorkspaceController(Sun_WorkspaceController* WorkspaceController);
+	void setWorkspaceController(Sun_WorkspaceController* workspaceController);
 
 protected:
     virtual QList<WorkspaceControl*> getChildren() const;

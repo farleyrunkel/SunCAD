@@ -5,14 +5,13 @@
 
 // Qt includes
 #include <QObject>
-#include <QSharedPointer>
 #include <QVariant>
 
 // Occt includes
 #include <AIS_InteractiveContext.hxx>
-#include <gp_Trsf.hxx>
+#include <AIS_InteractiveObject.hxx>
 
-// SunCAD includes
+// Project includes
 #include "Core/Topology/InteractiveEntity.h"
 
 class Sun_WorkspaceController;
@@ -20,40 +19,40 @@ class Sun_WorkspaceController;
 class VisualObject : public QObject 
 {
     Q_OBJECT
-    Q_PROPERTY(bool Selectable READ IsSelectable WRITE SetIsSelectable)
-    Q_PROPERTY(bool Selected READ IsSelected WRITE SetIsSelected)
-    Q_PROPERTY(QVariant Tag READ Tag WRITE SetTag)
+    Q_PROPERTY(bool selectable READ isSelectable WRITE setIsSelectable)
+    Q_PROPERTY(bool selected READ isSelected WRITE setIsSelected)
+    Q_PROPERTY(QVariant tag READ tag WRITE setTag)
 
 protected:
-    explicit VisualObject(Sun_WorkspaceController* WorkspaceController, InteractiveEntity* entity);
+    explicit VisualObject(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity);
     virtual ~VisualObject() {}
 
 public:
-    virtual void Remove() = 0;
-    virtual void Update() = 0;
-    virtual Handle(AIS_InteractiveObject) AisObject() const = 0;
+    virtual void remove() = 0;
+    virtual void update() = 0;
+    virtual Handle(AIS_InteractiveObject) aisObject() const = 0;
 
-    Sun_WorkspaceController* WorkspaceController() const;
-    Handle(AIS_InteractiveContext) AisContext() const;
+    Sun_WorkspaceController* workspaceController() const;
+    Handle(AIS_InteractiveContext) aisContext() const;
 
-    InteractiveEntity* Entity() const { return _Entity; }
-    void SetLocalTransformation(const gp_Trsf& transformation);
+    InteractiveEntity* entity() const { return m_entity; }
+    void setLocalTransformation(const gp_Trsf& transformation);
 
 public:
-    virtual bool IsSelectable() const { return false; }
-    virtual void SetIsSelectable(bool value) { Q_UNUSED(value); }
-    bool IsSelected() const;
-    void SetIsSelected(bool value);
-    QVariant Tag() const { return _Tag; }
-    void SetTag(const QVariant& tag) { _Tag = tag; }
+    virtual bool isSelectable() const { return false; }
+    virtual void setIsSelectable(bool value) { Q_UNUSED(value); }
+    bool isSelected() const;
+    void setIsSelected(bool value);
+    QVariant tag() const { return m_tag; }
+    void setTag(const QVariant& tag) { m_tag = tag; }
 
 signals:
-    void AisObjectChanged(const QSharedPointer<VisualObject>& visualObject);
+    void aisObjectChanged(VisualObject* visualObject);
 
 private:
-    Sun_WorkspaceController* _WorkspaceController;
-    InteractiveEntity* _Entity;
-    QVariant _Tag;
+    Sun_WorkspaceController* m_workspaceController;
+    InteractiveEntity* m_entity;
+    QVariant m_tag;
 };
 
 #endif  // IACT_VISUAL_VISUALOBJECT_H_

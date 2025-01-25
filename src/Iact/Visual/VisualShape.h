@@ -17,8 +17,8 @@ public:
     };
 
 public:
-    explicit VisualShape(Sun_WorkspaceController* WorkspaceController, InteractiveEntity* entity, Options options)
-    : VisualObject(WorkspaceController, entity)
+    explicit VisualShape(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity, Options options)
+    : VisualObject(workspaceController, entity)
     , m_options(options)
     {
         if (entity != nullptr) {
@@ -26,12 +26,12 @@ public:
             //if (_VisualStyle != null)
             //    _VisualStyle.VisualStyleChanged += _VisualStyle_VisualStyleChanged;
         }
-        Update();
+        update();
     }
 
-    virtual void Remove() override {}
-    virtual void Update() override {}
-    virtual Handle(AIS_InteractiveObject) AisObject() const override 
+    virtual void remove() override {}
+    virtual void update() override {}
+    virtual Handle(AIS_InteractiveObject) aisObject() const override 
     {
         return Handle(AIS_InteractiveObject) {};
     }
