@@ -14,6 +14,7 @@
 #include "Iact/HudElements/IHudManager.h"
 #include "Occt/AisExtensions/AISX_Grid.h"
 #include "Occt/OcctHelper/AisHelper.h"
+#include "Iact/Visual/VisualObjectManager.h"
 
 #include <gp_XY.hxx>
 #include <gp_Pnt.hxx>
@@ -23,11 +24,6 @@ class Marker;
 class Tool;
 class Sun_ViewportController;
 class Sun_WorkspaceController;
-
-class VisualObjectManager {
-public:
-    VisualObjectManager(Sun_WorkspaceController*) {}
-};
 
 class Sun_WorkspaceController : public QObject
 {
@@ -39,7 +35,7 @@ class Sun_WorkspaceController : public QObject
     //Q_PROPERTY(bool LockWorkingPlane READ LockWorkingPlane WRITE SetLockWorkingPlane NOTIFY LockWorkingPlaneChanged)
     //Q_PROPERTY(SelectionManager* Selection READ Selection CONSTANT)
     //Q_PROPERTY(bool IsSelecting READ IsSelecting WRITE SetIsSelecting NOTIFY IsSelectingChanged)
-    Q_PROPERTY(VisualObjectManager* VisualObjects READ VisualObjects CONSTANT)
+    Q_PROPERTY(VisualObjectManager* visualObjects READ visualObjects CONSTANT)
     Q_PROPERTY(gp_Pnt CursorPosition READ CursorPosition WRITE SetCursorPosition NOTIFY CursorPositionChanged)
     Q_PROPERTY(gp_Pnt2d CursorPosition2d READ CursorPosition2d WRITE SetCursorPosition2d NOTIFY CursorPosition2dChanged)
 
@@ -83,7 +79,7 @@ public:
 public:
     Sun::Workspace* workspace() const;
     Sun_Viewport* ActiveViewport() const { return _ActiveViewport; }
-    VisualObjectManager* VisualObjects() const { return _VisualObjectManager; }
+    VisualObjectManager* visualObjects() const { return _VisualObjectManager; }
     gp_Pnt CursorPosition() const { return _CursorPosition; }
     void SetCursorPosition(const gp_Pnt& pnt) {}
     gp_Pnt2d CursorPosition2d() const { return _CursorPosition2d; }

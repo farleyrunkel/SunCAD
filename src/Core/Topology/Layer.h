@@ -23,7 +23,9 @@ public:
 //    QString name() const;                   // Name property
 //    void setName(const QString& name);
 //
-//    bool isVisible() const;                 // IsVisible property
+    bool isVisible() const {
+        return false;
+    };                 // IsVisible property
 //    void setIsVisible(bool isVisible);
 //
 //    bool isLocked() const;                  // IsLocked property

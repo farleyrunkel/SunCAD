@@ -1,14 +1,15 @@
 // ResourceUtils.h
-#ifndef SRC_RESOURCEUTILS_H_
-#define SRC_RESOURCEUTILS_H_
+#ifndef RESOURCEUTILS_H_
+#define RESOURCEUTILS_H_
 
 #include <QString>
 #include <QIcon>
 #include <QFile>
 #include <QDebug>
 
-class ResourceUtils {
- public:
+class ResourceUtils 
+{
+public:
     static constexpr const char* ICON_PATH_PREFIX = "://icons/";
 
     static QString iconPath(const QString& iconName) {
@@ -19,13 +20,12 @@ class ResourceUtils {
         return QIcon(iconPath(iconName));
     }
 
- public:
+public:
     static bool isResourcePathValid(const QString& resourcePath)
     {
         QFile file(resourcePath);
         return file.exists();
     }
-
 };
 
-#endif // SRC_RESOURCEUTILS_H_
+#endif // RESOURCEUTILS_H_

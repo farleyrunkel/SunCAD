@@ -9,13 +9,14 @@
 #include "Iact/HudElements/Coord2DHudElement.h"
 #include "Iact/HudElements/MultiValueHudElement.h"
 #include "Iact/Workspace/WorkspaceController.h"
+#include "Iact/Visual/VisualShape.h"
 
 CreateBoxTool::CreateBoxTool() 
 	: Tool()
 	, m_coord2DHudElement(nullptr)
 	, m_multiValueHudElement(nullptr)
 	, m_previewShape(nullptr)
-{	
+{
 }
 
 bool CreateBoxTool::onStart()
@@ -45,6 +46,15 @@ void CreateBoxTool::ensurePreviewShape()
 
 	auto body = Body::create(m_previewShape);
 	m_previewShape->body()->setRotation(workspaceController()->workspace()->getWorkingPlaneRotation());
+
+	if (body->layer()->isVisible()) {
+		m_visualShape = this->workspaceController()->visualObjects()->get(body, true);
+		m_isTemporaryVisual = false;
+	}
+	else {
+		m_visualShape = new VisualShape(workspaceController(), body, VisualShape::Options::Ghosting);
+		m_isTemporaryVisual = true;
+	}
 }
 
 void CreateBoxTool::pivotAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args)
