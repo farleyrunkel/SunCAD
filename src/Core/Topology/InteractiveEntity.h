@@ -8,6 +8,7 @@
 
 #include <TopoDS_Shape.hxx>
 
+#include "Core/Components/VisualStyle.h"
 #include "Core/Topology/Entity.h"
 #include "Core/Topology/Layer.h"
 
@@ -37,6 +38,10 @@ public:
     void invalidate();
     virtual void remove() override;
     virtual TopoDS_Shape getTransformedBRep() const;
+
+    virtual VisualStyle* getVisualStyleComponent() {
+        return nullptr;
+    }
 
 signals:
     void visualChanged();

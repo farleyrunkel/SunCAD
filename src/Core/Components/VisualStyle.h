@@ -10,12 +10,17 @@
 
 #include "Core/Components/Component.h"
 
+class Body;
+
 class VisualStyle : public Component
 {
     Q_OBJECT
 
 public:
     VisualStyle() {}
+
+signals:
+    void visualStyleChanged(Body* body, VisualStyle* visualStyle);
 
 private:
 
