@@ -2,6 +2,13 @@
 
 #include "Core/Topology/Entity.h"
 
+// Qt includes
+#include <QUuid>
+#include <QString>
+
+// Project includes
+#include "Occt/AisExtensions/AISX_Guid.h"
+
 // Constructor
 Entity::Entity(QObject* parent)
     : BaseObject(parent)

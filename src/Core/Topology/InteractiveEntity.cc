@@ -90,7 +90,7 @@ void InteractiveEntity::remove() {
 
 // Get transformed BRep
 TopoDS_Shape InteractiveEntity::getTransformedBRep() const {
-    return TopoDS_Shape();  // Null or placeholder
+    return {};  // Null or placeholder
 }
 
 // Raise visual changed

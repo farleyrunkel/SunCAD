@@ -90,7 +90,7 @@ public:
 
 private:
     // 确保 _AisPoint 被正确初始化
-    bool _EnsureAisObject();
+    bool ensureAisObject();
 
     // 更新展示设置
     void _UpdatePresentation();

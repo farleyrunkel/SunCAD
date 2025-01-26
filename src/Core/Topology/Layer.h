@@ -8,6 +8,7 @@
 #include <QColor>
 
 #include "Core/Topology/Entity.h"
+#include "Core/Project/VisualStyles.h"
 
 class SerializationContext {};
 
@@ -46,7 +47,9 @@ public:
 //    bool isLocked() const;                  // IsLocked property
 //    void setIsLocked(bool isLocked);
 //
-//    PresentationMode presentationMode() const; // PresentationMode property
+    PresentationMode presentationMode() const {
+        return PresentationMode::Wireframe;
+    }; // PresentationMode property
 //    void setPresentationMode(PresentationMode mode);
 //
 //    QColor color() const;                   // Color property

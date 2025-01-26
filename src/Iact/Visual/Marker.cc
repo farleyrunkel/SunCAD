@@ -36,7 +36,7 @@ void Marker::update()
 {
     // 确保 AIS_Point 对象存在
     if (_AisPoint.IsNull()) {
-        _EnsureAisObject();
+        ensureAisObject();
     }
     else {
         _UpdatePresentation();
@@ -61,7 +61,7 @@ inline void Marker::set(const Handle(Geom_CartesianPoint)& p)
 {
     _P = p;
 
-    if (!_EnsureAisObject())
+    if (!ensureAisObject())
         return;
 
     _AisPoint->SetComponent(_P);
@@ -83,7 +83,7 @@ void Marker::setImage(MarkerImage image)
     _Image = image;
 
     remove();
-    _EnsureAisObject();
+    ensureAisObject();
 }
 
 // 获取 AIS_Object（OCCT）
@@ -126,7 +126,7 @@ Handle(Prs3d_PointAspect) Marker::CreateImagePointAspect(const MarkerImage& imag
     return aspectPoint;
 }
 
-bool Marker::_EnsureAisObject() 
+bool Marker::ensureAisObject() 
 {
     if (!_AisPoint.IsNull()) 
         return true;

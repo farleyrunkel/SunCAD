@@ -15,23 +15,22 @@
 #include "Iact/Visual/Marker.h"
 #include "Iact/Visual/VisualObject.h"
 #include "Iact/Visual/VisualObjectManager.h"
+#include "Iact/Workspace/InteractiveContext.h"
+#include "Occt/AisExtensions/AISX_Guid.h"
 
 class VisualShape : public VisualObject 
 {
     Q_OBJECT
 
 public:
-
     enum Options {
         None,
         Ghosting = 1 << 0,   // Used to visualize a normally hidden object
     };
 
-    class AttributeSet 
-    {
+    class AttributeSet {
     public:
-        AttributeSet() 
-        {
+        AttributeSet() {
             m_drawer = new Prs3d_Drawer();
             m_drawer->SetupOwnDefaults();
         }
@@ -40,63 +39,59 @@ public:
             return m_drawer;
         }
 
+    private:
         Handle(Prs3d_Drawer) m_drawer;
     };
 
 public:
-    explicit VisualShape(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity, Options options)
-    : VisualObject(workspaceController, entity)
-    , m_options(options)
-    {
-        if (entity != nullptr) {
-            m_visualStyle = entity->getVisualStyleComponent();
-            if (m_visualStyle != nullptr) {
-                connect(m_visualStyle, &VisualStyle::visualStyleChanged, this, &VisualShape::_VisualStyle_VisualStyleChanged);
-            }
-        }
-        update();
+    explicit VisualShape(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity, Options options = None);
+
+    virtual ~VisualShape() {
+        remove();
     }
 
-    virtual void remove() override {}
-    virtual void update() override {}
-    virtual Handle(AIS_InteractiveObject) aisObject() const override 
-    {
-        return Handle(AIS_InteractiveObject) {};
-    }
+    virtual void remove() override;
+
+    virtual void update() override;
+
+    virtual Handle(AIS_InteractiveObject) aisObject() const override;
+
+    void setOverrideBrep(const TopoDS_Shape& shape);
+
+    void setVisualStyle(VisualStyle* visualStyle);
 
 private:
-    static void _OnPresentationChanged(Layer*){}
-    static void _OnInteractivityChanged(Layer*){}
-    static void _VisualObjectManager_IsolatedEntitiesChanged(VisualObjectManager*) {}
+    static void updateAttributesForLayer(Layer* layer, AttributeSet* attributeSet);
+    static void onPresentationChanged(Layer* layer);
 
-    void _VisualStyle_VisualStyleChanged(Body* body, VisualStyle* visualStyle) 
-    {
-        updatePresentation();
-    }
+    static void onInteractivityChanged(Layer* layer);
 
-    void updatePresentation() 
-    {
-        _UpdateMarker();
+    static void visualObjectManager_IsolatedEntitiesChanged(VisualObjectManager* manager);
 
-    }
+    void visualStyle_VisualStyleChanged(Body* body, VisualStyle* visualStyle);
 
-    void _UpdateMarker() 
-    {
-        if (!m_aisShape.IsNull()) {
-            if (m_errorMarker == nullptr) {
-                m_errorMarker = new Marker(workspaceController(), Marker::Styles::Image/* | Marker::Styles::Topmost*/, Marker::ErrorImage());
-            }
-        }
-    }
+    void updatePresentation();
+
+    void updatePresentationForGhost();
+
+    void updateMarker();
+
+    bool ensureAisObject();
+
+    void updateInteractivityStatus();
+
+    void updateSelectionSensitivity();
 
 private:
     Options m_options;
     VisualStyle* m_visualStyle;
-    Handle(TopoDS_Shape) m_overrideBrep;
+    TopoDS_Shape m_overrideBrep;
     Handle(AIS_Shape) m_aisShape;
     Marker* m_errorMarker;
+    bool m_isHidden = false;
 
     static bool s_initOnce;
+    static QHash<Layer*, AttributeSet*> s_drawerCache;
 };
 
 #endif  // IACT_VISUAL_VISUALSHAPE_H_
