@@ -59,6 +59,7 @@ public:
     {
         return Handle(AIS_InteractiveObject) {};
     }
+
 private:
     static void _OnPresentationChanged(Layer*){}
     static void _OnInteractivityChanged(Layer*){}
@@ -70,7 +71,7 @@ private:
     Handle(AIS_Shape) m_aisShape;
     Marker* m_errorMarker;
 
-    static bool staticInit;
+    static bool s_initOnce;
 };
 
 #endif  // IACT_VISUAL_VISUALSHAPE_H_
