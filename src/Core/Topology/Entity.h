@@ -3,13 +3,14 @@
 #ifndef CORE_TOPOLOGY_ENTITY_H_
 #define CORE_TOPOLOGY_ENTITY_H_
 
+#include <QDebug>
 #include <QObject>
 #include <QUuid>
-#include <QDebug>
 
 #include "Comm/BaseObject.h"
 
 class IDocument;
+
 class Entity : public BaseObject
 {
     Q_OBJECT
@@ -28,21 +29,30 @@ public:
 
     // Name property, virtual
     virtual QString name() const;
-    virtual void setName(const QString&);
+
+    virtual void setName(const QString& name);
 
     // Error handling
     bool hasErrors() const;
 
     void setHasErrors(bool hasErrors);
 
+    //--------------------------------------------------------------------------------------------------
+    // Document management
+
+    IDocument* document() const;
+
+    void setDocument(IDocument* document);
+
+    //--------------------------------------------------------------------------------------------------
     // Remove entity
+
     virtual void remove();
 
+    //--------------------------------------------------------------------------------------------------
     // For debugging or logging purposes
-    virtual QString toString() const;
 
-    void setDocument(IDocument* ) {
-    }
+    virtual QString toString() const;
 
 signals:
     // Signal when the entity is removed
@@ -58,11 +68,13 @@ signals:
     void hasErrorsChanged();
 
 protected:
+    // Save undo state for property changes
+    virtual void saveUndo(const QString& propertyName, const QVariant& value);
 
+private:
     QUuid _guid;
     bool _hasErrors;
-    IDocument* m_document;
+    IDocument* _document;
 };
 
 #endif  // CORE_TOPOLOGY_ENTITY_H_
-

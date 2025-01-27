@@ -13,9 +13,23 @@
 // Base class for shape
 class Body;
 
+enum ShapeType {
+    Unknown,
+    Sketch,
+    Solid,
+    Mesh,
+};
+
 class Shape : public Entity 
 {
     Q_OBJECT
+
+public:
+    enum MakeFlags
+    {
+        None = 0,
+        DebugOutput = 1 << 1,
+    };
 
 public:
     Shape();
@@ -24,6 +38,16 @@ public:
     };
 
     Body* body();
+
+    virtual ShapeType shapeType() const = 0;
+
+protected:
+    virtual bool makeInternal(MakeFlags flags) {
+        if (!_BRep.IsNull()) {
+            return true;
+        }
+        return false;
+    }
 
 private:
     bool _IsSkipped;

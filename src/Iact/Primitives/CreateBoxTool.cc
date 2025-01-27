@@ -3,7 +3,7 @@
 // Own include
 #include "Iact/Primitives/CreateBoxTool.h"
 
-//
+// Occt includes
 #include <ElSLib.hxx>
 
 // Project includes
@@ -11,8 +11,8 @@
 #include "Core/Topology/Body.h"
 #include "Iact/HudElements/Coord2DHudElement.h"
 #include "Iact/HudElements/MultiValueHudElement.h"
-#include "Iact/Workspace/WorkspaceController.h"
 #include "Iact/Visual/VisualShape.h"
+#include "Iact/Workspace/WorkspaceController.h"
 
 CreateBoxTool::CreateBoxTool() 
 	: Tool()

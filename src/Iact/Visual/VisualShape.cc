@@ -153,7 +153,8 @@ void VisualShape::visualStyle_VisualStyleChanged(Body* body, VisualStyle* visual
     updatePresentation();
 }
 
-void VisualShape::updatePresentation() {
+void VisualShape::updatePresentation() 
+{
     updateMarker();
 
     if (m_aisShape.IsNull()) {

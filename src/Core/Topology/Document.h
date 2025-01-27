@@ -3,15 +3,15 @@
 #ifndef SRC_CORE_TOPOLOGY_DOCUMENT_H_
 #define SRC_CORE_TOPOLOGY_DOCUMENT_H_
 
-#include <QObject>
-#include <QFile>
-#include <QDir>
-#include <QMap>
-#include <QWeakPointer>
 #include <QDebug>
+#include <QDir>
+#include <QFile>
 #include <QList>
-#include <QVariant>
+#include <QMap>
+#include <QObject>
 #include <QScopedPointer>
+#include <QVariant>
+#include <QWeakPointer>
 
 #include "Core/EntityContainer.h"
 #include "Core/Topology/Entity.h"
@@ -31,7 +31,9 @@ class Document : public EntityContainer, public IDocument {
 
  public:
     explicit Document(QObject* parent = nullptr)
-        : EntityContainer(parent) {}
+        : EntityContainer(parent) 
+    {
+    }
 
 
 //    // Properties

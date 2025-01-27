@@ -29,48 +29,22 @@ class EntityContainer : public Entity
     }
 
     // Get entity count
-    int entityCount() const {
-        return entityList.size();
-    }
+    int entityCount() const;
 
     // Add entity to the container
-    virtual void add(Entity* entity, bool update = true) {
-        entityList.append(entity);
-        if (update) {
-         // Emit signal that an item has been added
-            emit collectionChanged(NotifyCollectionChangedAction::Add, entity, entityList.size() - 1);
-        }
-    }
+    virtual void add(Entity* entity, bool update = true);
 
     // Remove entity from the container
-    virtual void remove(Entity* entity, bool update = true) {
-        int index = entityList.indexOf(entity);
-        if (index < 0) return;
-
-        entityList.removeAt(index);
-        entity->remove(); // Assuming T has its own remove method
-        if (update) {
-            // Emit signal that an item has been removed
-            emit collectionChanged(NotifyCollectionChangedAction::Remove, entity, index);
-        }
-    }
+    virtual void remove(Entity* entity, bool update = true);
 
     // Get entity at a specific index
-    virtual Entity* get(int index) const {
-        return entityList.value(index);
-    }
+    virtual Entity* get(int index) const;
 
     // Get the index of a specific entity
-    virtual int indexOf(Entity* entity) const {
-        return entityList.indexOf(entity);
-    }
+    virtual int indexOf(Entity* entity) const;
 
     // Remove all entities from the container
-    void remove() override {
-        std::for_each(entityList.begin(), entityList.end(), [](Entity* e) { e->remove(); });
-        entityList.clear();
-        Entity::remove();  // Call the base class remove
-    }
+    void remove() override;
 
  signals:
     // Qt signal for notifying collection changes
