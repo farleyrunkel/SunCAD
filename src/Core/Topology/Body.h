@@ -5,9 +5,9 @@
 
 #include <QObject>
 
-#include <gp_Quaternion.hxx>
-#include <gp_Pnt.hxx>
 #include <gp_Pln.hxx>
+#include <gp_Pnt.hxx>
+#include <gp_Quaternion.hxx>
 
 #include "Core/Shapes/Shape.h"
 #include "Core/Topology/InteractiveEntity.h"
@@ -20,6 +20,10 @@ public:
     Body() {}
 
 public:
+    gp_Quaternion rotation() const {
+        return m_rotation;
+    }
+
     void setRotation(const gp_Quaternion& rotation)
     {
         m_rotation = rotation;

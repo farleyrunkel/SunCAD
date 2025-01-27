@@ -72,9 +72,9 @@ protected:
     virtual void saveUndo(const QString& propertyName, const QVariant& value);
 
 private:
-    QUuid _guid;
-    bool _hasErrors;
-    IDocument* _document;
+    QUuid m_guid;
+    bool m_hasErrors;
+    IDocument* m_document;
 };
 
 #endif  // CORE_TOPOLOGY_ENTITY_H_

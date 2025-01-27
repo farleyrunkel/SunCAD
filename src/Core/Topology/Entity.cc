@@ -14,25 +14,25 @@
 
 Entity::Entity(QObject* parent)
     : BaseObject(parent)
-    , _guid(QUuid::createUuid())
-    , _hasErrors(false)
-    , _document(nullptr) 
+    , m_guid(QUuid::createUuid())
+    , m_hasErrors(false)
+    , m_document(nullptr) 
 {}
 
 // Guid property (using QUuid)
 QUuid Entity::guid() const 
 {
-     return _guid;
+     return m_guid;
 }
 
 void Entity::setGuid(const QUuid& guid) {
-    if (_guid != guid) {
-        if (_document) {
-            _document->unregisterInstance(this);
+    if (m_guid != guid) {
+        if (m_document) {
+            m_document->unregisterInstance(this);
         }
-        _guid = guid;
-        if (_document) {
-            _document->registerInstance(this);
+        m_guid = guid;
+        if (m_document) {
+            m_document->registerInstance(this);
         }
         emit guidChanged();
     }
@@ -58,30 +58,30 @@ void Entity::setName(const QString& name)
 // Error handling
 bool Entity::hasErrors() const 
 {
-    return _hasErrors;
+    return m_hasErrors;
 }
 
 void Entity::setHasErrors(bool hasErrors) 
 {
-    if (_hasErrors != hasErrors) {
-        _hasErrors = hasErrors;
+    if (m_hasErrors != hasErrors) {
+        m_hasErrors = hasErrors;
         emit hasErrorsChanged();
         emit errorStateChanged();
     }
 }
 
 IDocument* Entity::document() const {
-    return _document;
+    return m_document;
 }
 
 void Entity::setDocument(IDocument* document) {
-    if (_document != document) {
-        if (_document) {
-            _document->unregisterInstance(this);
+    if (m_document != document) {
+        if (m_document) {
+            m_document->unregisterInstance(this);
         }
-        _document = document;
-        if (_document) {
-            _document->registerInstance(this);
+        m_document = document;
+        if (m_document) {
+            m_document->registerInstance(this);
         }
     }
 }
@@ -100,7 +100,7 @@ QString Entity::toString() const
 
 void Entity::saveUndo(const QString& propertyName, const QVariant& value) 
 {
-    //if (!isDeserializing() && _document) {
+    //if (!isDeserializing() && m_document) {
     //    // Assuming there is an undo handler in the context
     //    CoreContext::current()->undoHandler()->addPropertyChange(this, propertyName, value);
     //}

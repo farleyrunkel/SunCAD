@@ -279,7 +279,7 @@ void VisualShape::updateInteractivityStatus() {
 
         updateSelectionSensitivity();
 
-        /*           if (workspaceController()->selection()->selectedEntities().contains(entity())
+        /*if (workspaceController()->selection()->selectedEntities().contains(entity())
         && !aisContext()->IsSelected(m_aisShape)) {
         aisContext()->AddOrRemoveSelected(m_aisShape, false);
         }*/

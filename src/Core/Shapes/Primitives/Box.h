@@ -96,8 +96,8 @@ protected:
             return false;
         }
 
-        //// Set the resulting solid as the BRep
-        //setBRep(makeBox.Solid());
+        // Set the resulting solid as the BRep
+        setBRep(makeBox.Solid());
 
         return Shape::makeInternal(flags);
     }
