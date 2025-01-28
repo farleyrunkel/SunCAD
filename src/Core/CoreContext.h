@@ -28,10 +28,14 @@ class CoreContext : public BaseObject {
         // Implement saving logic here
     }
 
+    static CoreContext* current() {
+        return m_current;
+    }
+
  public:
     Model* document() const { return m_document; }
     Sun::Workspace* workspace() const { return m_workspace; }
-    Sun_Viewport* viewport() const { return _Viewport; }
+    Sun_Viewport* viewport() const { return m_viewport; }
 
     virtual void setDocument(Model* document);
     virtual void setWorkspace(Sun::Workspace* workspace);
@@ -44,8 +48,10 @@ signals:
 
  protected:
     Sun::Workspace* m_workspace;
-    Sun_Viewport* _Viewport;
+    Sun_Viewport* m_viewport;
     Model* m_document;
+
+    static CoreContext* m_current;
 };
 
 #endif  // SRC_CORE_CORECONTEXT_H_

@@ -13,6 +13,7 @@
 
 // Project includes
 #include "Core/Topology/Entity.h"
+#include "Core/Framework/Message/ProcessingScope.h"
 
 // Base class for shape
 class Body;
@@ -51,9 +52,36 @@ public:
 
     void setBRep(const TopoDS_Shape& value);
 
+    bool skip() {}
+
 public:
     virtual gp_Trsf GetTransformation();
+    bool Make(MakeFlags flags) 
+    {
+        if (m_isSkipped) {
+            if (skip())
+                return true;
+        }
+        bool result = ProcessingScope::ExecuteWithGuards(this, "Making Shape", []()
+        {
+            //if (m_isValid) {
+            //    Invalidate();
+            //    if (IsValid) {
+            //        // This is the case when triggering invalidation leads to recursivly remaking the shape
+            //        return true;
+            //    }
+            //}
 
+            //if (MakeInternal(flags)) {
+            //    _IsLoadedFromCache = false;
+            //    RaiseShapeChanged();
+            //    return true;
+            //}
+
+            //Messages.Error("Shape making failed.");
+            return false;
+        });
+    }
 protected:
     virtual bool makeInternal(MakeFlags flags);
 

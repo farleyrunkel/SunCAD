@@ -89,7 +89,7 @@ public:
 	Sun_WorkspaceController* workspaceController() const {
 		return m_workspaceController;
 	}
-	Sun_Viewport* viewport() const { return _Viewport; }
+	Sun_Viewport* viewport() const { return m_viewport; }
 
 	// Getter for lockedToPlane
 	bool LockedToPlane() const { return _LockedToPlane; }
@@ -108,7 +108,7 @@ signals:
 	void LockedToPlaneChanged(bool);
 
 private:
-	Sun_Viewport* _Viewport = nullptr;
+	Sun_Viewport* m_viewport = nullptr;
 	Sun_WorkspaceController* m_workspaceController = nullptr;
 	Handle(AIS_ViewCube) _ViewCube = nullptr;
 	

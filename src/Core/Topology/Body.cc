@@ -108,8 +108,7 @@ void Body::ensureBRep()
 // 获取 BRep 表示
 TopoDS_Shape Body::getBRep() 
 {
-    ensureBRep();
-    return m_cachedBRep;
+    return shape()->BRep();
 }
 
 // 获取变换后的 BRep 表示
