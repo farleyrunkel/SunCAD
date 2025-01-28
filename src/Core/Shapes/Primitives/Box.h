@@ -41,7 +41,9 @@ public:
         }
     }
     void saveUndo() {}
-    void invalidate() {}
+    bool invalidate() {
+        return false;
+    }
 
     double dimensionY() const {
         return _DimensionY;

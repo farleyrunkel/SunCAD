@@ -14,6 +14,7 @@
 // Project includes
 #include "Core/Topology/Entity.h"
 #include "Core/Framework/Message/ProcessingScope.h"
+#include "Core/Framework/OcctUtils/SubshapeType.h"
 
 // Base class for shape
 class Body;
@@ -39,11 +40,20 @@ public:
 
 public:
     Shape();
-    struct NamedSubshape
-    {
+
+    struct NamedSubshape {
+         SubshapeType Type;
+         QString Name;
+         int Index;
+         TopoDS_Shape Shape;
     };
 
+    bool isValid() {
+        return !m_bRep.IsNull();
+    }
+
     Body* body();
+    
     void setBody(Body* value);
 
     virtual ShapeType shapeType() const = 0;
@@ -52,43 +62,84 @@ public:
 
     void setBRep(const TopoDS_Shape& value);
 
-    bool skip() {}
+    TopoDS_Shape getBRep() 
+    {
+        if (ensureBRep()) {
+            return m_bRep;
+        }
+
+        return {};
+    }
+
+    bool skip() {
+        return false;
+    }
+
+    virtual bool invalidate() {
+        return false;
+    }
 
 public:
     virtual gp_Trsf GetTransformation();
-    bool Make(MakeFlags flags) 
+
+
+    bool make(MakeFlags flags) 
     {
         if (m_isSkipped) {
             if (skip())
                 return true;
         }
-        bool result = ProcessingScope::ExecuteWithGuards(this, "Making Shape", []()
+        bool result = ProcessingScope::ExecuteWithGuards(this, "Making Shape", [&]()
         {
-            //if (m_isValid) {
-            //    Invalidate();
-            //    if (IsValid) {
-            //        // This is the case when triggering invalidation leads to recursivly remaking the shape
-            //        return true;
-            //    }
-            //}
+            if (isValid()) {
+                invalidate();
+                if (isValid()) {
+                    // This is the case when triggering invalidation leads to recursivly remaking the shape
+                    return true;
+                }
+            }
 
-            //if (MakeInternal(flags)) {
-            //    _IsLoadedFromCache = false;
-            //    RaiseShapeChanged();
-            //    return true;
-            //}
+            if (makeInternal(flags)) {
+                m_isLoadedFromCache = false;
+                emit shapeChanged(this);
+                return true;
+            }
 
             //Messages.Error("Shape making failed.");
             return false;
         });
+
+        setHasErrors(!result);
+        return result;
     }
+
 protected:
     virtual bool makeInternal(MakeFlags flags);
+
+private:
+    bool ensureBRep() {
+        try {
+            if (!isValid()) {
+                if (!make(MakeFlags::None)) {
+                    return false;
+                }
+            }
+        }
+        catch (std::exception e) {
+            std::cerr << e.what();
+            return false;
+        }
+        return true;
+    }
+
+signals:
+    void shapeChanged(Shape*);
 
 private:
     bool m_isSkipped;
     bool m_isLoadedFromCache;
     bool m_isInvalidating;
+
     Body* m_body;
     QString m_name;
     TopoDS_Shape m_bRep;
