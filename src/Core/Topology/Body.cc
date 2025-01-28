@@ -1,7 +1,9 @@
 // Copyright [2024] SunCAD
 
+// Own include
 #include "Core/Topology/Body.h"
 
+// Project include
 #include "Core/Shapes/Shape.h"
 
 Body* Body::create(Shape* shape) 
