@@ -179,12 +179,25 @@ const gp_Pln& Sun::Workspace::workingPlane() const
 //--------------------------------------------------------------------------------------------------
 // Setters
 
-void Sun::Workspace::setNeedsRedraw(bool value) {
+void Sun::Workspace::setNeedsRedraw(bool value) 
+{
     m_needsRedraw = value;
 }
 
-void Sun::Workspace::setNeedsImmediateRedraw(bool value) {
+void Sun::Workspace::setNeedsImmediateRedraw(bool value) 
+{
     m_needsImmediateRedraw = value;
+}
+
+gp_Quaternion Sun::Workspace::getWorkingPlaneRotation() 
+{
+    auto& wp = workingPlane();
+    gp_Mat mat(
+        wp.XAxis().Direction().XYZ(),
+        wp.YAxis().Direction().XYZ(),
+        wp.Position().Direction().XYZ());
+
+    return gp_Quaternion(mat);
 }
 
 //--------------------------------------------------------------------------------------------------

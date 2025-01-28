@@ -43,36 +43,29 @@ public:
     };
 
     Body* body();
+    void setBody(Body* value);
 
     virtual ShapeType shapeType() const = 0;
 
-    TopoDS_Shape BRep() const {
-        return _BRep;
-    }
+    TopoDS_Shape BRep() const;
 
-    void setBRep(const TopoDS_Shape& value) {
-    }
+    void setBRep(const TopoDS_Shape& value);
 
 public:
     virtual gp_Trsf GetTransformation();
 
 protected:
-    virtual bool makeInternal(MakeFlags flags) {
-        if (!_BRep.IsNull()) {
-            return true;
-        }
-        return false;
-    }
+    virtual bool makeInternal(MakeFlags flags);
 
 private:
-    bool _IsSkipped;
-    bool _IsLoadedFromCache;
-    bool _IsInvalidating;
-    Body* _Body;
-    QString _Name;
-    TopoDS_Shape _BRep;
-    TopoDS_Shape _TransformedBRep;
-    QList<NamedSubshape> _NamedSubshapes;
+    bool m_isSkipped;
+    bool m_isLoadedFromCache;
+    bool m_isInvalidating;
+    Body* m_body;
+    QString m_name;
+    TopoDS_Shape m_bRep;
+    TopoDS_Shape m_transformedBRep;
+    QList<NamedSubshape> m_namedSubshapes;
 };
 
 #endif  // CORE_SHAPES_SHAPE_H_

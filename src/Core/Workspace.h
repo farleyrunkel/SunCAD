@@ -83,15 +83,7 @@ public:
     // Model management
     Model* model() const { return m_model ; }
 
-    gp_Quaternion getWorkingPlaneRotation() {
-        auto& wp = workingPlane();
-        gp_Mat mat(
-            wp.XAxis().Direction().XYZ(),
-            wp.YAxis().Direction().XYZ(),
-            wp.Position().Direction().XYZ());
-
-        return gp_Quaternion(mat);
-    }
+    gp_Quaternion getWorkingPlaneRotation();
 
 signals:
     void GridChanged(Sun::Workspace*);

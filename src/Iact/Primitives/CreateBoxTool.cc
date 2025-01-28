@@ -45,7 +45,7 @@ void CreateBoxTool::ensurePreviewShape()
 	if (m_previewShape != nullptr) {
 		return;
 	}
-	m_previewShape = new Box(0.01, 0.01, 0.01);
+	m_previewShape = new Box(1.01, 1.01, 1.01);
 
 	auto body = Body::create(m_previewShape);
 	m_previewShape->body()->setRotation(workspaceController()->workspace()->getWorkingPlaneRotation());

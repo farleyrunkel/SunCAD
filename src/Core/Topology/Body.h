@@ -26,7 +26,7 @@ class Body : public InteractiveEntity
     Q_OBJECT
 
 public:
-    explicit Body(QObject* parent = nullptr) {}
+    explicit Body(QObject* parent = nullptr);
     ~Body() override {}
 
     // 获取旋转
@@ -35,9 +35,7 @@ public:
     }
 
     // 设置旋转
-    void setRotation(const gp_Quaternion& rotation) {
-        m_rotation = rotation;
-    }
+    void setRotation(const gp_Quaternion& rotation);
 
     // 获取位置
     gp_Pnt position() const {
@@ -45,9 +43,7 @@ public:
     }
 
     // 设置位置
-    void setPosition(const gp_Pnt& position) {
-        m_position = position;
-    }
+    void setPosition(const gp_Pnt& position);
 
     // 获取根形状
     Shape* rootShape() const {
@@ -60,38 +56,38 @@ public:
     }
 
     // 设置当前形状
-    void setShape(Shape* shape) {}
+    void setShape(Shape* shape);
 
     // 添加形状
     bool addShape(Shape* shape, bool saveUndo = true);
 
     // 移除形状
-    bool removeShape(Shape* shape, bool saveUndo = true) {}
+    bool removeShape(Shape* shape, bool saveUndo = true);
 
     // 获取变换矩阵
-    gp_Trsf getTransformation() 
-    {
-        m_cachedTransformation.SetTransformation(m_rotation, gp_Vec(m_position.XYZ()));
-        return m_cachedTransformation;
-    }
+    gp_Trsf getTransformation();
 
     // 获取坐标系
-    gp_Ax3 coordinateSystem() {
-        return {};
-    }
+    gp_Ax3 coordinateSystem();
 
     // 创建 Body 对象
     static Body* create(Shape* shape);
 
     // 添加组件
-    void addComponent(Component* component) {}
+    void addComponent(Component* component);
 
     // 移除组件
-    void removeComponent(Component* component) {}
+    void removeComponent(Component* component);
 
     // 查找组件
     template <typename T>
     T* findComponent() const;
+
+    // 获取 BRep 表示
+    TopoDS_Shape getBRep();
+
+    // 获取变换后的 BRep 表示
+    TopoDS_Shape getTransformedBRep();
 
 signals:
     // 形状变化信号
@@ -99,14 +95,23 @@ signals:
 
 protected:
     // 使变换缓存失效
-    void invalidateTransformation() {}
+    void invalidateTransformation();
+
+    // 确保 BRep 是最新的
+    void ensureBRep();
 
 private:
     // 更新错误状态
-    void updateErrorState() {}
+    void updateErrorState();
 
     // 保存拓扑结构的撤销状态
-    void saveTopologyUndo() {}
+    void saveTopologyUndo();
+
+    // 计算变换矩阵
+    void updateTransformation();
+
+    // 计算坐标系
+    void updateCoordinateSystem();
 
 private:
     gp_Quaternion m_rotation;               // 旋转
@@ -117,17 +122,9 @@ private:
     gp_Trsf m_cachedTransformation;         // 缓存的变换矩阵
     gp_Ax3 m_cachedCoordinateSystem;        // 缓存的坐标系
     bool m_isTransformationValid = false;   // 变换缓存是否有效
+    bool m_isCoordinateSystemValid = false; // 坐标系缓存是否有效
+    TopoDS_Shape m_cachedBRep;              // 缓存的 BRep 表示
+    bool m_isBRepValid = false;             // BRep 缓存是否有效
 };
-
-// 查找组件
-template <typename T>
-T* Body::findComponent() const {
-    for (auto component : m_components) {
-        if (auto result = dynamic_cast<T*>(component)) {
-            return result;
-        }
-    }
-    return nullptr;
-}
 
 #endif  // CORE_TOPOLOGY_BODY_H_
