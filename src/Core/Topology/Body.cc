@@ -108,14 +108,21 @@ void Body::ensureBRep()
 // 获取 BRep 表示
 TopoDS_Shape Body::getBRep() 
 {
-    return shape()->getBRep();
+    auto s = shape();
+    if (s == nullptr) {
+        return {};
+    }
+    return s->getBRep();
 }
 
 // 获取变换后的 BRep 表示
-TopoDS_Shape Body::getTransformedBRep() 
+TopoDS_Shape Body::getTransformedBRep() const
 {
-    ensureBRep();
-    return m_cachedBRep;
+    auto s = shape();
+    if (s == nullptr) {
+        return {};
+    }
+    return s->getTransformedBRep();
 }
 // 添加形状
 bool Body::addShape(Shape* shape, bool saveUndo) 

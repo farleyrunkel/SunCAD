@@ -3,6 +3,10 @@
 // Own include
 #include "Core/Shapes/Shape.h"
 
+// Occt includes
+#include <TopLoc_Location.hxx>
+#include <gp_Trsf.hxx>
+
 // Project includes
 #include "Core/Topology/Body.h"
 
@@ -26,14 +30,42 @@ TopoDS_Shape Shape::BRep() const
     return m_bRep;
 }
 
-void Shape::setBRep(const TopoDS_Shape& value) {
+void Shape::setBRep(const TopoDS_Shape& value) 
+{
     m_bRep = value;
+    if (!m_bRep.IsNull()) 
+    {
+        m_transformedBRep = m_bRep.Moved(TopLoc_Location(GetTransformation()));
+
+    }
+    raisePropertyChanged("brep");
+}
+
+TopoDS_Shape Shape::getTransformedBRep() 
+{
+    if (ensureBRep()) {
+        return m_transformedBRep;
+    }
+
+    return {};
+}
+
+TopoDS_Shape Shape::getBRep() 
+{
+    if (ensureBRep()) {
+        return m_bRep;
+    }
+
+    return {};
 }
 
 gp_Trsf Shape::GetTransformation() 
 {
-    //(body() != nullptr) ? new gp_Trsf(body()->rotation(), Body.Position.ToVec()) : Trsf.Identity;
-    return {};
+    gp_Trsf res;
+    if (body() != nullptr) {
+        res.SetTransformation(body()->rotation(), gp_Vec(body()->position().XYZ()));
+    }
+    return res;
 }
 
 bool Shape::makeInternal(MakeFlags flags) 

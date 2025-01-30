@@ -45,7 +45,8 @@ void CreateBoxTool::ensurePreviewShape()
 	if (m_previewShape != nullptr) {
 		return;
 	}
-	m_previewShape = new Box(1.01, 1.01, 1.01);
+	m_previewShape = new Box();
+	m_previewShape->setDimensionZ(0.01);
 
 	auto body = Body::create(m_previewShape);
 	m_previewShape->body()->setRotation(workspaceController()->workspace()->getWorkingPlaneRotation());
@@ -135,6 +136,7 @@ void CreateBoxTool::baseRectAction_Preview(const std::shared_ptr<PointAction::Ev
 	m_previewShape->setDimensionX(dimX);
 	m_previewShape->setDimensionY(dimY);
 	if (m_isTemporaryVisual) {
+		qDebug() << "m_visualShape->update();";
 		m_visualShape->update();
 	}
 	m_coord2DHudElement->setValues(m_pointPlane2.X(), m_pointPlane2.Y());

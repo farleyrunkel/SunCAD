@@ -4,17 +4,17 @@
 #define CORE_SHAPES_SHAPE_H_
 
 // Qt includes
-#include <QString>
 #include <QList>
+#include <QString>
 
 // Occt includes
-#include <TopoDS_Shape.hxx>
 #include <gp_Trsf.hxx>
+#include <TopoDS_Shape.hxx>
 
 // Project includes
-#include "Core/Topology/Entity.h"
 #include "Core/Framework/Message/ProcessingScope.h"
 #include "Core/Framework/OcctUtils/SubshapeType.h"
+#include "Core/Topology/Entity.h"
 
 // Base class for shape
 class Body;
@@ -62,14 +62,9 @@ public:
 
     void setBRep(const TopoDS_Shape& value);
 
-    TopoDS_Shape getBRep() 
-    {
-        if (ensureBRep()) {
-            return m_bRep;
-        }
+    TopoDS_Shape getTransformedBRep();
 
-        return {};
-    }
+    TopoDS_Shape getBRep();
 
     bool skip() {
         return false;
@@ -81,7 +76,6 @@ public:
 
 public:
     virtual gp_Trsf GetTransformation();
-
 
     bool make(MakeFlags flags) 
     {

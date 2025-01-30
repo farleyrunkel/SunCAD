@@ -87,7 +87,7 @@ public:
     TopoDS_Shape getBRep();
 
     // 获取变换后的 BRep 表示
-    TopoDS_Shape getTransformedBRep();
+    virtual TopoDS_Shape getTransformedBRep() const override;
 
 signals:
     // 形状变化信号

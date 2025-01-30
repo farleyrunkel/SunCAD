@@ -3,15 +3,20 @@
 #ifndef CORE_SHAPES_PRIMITIVES_BOX_H_
 #define CORE_SHAPES_PRIMITIVES_BOX_H_
 
+// Qt includes
 #include <QObject>
+
+// Occt includes
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <TopoDS_Solid.hxx>
 
+// Project includes
 #include "Core/Shapes/Shape.h"
 
 class Body;
 
-class Box : public Shape {
+class Box : public Shape 
+{
     Q_OBJECT
 
 public:
@@ -40,6 +45,7 @@ public:
             emit dimensionXChanged();
         }
     }
+
     void saveUndo() {}
     bool invalidate() {
         return false;
@@ -81,12 +87,14 @@ public:
     //--------------------------------------------------------------------------------------------------
     // Overrides
 
-    virtual ShapeType shapeType() const override {
+    virtual ShapeType shapeType() const override 
+    {
         return ShapeType::Solid;
     }
 
 protected:
-    virtual bool makeInternal(Shape::MakeFlags flags) override {
+    virtual bool makeInternal(Shape::MakeFlags flags) override 
+    {
         // Ensure dimensions are not zero
         double dimX = (_DimensionX != 0.0) ? _DimensionX : 0.001;
         double dimY = (_DimensionY != 0.0) ? _DimensionY : 0.001;
@@ -94,11 +102,6 @@ protected:
 
         // Create the box using Open CASCADE
         BRepPrimAPI_MakeBox makeBox(dimX, dimY, dimZ);
-        if (!makeBox.IsDone()) {
-            return false;
-        }
-
-        // Set the resulting solid as the BRep
         setBRep(makeBox.Solid());
 
         return Shape::makeInternal(flags);

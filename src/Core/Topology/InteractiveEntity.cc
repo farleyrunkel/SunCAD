@@ -4,14 +4,20 @@
 
 // Constructor
 InteractiveEntity::InteractiveEntity(QObject* parent)
-    : Entity(parent), _name("Unnamed"), _isVisible(true), _layerId(QUuid::createUuid()) {}
+    : Entity(parent)
+    , _name("Unnamed")
+    , _isVisible(true)
+    , _layerId(QUuid::createUuid()) 
+{}
 
 // Name property
-QString InteractiveEntity::name() const {
+QString InteractiveEntity::name() const 
+{
     return _name;
 }
 
-void InteractiveEntity::setName(const QString& name) {
+void InteractiveEntity::setName(const QString& name) 
+{
     //if (_name != name) {
     //    SaveUndo();
     //    _name = name;
@@ -25,11 +31,13 @@ void InteractiveEntity::setName(const QString& name) {
 }
 
 // IsVisible property
-bool InteractiveEntity::isVisible() const {
+bool InteractiveEntity::isVisible() const 
+{
     return _isVisible;
 }
 
-void InteractiveEntity::setIsVisible(bool isVisible) {
+void InteractiveEntity::setIsVisible(bool isVisible) 
+{
     //if (_isVisible != isVisible) {
     //    SaveUndo();
     //    _isVisible = isVisible;
@@ -44,11 +52,13 @@ void InteractiveEntity::setIsVisible(bool isVisible) {
 }
 
 // LayerId property
-QUuid InteractiveEntity::layerId() const {
+QUuid InteractiveEntity::layerId() const 
+{
     return _layerId;
 }
 
-void InteractiveEntity::setLayerId(const QUuid& layerId) {
+void InteractiveEntity::setLayerId(const QUuid& layerId) 
+{
     //if (_layerId != layerId) {
     //    SaveUndo();
     //    _layerId = layerId;
@@ -64,14 +74,16 @@ void InteractiveEntity::setLayerId(const QUuid& layerId) {
     //}
 }
 
-Layer* InteractiveEntity::layer() const {
+Layer* InteractiveEntity::layer() const
+{
     //if (CoreContext::current() && CoreContext::current()->layers()) {
     //    return CoreContext::current()->layers()->find(_layerId);
     //}
     return nullptr;
 }
 
-void InteractiveEntity::setLayer(Layer* layer) {
+void InteractiveEntity::setLayer(Layer* layer) 
+{
     //if (CoreContext::current() && CoreContext::current()->layers()) {
     //    Layer* defaultLayer = CoreContext::current()->layers()->defaultLayer();
     //    _layerId = (layer == defaultLayer || layer == nullptr) ? QUuid() : layer->guid();
@@ -79,22 +91,26 @@ void InteractiveEntity::setLayer(Layer* layer) {
 }
 
 // invalidate method
-void InteractiveEntity::invalidate() {
+void InteractiveEntity::invalidate() 
+{
     // Logic for invalidating entity
 }
 
 // Remove method
-void InteractiveEntity::remove() {
+void InteractiveEntity::remove() 
+{
     Entity::remove();
 }
 
 // Get transformed BRep
-TopoDS_Shape InteractiveEntity::getTransformedBRep() const {
-    return {};  // Null or placeholder
+TopoDS_Shape InteractiveEntity::getTransformedBRep() const 
+{
+    return {};
 }
 
 // Raise visual changed
-void InteractiveEntity::raiseVisualChanged() {
+void InteractiveEntity::raiseVisualChanged() 
+{
     //if (!IsDeserializing) {
     //    emit visualChanged();
     //}

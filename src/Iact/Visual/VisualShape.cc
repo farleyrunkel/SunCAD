@@ -31,7 +31,8 @@ VisualShape::VisualShape(Sun_WorkspaceController* workspaceController, Interacti
     update();
 }
 
-void VisualShape::remove() {
+void VisualShape::remove() 
+{
     if (m_aisShape.IsNull()) {
         return;
     }
@@ -46,7 +47,9 @@ void VisualShape::remove() {
     updateMarker();
 }
 
-void VisualShape::update() {
+void VisualShape::update() 
+{
+    qDebug() << "VisualShape::update()";
     if (m_aisShape.IsNull()) {
         ensureAisObject();
     }
@@ -196,7 +199,8 @@ void VisualShape::updatePresentation()
     aisContext()->RecomputePrsOnly(m_aisShape, false, true);
 }
 
-void VisualShape::updatePresentationForGhost() {
+void VisualShape::updatePresentationForGhost() 
+{
     m_aisShape->SetDisplayMode((int)AIS_DisplayMode::AIS_Shaded);
     Handle(Prs3d_Drawer) ghostDrawer = new Prs3d_Drawer();
     ghostDrawer->Link(m_aisShape->Attributes());
