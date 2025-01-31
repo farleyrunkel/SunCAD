@@ -132,7 +132,7 @@ void Shape::Invalidate() {
     invalidateDependents();
 
     if (isVisible())
-        //Body ? .RaiseVisualChanged();
+        body()->raiseVisualChanged();
 
     m_isInvalidating = false;
 }

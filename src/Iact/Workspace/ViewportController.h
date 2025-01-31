@@ -74,7 +74,7 @@ public:
 	bool IsInRubberbandSelection() const {
 		return !_AisRubberBand.IsNull();
 	}
-	bool IsSelecting() const {
+	bool isSelecting() const {
 		return false;
 	}
 	bool IsLockedToPlane() const {

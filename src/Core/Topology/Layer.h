@@ -77,8 +77,8 @@ public:
 //    void raisePropertyChanged(const QString& propertyName);  // Protected helper for property change notification
 //
 //private:
-//    QString _name;                        // Name
-//    bool _isVisible;                      // Visibility flag
+//    QString m_name;                        // Name
+//    bool m_isVisible;                      // Visibility flag
 //    bool _isLocked;                       // Lock status
 //    PresentationMode _presentationMode;   // Presentation mode
 //    QColor _color;                        // Color

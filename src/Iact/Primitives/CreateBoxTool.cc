@@ -145,7 +145,6 @@ void CreateBoxTool::baseRectAction_Preview(const std::shared_ptr<PointAction::Ev
 	m_previewShape->body()->setPosition(position);
 
 	auto a = m_previewShape->body()->position();
-	qDebug() << "m_previewShape->body()->position()" << a.X() << a.Y() << a.Z();
 
 	m_previewShape->setDimensionX(dimX);
 	m_previewShape->setDimensionY(dimY);

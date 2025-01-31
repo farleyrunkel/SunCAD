@@ -5,24 +5,25 @@
 // Constructor
 InteractiveEntity::InteractiveEntity(QObject* parent)
     : Entity(parent)
-    , _name("Unnamed")
-    , _isVisible(true)
-    , _layerId(QUuid::createUuid()) 
+    , m_name("Unnamed")
+    , m_isVisible(true)
+    , m_isDeserializing(false)
+    , m_layerId(QUuid::createUuid())
 {}
 
 // Name property
 QString InteractiveEntity::name() const 
 {
-    return _name;
+    return m_name;
 }
 
 void InteractiveEntity::setName(const QString& name) 
 {
-    //if (_name != name) {
+    //if (m_name != name) {
     //    SaveUndo();
-    //    _name = name;
+    //    m_name = name;
     //    emit propertyChanged();  // Equivalent to raisePropertyChanged
-    //    if (!IsDeserializing && CoreContext::current()) {
+    //    if (!m_isDeserializing && CoreContext::current()) {
     //        if (Document* doc = Document::current()) {
     //            doc->instanceChanged(this);
     //        }
@@ -33,16 +34,16 @@ void InteractiveEntity::setName(const QString& name)
 // IsVisible property
 bool InteractiveEntity::isVisible() const 
 {
-    return _isVisible;
+    return m_isVisible;
 }
 
 void InteractiveEntity::setIsVisible(bool isVisible) 
 {
-    //if (_isVisible != isVisible) {
+    //if (m_isVisible != isVisible) {
     //    SaveUndo();
-    //    _isVisible = isVisible;
+    //    m_isVisible = isVisible;
     //    emit propertyChanged();
-    //    if (!IsDeserializing && CoreContext::current() && CoreContext::current()->workspace()) {
+    //    if (!m_isDeserializing && CoreContext::current() && CoreContext::current()->workspace()) {
     //        if (Document* doc = Document::current()) {
     //            doc->instanceChanged(this);
     //        }
@@ -54,18 +55,18 @@ void InteractiveEntity::setIsVisible(bool isVisible)
 // LayerId property
 QUuid InteractiveEntity::layerId() const 
 {
-    return _layerId;
+    return m_layerId;
 }
 
 void InteractiveEntity::setLayerId(const QUuid& layerId) 
 {
-    //if (_layerId != layerId) {
+    //if (m_layerId != layerId) {
     //    SaveUndo();
-    //    _layerId = layerId;
+    //    m_layerId = layerId;
     //    invalidate();
     //    emit propertyChanged();
     //    emit propertyChanged("Layer");
-    //    if (!IsDeserializing && CoreContext::current() && CoreContext::current()->workspace()) {
+    //    if (!m_isDeserializing && CoreContext::current() && CoreContext::current()->workspace()) {
     //        raiseVisualChanged();
     //        if (Document* doc = Document::current()) {
     //            doc->instanceChanged(this);
@@ -77,7 +78,7 @@ void InteractiveEntity::setLayerId(const QUuid& layerId)
 Layer* InteractiveEntity::layer() const
 {
     //if (CoreContext::current() && CoreContext::current()->layers()) {
-    //    return CoreContext::current()->layers()->find(_layerId);
+    //    return CoreContext::current()->layers()->find(m_layerId);
     //}
     return nullptr;
 }
@@ -86,7 +87,7 @@ void InteractiveEntity::setLayer(Layer* layer)
 {
     //if (CoreContext::current() && CoreContext::current()->layers()) {
     //    Layer* defaultLayer = CoreContext::current()->layers()->defaultLayer();
-    //    _layerId = (layer == defaultLayer || layer == nullptr) ? QUuid() : layer->guid();
+    //    m_layerId = (layer == defaultLayer || layer == nullptr) ? QUuid() : layer->guid();
     //}
 }
 
@@ -111,7 +112,7 @@ TopoDS_Shape InteractiveEntity::getTransformedBRep() const
 // Raise visual changed
 void InteractiveEntity::raiseVisualChanged() 
 {
-    //if (!IsDeserializing) {
-    //    emit visualChanged();
-    //}
+    if (!m_isDeserializing) {
+        emit visualChanged();
+    }
 }

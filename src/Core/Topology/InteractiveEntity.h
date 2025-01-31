@@ -43,16 +43,17 @@ public:
         return nullptr;
     }
 
+public:
+    void raiseVisualChanged();
+
 signals:
     void visualChanged();
 
-protected:
-    void raiseVisualChanged();
-
 private:
-    QString _name;
-    bool _isVisible;
-    QUuid _layerId;
+    QString m_name;
+    bool m_isVisible;
+    bool m_isDeserializing;
+    QUuid m_layerId;
 };
 
 #endif  // CORE_TOPOLOGY_OMTERACTIVEENTITY_H_
