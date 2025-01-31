@@ -3,6 +3,9 @@
 // Own include
 #include "Iact/Primitives/CreateBoxTool.h"
 
+// stl includes
+#include <cmath>
+
 // Occt includes
 #include <ElSLib.hxx>
 
@@ -13,6 +16,15 @@
 #include "Iact/HudElements/MultiValueHudElement.h"
 #include "Iact/Visual/VisualShape.h"
 #include "Iact/Workspace/WorkspaceController.h"
+
+namespace 
+{
+	double roundToSignificantDigits(double value, int digits = 3) {
+		if (value == 0) return 0;
+		double factor = std::pow(10, digits - std::ceil(std::log10(value < 0 ? -value : value)));
+		return std::round(value * factor) / factor;
+	}
+}
 
 CreateBoxTool::CreateBoxTool() 
 	: Tool()
@@ -89,7 +101,7 @@ void CreateBoxTool::pivotAction_Finished(const std::shared_ptr<PointAction::Even
 
 	m_currentPhase = Phase::BaseRect;
 	setHintMessage("Select opposite corner point, press `k:Ctrl` to round length and width to grid stepping.");
-
+	  
 	if (m_multiValueHudElement == nullptr)
 	{
 		m_multiValueHudElement = new MultiValueHudElement("Length:", "Width:");
@@ -101,15 +113,12 @@ void CreateBoxTool::pivotAction_Finished(const std::shared_ptr<PointAction::Even
 
 void CreateBoxTool::baseRectAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args)
 {
-	qDebug() << "Debug: CreateBoxTool::baseRectAction_Preview";
 	if (args != nullptr) {
 		m_pointPlane2 = args->PointOnPlane;
 	}
-	qDebug() << "Debug: CreateBoxTool::baseRectAction_Preview 1: " << m_pointPlane1.X() << m_pointPlane1.Y();
-	qDebug() << "Debug: CreateBoxTool::baseRectAction_Preview 2: " << m_pointPlane2.X() << m_pointPlane2.Y();
 
-	auto dimX = /*std::round(*/std::abs(m_pointPlane1.X() - m_pointPlane2.X())/*)*/;
-	auto dimY = /*std::round(*/std::abs(m_pointPlane1.Y() - m_pointPlane2.Y())/*)*/;
+	auto dimX = std::abs(m_pointPlane1.X() - m_pointPlane2.X());
+	auto dimY = std::abs(m_pointPlane1.Y() - m_pointPlane2.Y());
 
 	double posX;
 	if (m_pointPlane1.X() < m_pointPlane2.X()) {
@@ -130,13 +139,13 @@ void CreateBoxTool::baseRectAction_Preview(const std::shared_ptr<PointAction::Ev
 		posY = m_pointPlane1.Y() - dimY;
 		m_pointPlane2.SetY(posY);
 	}
+
 	ensurePreviewShape();
 	auto position = ElSLib::Value(posX, posY, m_plane);
 	m_previewShape->body()->setPosition(position);
 	m_previewShape->setDimensionX(dimX);
 	m_previewShape->setDimensionY(dimY);
 	if (m_isTemporaryVisual) {
-		qDebug() << "m_visualShape->update();";
 		m_visualShape->update();
 	}
 	m_coord2DHudElement->setValues(m_pointPlane2.X(), m_pointPlane2.Y());

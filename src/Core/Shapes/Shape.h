@@ -66,65 +66,20 @@ public:
 
     TopoDS_Shape getBRep();
 
-    bool skip() {
-        return false;
-    }
+    bool skip();
 
-    virtual bool invalidate() {
-        return false;
-    }
+    virtual bool invalidate();
 
 public:
-    virtual gp_Trsf GetTransformation();
+    virtual gp_Trsf getTransformation();
 
-    bool make(MakeFlags flags) 
-    {
-        if (m_isSkipped) {
-            if (skip())
-                return true;
-        }
-        bool result = ProcessingScope::ExecuteWithGuards(this, "Making Shape", [&]()
-        {
-            if (isValid()) {
-                invalidate();
-                if (isValid()) {
-                    // This is the case when triggering invalidation leads to recursivly remaking the shape
-                    return true;
-                }
-            }
-
-            if (makeInternal(flags)) {
-                m_isLoadedFromCache = false;
-                emit shapeChanged(this);
-                return true;
-            }
-
-            //Messages.Error("Shape making failed.");
-            return false;
-        });
-
-        setHasErrors(!result);
-        return result;
-    }
+    bool make(MakeFlags flags);
 
 protected:
     virtual bool makeInternal(MakeFlags flags);
 
 private:
-    bool ensureBRep() {
-        try {
-            if (!isValid()) {
-                if (!make(MakeFlags::None)) {
-                    return false;
-                }
-            }
-        }
-        catch (std::exception e) {
-            std::cerr << e.what();
-            return false;
-        }
-        return true;
-    }
+    bool ensureBRep();
 
 signals:
     void shapeChanged(Shape*);

@@ -35,7 +35,7 @@ void Shape::setBRep(const TopoDS_Shape& value)
     m_bRep = value;
     if (!m_bRep.IsNull()) 
     {
-        m_transformedBRep = m_bRep.Moved(TopLoc_Location(GetTransformation()));
+        m_transformedBRep = m_bRep.Moved(TopLoc_Location(getTransformation()));
 
     }
     raisePropertyChanged("brep");
@@ -59,7 +59,17 @@ TopoDS_Shape Shape::getBRep()
     return {};
 }
 
-gp_Trsf Shape::GetTransformation() 
+bool Shape::skip() 
+{
+    return false;
+}
+
+bool Shape::invalidate() 
+{
+    return false;
+}
+
+gp_Trsf Shape::getTransformation()
 {
     gp_Trsf res;
     if (body() != nullptr) {
@@ -68,10 +78,55 @@ gp_Trsf Shape::GetTransformation()
     return res;
 }
 
+bool Shape::make(MakeFlags flags) 
+{
+    if (m_isSkipped) {
+        if (skip())
+            return true;
+    }
+    bool result = ProcessingScope::ExecuteWithGuards(this, "Making Shape", [&]() {
+        if (isValid()) {
+            invalidate();
+            if (isValid()) {
+                // This is the case when triggering invalidation leads to recursivly remaking the shape
+                return true;
+            }
+        }
+
+        if (makeInternal(flags)) {
+            m_isLoadedFromCache = false;
+            emit shapeChanged(this);
+            return true;
+        }
+
+        //Messages.Error("Shape making failed.");
+        return false;
+    });
+
+    setHasErrors(!result);
+    return result;
+}
+
 bool Shape::makeInternal(MakeFlags flags) 
 {
     if (!m_bRep.IsNull()) {
         return true;
     }
     return false;
+}
+
+bool Shape::ensureBRep() 
+{
+    try {
+        if (!isValid()) {
+            if (!make(MakeFlags::None)) {
+                return false;
+            }
+        }
+    }
+    catch (std::exception e) {
+        std::cerr << e.what();
+        return false;
+    }
+    return true;
 }

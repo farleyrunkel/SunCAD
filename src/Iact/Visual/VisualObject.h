@@ -16,7 +16,7 @@
 
 class Sun_WorkspaceController;
 
-class VisualObject : public QObject 
+class VisualObject : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool selectable READ isSelectable WRITE setIsSelectable)
