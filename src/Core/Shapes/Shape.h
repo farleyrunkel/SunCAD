@@ -41,7 +41,8 @@ public:
 public:
     Shape();
 
-    struct NamedSubshape {
+    struct NamedSubshape 
+    {
          SubshapeType Type;
          QString Name;
          int Index;

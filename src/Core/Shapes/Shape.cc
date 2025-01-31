@@ -10,7 +10,10 @@
 // Project includes
 #include "Core/Topology/Body.h"
 
-Shape::Shape() 
+Shape::Shape()
+    : Entity()
+    , m_isSkipped(false)
+    , m_name("Shape")
 {
 	m_body = new Body();
 }
@@ -73,6 +76,9 @@ gp_Trsf Shape::getTransformation()
 {
     gp_Trsf res;
     if (body() != nullptr) {
+        auto a = body()->position();
+        qDebug() << "body()->position()" << a.X() << a.Y() << a.Z();
+
         res.SetTransformation(body()->rotation(), gp_Vec(body()->position().XYZ()));
     }
     return res;

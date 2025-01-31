@@ -38,9 +38,7 @@ public:
     void setRotation(const gp_Quaternion& rotation);
 
     // 获取位置
-    gp_Pnt position() const {
-        return m_position;
-    }
+    gp_Pnt position() const;
 
     // 设置位置
     void setPosition(const gp_Pnt& position);

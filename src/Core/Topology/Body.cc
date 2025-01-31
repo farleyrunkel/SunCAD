@@ -15,7 +15,6 @@ Body* Body::create(Shape* shape)
     body->setLayer(nullptr);
     body->setDocument(nullptr);
     body->addShape(shape, false);
-
     return body;
 }
 
@@ -30,25 +29,27 @@ T* Body::findComponent() const {
     return nullptr;
 }
 
-// 设置旋转
 void Body::setRotation(const gp_Quaternion& rotation) {
     if (!m_rotation.IsEqual(rotation)) {
         m_rotation = rotation;
-        invalidateTransformation(); // 使变换缓存失效
-        emit shapeChanged();        // 触发形状变化信号
+        invalidateTransformation();
+        emit shapeChanged();
     }
 }
 
-// 设置位置
+gp_Pnt Body::position() const 
+{
+    return m_position;
+}
+
 void Body::setPosition(const gp_Pnt& position) {
     if (!m_position.IsEqual(position, Precision::Confusion())) {
         m_position = position;
-        invalidateTransformation(); // 使变换缓存失效
-        emit shapeChanged();        // 触发形状变化信号
+        invalidateTransformation();
+        emit shapeChanged();
     }
 }
 
-// 获取变换矩阵
 gp_Trsf Body::getTransformation() {
     updateTransformation();
     return m_cachedTransformation;
