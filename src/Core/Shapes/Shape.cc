@@ -13,12 +13,19 @@
 Shape::Shape()
     : Entity()
     , m_isSkipped(false)
+    , m_isLoadedFromCache(false)
+    , m_isInvalidating(false)
+    , m_body(new Body())
     , m_name("Shape")
 {
-	m_body = new Body();
 }
 
-Body* Shape::body() 
+bool Shape::isValid() const 
+{
+    return !m_bRep.IsNull();
+}
+
+Body* Shape::body()
 {
     return m_body;
 }
@@ -111,6 +118,23 @@ bool Shape::make(MakeFlags flags)
 
     setHasErrors(!result);
     return result;
+}
+
+void Shape::Invalidate() {
+    if (m_isInvalidating)
+        return;
+    m_isInvalidating = true;
+
+    //CoreContext::current().MessageHandler.ClearEntityMessages(this);
+    setHasErrors(false);
+
+    setBRep({});
+    invalidateDependents();
+
+    if (isVisible())
+        //Body ? .RaiseVisualChanged();
+
+    m_isInvalidating = false;
 }
 
 bool Shape::makeInternal(MakeFlags flags) 

@@ -49,32 +49,28 @@ public:
          TopoDS_Shape Shape;
     };
 
-    bool isValid() {
-        return !m_bRep.IsNull();
-    }
-
+public:
+    bool isValid() const;
     Body* body();
-    
     void setBody(Body* value);
-
     virtual ShapeType shapeType() const = 0;
-
     TopoDS_Shape BRep() const;
-
     void setBRep(const TopoDS_Shape& value);
-
     TopoDS_Shape getTransformedBRep();
-
     TopoDS_Shape getBRep();
-
     bool skip();
-
     virtual bool invalidate();
 
 public:
     virtual gp_Trsf getTransformation();
-
     bool make(MakeFlags flags);
+
+    virtual void Invalidate();
+
+    void invalidateDependents() {}
+    bool isVisible() {
+        return false;
+    }
 
 protected:
     virtual bool makeInternal(MakeFlags flags);
