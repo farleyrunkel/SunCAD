@@ -9,9 +9,9 @@
 
 bool VisualShape::s_initOnce = []() 
 {
-	connect(Layer::signalHub(), &LayerSignalHub::PresentationChanged, []() {onPresentationChanged(nullptr); });
-	connect(Layer::signalHub(), &LayerSignalHub::InteractivityChanged, []() {onInteractivityChanged(nullptr); });
-	connect(VisualObjectManager::signalHub(), &VisualObjectManagerSignalHub::IsolatedEntitiesChanged, []() {visualObjectManager_IsolatedEntitiesChanged(nullptr); });
+	connect(Layer::signalHub(), &LayerSignalHub::presentationChanged, []() {onPresentationChanged(nullptr); });
+	connect(Layer::signalHub(), &LayerSignalHub::interactivityChanged, []() {onInteractivityChanged(nullptr); });
+	connect(VisualObjectManager::signalHub(), &VisualObjectManagerSignalHub::isolatedEntitiesChanged, []() {visualObjectManager_IsolatedEntitiesChanged(nullptr); });
 
 	return true; 
 }();

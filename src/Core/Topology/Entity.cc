@@ -11,8 +11,9 @@
 #include "Core/Topology/Document.h"
 #include "Occt/AisExtensions/AISX_Guid.h"
 
-// Constructor
+EntitySignalHub* Entity::s_signalHub = nullptr;
 
+// Constructor
 Entity::Entity(QObject* parent)
     : BaseObject(parent)
     , m_guid(QUuid::createUuid())

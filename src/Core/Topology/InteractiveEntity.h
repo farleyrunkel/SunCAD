@@ -3,14 +3,30 @@
 #ifndef CORE_TOPOLOGY_OMTERACTIVEENTITY_H_
 #define CORE_TOPOLOGY_OMTERACTIVEENTITY_H_
 
+// Qt includes
 #include <QObject>
 #include <QUuid>
 
+// Occt includes
 #include <TopoDS_Shape.hxx>
 
+// Project includes
 #include "Core/Components/VisualStyle.h"
 #include "Core/Topology/Entity.h"
 #include "Core/Topology/Layer.h"
+
+class InteractiveEntity;
+
+class InteractiveEntitySignalHub : public QObject 
+{
+    Q_OBJECT
+
+public:
+    InteractiveEntitySignalHub() = default;
+
+signals:
+    void visualChanged(InteractiveEntity*);
+};
 
 class InteractiveEntity : public Entity 
 {
@@ -44,16 +60,17 @@ public:
     }
 
 public:
-    void raiseVisualChanged();
+    void raiseVisualChanged() {}
 
-signals:
-    void visualChanged();
+    static InteractiveEntitySignalHub* signalHub();
 
 private:
     QString m_name;
     bool m_isVisible;
     bool m_isDeserializing;
     QUuid m_layerId;
+
+    static InteractiveEntitySignalHub* s_signalHub;
 };
 
 #endif  // CORE_TOPOLOGY_OMTERACTIVEENTITY_H_

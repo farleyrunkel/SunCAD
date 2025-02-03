@@ -3,24 +3,28 @@
 #ifndef CORE_TOPOLOGY_LAYER_H_
 #define CORE_TOPOLOGY_LAYER_H_
 
+// Qt includes
+#include <QColor>
 #include <QObject>
 #include <QString>
-#include <QColor>
 
-#include "Core/Topology/Entity.h"
+// Project includes
 #include "Core/Project/VisualStyles.h"
+#include "Core/Topology/Entity.h"
 
 class SerializationContext {};
-
 class Layer;
+
 class LayerSignalHub : public QObject
 {
     Q_OBJECT
+
 public:
     LayerSignalHub() = default;
+
 signals:
-    void PresentationChanged(Layer*);
-    void InteractivityChanged(Layer*);
+    void presentationChanged(Layer*);
+    void interactivityChanged(Layer*);
 };
 
 // Layer class as a declaration only, without actual implementation
@@ -35,9 +39,7 @@ public:
 //    QString name() const;                   // Name property
 //    void setName(const QString& name);
 //
-    static LayerSignalHub* signalHub() {
-        return s_signalHub;
-    }
+    static LayerSignalHub* signalHub();
 
     bool isVisible() const {
         return false;

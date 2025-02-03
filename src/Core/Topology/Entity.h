@@ -3,13 +3,28 @@
 #ifndef CORE_TOPOLOGY_ENTITY_H_
 #define CORE_TOPOLOGY_ENTITY_H_
 
+// Qt includes
 #include <QDebug>
 #include <QObject>
 #include <QUuid>
 
+// Project includes
 #include "Comm/BaseObject.h"
 
 class IDocument;
+class Entity;
+
+class EntitySignalHub : public QObject 
+{
+    Q_OBJECT
+
+public:
+    EntitySignalHub() = default;
+    
+signals:
+    void entityRemoved(Entity*);
+    void errorStateChanged(Entity*);
+};
 
 class Entity : public BaseObject
 {
@@ -54,6 +69,14 @@ public:
 
     virtual QString toString() const;
 
+    static EntitySignalHub* signalHub() 
+    {
+        if (s_signalHub == nullptr) {
+            s_signalHub = new EntitySignalHub;
+        }
+        return s_signalHub;
+    }
+
 signals:
     // Signal when the entity is removed
     void entityRemoved();
@@ -75,6 +98,8 @@ private:
     QUuid m_guid;
     bool m_hasErrors;
     IDocument* m_document;
+
+    static EntitySignalHub* s_signalHub;
 };
 
 #endif  // CORE_TOPOLOGY_ENTITY_H_

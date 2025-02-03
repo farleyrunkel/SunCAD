@@ -7,6 +7,8 @@
 #include <QObject>
 #include <QSharedPointer>
 #include <QVariant>
+#include <QMap>
+#include <QList>
 
 // Occt includes
 #include <AIS_InteractiveContext.hxx>
@@ -18,34 +20,61 @@
 class Sun_WorkspaceController;
 class Body;
 class VisualObject;
-
 class VisualObjectManager;
+class Entity;
 
 class VisualObjectManagerSignalHub : public QObject 
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	VisualObjectManagerSignalHub() = default;
+    VisualObjectManagerSignalHub() = default;
+
 signals:
-	void IsolatedEntitiesChanged(VisualObjectManager*);
+    void isolatedEntitiesChanged(VisualObjectManager*);
 };
 
-class VisualObjectManager : public QObject
+class VisualObjectManager : public QObject 
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	VisualObjectManager(Sun_WorkspaceController*) {}
+    explicit VisualObjectManager(Sun_WorkspaceController* workspaceController);
+    ~VisualObjectManager();
+    // 定义创建 VisualObject 的委托类型
+    using CreateVisualObjectDelegate = std::function<VisualObject* (Sun_WorkspaceController*, InteractiveEntity*)>;
 
-	VisualObject* get(Body*, bool b) {
-		return nullptr;
-	}
-	static VisualObjectManagerSignalHub* signalHub() {
-		return s_signalHub;
-	}
+    // 注册 Body 类型与其对应的 VisualObject 创建函数
+    template<typename TEntity>
+    static void registerEntity(CreateVisualObjectDelegate createDelegate);
+
+    VisualObject* createVisualObject(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity);
+
+    VisualObject* get(Body* body, bool forceCreation = false);
+    void add(Body* body);
+    void remove(InteractiveEntity* body);
+    void update(Body* body);
+    void updateInvalidatedEntities();
+
+    QList<Body*> getIsolatedEntities() const;
+    void setIsolatedEntities(const QList<Body*>& entities);
+
+    static VisualObjectManagerSignalHub* signalHub();
+
+signals:
+    void entityIsolationChanged(bool enabled);
 
 private:
-	static VisualObjectManagerSignalHub* s_signalHub;
+    void _Entity_EntityRemoved(Entity* entity);
+    void _Layer_InteractivityChanged(Layer* layer);
+    void _InteractiveEntity_VisualChanged(InteractiveEntity* entity);
+
+    Sun_WorkspaceController* m_workspaceController;
+    QMap<InteractiveEntity*, VisualObject*> m_bodyToVisualMap;
+    QList<Body*> m_invalidatedBodies;
+    QList<Body*> m_isolatedEntities;
+
+    static QMap<QString, CreateVisualObjectDelegate> s_RegisteredVisualTypes;
+    static VisualObjectManagerSignalHub* s_signalHub;
 };
 
 #endif // IACT_VISUAL_VISUALOBJECTMANAGER_H_

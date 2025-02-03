@@ -1,6 +1,17 @@
 // Copyright [2024] SunCAD
 
+// Own include
 #include "Core/Topology/InteractiveEntity.h"
+
+InteractiveEntitySignalHub* InteractiveEntity::s_signalHub = nullptr;
+
+InteractiveEntitySignalHub* InteractiveEntity::signalHub() 
+{
+    if (s_signalHub == nullptr) {
+        s_signalHub = new InteractiveEntitySignalHub;
+    }
+    return s_signalHub;
+}
 
 // Constructor
 InteractiveEntity::InteractiveEntity(QObject* parent)
@@ -107,12 +118,4 @@ void InteractiveEntity::remove()
 TopoDS_Shape InteractiveEntity::getTransformedBRep() const 
 {
     return {};
-}
-
-// Raise visual changed
-void InteractiveEntity::raiseVisualChanged() 
-{
-    if (!m_isDeserializing) {
-        emit visualChanged();
-    }
 }
