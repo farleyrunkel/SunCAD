@@ -8,6 +8,7 @@
 #include "Core/Topology/Entity.h"
 #include "Core/Topology/Layer.h"
 #include "Iact/Visual/VisualObject.h"
+#include "Iact/Workspace/InteractiveContext.h"
 #include "Iact/Workspace/WorkspaceController.h"
 
 QMap<QString, VisualObjectManager::CreateVisualObjectDelegate> VisualObjectManager::s_RegisteredVisualTypes;
@@ -79,7 +80,7 @@ VisualObject* VisualObjectManager::createVisualObject(Sun_WorkspaceController* w
     return nullptr;
 }
 
-VisualObject* VisualObjectManager::get(Body* body, bool forceCreation)
+VisualObject* VisualObjectManager::get(InteractiveEntity* body, bool forceCreation)
 {
     if (!body) return nullptr;
 
@@ -94,7 +95,7 @@ VisualObject* VisualObjectManager::get(Body* body, bool forceCreation)
     return nullptr;
 }
 
-void VisualObjectManager::add(Body* body) 
+void VisualObjectManager::add(InteractiveEntity* body)
 {
     if (!body || m_bodyToVisualMap.contains(body)) return;
 
@@ -112,7 +113,7 @@ void VisualObjectManager::remove(InteractiveEntity* body)
     //m_invalidatedBodies.removeAll(body);
 }
 
-void VisualObjectManager::update(Body* body) 
+void VisualObjectManager::update(InteractiveEntity* body)
 {
     if (!body) return;
 
@@ -164,19 +165,37 @@ void VisualObjectManager::_Entity_EntityRemoved(Entity* entity)
     remove(interactiveEntity);
 }
 
-void VisualObjectManager::_InteractiveEntity_VisualChanged(InteractiveEntity*) {
-    //for (auto body : Body::allBodies()) {
-    //    if (body->layer() && body->layer()->isInteractivityChanged()) {
-    //        m_invalidatedBodies.append(body);
-    //    }
-    //}
-    //m_workspaceController->requestUpdate();
+void VisualObjectManager::_InteractiveEntity_VisualChanged(InteractiveEntity* entity)
+{
+    if (!m_invalidatedBodies.contains(entity))
+        m_invalidatedBodies.append(entity);
+
+    m_workspaceController->invalidate();
 }
 
 void VisualObjectManager::_Layer_InteractivityChanged(Layer* layer)
 {
-    //if (!body || m_invalidatedBodies.contains(body)) return;
+    //// 获取当前文档中的所有 Body
+    //auto bodies = InteractiveContext::current()->document()->bodies();
 
-    //m_invalidatedBodies.append(body);
-    //m_workspaceController->requestUpdate();
+    //// 过滤出属于指定 Layer 的 Body
+    //QList<InteractiveEntity*> bodiesInLayer;
+    //for (auto body : bodies) {
+    //    if (body->layer() == layer) {
+    //        bodiesInLayer.append(body);
+    //    }
+    //}
+
+    //// 排除已经存在于 _InvalidatedBodies 中的 Body
+    //QList<InteractiveEntity*> bodiesToAdd;
+    //for (auto body : bodiesInLayer) {
+    //    if (!m_invalidatedBodies.contains(body)) {
+    //        bodiesToAdd.append(body);
+    //    }
+    //}
+
+    //// 将需要更新的 Body 添加到 _InvalidatedBodies 中
+    //m_invalidatedBodies.append(bodiesToAdd);
+
+    m_workspaceController->invalidate();
 }

@@ -49,10 +49,10 @@ public:
 
     VisualObject* createVisualObject(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity);
 
-    VisualObject* get(Body* body, bool forceCreation = false);
-    void add(Body* body);
+    VisualObject* get(InteractiveEntity* body, bool forceCreation = false);
+    void add(InteractiveEntity* body);
     void remove(InteractiveEntity* body);
-    void update(Body* body);
+    void update(InteractiveEntity* body);
     void updateInvalidatedEntities();
 
     QList<Body*> getIsolatedEntities() const;
@@ -70,7 +70,7 @@ private:
 
     Sun_WorkspaceController* m_workspaceController;
     QMap<InteractiveEntity*, VisualObject*> m_bodyToVisualMap;
-    QList<Body*> m_invalidatedBodies;
+    QList<InteractiveEntity*> m_invalidatedBodies;
     QList<Body*> m_isolatedEntities;
 
     static QMap<QString, CreateVisualObjectDelegate> s_RegisteredVisualTypes;

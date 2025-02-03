@@ -1,15 +1,16 @@
 // Copyright [2024] SunCAD
 
+// Own include
 #include "Iact/Workspace/InteractiveContext.h"
 
 InteractiveContext* InteractiveContext::s_current = nullptr;
 
 InteractiveContext::InteractiveContext() 
-    : CoreContext(),
-      m_editorState(nullptr),
-      m_documentController(nullptr),
-      m_viewportController(nullptr),
-      m_workspaceController(nullptr) 
+    : CoreContext()
+    , m_editorState(nullptr)
+    , m_documentController(nullptr)
+    , m_viewportController(nullptr)
+    , m_workspaceController(nullptr) 
 {
     InteractionModule::Initialize();
     s_current = this;
