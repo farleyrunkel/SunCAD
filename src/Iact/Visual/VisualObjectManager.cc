@@ -11,25 +11,17 @@
 #include "Iact/Workspace/InteractiveContext.h"
 #include "Iact/Workspace/WorkspaceController.h"
 
+VisualObjectManager_SignalHub* VisualObjectManager_SignalHub::s_signalHub = nullptr;
+
 QMap<QString, VisualObjectManager::CreateVisualObjectDelegate> VisualObjectManager::s_RegisteredVisualTypes;
-
-VisualObjectManagerSignalHub* VisualObjectManager::s_signalHub = nullptr;
-
-VisualObjectManagerSignalHub* VisualObjectManager::signalHub() 
-{
-    if (s_signalHub == nullptr) {
-        s_signalHub == new VisualObjectManagerSignalHub();
-    }
-    return s_signalHub;
-}
 
 VisualObjectManager::VisualObjectManager(Sun_WorkspaceController* workspaceController)
     : m_workspaceController(workspaceController) 
 {
     // Connect signals
-    connect(Entity::signalHub(), &EntitySignalHub::entityRemoved, this, &VisualObjectManager::_Entity_EntityRemoved);
-    connect(InteractiveEntity::signalHub(), &InteractiveEntitySignalHub::visualChanged, this, &VisualObjectManager::_InteractiveEntity_VisualChanged);
-    connect(Layer::signalHub(), &LayerSignalHub::interactivityChanged, this, &VisualObjectManager::_Layer_InteractivityChanged);
+    connect(Entity::signalHub(), &EntitySignalHub::entityRemoved, this, &VisualObjectManager::entity_EntityRemoved);
+    connect(InteractiveEntity::signalHub(), &InteractiveEntitySignalHub::visualChanged, this, &VisualObjectManager::interactiveEntity_VisualChanged);
+    connect(Layer::signalHub(), &LayerSignalHub::interactivityChanged, this, &VisualObjectManager::layer_InteractivityChanged);
 }
 
 VisualObjectManager::~VisualObjectManager() 
@@ -148,10 +140,10 @@ void VisualObjectManager::setIsolatedEntities(const QList<Body*>& entities)
 {
     m_isolatedEntities = entities;
     emit entityIsolationChanged(!m_isolatedEntities.isEmpty());
-    s_signalHub->isolatedEntitiesChanged(this);
+    //s_signalHub->isolatedEntitiesChanged(this);
 }
 
-void VisualObjectManager::_Entity_EntityRemoved(Entity* entity)
+void VisualObjectManager::entity_EntityRemoved(Entity* entity)
 {
     // 使用 dynamic_cast 检查 entity 是否为 InteractiveEntity 类型
     InteractiveEntity* interactiveEntity = dynamic_cast<InteractiveEntity*>(entity);
@@ -165,7 +157,7 @@ void VisualObjectManager::_Entity_EntityRemoved(Entity* entity)
     remove(interactiveEntity);
 }
 
-void VisualObjectManager::_InteractiveEntity_VisualChanged(InteractiveEntity* entity)
+void VisualObjectManager::interactiveEntity_VisualChanged(InteractiveEntity* entity)
 {
     if (!m_invalidatedBodies.contains(entity))
         m_invalidatedBodies.append(entity);
@@ -173,7 +165,7 @@ void VisualObjectManager::_InteractiveEntity_VisualChanged(InteractiveEntity* en
     m_workspaceController->invalidate();
 }
 
-void VisualObjectManager::_Layer_InteractivityChanged(Layer* layer)
+void VisualObjectManager::layer_InteractivityChanged(Layer* layer)
 {
     //// 获取当前文档中的所有 Body
     //auto bodies = InteractiveContext::current()->document()->bodies();

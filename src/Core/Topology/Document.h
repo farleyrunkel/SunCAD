@@ -1,8 +1,9 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_CORE_TOPOLOGY_DOCUMENT_H_
-#define SRC_CORE_TOPOLOGY_DOCUMENT_H_
+#ifndef CORE_TOPOLOGY_DOCUMENT_H_
+#define CORE_TOPOLOGY_DOCUMENT_H_
 
+// Qt includes
 #include <QDebug>
 #include <QDir>
 #include <QFile>
@@ -13,28 +14,34 @@
 #include <QVariant>
 #include <QWeakPointer>
 
+// Project includes
 #include "Core/EntityContainer.h"
 #include "Core/Topology/Entity.h"
 
-class IDocument {
- public:
+class IDocument 
+{
+public:
     virtual ~IDocument() = default;
 
-    virtual void registerInstance(Entity* entity) = 0;
-    virtual void unregisterInstance(Entity* entity) = 0;
-    virtual Entity* findInstance(const QUuid& instanceGuid) = 0;
-    virtual void instanceChanged(Entity* entity) = 0;
+    virtual void registerInstance(Entity* entity) {}
+    virtual void unregisterInstance(Entity* entity) {}
+    virtual Entity* findInstance(const QUuid& instanceGuid) {
+        return nullptr;
+    }
+    virtual void instanceChanged(Entity* entity) {}
 };
 
-class Document : public EntityContainer, public IDocument {
-    Q_OBJECT
+template <typename T>
+class Document : public EntityContainer<T>, public IDocument
+{
+    static_assert(std::is_base_of<Entity, T>::value, "T must be derived from Entity");
 
- public:
-    explicit Document(QObject* parent = nullptr)
-        : EntityContainer(parent) 
-    {
-    }
+public:
+    // 其他成员
 
+    //explicit Document(QObject* parent = nullptr)
+    //{
+    //}
 
 //    // Properties
 //    QString Name() const {
@@ -181,4 +188,4 @@ class Document : public EntityContainer, public IDocument {
     //QMap<QUuid, QWeakPointer<Entity>> _instances;
 };
 
-#endif // SRC_CORE_TOPOLOGY_DOCUMENT_H_
+#endif // CORE_TOPOLOGY_DOCUMENT_H_

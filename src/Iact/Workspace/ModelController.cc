@@ -22,7 +22,8 @@
 
 //-----------------------------------------------------------------------------
 
-namespace {
+namespace 
+{
     Handle(TDocStd_Document) ReadStepWithMeta(const char* filename) {
         STEPCAFControl_Reader Reader;
 
@@ -55,16 +56,19 @@ namespace {
     }
 }
 
-ModelController::ModelController(QObject* parent) {}
+ModelController::ModelController(QObject* parent) 
+{}
 
-Model* ModelController::newModel() {
+Model* ModelController::newModel() 
+{
     Model* newModel = new Model();
     Core::appContext()->setDocument(newModel);
-    emit newModel->resetUnsavedChanges();
+    newModel->resetUnsavedChanges();
     return newModel;
 }
 
-bool ModelController::openModelFrom(const QString& initialDirectory) {
+bool ModelController::openModelFrom(const QString& initialDirectory) 
+{
     // create and open file dialog;
     QFileDialog dlg;
     dlg.setWindowTitle("Open Model...");
@@ -87,7 +91,8 @@ bool ModelController::openModelFrom(const QString& initialDirectory) {
     return openModel(filePath);
 }
 
-bool ModelController::openModel(const QString& file) {
+bool ModelController::openModel(const QString& file) 
+{
     Handle(TDocStd_Document) doc = ::ReadStepWithMeta(file.toStdString().c_str());
 
     if (doc.IsNull()) {
@@ -105,7 +110,8 @@ bool ModelController::openModel(const QString& file) {
     return true;
 }
 
-bool ModelController::saveModel() {
+bool ModelController::saveModel()
+{
     auto model = Core::appContext()->document();
     if (model->filePath().isEmpty()) {
         return saveModelAs();
@@ -118,11 +124,13 @@ bool ModelController::saveModel() {
     return false;
 }
 
-bool ModelController::saveModelAs() {
+bool ModelController::saveModelAs()
+{
     return false;
 }
 
-bool ModelController::askForSavingModelChanges() { 
+bool ModelController::askForSavingModelChanges()
+{ 
     if (Core::appContext()->document() == nullptr) {
         return true;
     }
@@ -146,5 +154,6 @@ bool ModelController::askForSavingModelChanges() {
     return true; 
 }
 
-void ModelController::dispose() {
+void ModelController::dispose() 
+{
 }

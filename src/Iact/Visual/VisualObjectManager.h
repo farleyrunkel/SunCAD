@@ -4,11 +4,11 @@
 #define IACT_VISUAL_VISUALOBJECTMANAGER_H_
 
 // Qt includes
+#include <QList>
+#include <QMap>
 #include <QObject>
 #include <QSharedPointer>
 #include <QVariant>
-#include <QMap>
-#include <QList>
 
 // Occt includes
 #include <AIS_InteractiveContext.hxx>
@@ -23,14 +23,24 @@ class VisualObject;
 class VisualObjectManager;
 class Entity;
 
-class VisualObjectManagerSignalHub : public QObject 
+class VisualObjectManager_SignalHub : public QObject 
 {
     Q_OBJECT
+
 public:
-    VisualObjectManagerSignalHub() = default;
+    static VisualObjectManager_SignalHub* instance() 
+    {
+        if (s_signalHub == nullptr) {
+            s_signalHub = new VisualObjectManager_SignalHub;
+        }
+        return nullptr;
+    }
 
 signals:
     void isolatedEntitiesChanged(VisualObjectManager*);
+
+private:
+    static VisualObjectManager_SignalHub* s_signalHub;
 };
 
 class VisualObjectManager : public QObject 
@@ -58,15 +68,13 @@ public:
     QList<Body*> getIsolatedEntities() const;
     void setIsolatedEntities(const QList<Body*>& entities);
 
-    static VisualObjectManagerSignalHub* signalHub();
-
 signals:
     void entityIsolationChanged(bool enabled);
 
 private:
-    void _Entity_EntityRemoved(Entity* entity);
-    void _Layer_InteractivityChanged(Layer* layer);
-    void _InteractiveEntity_VisualChanged(InteractiveEntity* entity);
+    void entity_EntityRemoved(Entity* entity);
+    void layer_InteractivityChanged(Layer* layer);
+    void interactiveEntity_VisualChanged(InteractiveEntity* entity);
 
     Sun_WorkspaceController* m_workspaceController;
     QMap<InteractiveEntity*, VisualObject*> m_bodyToVisualMap;
@@ -74,7 +82,6 @@ private:
     QList<Body*> m_isolatedEntities;
 
     static QMap<QString, CreateVisualObjectDelegate> s_RegisteredVisualTypes;
-    static VisualObjectManagerSignalHub* s_signalHub;
 };
 
 #endif // IACT_VISUAL_VISUALOBJECTMANAGER_H_

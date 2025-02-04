@@ -1,33 +1,39 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_CORE_TOPOLOGY_MODEL_H_
-#define SRC_CORE_TOPOLOGY_MODEL_H_
+#ifndef CORE_TOPOLOGY_MODEL_H_
+#define CORE_TOPOLOGY_MODEL_H_
 
+// boost includes
+#include <boost/signals2.hpp>
+
+// Qt includes
+#include <QList>
 #include <QObject>
-#include <QVector>
 
+// Project includes
+#include "Core/Topology/Document.h"
+#include "Core/Topology/InteractiveEntity.h"
 #include "Core/Workspace.h"
 
-class Model : public QObject {
-	Q_OBJECT
-
- public:
+class Model : public Document<InteractiveEntity>
+{
+public:
 	Model();
 
 	QVector<Sun::Workspace*>& workspaces();
 
- public:
+public:
 	static QString fileExtension() { return "step"; };
 	QString filePath() { return ""; }
 	bool save() { return false; }
 
 	bool hasUnsavedChanges() { return false; }
 
- signals:
-	void resetUnsavedChanges();
+//signals:
+	boost::signals2::signal<void()> resetUnsavedChanges;
 
- private:
-	QVector<Sun::Workspace*> m_workspaces;
+private: 
+	QList<Sun::Workspace*> m_workspaces;
 };
 
-#endif  // SRC_CORE_TOPOLOGY_MODEL_H_
+#endif  // CORE_TOPOLOGY_MODEL_H_

@@ -19,5 +19,6 @@ include(SetupSARibbon)
 include(SetupCxxopts)
 include(SetupQtAD)
 include(SetupOpenGL)
+include(SetupBoost)
 
 add_subdirectory(src)

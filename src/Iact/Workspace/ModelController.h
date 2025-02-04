@@ -1,14 +1,17 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_IACT_WORKSPACE_MODELCONTROLLER_H_
-#define SRC_IACT_WORKSPACE_MODELCONTROLLER_H_
+#ifndef IACT_WORKSPACE_MODELCONTROLLER_H_
+#define IACT_WORKSPACE_MODELCONTROLLER_H_
 
+// Qt includes
 #include <QObject>
 #include <QString>
 
+// Project includes
 #include "Core/Topology/Model.h"
 
-class ModelController : public QObject {
+class ModelController : public QObject 
+{
     Q_OBJECT
 
 public:
@@ -20,10 +23,8 @@ public:
     bool openModelFrom(const QString& initialDirectory);
     bool openModel(const QString& file);
     bool saveModel();
-
     bool saveModelAs();
-
     bool askForSavingModelChanges();
 };
 
-#endif // SRC_IACT_WORKSPACE_MODELCONTROLLER_H_
+#endif // IACT_WORKSPACE_MODELCONTROLLER_H_
