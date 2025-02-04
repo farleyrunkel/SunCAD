@@ -1,15 +1,14 @@
-// Copyright [2024] SunCAD
-
 #ifndef CORE_TOPOLOGY_DOCUMENT_H_
 #define CORE_TOPOLOGY_DOCUMENT_H_
 
+// Boost includes
+#include <boost/signals2.hpp>
+
 // Qt includes
-#include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QList>
 #include <QMap>
-#include <QObject>
 #include <QScopedPointer>
 #include <QVariant>
 #include <QWeakPointer>
@@ -17,175 +16,192 @@
 // Project includes
 #include "Core/EntityContainer.h"
 #include "Core/Topology/Entity.h"
+class UndoHandler {};
+class IDecorable {};
+
+//#include "Core/SerializationContext.h"
+//#include "Core/PathUtils.h"
+
+// 使得文档类型可以序列化
+#define SerializeType
+#define SerializeMember
 
 class IDocument 
 {
 public:
     virtual ~IDocument() = default;
 
-    virtual void registerInstance(Entity* entity) {}
-    virtual void unregisterInstance(Entity* entity) {}
+    virtual void registerInstance(Entity* entity) {};
+    virtual void unregisterInstance(Entity* entity) {};
     virtual Entity* findInstance(const QUuid& instanceGuid) {
         return nullptr;
-    }
-    virtual void instanceChanged(Entity* entity) {}
+    };
+    virtual void instanceChanged(Entity* entity) {};
 };
 
 template <typename T>
-class Document : public EntityContainer<T>, public IDocument
+class Document : public EntityContainer<T>, public IDocument 
 {
     static_assert(std::is_base_of<Entity, T>::value, "T must be derived from Entity");
 
 public:
-    // 其他成员
+    Document()
+        : HasUnsavedChanges(false) {}
 
-    //explicit Document(QObject* parent = nullptr)
-    //{
-    //}
+    // Override Name property, similar to C# property
+    QString name() const {
+        return "_filePath.isEmpty() ? ";
+    }
 
-//    // Properties
-//    QString Name() const {
-//        return _filePath.isEmpty() ? "Unnamed" : QFileInfo(_filePath).baseName();
-//    }
-//
-//    QString FilePath() const {
-//        return _filePath;
-//    }
-//
-//    void setFilePath(const QString& value) {
-//        if (_filePath != value) {
-//            _filePath = value;
-//            emit filePathChanged();
-//        }
-//    }
-//
-//    bool hasUnsavedChanges() const {
-//        return _hasUnsavedChanges;
-//    }
-//
-//    void markAsUnsaved() {
-//        if (isDeserializing) return;
-//        _hasUnsavedChanges = true;
-//    }
-//
-//    void resetUnsavedChanges() {
-//        _hasUnsavedChanges = false;
-//    }
-//
-//    UndoHandler* undoHandler() {
-//        if (!_undoHandler) {
-//            _undoHandler.reset(new UndoHandler(this));
-//        }
-//        return _undoHandler.data();
-//    }
-//
-//    // IDocument interface
-//    Entity* findInstance(const QUuid& instanceGuid) override {
-//        if (instanceGuid == this->Guid()) {
-//            return this;
-//        }
-//
-//        auto it = _instances.find(instanceGuid);
-//        if (it != _instances.end()) {
-//            Entity* entity = it.value().data();
-//            return entity;
-//        }
-//        return nullptr;
-//    }
-//
-//    void instanceChanged(Entity* instance) override {
-//        int index = this->indexOf(static_cast<T*>(instance));
-//        if (index != -1) {
-//            NotifyCollectionChangedEventArgs eventArgs(NotifyCollectionChangedAction::Replace, instance, index);
-//            emit collectionChanged(eventArgs);
-//        }
-//    }
-//
-//    void registerInstance(Entity* entity) override {
-//        if (entity->Guid() == QUuid()) return;
-//
-//        _instances[entity->Guid()] = QWeakPointer<Entity>(entity);
-//
-//        if (IDecorable* decorable = dynamic_cast<IDecorable*>(entity)) {
-//            for (auto component : decorable->getComponents(false)) {
-//                _instances[component->Guid()] = QWeakPointer<Entity>(component);
-//            }
-//        }
-//    }
-//
-//    void unregisterInstance(Entity* entity) override {
-//        if (_instances.remove(entity->Guid())) {
-//            if (IDecorable* decorable = dynamic_cast<IDecorable*>(entity)) {
-//                for (auto component : decorable->getComponents(false)) {
-//                    _instances.remove(component->Guid());
-//                }
-//            }
-//            // Clear messages if needed
-//        }
-//    }
-//
-//    // File I/O
-//    bool save() {
-//        if (!_filePath.isEmpty()) {
-//            return saveToFile(_filePath);
-//        }
-//        return false;
-//    }
-//
-//    virtual bool saveToFile(const QString& filePath) = 0;
-//
-//protected:
-//    bool saveToFile(const QString& filePath, SerializationContext& context) {
-//        try {
-//            QFile file(filePath);
-//            if (!file.open(QIODevice::WriteOnly)) {
-//                qDebug() << "Failed to open file for writing:" << file.errorString();
-//                return false;
-//            }
-//
-//            // Serialize the document
-//            // Assuming serialize method exists
-//            if (!serialize(file, context)) {
-//                return false;
-//            }
-//
-//            saveData(file); // Additional data save function
-//            resetUnsavedChanges();
-//            setFilePath(filePath);
-//            return true;
-//
-//        }
-//        catch (const std::exception& e) {
-//            qDebug() << "Error during save:" << e.what();
-//            return false;
-//        }
-//    }
-//
-//    virtual bool saveData(QFile& file) {
-//        // Emit additional data saving signal if needed
-//        emit additionalDataSaving(this, file);
-//        return true;
-//    }
-//
-//    virtual bool loadData(QFile& file) {
-//        // Emit additional data loading signal if needed
-//        emit additionalDataLoading(this, file);
-//        return true;
-//    }
-//
-//signals:
-//    void collectionChanged(const NotifyCollectionChangedEventArgs& eventArgs);
-//    void filePathChanged();
-//    void additionalDataLoading(Document<T>* sender, QFile& file);
-//    void additionalDataSaving(Document<T>* sender, QFile& file);
-//
-//private:
-//    QScopedPointer<UndoHandler> _undoHandler;
-//    QString _filePath;
-//    bool _hasUnsavedChanges;
+    // Getter and Setter for FilePath
+    QString filePath() const {
+        return _filePath;
+    }
+    void setFilePath(const QString& value) {
+        _filePath = value;
+    }
 
-    // Instances map
-    //QMap<QUuid, QWeakPointer<Entity>> _instances;
+    // Mark the document as having unsaved changes
+    void markAsUnsaved() {
+        //if (isDeserializing()) return;
+        //HasUnsavedChanges = true;
+    }
+
+    // Reset the unsaved changes flag
+    void resetUnsavedChanges() {
+        HasUnsavedChanges = false;
+    }
+
+    // UndoHandler to manage undo operations
+    UndoHandler& undoHandler() {
+        if (!_undoHandler) {
+            _undoHandler = QScopedPointer<UndoHandler>(new UndoHandler(this));
+        }
+        return *_undoHandler;
+    }
+
+    // Register an entity instance
+    void registerInstance(Entity* entity) override 
+    {
+        //if (entity->guid() == QUuid()) return;
+        //Instances[entity->guid()] = QWeakPointer<Entity>(entity);
+
+        //if (auto decorable = dynamic_cast<IDecorable*>(entity)) {
+        //    for (auto component : decorable->getComponents(false)) {
+        //        Instances[component->guid()] = QWeakPointer<Entity>(component);
+        //    }
+        //}
+    }
+
+    // Unregister an entity instance
+    void unregisterInstance(Entity* entity) override 
+    {
+        Instances.remove(entity->guid());
+
+        //if (auto decorable = dynamic_cast<IDecorable*>(entity)) {
+        //    for (auto component : decorable->getComponents(false)) {
+        //        Instances.remove(component->guid());
+        //    }
+        //}
+    }
+
+    // Find an instance by GUID
+    Entity* findInstance(const QUuid& instanceGuid) override {
+        if (instanceGuid == this->guid()) return this;
+        if (auto reference = Instances.value(instanceGuid).toStrongRef()) {
+            return reference.data();
+        }
+        return nullptr;
+    }
+
+    // Notify when an instance changes
+    void instanceChanged(Entity* entity) override 
+    {
+        //int index = indexOf(static_cast<T*>(entity));
+        //if (index != -1) {
+        //    NotifyCollectionChangedEventArgs eventArgs(NotifyCollectionChangedAction::Replace, entity, entity, index);
+        //    raiseCollectionChanged(eventArgs);
+        //}
+    }
+
+    // Undoable operations
+    void addEntity(T* entity) {
+        //undoHandler().addTopologyChange(UndoHandler::TopologyAction::Added, this, entity);
+        EntityContainer<T>::add(entity);
+    }
+
+    void removeEntity(T* entity) {
+        //undoHandler().addTopologyChange(UndoHandler::TopologyAction::Removed, this, entity);
+        EntityContainer<T>::remove(entity);
+    }
+
+    // File I/O
+    bool save() {
+        if (!filePath().isEmpty()) {
+            return saveToFile(filePath());
+        }
+        return false;
+    }
+
+    bool saveToFile(const QString& filePath) {
+        try {
+            QFile file(filePath);
+            if (!file.open(QIODevice::WriteOnly)) return false;
+
+            // Serialize document
+            // Serialize function implementation (e.g., using JSON, XML, or binary format)
+            // file.write(...);
+
+            resetUnsavedChanges();
+            _filePath = filePath;
+
+            return true;
+        }
+        catch (const std::exception& e) {
+            qCritical() << "Error saving file:" << e.what();
+            return false;
+        }
+    }
+
+    // Abstract save-to-file with specific implementation in subclasses
+    virtual bool saveToFileInternal(const QString& filePath) {
+        return false;
+    };
+
+    // Loading data from file
+    static Document<T>* createFromFile(const QString& filePath) {
+        // Implementation of loading logic (e.g., reading from disk, deserializing, etc.)
+        try {
+            QFile file(filePath);
+            if (!file.open(QIODevice::ReadOnly)) return nullptr;
+
+            // Deserialize file contents here (e.g., JSON, XML, or binary deserialization)
+            // Example: file.read(...);
+
+            // After successful deserialization, create Document instance
+            auto document = new Document<T>();
+
+            // Set additional properties
+            document->_filePath = filePath;
+            document->resetUnsavedChanges();
+
+            return document;
+        }
+        catch (const std::exception& e) {
+            qCritical() << "Error loading file:" << e.what();
+            return nullptr;
+        }
+    }
+
+    boost::signals2::signal<void(Entity*, int)> notifyCollectionChangedAction_Add;
+    boost::signals2::signal<void(Entity*, int)> notifyCollectionChangedAction_Remove;
+
+private:
+    QString _filePath;
+    bool HasUnsavedChanges;
+    QScopedPointer<UndoHandler> _undoHandler;
+    QMap<QUuid, QWeakPointer<Entity>> Instances;
+
 };
 
 #endif // CORE_TOPOLOGY_DOCUMENT_H_
