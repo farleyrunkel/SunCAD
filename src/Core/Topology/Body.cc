@@ -6,7 +6,9 @@
 // Project include
 #include "Core/Shapes/Shape.h"
 
-Body::Body(QObject* parent) {}
+Body::Body(QObject* parent) 
+{
+}
 
 Body* Body::create(Shape* shape) 
 {

@@ -16,13 +16,6 @@
 #include "Iact/Workspace/ViewportController.h"
 #include "Iact/Workspace/EditorState.h"
 
-//-----------------------------------------------------------------------------
-class InteractionModule 
-{
-public:
-    static void Initialize() {};
-};
-
 class InteractiveContext : public CoreContext 
 {
     Q_OBJECT

@@ -45,8 +45,7 @@ class Document : public Entity, public IDocument
     Q_OBJECT
 
 public:
-    Document()
-        : HasUnsavedChanges(false) {}
+    Document();
 
     virtual QString name() const override;
 
@@ -70,18 +69,7 @@ public:
     //}
 
     // Register an entity instance
-    void registerInstance(Entity* entity) override 
-    {
-        if (entity->guid().isNull()) return;
-
-        Instances[entity->guid()] = entity;
-
-        if (auto decorable = dynamic_cast<IDecorable*>(entity)) {
-            //for (auto component : decorable->getComponents(false)) {
-            //    Instances[component->guid()] = QWeakPointer<Entity>(component);
-            //}
-        }
-    }
+    void registerInstance(Entity* entity) override;
 
     // Unregister an entity instance
     void unregisterInstance(Entity* entity) override 
@@ -156,7 +144,6 @@ private:
     bool HasUnsavedChanges;
     QScopedPointer<UndoHandler> _undoHandler;
     QMap<QUuid, Entity*> Instances;
-
     QMap<QString, int> LastNameSuffices;
 };
 

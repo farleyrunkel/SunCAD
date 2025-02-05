@@ -3,6 +3,9 @@
 // Own include
 #include "Iact/Workspace/InteractiveContext.h"
 
+// Project includes
+#include "Iact/InteractionModule.h"
+
 InteractiveContext* InteractiveContext::s_current = nullptr;
 
 InteractiveContext::InteractiveContext() 
@@ -12,7 +15,7 @@ InteractiveContext::InteractiveContext()
     , m_viewportController(nullptr)
     , m_workspaceController(nullptr) 
 {
-    InteractionModule::Initialize();
+    InteractionModule::initialize();
     s_current = this;
     setDocumentController(new ModelController());
 }

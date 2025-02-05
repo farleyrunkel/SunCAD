@@ -13,7 +13,7 @@
 
 VisualObjectManager_SignalHub* VisualObjectManager_SignalHub::s_signalHub = nullptr;
 
-QMap<QString, VisualObjectManager::CreateVisualObjectDelegate> VisualObjectManager::s_RegisteredVisualTypes;
+QMap<QString, VisualObjectManager::CreateVisualObjectDelegate> VisualObjectManager::s_registeredVisualTypes;
 
 VisualObjectManager::VisualObjectManager(Sun_WorkspaceController* workspaceController)
     : m_workspaceController(workspaceController) 
@@ -26,23 +26,6 @@ VisualObjectManager::VisualObjectManager(Sun_WorkspaceController* workspaceContr
 
 VisualObjectManager::~VisualObjectManager() 
 {
-    // Clean up visual objects
-    //for (auto visualObject : m_bodyToVisualMap.values()) {
-    //    delete visualObject;
-    //}
-    m_bodyToVisualMap.clear();
-}
-
-template<typename TEntity>
-void VisualObjectManager::registerEntity(CreateVisualObjectDelegate createDelegate)
-{
-    QString typeName = typeid(TEntity).name();
-    if (s_RegisteredVisualTypes.contains(typeName)) {
-        qWarning() << "Body type" << typeName << "has already been registered.";
-        return;
-    }
-
-    s_RegisteredVisualTypes.insert(typeName, createDelegate);
 }
 
 VisualObject* VisualObjectManager::createVisualObject(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity) {
@@ -52,14 +35,14 @@ VisualObject* VisualObjectManager::createVisualObject(Sun_WorkspaceController* w
     }
 
     QString typeName = typeid(*entity).name();
-    if (!s_RegisteredVisualTypes.contains(typeName)) {
+    if (!s_registeredVisualTypes.contains(typeName)) {
         qWarning() << "No registered visual object for entity type" << typeName;
         return nullptr; // 没有注册的类型返回空
     }
 
     try {
         // 根据注册的类型创建 VisualObject
-        VisualObject* visualObject = s_RegisteredVisualTypes[typeName](workspaceController, entity);
+        VisualObject* visualObject = s_registeredVisualTypes[typeName](workspaceController, entity);
         return visualObject;
     }
     catch (const std::exception& e) {
@@ -76,33 +59,42 @@ VisualObject* VisualObjectManager::get(InteractiveEntity* body, bool forceCreati
 {
     if (!body) return nullptr;
 
-    if (m_bodyToVisualMap.contains(body)) {
-        return m_bodyToVisualMap[body];
+    if (_InteractiveToVisualDictionary.contains(body)) {
+        return _InteractiveToVisualDictionary[body];
     }
 
-    //if (forceCreation) {
-    //    return add(body);
-    //}
+    if (forceCreation) {
+        return add(body);
+    }
 
     return nullptr;
 }
 
-void VisualObjectManager::add(InteractiveEntity* body)
+VisualObject* VisualObjectManager::add(InteractiveEntity* entity)
 {
-    if (!body || m_bodyToVisualMap.contains(body)) return;
-
-    //VisualObject* visualObject = new VisualObject(m_workspaceController, body);
-    //m_bodyToVisualMap.insert(body, visualObject);
-    //visualObject->update();
+    auto visualObject = get(entity);
+    if (visualObject != nullptr) {
+        visualObject->update();
+    }
+    else {
+        visualObject = createVisualObject(m_workspaceController, entity);
+        if (visualObject != nullptr) {
+            _InteractiveToVisualDictionary.insert(entity, visualObject);
+            _GuidToInteractiveDictionary.insert(entity->guid(), entity);
+        }
+    }
+    return visualObject;
 }
 
-void VisualObjectManager::remove(InteractiveEntity* body)
+void VisualObjectManager::remove(InteractiveEntity* entity)
 {
-    if (!body || !m_bodyToVisualMap.contains(body)) return;
-
-    VisualObject* visualObject = m_bodyToVisualMap.take(body);
-    //delete visualObject;
-    //m_invalidatedBodies.removeAll(body);
+    auto visualShape = get(entity);
+    if (visualShape != nullptr) {
+        visualShape->remove();
+        _InteractiveToVisualDictionary.remove(entity);
+        _GuidToInteractiveDictionary.remove(entity->guid());
+        _InvalidatedInteractiveEntities.removeOne(entity);
+    }
 }
 
 void VisualObjectManager::update(InteractiveEntity* body)
@@ -125,10 +117,10 @@ void VisualObjectManager::update(InteractiveEntity* body)
 
 void VisualObjectManager::updateInvalidatedEntities() 
 {
-    for (auto body : m_invalidatedBodies) {
+    for (auto body : _InvalidatedInteractiveEntities) {
         update(body);
     }
-    m_invalidatedBodies.clear();
+    _InvalidatedInteractiveEntities.clear();
 }
 
 QList<Body*> VisualObjectManager::getIsolatedEntities() const 
@@ -151,7 +143,7 @@ void VisualObjectManager::entity_EntityRemoved(Entity* entity)
         return;
 
     // 从无效实体列表中移除
-    m_invalidatedBodies.removeAll(interactiveEntity);
+    _InvalidatedInteractiveEntities.removeAll(interactiveEntity);
 
     // 移除对应的 visual object
     remove(interactiveEntity);
@@ -159,8 +151,8 @@ void VisualObjectManager::entity_EntityRemoved(Entity* entity)
 
 void VisualObjectManager::interactiveEntity_VisualChanged(InteractiveEntity* entity)
 {
-    if (!m_invalidatedBodies.contains(entity))
-        m_invalidatedBodies.append(entity);
+    if (!_InvalidatedInteractiveEntities.contains(entity))
+        _InvalidatedInteractiveEntities.append(entity);
 
     m_workspaceController->invalidate();
 }
@@ -181,13 +173,13 @@ void VisualObjectManager::layer_InteractivityChanged(Layer* layer)
     //// 排除已经存在于 _InvalidatedBodies 中的 Body
     //QList<InteractiveEntity*> bodiesToAdd;
     //for (auto body : bodiesInLayer) {
-    //    if (!m_invalidatedBodies.contains(body)) {
+    //    if (!_InvalidatedInteractiveEntities.contains(body)) {
     //        bodiesToAdd.append(body);
     //    }
     //}
 
     //// 将需要更新的 Body 添加到 _InvalidatedBodies 中
-    //m_invalidatedBodies.append(bodiesToAdd);
+    //_InvalidatedInteractiveEntities.append(bodiesToAdd);
 
     m_workspaceController->invalidate();
 }

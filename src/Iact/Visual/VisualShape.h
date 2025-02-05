@@ -3,6 +3,9 @@
 #ifndef IACT_VISUAL_VISUALSHAPE_H_
 #define IACT_VISUAL_VISUALSHAPE_H_
 
+// stl include
+#include <functional>
+
 // Occt includes
 #include <AIS_InteractiveObject.hxx>
 #include <AIS_Shape.hxx>
@@ -59,6 +62,11 @@ public:
     void setOverrideBrep(const TopoDS_Shape& shape);
 
     void setVisualStyle(VisualStyle* visualStyle);
+
+public:
+    static VisualShape* create(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity);
+
+    static void registerEntity();
 
 private:
     static void updateAttributesForLayer(Layer* layer, AttributeSet* attributeSet);

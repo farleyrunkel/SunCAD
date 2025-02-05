@@ -4,6 +4,7 @@
 #include "Iact/Visual/VisualShape.h"
 
 // Project includes
+#include "Core/Topology/Body.h"
 #include "Core/Topology/Layer.h"
 #include "Iact/Visual/VisualObjectManager.h"
 
@@ -85,6 +86,21 @@ void VisualShape::setVisualStyle(VisualStyle* visualStyle)
         connect(m_visualStyle, &VisualStyle::visualStyleChanged, this, &VisualShape::visualStyle_VisualStyleChanged);
     }
     updatePresentation();
+}
+
+VisualShape* VisualShape::create(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity) 
+{
+    //if (entity ? .GetTransformedBRep() != null) {
+    //    return new VisualShape(workspaceController, entity);
+    //}
+
+    return nullptr;
+}
+
+void VisualShape::registerEntity() 
+{
+    auto createFunc = std::bind(&VisualShape::create, std::placeholders::_1, std::placeholders::_2);
+    VisualObjectManager::registerEntity<Body>(VisualObjectManager::CreateVisualObjectDelegate(createFunc));
 }
 
 void VisualShape::updateAttributesForLayer(Layer* layer, AttributeSet* attributeSet) 
