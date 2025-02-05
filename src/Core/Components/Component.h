@@ -3,58 +3,36 @@
 #ifndef CORE_COMPONENTS_COMPONENT_H_
 #define CORE_COMPONENTS_COMPONENT_H_
 
+// stl includes
+#include <any>
+#include <functional>
+#include <iostream>
 #include <memory>
 #include <string>
-#include <iostream>
-#include <functional>
-#include <any>
+
+// Qt includes
 #include <QString>
 
+// Project includes
+#include "Core/Components/IDecorable.h"
 #include "Core/Topology/Entity.h"
-
-class Component;
-
-class Idecorable 
-{
-public:
-    virtual ~Idecorable() = default;
-    virtual void removeComponent(Component* comp) = 0;
-};
 
 class Component : public Entity 
 {
     Q_OBJECT // This macro enables signals and slots
 
 public:
-    Component() : _owner(nullptr) {}
+    Component();
 
-    Idecorable* getOwner() const {
-        return _owner;
-    }
+    Idecorable* getOwner() const;
 
-    void setOwner(Idecorable* newOwner) {
-        Idecorable* oldOwner = _owner;
-        _owner = newOwner;
-        ownerChanged(oldOwner, _owner);
-        raisePropertyChanged("Owner");
-    }
+    void setOwner(Idecorable* newOwner);
 
-    virtual void ownerChanged(Idecorable* oldOwner, Idecorable* newOwner) {
-        // Custom logic for when ownership changes (optional to override)
-    }
+    virtual void ownerChanged(Idecorable* oldOwner, Idecorable* newOwner);
 
-    void remove() override {
-        if (_owner != nullptr) {
-            _owner->removeComponent(this);
-            setOwner(nullptr);
-        }
-        Entity::remove();
-    }
+    void remove() override;
 
-    void saveUndo(const QString& propertyName = "", const std::any& value = std::any()) {
-        // Example: Add to undo stack (actual logic for undo should be implemented here)
-        std::cout << "Saving undo for property: " << propertyName.toStdString() << std::endl;
-    }
+    void saveUndo(const QString& propertyName = "", const std::any& value = std::any());
 
 private:
     Idecorable* _owner;

@@ -15,7 +15,7 @@
 #include "Core/Topology/InteractiveEntity.h"
 #include "Core/Workspace.h"
 
-class Model : public Document<InteractiveEntity>
+class Model : public Document
 {
 public:
 	Model();

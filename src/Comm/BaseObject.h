@@ -16,6 +16,9 @@ public:
 protected: 
 	virtual void raisePropertyChanged(const QString& propertyName);
 
+protected:
+	bool m_isDeserializing = false;
+
 signals:
 	void propertyChanged(const QString& property);
 };

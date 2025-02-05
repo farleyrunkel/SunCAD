@@ -14,16 +14,24 @@
 class IDocument;
 class Entity;
 
-class EntitySignalHub : public QObject 
+class Entity_SignalHub : public QObject 
 {
     Q_OBJECT
 
 public:
-    EntitySignalHub() = default;
-    
+    static Entity_SignalHub* instance() {
+        if (s_signalHub == nullptr) {
+            s_signalHub = new Entity_SignalHub;
+        }
+        return s_signalHub;
+    }
+
 signals:
     void entityRemoved(Entity*);
     void errorStateChanged(Entity*);
+
+private:
+    static Entity_SignalHub* s_signalHub;
 };
 
 class Entity : public BaseObject
@@ -69,14 +77,6 @@ public:
 
     virtual QString toString() const;
 
-    static EntitySignalHub* signalHub() 
-    {
-        if (s_signalHub == nullptr) {
-            s_signalHub = new EntitySignalHub;
-        }
-        return s_signalHub;
-    }
-
 signals:
     // Signal when the entity is removed
     void entityRemoved();
@@ -98,8 +98,6 @@ private:
     QUuid m_guid;
     bool m_hasErrors;
     IDocument* m_document;
-
-    static EntitySignalHub* s_signalHub;
 };
 
 #endif  // CORE_TOPOLOGY_ENTITY_H_
