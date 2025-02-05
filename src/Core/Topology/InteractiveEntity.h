@@ -5,6 +5,7 @@
 
 // Qt includes
 #include <QObject>
+#include <QString>
 #include <QUuid>
 
 // Occt includes
@@ -17,15 +18,19 @@
 
 class InteractiveEntity;
 
-class InteractiveEntitySignalHub : public QObject 
+class InteractiveEntity_SignalHub : public QObject 
 {
     Q_OBJECT
 
 public:
-    InteractiveEntitySignalHub() = default;
+    InteractiveEntity_SignalHub() = default;
+    static InteractiveEntity_SignalHub* instance();
 
 signals:
     void visualChanged(InteractiveEntity*);
+
+private:
+    static InteractiveEntity_SignalHub* s_signalHub;
 };
 
 class InteractiveEntity : public Entity 
@@ -62,15 +67,11 @@ public:
 public:
     void raiseVisualChanged() {}
 
-    static InteractiveEntitySignalHub* signalHub();
-
 private:
     QString m_name;
+    QUuid m_layerId;
     bool m_isVisible;
     bool m_isDeserializing;
-    QUuid m_layerId;
-
-    static InteractiveEntitySignalHub* s_signalHub;
 };
 
 #endif  // CORE_TOPOLOGY_OMTERACTIVEENTITY_H_

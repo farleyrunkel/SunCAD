@@ -20,8 +20,8 @@ VisualObjectManager::VisualObjectManager(Sun_WorkspaceController* workspaceContr
 {
     // Connect signals
     connect(Entity_SignalHub::instance(), &Entity_SignalHub::entityRemoved, this, &VisualObjectManager::entity_EntityRemoved);
-    connect(InteractiveEntity::signalHub(), &InteractiveEntitySignalHub::visualChanged, this, &VisualObjectManager::interactiveEntity_VisualChanged);
-    connect(Layer::signalHub(), &LayerSignalHub::interactivityChanged, this, &VisualObjectManager::layer_InteractivityChanged);
+    connect(InteractiveEntity_SignalHub::instance(), &InteractiveEntity_SignalHub::visualChanged, this, &VisualObjectManager::interactiveEntity_VisualChanged);
+    connect(Layer_SignalHub::instance(), &Layer_SignalHub::interactivityChanged, this, &VisualObjectManager::layer_InteractivityChanged);
 }
 
 VisualObjectManager::~VisualObjectManager() 

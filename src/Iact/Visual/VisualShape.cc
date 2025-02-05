@@ -10,10 +10,10 @@
 
 bool VisualShape::s_initOnce = []() 
 {
-	connect(Layer::signalHub(), &LayerSignalHub::presentationChanged, []() {onPresentationChanged(nullptr); });
-	connect(Layer::signalHub(), &LayerSignalHub::interactivityChanged, []() {onInteractivityChanged(nullptr); });
+	connect(Layer_SignalHub::instance(), &Layer_SignalHub::presentationChanged, []() {onPresentationChanged(nullptr); });
+	connect(Layer_SignalHub::instance(), &Layer_SignalHub::interactivityChanged, []() {onInteractivityChanged(nullptr); });
 	connect(VisualObjectManager_SignalHub::instance(), &VisualObjectManager_SignalHub::isolatedEntitiesChanged, []() {visualObjectManager_IsolatedEntitiesChanged(nullptr); });
-	return true; 
+	return true;
 }();
 
 VisualShape::VisualShape(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity, Options options)
@@ -90,17 +90,16 @@ void VisualShape::setVisualStyle(VisualStyle* visualStyle)
 
 VisualShape* VisualShape::create(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity) 
 {
-    //if (entity ? .GetTransformedBRep() != null) {
-    //    return new VisualShape(workspaceController, entity);
-    //}
+    if (!entity->getTransformedBRep().IsNull()) {
+        return new VisualShape(workspaceController, entity);
+    }
 
     return nullptr;
 }
 
 void VisualShape::registerEntity() 
 {
-    auto createFunc = std::bind(&VisualShape::create, std::placeholders::_1, std::placeholders::_2);
-    VisualObjectManager::registerEntity<Body>(VisualObjectManager::CreateVisualObjectDelegate(createFunc));
+    VisualObjectManager::registerEntity<Body>(&VisualShape::create);
 }
 
 void VisualShape::updateAttributesForLayer(Layer* layer, AttributeSet* attributeSet) 

@@ -50,12 +50,11 @@ class VisualObjectManager : public QObject
 public:
     explicit VisualObjectManager(Sun_WorkspaceController* workspaceController);
     ~VisualObjectManager();
-    // 定义创建 VisualObject 的委托类型
     using CreateVisualObjectDelegate = std::function<VisualObject*(Sun_WorkspaceController*, InteractiveEntity*)>;
 
-    // 注册 Body 类型与其对应的 VisualObject 创建函数
     template<typename TEntity>
-    static void registerEntity(CreateVisualObjectDelegate createDelegate) {
+    static void registerEntity(CreateVisualObjectDelegate createDelegate) 
+    {
         QString typeName = typeid(TEntity).name();
         if (s_registeredVisualTypes.contains(typeName)) {
             qWarning() << "Body type" << typeName << "has already been registered.";

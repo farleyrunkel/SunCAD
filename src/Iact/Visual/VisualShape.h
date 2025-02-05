@@ -14,11 +14,13 @@
 
 // Project includes
 #include "Core/Components/VisualStyle.h"
+#include "Core/Topology/InteractiveEntity.h"
 #include "Core/Topology/Layer.h"
 #include "Iact/Visual/Marker.h"
 #include "Iact/Visual/VisualObject.h"
 #include "Iact/Visual/VisualObjectManager.h"
 #include "Iact/Workspace/InteractiveContext.h"
+#include "Iact/Workspace/WorkspaceController.h"
 #include "Occt/AisExtensions/AISX_Guid.h"
 
 class VisualShape : public VisualObject 
@@ -26,19 +28,23 @@ class VisualShape : public VisualObject
     Q_OBJECT
 
 public:
-    enum Options {
+    enum Options 
+    {
         None,
         Ghosting = 1 << 0,   // Used to visualize a normally hidden object
     };
 
-    class AttributeSet {
+    class AttributeSet 
+    {
     public:
-        AttributeSet() {
+        AttributeSet() 
+        {
             m_drawer = new Prs3d_Drawer();
             m_drawer->SetupOwnDefaults();
         }
 
-        Handle(Prs3d_Drawer) drawer() const {
+        Handle(Prs3d_Drawer) drawer() const
+        {
             return m_drawer;
         }
 
@@ -49,7 +55,8 @@ public:
 public:
     explicit VisualShape(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity, Options options = None);
 
-    virtual ~VisualShape() {
+    virtual ~VisualShape() 
+    {
         remove();
     }
 

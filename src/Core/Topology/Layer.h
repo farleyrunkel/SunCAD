@@ -15,16 +15,20 @@
 class SerializationContext {};
 class Layer;
 
-class LayerSignalHub : public QObject
+class Layer_SignalHub : public QObject
 {
     Q_OBJECT
 
 public:
-    LayerSignalHub() = default;
+    Layer_SignalHub() = default;
+    static Layer_SignalHub* instance();
 
 signals:
     void presentationChanged(Layer*);
     void interactivityChanged(Layer*);
+
+private:
+    static Layer_SignalHub* s_signalHub;
 };
 
 // Layer class as a declaration only, without actual implementation
@@ -39,12 +43,13 @@ public:
 //    QString name() const;                   // Name property
 //    void setName(const QString& name);
 //
-    static LayerSignalHub* signalHub();
 
     bool isVisible() const {
-        return false;
+        return m_isVisible;
     };                 // IsVisible property
-//    void setIsVisible(bool isVisible);
+    void setIsVisible(bool isVisible) {
+        m_isVisible = isVisible;
+    }
 //
 //    bool isLocked() const;                  // IsLocked property
 //    void setIsLocked(bool isLocked);
@@ -78,9 +83,9 @@ public:
 //protected:
 //    void raisePropertyChanged(const QString& propertyName);  // Protected helper for property change notification
 //
-//private:
+private:
 //    QString m_name;                        // Name
-//    bool m_isVisible;                      // Visibility flag
+    bool m_isVisible;                      // Visibility flag
 //    bool _isLocked;                       // Lock status
 //    PresentationMode _presentationMode;   // Presentation mode
 //    QColor _color;                        // Color
@@ -88,7 +93,6 @@ public:
 //    LineStyle _lineStyle;                 // Line style
 //    LineThickness _lineThickness;         // Line thickness
 //    LayerCollection* _collection;         // Associated collection
-    static LayerSignalHub* s_signalHub;
 };
 
 #endif  // CORE_TOPOLOGY_LAYER_H_

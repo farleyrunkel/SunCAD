@@ -3,12 +3,12 @@
 // Own include
 #include "Core/Topology/InteractiveEntity.h"
 
-InteractiveEntitySignalHub* InteractiveEntity::s_signalHub = nullptr;
+InteractiveEntity_SignalHub* InteractiveEntity_SignalHub::s_signalHub = nullptr;
 
-InteractiveEntitySignalHub* InteractiveEntity::signalHub() 
+InteractiveEntity_SignalHub* InteractiveEntity_SignalHub::instance()
 {
     if (s_signalHub == nullptr) {
-        s_signalHub = new InteractiveEntitySignalHub;
+        s_signalHub = new InteractiveEntity_SignalHub;
     }
     return s_signalHub;
 }
@@ -91,7 +91,7 @@ Layer* InteractiveEntity::layer() const
     //if (CoreContext::current() && CoreContext::current()->layers()) {
     //    return CoreContext::current()->layers()->find(m_layerId);
     //}
-    return nullptr;
+    return new Layer();
 }
 
 void InteractiveEntity::setLayer(Layer* layer) 
