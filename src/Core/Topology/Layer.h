@@ -46,7 +46,9 @@ public:
 
     bool isVisible() const {
         return m_isVisible;
-    };                 // IsVisible property
+    };          
+
+    // IsVisible property
     void setIsVisible(bool isVisible) {
         m_isVisible = isVisible;
     }
@@ -54,9 +56,11 @@ public:
 //    bool isLocked() const;                  // IsLocked property
 //    void setIsLocked(bool isLocked);
 //
-    PresentationMode presentationMode() const {
+    PresentationMode presentationMode() const 
+    {
         return PresentationMode::Wireframe;
-    }; // PresentationMode property
+    }; 
+    // PresentationMode property
 //    void setPresentationMode(PresentationMode mode);
 //
 //    QColor color() const;                   // Color property

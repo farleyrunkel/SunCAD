@@ -30,17 +30,12 @@ class VisualObjectManager_SignalHub : public QObject
 public:
     static VisualObjectManager_SignalHub* instance()
     {
-        if (s_signalHub == nullptr) {
-            s_signalHub = new VisualObjectManager_SignalHub;
-        }
-        return nullptr;
+        static VisualObjectManager_SignalHub signalHub;
+        return &signalHub;
     }
 
 signals:
     void isolatedEntitiesChanged(VisualObjectManager*);
-
-private:
-    static VisualObjectManager_SignalHub* s_signalHub;
 };
 
 class VisualObjectManager : public QObject 
@@ -50,6 +45,7 @@ class VisualObjectManager : public QObject
 public:
     explicit VisualObjectManager(Sun_WorkspaceController* workspaceController);
     ~VisualObjectManager();
+
     using CreateVisualObjectDelegate = std::function<VisualObject*(Sun_WorkspaceController*, InteractiveEntity*)>;
 
     template<typename TEntity>

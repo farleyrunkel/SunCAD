@@ -11,8 +11,6 @@
 #include "Iact/Workspace/InteractiveContext.h"
 #include "Iact/Workspace/WorkspaceController.h"
 
-VisualObjectManager_SignalHub* VisualObjectManager_SignalHub::s_signalHub = nullptr;
-
 QMap<QString, VisualObjectManager::CreateVisualObjectDelegate> VisualObjectManager::s_registeredVisualTypes;
 
 VisualObjectManager::VisualObjectManager(Sun_WorkspaceController* workspaceController)
@@ -28,7 +26,8 @@ VisualObjectManager::~VisualObjectManager()
 {
 }
 
-VisualObject* VisualObjectManager::createVisualObject(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity) {
+VisualObject* VisualObjectManager::createVisualObject(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity)
+{
     if (!entity) {
         qWarning() << "Entity is null, cannot create visual object.";
         return nullptr;

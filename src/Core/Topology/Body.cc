@@ -44,7 +44,8 @@ gp_Pnt Body::position() const
     return m_position;
 }
 
-void Body::setPosition(const gp_Pnt& position) {
+void Body::setPosition(const gp_Pnt& position) 
+{
     if (!m_position.IsEqual(position, Precision::Confusion())) {
         m_position = position;
         invalidateTransformation();
@@ -52,19 +53,22 @@ void Body::setPosition(const gp_Pnt& position) {
     }
 }
 
-gp_Trsf Body::getTransformation() {
+gp_Trsf Body::getTransformation() 
+{
     updateTransformation();
     return m_cachedTransformation;
 }
 
 // 获取坐标系
-gp_Ax3 Body::coordinateSystem() {
+gp_Ax3 Body::coordinateSystem() 
+{
     updateCoordinateSystem();
     return m_cachedCoordinateSystem;
 }
 
 // 更新变换矩阵
-void Body::updateTransformation() {
+void Body::updateTransformation() 
+{
     if (!m_isTransformationValid) {
         // 根据旋转和平移构建变换矩阵
         m_cachedTransformation.SetRotation(m_rotation);
@@ -74,7 +78,8 @@ void Body::updateTransformation() {
 }
 
 // 更新坐标系
-void Body::updateCoordinateSystem() {
+void Body::updateCoordinateSystem()
+{
     if (!m_isCoordinateSystemValid) {
         // 根据旋转和平移构建坐标系
         gp_Dir zDir = m_rotation * gp::DZ(); // 旋转后的 Z 轴方向
@@ -90,6 +95,7 @@ void Body::invalidateTransformation()
     m_isTransformationValid = false;
     m_isCoordinateSystemValid = false;
 }
+
 // 确保 BRep 是最新的
 void Body::ensureBRep() 
 {
@@ -108,6 +114,7 @@ void Body::ensureBRep()
         m_isBRepValid = true;
     }
 }
+
 // 获取 BRep 表示
 TopoDS_Shape Body::getBRep() 
 {
@@ -127,6 +134,7 @@ TopoDS_Shape Body::getTransformedBRep() const
     }
     return s->getTransformedBRep();
 }
+
 // 添加形状
 bool Body::addShape(Shape* shape, bool saveUndo) 
 {
