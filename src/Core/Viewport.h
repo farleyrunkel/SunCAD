@@ -1,36 +1,44 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_CORE_VIEWPORT_H_
-#define SRC_CORE_VIEWPORT_H_
+#ifndef CORE_VIEWPORT_H_
+#define CORE_VIEWPORT_H_
 
+// stl include
 #include <cmath>
 
+// Qt includes
 #include <QDebug>
 #include <QObject>
 #include <QSharedPointer>
 
-#include <gp_Pnt.hxx>
+// Occt includes
+#include <AIS_AnimationCamera.hxx>
+#include <Aspect_GradientFillMethod.hxx>
 #include <gp_Ax1.hxx>
 #include <gp_Lin.hxx>
-#include <V3d_View.hxx>
-#include <AIS_AnimationCamera.hxx>
-#include <Graphic3d_RenderingParams.hxx>
-#include <Aspect_GradientFillMethod.hxx>
-#include <Graphic3d_RenderTransparentMethod.hxx>
+#include <gp_Pnt.hxx>
 #include <Graphic3d_RenderingMode.hxx>
+#include <Graphic3d_RenderingParams.hxx>
+#include <Graphic3d_RenderTransparentMethod.hxx>
+#include <V3d_View.hxx>
 
+// Project includes
 #include "Core/Workspace.h"
 
 class Sun_Viewport;
-
 
 class ViewPortSignalHub : public QObject
 {
     Q_OBJECT
 public:
-    ViewPortSignalHub() = default;
+    static ViewPortSignalHub* instance() 
+    {
+        static ViewPortSignalHub hub;
+        return &hub;
+    }
+
 signals:
-    void ViewportChanged(Sun_Viewport*);
+    void viewportChanged(Sun_Viewport*);
 };
 
 class Sun_Viewport : public QObject 
@@ -44,7 +52,8 @@ class Sun_Viewport : public QObject
 
  public:
     // Enum for RenderModes
-    enum RenderModes {
+    enum RenderModes 
+    {
         SolidShaded,
         HLR,
         Raytraced
@@ -61,7 +70,7 @@ class Sun_Viewport : public QObject
     ~Sun_Viewport();
 
     // Initialize viewport with MSAA support
-    void Init(bool useMsaa);
+    void init(bool useMsaa);
 
     // Getters and setters for properties
     gp_Pnt eyePoint();
@@ -87,27 +96,16 @@ class Sun_Viewport : public QObject
     // Function to update render mode
     void updateRenderMode();
 
-    Handle(V3d_View) View() const {
-        return mV3dView;
-    }
+    Handle(V3d_View) view() const;
 
-    Handle(V3d_View) V3dView() const {
-        return mV3dView;
-    }
-	Sun::Workspace* workspace() const {
-		return mWorkspace;
-	}
+    Handle(V3d_View) v3dView() const;
+	Sun::Workspace* workspace() const;
+    Handle(AIS_AnimationCamera) aisAnimationCamera() const;
 
-    bool ScreenToPoint(gp_Pln plane, int screenX, int screenY, gp_Pnt& resultPnt);
+    bool screenToPoint(gp_Pln plane, int screenX, int screenY, gp_Pnt& resultPnt);
 
-public:
-    static ViewPortSignalHub* SignalHub() {
-        static ViewPortSignalHub hub;
-        return &hub;
-    }
-
-    private:
-      void  _ValidateViewGeometry() {}
+private:
+    void validateViewGeometry() {}
 
  signals:
     void eyePointChanged();
@@ -115,18 +113,18 @@ public:
     void twistChanged();
     void scaleChanged();
     void renderModeChanged();
-    void ViewportChanged(Sun_Viewport*);
+    void viewportChanged(Sun_Viewport*);
 
  private:
-    Sun::Workspace* mWorkspace;
-    gp_Pnt mEyePoint = gp_Pnt(10, 10, 10);
-    gp_Pnt mTargetPoint = gp_Pnt(0, 0, 0);
-    double mTwist = 0.0;
-    double mScale = 100.0;
-    RenderModes mRenderMode;
+    Sun::Workspace* m_workspace;
+    gp_Pnt m_eyePoint = gp_Pnt(10, 10, 10);
+    gp_Pnt m_targetPoint = gp_Pnt(0, 0, 0);
+    double m_twist = 0.0;
+    double m_scale = 100.0;
+    RenderModes m_renderMode;
 
-    Handle(V3d_View) mV3dView;
-    AIS_AnimationCamera* mAisAnimationCamera;
+    Handle(V3d_View) m_v3dView;
+    Handle(AIS_AnimationCamera) m_aisAnimationCamera;
 };
 
-#endif  // SRC_CORE_VIEWPORT_H_
+#endif  // CORE_VIEWPORT_H_

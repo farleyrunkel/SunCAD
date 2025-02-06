@@ -31,8 +31,8 @@ public:
         return myViewer;
     }
 
-    //! Return View.
-    const Handle(V3d_View)& View() const {
+    //! Return view.
+    const Handle(V3d_View)& view() const {
         return myView;
     }
 

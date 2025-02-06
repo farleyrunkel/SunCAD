@@ -92,7 +92,7 @@ private:
     void initVisualSettings();
     void recalculateGridSize() {}
     void updateParameter() {}
-    void redrawTimer_Tick() {}
+    void redrawTimer_Tick();
 
 signals:
     void activeViewportChanged(Sun_Viewport*);

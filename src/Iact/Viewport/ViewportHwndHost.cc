@@ -187,7 +187,7 @@ class OcctGlTools {
 public:
     //! Return GL context.
     static Handle(OpenGl_Context) GetGlContext(const Handle(V3d_View)& theView) {
-        Handle(OpenGl_View) aGlView = Handle(OpenGl_View)::DownCast(theView->View());
+        Handle(OpenGl_View) aGlView = Handle(OpenGl_View)::DownCast(theView->view());
         return aGlView->GlWindow()->GetGlContext();
     }
 };
@@ -213,7 +213,7 @@ ViewportHwndHost::ViewportHwndHost(Sun_ViewportController* vc, QWidget* theParen
     aDriver->ChangeOptions().useSystemBuffer = false;
 
     auto viewport = _ViewportController->viewport();
-    myView = viewport->V3dView();
+    myView = viewport->v3dView();
     myViewer = viewport->workspace()->v3dViewer();
     myContext = viewport->workspace()->aisContext();
 

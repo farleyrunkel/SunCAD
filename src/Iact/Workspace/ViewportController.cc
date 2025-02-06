@@ -14,16 +14,16 @@ Sun_ViewportController::Sun_ViewportController(Sun_Viewport* Viewport, Sun_Works
 Sun_ViewportController::~Sun_ViewportController() {}
 
 void Sun_ViewportController::SetWindow(const Handle(Aspect_Window)& theWindow, const Aspect_RenderingContext theContext) {
-	if (!View().IsNull()) {
-		View()->SetWindow(theWindow, theContext);
+	if (!view().IsNull()) {
+		view()->SetWindow(theWindow, theContext);
 	}
 }
 
 QString Sun_ViewportController::DumpInfo(bool theIsBasic, bool theToPrint) {
 	TCollection_AsciiString anInfo;
-	if (!View().IsNull()) {
+	if (!view().IsNull()) {
 		TColStd_IndexedDataMapOfStringString aGlCapsDict;
-		View()->DiagnosticInformation(aGlCapsDict, theIsBasic
+		view()->DiagnosticInformation(aGlCapsDict, theIsBasic
 									  ? Graphic3d_DiagnosticInfo_Basic
 									  : Graphic3d_DiagnosticInfo_Complete);
 		TColStd_IndexedDataMapOfStringString::Iterator aValueIter(aGlCapsDict);
@@ -64,10 +64,10 @@ void Sun_ViewportController::SetPredefinedView(PredefinedViews predefinedView) {
 	if (predefinedView == PredefinedViews::WorkingPlane) {
 		const auto& plane = workspaceController()->workspace()->workingPlane();
 		const auto& dir = plane.Axis().Direction();
-		viewport()->View()->SetProj(dir.X(), dir.Y(), dir.Z());
+		viewport()->view()->SetProj(dir.X(), dir.Y(), dir.Z());
 
 		const auto& up = plane.YAxis().Direction();
-		viewport()->View()->SetUp(up.X(), up.Y(), up.Z());
+		viewport()->view()->SetUp(up.X(), up.Y(), up.Z());
 		return;
 	}
 

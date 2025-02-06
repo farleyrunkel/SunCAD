@@ -17,7 +17,7 @@
 /// The ViewportViewModel class is a ViewModel that contains the logic for the ViewportView.
 /// It handles the update message and provides commands for updating and dismissing the message.
 /// It also provides an event-like mechanism for notifying the ViewportView of property changes.
-/// The ViewModel is decoupled from the View and can be unit tested independently.
+/// The ViewModel is decoupled from the view and can be unit tested independently.
 class ViewportViewModel : public QObject
 {
     Q_OBJECT

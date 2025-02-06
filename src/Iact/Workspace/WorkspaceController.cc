@@ -31,7 +31,7 @@ Sun_WorkspaceController::Sun_WorkspaceController(Sun::Workspace* workspace)
 {
     assert(m_workspace != nullptr);
     connect(m_workspace, &Sun::Workspace::GridChanged, this, &Sun_WorkspaceController::workspace_GridChanged);
-    connect(Sun_Viewport::SignalHub(), &ViewPortSignalHub::ViewportChanged, this, &Sun_WorkspaceController::viewport_ViewportChanged);
+    connect(ViewPortSignalHub::instance(), &ViewPortSignalHub::viewportChanged, this, &Sun_WorkspaceController::viewport_ViewportChanged);
 
     m_visualObjectManager = new VisualObjectManager(this);
 
@@ -51,8 +51,8 @@ void Sun_WorkspaceController::initWorkspace()
     initVisualSettings();
 
     // 遍历所有 viewport 并添加到 _viewControllers 列表
-    for (auto& View : workspace()->viewports()) {
-        m_viewportControllers.append(new Sun_ViewportController(View, this));
+    for (auto& view : workspace()->viewports()) {
+        m_viewportControllers.append(new Sun_ViewportController(view, this));
     }
 
     // 创建并显示网格
@@ -158,6 +158,48 @@ void Sun_WorkspaceController::viewport_ViewportChanged(Sun_Viewport* sender)
 
 void Sun_WorkspaceController::redraw() 
 {
+    // 更新网格
+    updateGrid();
+
+    // 如果没有 V3dViewer，则直接返回
+    if (workspace()->v3dViewer().IsNull())
+        return;
+
+    // 遍历所有视口，检查动画相机是否停止
+    for (auto& v : workspace()->viewports()) {
+        if (!v->aisAnimationCamera()->IsStopped()) {
+            // 如果动画相机未停止，则更新计时器
+            v->aisAnimationCamera()->UpdateTimer();
+            workspace()->setNeedsRedraw(true);
+        }
+    }
+
+    // 如果需要重新绘制
+    if (workspace()->needsRedraw()) {
+        // 更新无效实体
+        visualObjects()->updateInvalidatedEntities();
+
+        // 遍历所有视口，渲染 HLR 模式下的视口
+        for (auto& v : workspace()->viewports()) {
+            if (v->renderMode() == Sun_Viewport::RenderModes::HLR)
+                v->v3dView()->Update();
+        }
+
+        // 重绘并立即重绘视图
+        workspace()->v3dViewer()->Redraw();
+        workspace()->v3dViewer()->RedrawImmediate();
+
+        // 标记不再需要重绘
+        workspace()->setNeedsRedraw(false);
+    }
+    // 如果需要立即重绘
+    else if (workspace()->needsImmediateRedraw()) {
+        // 立即重绘视图
+        workspace()->v3dViewer()->RedrawImmediate();
+
+        // 标记不再需要立即重绘
+        workspace()->setNeedsImmediateRedraw(false);
+    }
 }
 
 void Sun_WorkspaceController::updateGrid() 
@@ -257,11 +299,16 @@ void Sun_WorkspaceController::initVisualSettings()
     aisContext->SetHighlightStyle(Prs3d_TypeOfHighlight::Prs3d_TypeOfHighlight_LocalDynamic, hilightLocalDrawer);
 }
 
+void Sun_WorkspaceController::redrawTimer_Tick()
+{
+    redraw();
+}
+
 void Sun_WorkspaceController::MouseMove(Sun_ViewportController* vc, QPointF pos, Qt::KeyboardModifiers modifiers) 
 {   
     gp_Pnt planePoint;
 
-    if (!vc->viewport()->ScreenToPoint(workspace()->workingPlane(), (int)pos.x(), (int)pos.y(), planePoint)) {
+    if (!vc->viewport()->screenToPoint(workspace()->workingPlane(), (int)pos.x(), (int)pos.y(), planePoint)) {
         SetCursorPosition(gp_Pnt());
         SetCursorPosition2d(gp_Pnt2d());
     }

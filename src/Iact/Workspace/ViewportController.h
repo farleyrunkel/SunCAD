@@ -47,14 +47,14 @@ public:
 									Sun_WorkspaceController* workspacecontroller);
 	~Sun_ViewportController();
 
-	Handle(V3d_View) View() const {
-		return this->viewport() ? this->viewport()->View() : nullptr;
+	Handle(V3d_View) view() const {
+		return this->viewport() ? this->viewport()->view() : nullptr;
 	}
 
 	Handle(AIS_ViewCube) ViewCube() const { return _ViewCube; }
 
 	const Handle(Aspect_Window)& Window() const {
-		return !View().IsNull() ? View()->Window() : nullptr;
+		return !view().IsNull() ? view()->Window() : nullptr;
 	}
 
 	void SetWindow(const Handle(Aspect_Window)& theWindow,
@@ -98,7 +98,7 @@ public:
 	void SetLockedToPlane(bool value);
 
 private:
-	void Init() { viewport()->Init(true); }
+	void Init() { viewport()->init(true); }
 
 	void _SetViewCube(bool isVisible);
 	void _SetViewCube(bool isVisible, uint32_t size, double duration);

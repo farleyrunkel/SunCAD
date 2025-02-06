@@ -116,7 +116,7 @@ void MainWindow::setupCategories()
         }
     }
 
-    if (SARibbonCategory* aCategory = m_ribbonBar->addCategoryPage(tr("View"))) {
+    if (SARibbonCategory* aCategory = m_ribbonBar->addCategoryPage(tr("view"))) {
         if (SARibbonPannel* aPannel = aCategory->addPannel(tr("Widgets"))) {
             aPannel->addAction(&ModelCommands::createBox(), SARibbonPannelItem::Large);
         }
