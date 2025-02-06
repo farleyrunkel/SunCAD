@@ -57,7 +57,8 @@ void Sun::Workspace::init()
     m_gridEnabled = true;
 }
 
-void Sun::Workspace::_applyWorkingContext() {
+void Sun::Workspace::_applyWorkingContext()
+{
     if (m_aisContext.IsNull()) {
         //m_v3dViewer->SetPrivilegedPlane(m_currentWorkingContext->workingPlane.Position());
     }
@@ -68,7 +69,8 @@ void Sun::Workspace::_applyWorkingContext() {
 //--------------------------------------------------------------------------------------------------
 // Initialize V3d_Viewer and AIS_InteractiveContext
 
-void Sun::Workspace::initV3dViewer() {
+void Sun::Workspace::initV3dViewer()
+{
     if (m_v3dViewer.IsNull()) {
         Handle(Aspect_DisplayConnection) aDisp = new Aspect_DisplayConnection();
         Handle(OpenGl_GraphicDriver) aDriver = new OpenGl_GraphicDriver(aDisp, false);
@@ -97,7 +99,8 @@ void Sun::Workspace::initV3dViewer() {
     _applyWorkingContext();
 }
 
-void Sun::Workspace::initAisContext() {
+void Sun::Workspace::initAisContext()
+{
     if (m_v3dViewer.IsNull()) {
         initV3dViewer();
     }
@@ -130,29 +133,35 @@ void Sun::Workspace::initAisContext() {
     m_aisContext->SetHighlightStyle(style);
 }
 
-void Sun::Workspace::SetWorkingPlane(const gp_Pln& value) {
+void Sun::Workspace::SetWorkingPlane(const gp_Pln& value)
+{
     m_currentWorkingContext->SetWorkingPlane(value);
     //Model::MarkAsUnsaved();
     _applyWorkingContext();
 }
 
-Handle(V3d_Viewer) Sun::Workspace::v3dViewer() const {
+Handle(V3d_Viewer) Sun::Workspace::v3dViewer() const
+{
     return m_v3dViewer;
 }
 
-Handle(AIS_InteractiveContext) Sun::Workspace::aisContext() const {
+Handle(AIS_InteractiveContext) Sun::Workspace::aisContext() const
+{
     return m_aisContext;
 }
 
-bool Sun::Workspace::needsRedraw() const {
+bool Sun::Workspace::needsRedraw() const 
+{
     return m_needsRedraw;
 }
 
-bool Sun::Workspace::needsImmediateRedraw() const {
+bool Sun::Workspace::needsImmediateRedraw() const 
+{
     return m_needsImmediateRedraw;
 }
 
-void Sun::Workspace::setGridEnabled(bool value) {
+void Sun::Workspace::setGridEnabled(bool value)
+{
     if (m_gridEnabled != value) {
         m_gridEnabled = value;
         //Model.MarkAsUnsaved();

@@ -85,7 +85,7 @@ private:
 
 private:
     Sun_WorkspaceController* m_workspaceController;
-    QList<InteractiveEntity*> _InvalidatedInteractiveEntities;
+    QList<InteractiveEntity*> m_invalidatedInteractiveEntities;
     QList<Body*> m_isolatedEntities;
 
     QMap<InteractiveEntity*, VisualObject*> _InteractiveToVisualDictionary;

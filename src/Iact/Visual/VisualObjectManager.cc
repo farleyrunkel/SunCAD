@@ -93,7 +93,7 @@ void VisualObjectManager::remove(InteractiveEntity* entity)
         visualShape->remove();
         _InteractiveToVisualDictionary.remove(entity);
         _GuidToInteractiveDictionary.remove(entity->guid());
-        _InvalidatedInteractiveEntities.removeOne(entity);
+        m_invalidatedInteractiveEntities.removeOne(entity);
     }
 }
 
@@ -117,10 +117,10 @@ void VisualObjectManager::update(InteractiveEntity* body)
 
 void VisualObjectManager::updateInvalidatedEntities() 
 {
-    for (auto body : _InvalidatedInteractiveEntities) {
-        update(body);
-    }
-    _InvalidatedInteractiveEntities.clear();
+    m_invalidatedInteractiveEntities.removeIf([this](InteractiveEntity* entity) {
+        update(entity);
+        return true;
+    });
 }
 
 QList<Body*> VisualObjectManager::getIsolatedEntities() const 
@@ -143,7 +143,7 @@ void VisualObjectManager::entity_EntityRemoved(Entity* entity)
         return;
 
     // 从无效实体列表中移除
-    _InvalidatedInteractiveEntities.removeAll(interactiveEntity);
+    m_invalidatedInteractiveEntities.removeAll(interactiveEntity);
 
     // 移除对应的 visual object
     remove(interactiveEntity);
@@ -151,8 +151,8 @@ void VisualObjectManager::entity_EntityRemoved(Entity* entity)
 
 void VisualObjectManager::interactiveEntity_VisualChanged(InteractiveEntity* entity)
 {
-    if (!_InvalidatedInteractiveEntities.contains(entity))
-        _InvalidatedInteractiveEntities.append(entity);
+    if (!m_invalidatedInteractiveEntities.contains(entity))
+        m_invalidatedInteractiveEntities.append(entity);
 
     m_workspaceController->invalidate();
 }
@@ -173,13 +173,13 @@ void VisualObjectManager::layer_InteractivityChanged(Layer* layer)
     //// 排除已经存在于 _InvalidatedBodies 中的 Body
     //QList<InteractiveEntity*> bodiesToAdd;
     //for (auto body : bodiesInLayer) {
-    //    if (!_InvalidatedInteractiveEntities.contains(body)) {
+    //    if (!m_invalidatedInteractiveEntities.contains(body)) {
     //        bodiesToAdd.append(body);
     //    }
     //}
 
     //// 将需要更新的 Body 添加到 _InvalidatedBodies 中
-    //_InvalidatedInteractiveEntities.append(bodiesToAdd);
+    //m_invalidatedInteractiveEntities.append(bodiesToAdd);
 
     m_workspaceController->invalidate();
 }

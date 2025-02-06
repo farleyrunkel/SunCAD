@@ -76,6 +76,7 @@ bool Shape::skip()
 
 bool Shape::invalidate() 
 {
+    m_body->raiseVisualChanged();
     return false;
 }
 

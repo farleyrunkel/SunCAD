@@ -65,7 +65,10 @@ public:
     }
 
 public:
-    void raiseVisualChanged() {}
+    void raiseVisualChanged() 
+    {
+        emit InteractiveEntity_SignalHub::instance()->visualChanged(this);
+    }
 
 private:
     QString m_name;
