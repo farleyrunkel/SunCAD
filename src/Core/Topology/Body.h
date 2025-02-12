@@ -18,6 +18,7 @@
 
 // Project includes
 #include "Core/Components/Component.h"
+#include "Core/Shapes/IShapeOperand.h"
 #include "Core/Shapes/Shape.h"
 #include "Core/Topology/InteractiveEntity.h"
 
@@ -123,6 +124,7 @@ private:
     bool m_isCoordinateSystemValid = false; // 坐标系缓存是否有效
     TopoDS_Shape m_cachedBRep;              // 缓存的 BRep 表示
     bool m_isBRepValid = false;             // BRep 缓存是否有效
+	QList<IShapeDependent*> m_dependents;   // 依赖的形状
 };
 
 #endif  // CORE_TOPOLOGY_BODY_H_

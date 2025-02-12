@@ -70,11 +70,14 @@ public:
         emit InteractiveEntity_SignalHub::instance()->visualChanged(this);
     }
 
+protected:
+    bool m_isDeserializing;
+
 private:
     QString m_name;
     QUuid m_layerId;
     bool m_isVisible;
-    bool m_isDeserializing;
+
 };
 
 #endif  // CORE_TOPOLOGY_OMTERACTIVEENTITY_H_

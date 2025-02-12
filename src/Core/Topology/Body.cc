@@ -6,7 +6,7 @@
 // Project include
 #include "Core/Shapes/Shape.h"
 
-Body::Body(QObject* parent) 
+Body::Body(QObject* parent)
 {
 }
 
@@ -94,6 +94,18 @@ void Body::invalidateTransformation()
 {
     m_isTransformationValid = false;
     m_isCoordinateSystemValid = false;
+
+    if (m_isDeserializing)
+        return;
+
+	if (shape() != nullptr) {
+		shape()->invalidateDependents();
+	}
+
+	for (auto dependent : m_dependents) {
+        dependent->on_transform_invalidated(this);
+	}
+	emit shapeChanged();
 }
 
 // 确保 BRep 是最新的

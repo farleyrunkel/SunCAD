@@ -12,11 +12,12 @@
 #include <gp_Ax3.hxx>
 #include <gp_Pln.hxx>
 
-// Project includes
-#include "Core/Topology/Body.h"
+class Body;
+class Entity;
 
 // ShapeType 枚举
-enum class shape_type {
+enum class shape_type 
+{
     unknown,
     solid,
     face,
@@ -25,7 +26,8 @@ enum class shape_type {
 };
 
 // SubshapeReference 类
-class SubshapeReference {
+class SubshapeReference 
+{
 public:
     SubshapeReference() = default;
     SubshapeReference(const QString& type, const QString& id)
@@ -36,7 +38,8 @@ public:
 };
 
 // IShapeDependent 接口
-class IShapeDependent {
+class IShapeDependent 
+{
 public:
     virtual ~IShapeDependent() = default;
 
@@ -45,7 +48,8 @@ public:
 };
 
 // IShapeOperand 接口
-class IShapeOperand {
+class IShapeOperand 
+{
 public:
     virtual ~IShapeOperand() = default;
 

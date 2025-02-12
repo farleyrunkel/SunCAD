@@ -15,7 +15,7 @@ Shape::Shape()
     , m_isSkipped(false)
     , m_isLoadedFromCache(false)
     , m_isInvalidating(false)
-    , m_body(new Body())
+    , m_body(nullptr)
     , m_name("Shape")
 {
 }
