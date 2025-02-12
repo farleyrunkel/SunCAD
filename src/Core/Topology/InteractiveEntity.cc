@@ -3,16 +3,6 @@
 // Own include
 #include "Core/Topology/InteractiveEntity.h"
 
-InteractiveEntity_SignalHub* InteractiveEntity_SignalHub::s_signalHub = nullptr;
-
-InteractiveEntity_SignalHub* InteractiveEntity_SignalHub::instance()
-{
-    if (s_signalHub == nullptr) {
-        s_signalHub = new InteractiveEntity_SignalHub;
-    }
-    return s_signalHub;
-}
-
 // Constructor
 InteractiveEntity::InteractiveEntity(QObject* parent)
     : Entity(parent)

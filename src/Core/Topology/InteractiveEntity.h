@@ -23,14 +23,14 @@ class InteractiveEntity_SignalHub : public QObject
     Q_OBJECT
 
 public:
-    InteractiveEntity_SignalHub() = default;
-    static InteractiveEntity_SignalHub* instance();
+    static InteractiveEntity_SignalHub* instance() 
+    {
+        static InteractiveEntity_SignalHub s_signalHub;
+        return &s_signalHub;
+    }
 
 signals:
     void visualChanged(InteractiveEntity*);
-
-private:
-    static InteractiveEntity_SignalHub* s_signalHub;
 };
 
 class InteractiveEntity : public Entity 

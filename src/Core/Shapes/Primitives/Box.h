@@ -22,7 +22,6 @@ class Box : public Shape
 public:
     explicit Box(double dimX = 1.0, double dimY = 1.0, double dimZ = 1.0);
 
-    //--------------------------------------------------------------------------------------------------
     // Properties
 
     double dimensionX() const;
@@ -36,17 +35,15 @@ public:
     void setDimensionY(double value);
 
     double dimensionZ() const {
-        return _DimensionZ;
+        return m_dimensionZ;
     }
 
     void setDimensionZ(double value);
 
-    //--------------------------------------------------------------------------------------------------
     // Factory method
 
     static Box* create(double dimX, double dimY, double dimZ);
 
-    //--------------------------------------------------------------------------------------------------
     // Overrides
 
     virtual ShapeType shapeType() const override;
@@ -60,9 +57,9 @@ signals:
     void dimensionZChanged();
 
 private:
-    double _DimensionX;
-    double _DimensionY;
-    double _DimensionZ;
+    double m_dimensionX;
+    double m_dimensionY;
+    double m_dimensionZ;
 };
 
 #endif  // CORE_SHAPES_PRIMITIVES_BOX_H_
