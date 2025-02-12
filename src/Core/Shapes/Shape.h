@@ -14,6 +14,7 @@
 // Project includes
 #include "Core/Framework/Message/ProcessingScope.h"
 #include "Core/Framework/OcctUtils/SubshapeType.h"
+#include "Core/Shapes/IShapeOperand.h"
 #include "Core/Topology/Entity.h"
 
 // Base class for shape
@@ -27,7 +28,7 @@ enum ShapeType
     Mesh,
 };
 
-class Shape : public Entity 
+class Shape : public Entity, public IShapeOperand, public IShapeDependent
 {
     Q_OBJECT
 
@@ -67,7 +68,7 @@ public:
 
     virtual void Invalidate();
 
-    void invalidateDependents() {}
+    void invalidateDependents();
     bool isVisible() {
         return false;
     }
@@ -91,6 +92,7 @@ private:
     TopoDS_Shape m_bRep;
     TopoDS_Shape m_transformedBRep;
     QList<NamedSubshape> m_namedSubshapes;
+    QList<IShapeDependent*> m_dependents;   // ÒÀÀµµÄÐÎ×´
 };
 
 #endif  // CORE_SHAPES_SHAPE_H_

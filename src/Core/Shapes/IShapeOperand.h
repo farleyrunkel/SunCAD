@@ -43,8 +43,8 @@ class IShapeDependent
 public:
     virtual ~IShapeDependent() = default;
 
-    virtual void on_shape_invalidated(class IShapeOperand* operand) = 0;
-    virtual void on_transform_invalidated(Body* body) = 0;
+    virtual void on_shape_invalidated(class IShapeOperand* operand) {};
+    virtual void on_transform_invalidated(Body* body) {};
 };
 
 // IShapeOperand ½Ó¿Ú
@@ -53,22 +53,34 @@ class IShapeOperand
 public:
     virtual ~IShapeOperand() = default;
 
-    virtual shape_type get_shape_type() = 0;
+    virtual shape_type get_shape_type() {
+        return {};
+    }
 
-    virtual void add_dependent(IShapeDependent* dependent) = 0;
-    virtual void remove_dependent(IShapeDependent* dependent) = 0;
-    virtual void remove() = 0;
+    virtual void add_dependent(IShapeDependent* dependent) {}
+    virtual void remove_dependent(IShapeDependent* dependent) {}
+    virtual void remove() {}
 
-    virtual TopoDS_Shape get_brep(const gp_Ax3& target_frame) = 0;
-    virtual bool bind_to_plane(const gp_Ax3& target_frame, Entity* bound_to, const gp_Pln* plane) = 0;
+    virtual TopoDS_Shape get_brep(const gp_Ax3& target_frame) {
+		return {};
+    }
+    virtual bool bind_to_plane(const gp_Ax3& target_frame, Entity* bound_to, const gp_Pln* plane) {
+        return false;
+    }
 
-    virtual SubshapeReference get_subshape_reference(const TopoDS_Shape& oc_subshape, const gp_Ax3* source_frame) = 0;
-    virtual QList<TopoDS_Shape> find_subshape(const SubshapeReference& reference, const gp_Ax3* target_frame) = 0;
+    virtual SubshapeReference get_subshape_reference(const TopoDS_Shape& oc_subshape, const gp_Ax3* source_frame) {
+        return {};
+    }
+    virtual QList<TopoDS_Shape> find_subshape(const SubshapeReference& reference, const gp_Ax3* target_frame) {
+        return {};
+    }
 
-    virtual void get_referenced_bodies(QList<Body*>& body_list) = 0;
-    virtual void get_linked_bodies(QList<Body*>& body_list) = 0;
+    virtual void get_referenced_bodies(QList<Body*>& body_list) {}
+    virtual void get_linked_bodies(QList<Body*>& body_list) {}
 
-    virtual class shape* collapse(const gp_Ax3& target_frame) = 0;
+    virtual class shape* collapse(const gp_Ax3& target_frame) {
+        return nullptr;
+    }
 };
 
 #endif  // CORE_SHAPES_ISHAPEOPERAND_H_

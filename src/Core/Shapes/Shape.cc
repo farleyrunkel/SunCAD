@@ -138,6 +138,20 @@ void Shape::Invalidate() {
     m_isInvalidating = false;
 }
 
+void Shape::invalidateDependents() 
+{
+	if (!m_transformedBRep.IsNull()) {
+		m_transformedBRep.Location(m_bRep.Location().Multiplied(TopLoc_Location(getTransformation())));
+		emit shapeChanged(this);
+		if (isVisible()) {
+			body()->raiseVisualChanged();
+		}
+	}
+	for (auto dependent : m_dependents) {
+		dependent->on_shape_invalidated(this);
+	}
+}
+
 bool Shape::makeInternal(MakeFlags flags) 
 {
     if (!m_bRep.IsNull()) {
