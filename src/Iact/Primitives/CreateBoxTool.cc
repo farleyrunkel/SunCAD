@@ -14,6 +14,7 @@
 #include "Core/Topology/Body.h"
 #include "Iact/HudElements/Coord2DHudElement.h"
 #include "Iact/HudElements/MultiValueHudElement.h"
+#include "Iact/ToolActions/AxisValueAction.h"
 #include "Iact/Visual/VisualShape.h"
 #include "Iact/Workspace/WorkspaceController.h"
 
@@ -154,6 +155,7 @@ void CreateBoxTool::baseRectAction_Preview(const std::shared_ptr<PointAction::Ev
 
 void CreateBoxTool::baseRectAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args)
 {
+	auto axisPosition = ElSLib::Value(m_pointPlane1.X(), m_pointPlane1.Y(), m_plane);
 }
 
 void CreateBoxTool::multiValueEntered(double newValue1, double newValue2)
