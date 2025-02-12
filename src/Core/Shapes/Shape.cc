@@ -74,12 +74,6 @@ bool Shape::skip()
     return false;
 }
 
-bool Shape::invalidate() 
-{
-    m_body->raiseVisualChanged();
-    return false;
-}
-
 gp_Trsf Shape::getTransformation()
 {
     gp_Trsf res;
@@ -121,7 +115,8 @@ bool Shape::make(MakeFlags flags)
     return result;
 }
 
-void Shape::Invalidate() {
+void Shape::invalidate()
+{
     if (m_isInvalidating)
         return;
     m_isInvalidating = true;

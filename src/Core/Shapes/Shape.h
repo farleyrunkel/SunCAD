@@ -60,13 +60,12 @@ public:
     TopoDS_Shape getTransformedBRep();
     TopoDS_Shape getBRep();
     bool skip();
-    virtual bool invalidate();
 
 public:
     virtual gp_Trsf getTransformation();
     bool make(MakeFlags flags);
 
-    virtual void Invalidate();
+    virtual void invalidate();
 
     void invalidateDependents();
     bool isVisible() {
