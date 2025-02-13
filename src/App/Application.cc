@@ -1,26 +1,29 @@
 // Copyright [2024] SunCAD
 
+// Own include
 #include "App/Application.h"
 
+// stl includes
 #include <iostream>
 
-#include <QTranslator>
+// Qt includes
 #include <QLocale>
 #include <QStringList>
+#include <QTranslator>
 
+// Project includes
+#include "App/AppContext.h"
 #include "App/CommandLine.h"
 #include "App/MainWindow.h"
 #include "App/WelcomeDialog.h"
-#include "App/AppContext.h"
-
 #include "Pres/GlobalEventHandler.h"
 
 Application::Application(int& argc, char** argv)
-    : QApplication(argc, argv),
-    m_mainWindow(nullptr),
-    m_welcomeDialog(nullptr), 
-    m_appContext(nullptr),
-    m_commandManager(nullptr) 
+    : QApplication(argc, argv)
+    , m_mainWindow(nullptr)
+    , m_welcomeDialog(nullptr)
+    , m_appContext(nullptr)
+    , m_commandManager(nullptr)
 {
     initTranslation();
 
@@ -48,10 +51,11 @@ Application::Application(int& argc, char** argv)
     this->installEventFilter(globalEventHandler); // Install the event filter
 }
 
-Application::~Application() {}
+Application::~Application()
+{}
 
 // Initialize synchronization mechanisms
-void Application::initTranslation() 
+void Application::initTranslation()
 {
     // Set up translator for localization
     QTranslator translator;

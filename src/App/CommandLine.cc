@@ -1,12 +1,15 @@
 // Copyright [2024] SunCAD
 
+// Project includes
 #include "App/CommandLine.h"
 
+// stl includes
 #include <iostream>
 #include <string>
 
 CommandLine::CommandLine(int argc, char* argv[])
-    : mOptions(argv[0], " - Command line options") {
+    : mOptions(argv[0], " - Command line options")
+{
     try {
         // Define mOptions
         mOptions.add_options()

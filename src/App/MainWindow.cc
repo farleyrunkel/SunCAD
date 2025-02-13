@@ -1,33 +1,37 @@
 // Copyright [2024] SunCAD
 
+// Own include
 #include "App/MainWindow.h"
 
+// Qt includes
+#include <QAbstractButton>
 #include <QAction>
 #include <QLabel>
-#include <QStatusBar>
-#include <QScopedPointer>
-#include <QAbstractButton>
 #include <QPlainTextEdit>
+#include <QScopedPointer>
+#include <QStatusBar>
 
-#include "SARibbonBar.h"
+// SARibbonBar includes
 #include "SARibbonApplicationButton.h"
+#include "SARibbonBar.h"
 #include "SARibbonMenu.h"
 
+// ads includes
 #include "AutoHideDockContainer.h"
-#include "DockAreaWidget.h"
 #include "DockAreaTitleBar.h"
+#include "DockAreaWidget.h"
 
-#include "ResourceUtils.h"
-#include "App/WelcomeDialog.h"
+// Project includes
 #include "App/ViewportView.h"
-
-#include "Iact/Commands/ModelCommands.h"
+#include "App/WelcomeDialog.h"
 #include "Iact/Commands/DocumentCommands.h"
+#include "Iact/Commands/ModelCommands.h"
+#include "ResourceUtils.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : SARibbonMainWindow(parent) 
+MainWindow::MainWindow(QWidget* parent)
+    : SARibbonMainWindow(parent)
 {
-	setupUi();
+    setupUi();
 
     setupAppButton();
     setupCategories();
@@ -37,7 +41,8 @@ MainWindow::MainWindow(QWidget *parent)
     onMainWindowLoaded();
 }
 
-MainWindow::~MainWindow() {}
+MainWindow::~MainWindow()
+{}
 
 void MainWindow::setupUi()
 {
@@ -55,9 +60,9 @@ void MainWindow::setupUi()
 
     ads::CDockManager::setConfigFlag(ads::CDockManager::DockAreaHasCloseButton, false);
     ads::CDockManager::setConfigFlag(ads::CDockManager::DockAreaHasUndockButton, false);
-    ads::CDockManager::setAutoHideConfigFlags(ads::CDockManager::DefaultAutoHideConfig); 
+    ads::CDockManager::setAutoHideConfigFlags(ads::CDockManager::DefaultAutoHideConfig);
     ads::CDockManager::setAutoHideConfigFlag(ads::CDockManager::DockAreaHasAutoHideButton, false);
-    
+
     m_dockManager = new ads::CDockManager(this);
 
     // set ribbonbar
@@ -95,7 +100,7 @@ void MainWindow::setupAppButton()
     appBtn->setMenu(m_appButton);
 }
 
-void MainWindow::setupCategories() 
+void MainWindow::setupCategories()
 {
     if (SARibbonCategory* aCategory = m_ribbonBar->addCategoryPage(tr("Edit"))) {
         if (SARibbonPannel* aPannel = aCategory->addPannel(tr("Panel 1"))) {
@@ -126,7 +131,7 @@ void MainWindow::setupCategories()
     }
 }
 
-void MainWindow::setupDockWidgets() 
+void MainWindow::setupDockWidgets()
 {
     // Set up a central dock widget 
 
@@ -156,12 +161,12 @@ void MainWindow::setupDockWidgets()
     connect(&AppCommands::showDocumentExplorer(), &QAction::triggered, documentDock->toggleViewAction(), &QAction::trigger);
 }
 
-void MainWindow::onMainWindowLoaded() 
+void MainWindow::onMainWindowLoaded()
 {
     AppCommands::initApplication().execute();
 }
 
-QAction* MainWindow::createAction(const QString& text, const QString& iconurl) 
+QAction* MainWindow::createAction(const QString& text, const QString& iconurl)
 {
     QAction* action = new QAction(this);
     action->setText(text);

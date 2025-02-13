@@ -1,25 +1,30 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_APP_MAINWINDOW_H_
-#define SRC_APP_MAINWINDOW_H_
+#ifndef APP_MAINWINDOW_H_
+#define APP_MAINWINDOW_H_
 
+// Qt includes
 #include <QWidget>
 
+// SARibbonBar includes
 #include "SARibbonBar.h"
 #include "SARibbonMainWindow.h"
 
+// Dock includes
 #include "DockManager.h"
 
+// Project includes
 #include "App/Commands/AppCommands.h"
 
-class MainWindow : public SARibbonMainWindow {
+class MainWindow : public SARibbonMainWindow
+{
     Q_OBJECT
 
- public:
-     explicit MainWindow(QWidget* parent = nullptr);
+public:
+    explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow() override;
 
- private:
+private:
     void setupUi();
     void setupDockWidgets();
     void setupAppButton();
@@ -29,11 +34,11 @@ class MainWindow : public SARibbonMainWindow {
 
     void onMainWindowLoaded();
 
- private:
+private:
     QMenu* m_appButton = nullptr;
     SARibbonBar* m_ribbonBar = nullptr;
     // The main container for docking
     ads::CDockManager* m_dockManager = nullptr;
 };
 
-#endif  // SRC_APP_MAINWINDOW_H_
+#endif  // APP_MAINWINDOW_H_

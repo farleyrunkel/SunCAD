@@ -3,17 +3,17 @@
 #ifndef APP_VIEWPORTVIEW_H_
 #define APP_VIEWPORTVIEW_H_
 
-// Qt Libraries
+// Qt includes
 #include <QLabel>
 #include <QScrollArea>
 
-// Sun Libraries
+// Project includes
 #include "App/ViewportViewModel.h"
 #include "Iact/Viewport/ViewportPanel.h"
 
 /// @brief The ViewportView class
 /// The ViewportView class is a QWidget that contains the ViewportPanel and a message bar.
-class ViewportView : public QScrollArea 
+class ViewportView : public QScrollArea
 {
     Q_OBJECT
 

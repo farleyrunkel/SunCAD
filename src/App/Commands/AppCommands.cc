@@ -1,16 +1,19 @@
 // Copyright [2024] SunCAD
 
+// Qt includes
 #include <QIcon>
 
-#include "ResourceUtils.h"
-#include "Core/Core.h"
-#include "App/Application.h"
+// Project includes
 #include "App/AboutDialog.h"
+#include "App/Application.h"
 #include "App/Commands/AppCommands.h"
+#include "Core/Core.h"
 #include "Iact/Commands/CommandHelper.h"
 #include "Iact/Commands/DocumentCommands.h"
+#include "ResourceUtils.h"
 
-RelayCommand& AppCommands::initApplication() {
+RelayCommand& AppCommands::initApplication()
+{
     static RelayCommand command(
         []() { DocumentCommands::createNewModel().execute(); }
     );
@@ -18,7 +21,8 @@ RelayCommand& AppCommands::initApplication() {
     return command;
 }
 
-ActionCommand& AppCommands::exitApplication() {
+ActionCommand& AppCommands::exitApplication()
+{
     static ActionCommand command(
         []() { Core::mainWindow()->close(); }
     );
@@ -30,7 +34,8 @@ ActionCommand& AppCommands::exitApplication() {
     return command;
 }
 
-ActionCommand& AppCommands::showAboutDialog() {
+ActionCommand& AppCommands::showAboutDialog()
+{
     static AboutDialog aboutDialog(Core::mainWindow());
     static ActionCommand command(
         []() { aboutDialog.show(); }
@@ -44,7 +49,8 @@ ActionCommand& AppCommands::showAboutDialog() {
     return command;
 }
 
-ActionCommand& AppCommands::settings() {
+ActionCommand& AppCommands::settings()
+{
     static ActionCommand command;
     // Initialize command properties if not already set
     if (command.text().isEmpty()) {
@@ -54,7 +60,8 @@ ActionCommand& AppCommands::settings() {
     return command;
 }
 
-ActionCommand& AppCommands::resetWindowLayout() {
+ActionCommand& AppCommands::resetWindowLayout()
+{
     static ActionCommand command(
         []() { /*Core::mainWindow()->Docking.LoadWindowLayout("Default");*/ }
     );
@@ -67,7 +74,8 @@ ActionCommand& AppCommands::resetWindowLayout() {
     return command;
 }
 
-ActionCommand& AppCommands::showDocumentExplorer() {
+ActionCommand& AppCommands::showDocumentExplorer()
+{
     static ActionCommand command;
     // Initialize command properties if not already set
     if (command.text().isEmpty()) {

@@ -22,7 +22,7 @@ ViewportView::ViewportView(QWidget* parent)
     : QScrollArea(parent)
     , m_dataContext(new ViewportViewModel)
     , m_viewportPanel(nullptr)
-    , m_messageBar(nullptr) 
+    , m_messageBar(nullptr)
 {
     // Set layout for the main panel
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
@@ -61,10 +61,10 @@ ViewportView::ViewportView(QWidget* parent)
         }
     });
 
-	connect(m_dataContext, &ViewportViewModel::OnUpdateAvailable, [this]() {
-		QString updateMessage = QString("A new version is available for download: %1").arg(QString::fromStdString(" "));
-		m_messageBar->setText(updateMessage);
-	});
+    connect(m_dataContext, &ViewportViewModel::OnUpdateAvailable, [this]() {
+        QString updateMessage = QString("A new version is available for download: %1").arg(QString::fromStdString(" "));
+        m_messageBar->setText(updateMessage);
+    });
 }
 
 ViewportView::~ViewportView()

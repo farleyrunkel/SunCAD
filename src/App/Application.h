@@ -3,18 +3,20 @@
 #ifndef APP_APPLICATION_H_
 #define APP_APPLICATION_H_
 
-#include <QString>
+// Qt includes
 #include <QApplication>
+#include <QString>
 
+// Project includes
+#include "App/AppContext.h"
 #include "App/MainWindow.h"
 #include "App/WelcomeDialog.h"
-#include "App/AppContext.h"
-
 #include "Pres/Commands/CommandManager.h"
 
+// Forward declarations
 class Core;
 
-class Application : public QApplication 
+class Application : public QApplication
 {
     Q_OBJECT
 

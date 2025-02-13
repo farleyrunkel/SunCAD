@@ -3,15 +3,17 @@
 #ifndef APP_VIEWPORTVIEWMODEL_H_
 #define APP_VIEWPORTVIEWMODEL_H_
 
+// stl includes
 #include <string>
 #include <memory>
 #include <iostream>
 
+// Qt includes
 #include <QObject>
 
+// Project includes
 #include "Iact/Viewport/ViewportPanel.h"
 #include "Pres/Commands/RelayCommand.h"
-
 
 /// @brief The ViewportViewModel class
 /// The ViewportViewModel class is a ViewModel that contains the logic for the ViewportView.
@@ -23,63 +25,29 @@ class ViewportViewModel : public QObject
     Q_OBJECT
 public:
     // Constructor
-    ViewportViewModel() 
-        : _UpdateMessage("")
-    {
-        // Initialize commands
-        _UpdateCommand = std::make_shared<RelayCommand>([this]() { this->_UpdateExecute(); });
-        _DismissUpdateCommand = std::make_shared<RelayCommand>([this]() { this->_DismissUpdateExecute(); });
-    }
+    ViewportViewModel();
 
     // Destructor
-    virtual ~ViewportViewModel() {}
+    virtual ~ViewportViewModel()
+    {}
 
     // Property for UpdateMessage
-    const std::string& UpdateMessage() const 
-    {
-        return _UpdateMessage;
-    }
+    const std::string& UpdateMessage() const;
 
-    void SetUpdateMessage(const std::string& value) 
-    {
-        if (_UpdateMessage != value) {
-            _UpdateMessage = value;
-            RaisePropertyChanged("UpdateMessage");
-        }
-    }
+    void SetUpdateMessage(const std::string& value);
 
 
     // Update Info handling
-    void _VersionCheck_UpdateAvailable(const std::string& updateUrl, const std::string& updateVersion) 
-    {
-        _UpdateMessage = "A new version is available for download: " + updateVersion;
-        RaisePropertyChanged("UpdateMessage");
-
-        // Notify observers (trigger event)
-        emit OnUpdateAvailable();
-
-        // Normally would be passed to UI for user interaction
-        std::cout << _UpdateMessage << std::endl;
-    }
+    void _VersionCheck_UpdateAvailable(const std::string& updateUrl, const std::string& updateVersion);
 
     // Executes when update is available
-    void _UpdateExecute() {
-        _DismissUpdateExecute();
-
-        if (!_UpdateMessage.empty()) {
-            // Open the update URL (simulated here with a print statement)
-            std::cout << "Navigating to: " << "https://example.com/update" << std::endl;
-        }
-    }
+    void _UpdateExecute();
 
     // Dismiss update message
-    void _DismissUpdateExecute() 
-    {
-        SetUpdateMessage("");
-    }
+    void _DismissUpdateExecute();
 
 signals:
-	void OnUpdateAvailable();
+    void OnUpdateAvailable();
 
 private:
     std::string _UpdateMessage;
@@ -89,10 +57,7 @@ private:
     std::shared_ptr<RelayCommand> _DismissUpdateCommand;
 
     // Event-like mechanism: Notify property change
-    void RaisePropertyChanged(const std::string& propertyName) {
-        // In a real application, this could notify the UI that the property has changed
-        std::cout << propertyName << " changed!" << std::endl;
-    }
+    void RaisePropertyChanged(const std::string& propertyName);
 };
 
 #endif  // APP_VIEWPORTVIEWMODEL_H_

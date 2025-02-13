@@ -3,10 +3,11 @@
 #ifndef APP_COMMANDS_APPCOMMANDS_H_
 #define APP_COMMANDS_APPCOMMANDS_H_
 
+// Project includes 
 #include "Pres/Commands/ActionCommand.h"
 #include "Pres/Commands/RelayCommand.h"
 
-class AppCommands 
+class AppCommands
 {
 public:
     static  RelayCommand& initApplication();

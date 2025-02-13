@@ -3,12 +3,14 @@
 #ifndef APP_ABOUTDIALOG_H_
 #define APP_ABOUTDIALOG_H_
 
+// Qt includes
 #include <QDialog>
 
-class AboutDialog : public QDialog 
+class AboutDialog : public QDialog
 {
 public:
-     explicit AboutDialog(QWidget* parent = nullptr) : QDialog(parent) {}
+    explicit AboutDialog(QWidget* parent = nullptr) : QDialog(parent)
+    {}
 };
 
 #endif  // APP_ABOUTDIALOG_H_
