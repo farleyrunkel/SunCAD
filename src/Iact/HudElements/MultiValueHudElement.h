@@ -37,7 +37,7 @@ signals:
 private:
     void _onEdit1Finished();
     void _onEdit2Finished();
-    void _simulateKeyPress(QLineEdit* edit, QKeyEvent* event);
+    void simulateKeyPress(QLineEdit* edit, QKeyEvent* event);
 
 private:
     QLabel* m_label1;

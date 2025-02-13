@@ -37,7 +37,7 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 		m_hudContainer->layout()->addWidget(element);
 		m_hudContainer->setVisible(true);
 		m_hudContainer->update();
-		_updateHud(m_mouseMovePosition); 
+		updateHud(m_mouseMovePosition); 
 	});
 
 	connect(m_dataContext, &ViewportPanelModel::hudElementsRemoved
@@ -49,17 +49,17 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 			m_hudContainer->setVisible(false);
 		}
 		m_hudContainer->update();
-		_updateHud(m_mouseMovePosition);
+		updateHud(m_mouseMovePosition);
 	});
 
 	connect(m_dataContext, &ViewportPanelModel::propertyChanged
-			, this, &ViewportPanel::_model_PropertyChanged);
+			, this, &ViewportPanel::model_PropertyChanged);
 
 	// Initialize layout for the panel
 	setLayout(new QVBoxLayout(this));
 	setMouseTracking(true);
 
-	_viewportControllerChanged();
+	viewportControllerChanged();
 	m_hudContainer->raise();
 }
 
@@ -76,7 +76,7 @@ void ViewportPanel::mouseMoveEvent(QMouseEvent* event)
 	}
 	m_hudContainer->adjustSize();
 	m_hudContainer->update();  // 强制重新绘制控件
-	_updateHud(m_mouseMovePosition);
+	updateHud(m_mouseMovePosition);
 }
 
 void ViewportPanel::wheelEvent(QWheelEvent* event) 
@@ -106,7 +106,7 @@ void ViewportPanel::mouseReleaseEvent(QMouseEvent* event)
 	}
 	m_hudContainer->adjustSize();
 	m_hudContainer->update();
-	_updateHud(m_mouseMovePosition);
+	updateHud(m_mouseMovePosition);
 }
 
 
@@ -126,17 +126,17 @@ void ViewportPanel::contextMenuEvent(QContextMenuEvent* event)
 	contextMenu.exec(event->globalPos());
 }
 
-void ViewportPanel::_model_PropertyChanged(const QString& propertyName)
+void ViewportPanel::model_PropertyChanged(const QString& propertyName)
 {
 	if (propertyName == "viewportController") {
-		_viewportControllerChanged();
+		viewportControllerChanged();
 	}
 	if (propertyName == "hintMessage") {
 
 	}
 }
 
-void ViewportPanel::_viewportControllerChanged() 
+void ViewportPanel::viewportControllerChanged() 
 {
 	auto viewportController = m_dataContext->viewportController();
 
@@ -160,7 +160,7 @@ void ViewportPanel::_viewportControllerChanged()
 	m_hudContainer->raise();
 }
 
-void ViewportPanel::_updateHud(const QPointF& pos) 
+void ViewportPanel::updateHud(const QPointF& pos) 
 {
 	int x = pos.x() + 10;
 	int y = pos.y() - 10 - m_hudContainer->height();

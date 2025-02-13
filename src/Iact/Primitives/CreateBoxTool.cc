@@ -201,6 +201,7 @@ void CreateBoxTool::_HeightAction_Preview(const std::shared_ptr<AxisValueAction:
 	ensurePreviewShape();
 
 	m_previewShape->setDimensionZ(m_height);
+	m_visualShape->update();
 
 	if (m_isTemporaryVisual)
 		m_visualShape->update();

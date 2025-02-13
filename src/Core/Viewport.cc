@@ -219,6 +219,31 @@ bool Sun_Viewport::screenToPoint(gp_Pln plane, int screenX, int screenY, gp_Pnt&
      return false;
  }
 
+gp_Dir Sun_Viewport::getRightDirection()
+{
+    auto upDir = getUpDirection();
+    auto eyeDir = getViewDirection();
+    return upDir.Crossed(eyeDir);
+}
+
+gp_Dir Sun_Viewport::getUpDirection() 
+{
+    if (v3dView().IsNull()) {
+        return gp_Dir(0, 0, 1);
+    }
+
+    double xUp = 0, yUp = 0, zUp = 0;
+    v3dView()->Up(xUp, yUp, zUp);
+    return gp_Dir(xUp, yUp, zUp);
+}
+
+gp_Dir Sun_Viewport::getViewDirection() 
+{
+    validateViewGeometry();
+    auto eyeVector = gp_Vec(m_targetPoint, m_eyePoint);
+    return gp_Dir(eyeVector);
+}
+
 // Destructor
 
  Sun_Viewport::~Sun_Viewport() 

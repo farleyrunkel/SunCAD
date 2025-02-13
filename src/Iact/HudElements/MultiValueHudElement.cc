@@ -90,11 +90,11 @@ void MultiValueHudElement::setValue2(double value)
 void MultiValueHudElement::keyPressEvent(QKeyEvent* event) 
 {
     if (m_isInKeyboardMode2) {
-        _simulateKeyPress(m_edit2, event);
+        simulateKeyPress(m_edit2, event);
         return;
     }
 
-    _simulateKeyPress(m_edit1, event);
+    simulateKeyPress(m_edit1, event);
     if (event->isAccepted()) {
         m_isInKeyboardMode1 = true;
         m_isInKeyboardMode2 = false;
@@ -116,7 +116,7 @@ void MultiValueHudElement::_onEdit2Finished()
     emit MultiValueEntered(m_edit1->text().toDouble(), m_edit2->text().toDouble());
 }
 
-void MultiValueHudElement::_simulateKeyPress(QLineEdit* edit, QKeyEvent* event) 
+void MultiValueHudElement::simulateKeyPress(QLineEdit* edit, QKeyEvent* event) 
 {
     if (event->key() == Qt::Key_Backspace) {
         edit->backspace();

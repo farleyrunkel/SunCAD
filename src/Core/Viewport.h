@@ -104,6 +104,10 @@ class Sun_Viewport : public QObject
 
     bool screenToPoint(gp_Pln plane, int screenX, int screenY, gp_Pnt& resultPnt);
 
+    gp_Dir getRightDirection();
+	gp_Dir getUpDirection();
+	gp_Dir getViewDirection();
+
 private:
     void validateViewGeometry() {}
 

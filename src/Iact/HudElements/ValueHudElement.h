@@ -32,13 +32,13 @@ signals:
     void valueEntered(double value);
 
 private:
-    void _onEditFinished();
-    void _simulateKeyPress(QLineEdit* edit, QKeyEvent* event);
+    void onEditFinished();
+    void simulateKeyPress(QLineEdit* edit, QKeyEvent* event);
 
 private:
-    QLabel* _label;
-    QLineEdit* _edit;
-    bool _isInKeyboardMode;
+    QLabel* m_label;
+    QLineEdit* m_edit;
+    bool m_isInKeyboardMode;
 };
 
 #endif  // IACT_HUD_ELEMENTS_VALUEHUDELEMENT_H_

@@ -39,12 +39,12 @@ bool AxisValueAction::processMouseInput(MouseEventData* data)
 
 std::optional<double> AxisValueAction::_processMouseInputForAxis(MouseEventData* data, double& distance)
 {
-    //gp_Dir planeDir = workspaceController()->ActiveViewport()->getRightDirection();
-    //if (planeDir.IsParallel(_axis.Direction(), 0.1)) {
-    //    planeDir = workspaceController()->ActiveViewport()->getUpDirection();
-    //}
-    //planeDir.Cross(_axis.Direction());
-    //gp_Pln plane(gp_Ax3(_axis.Location(), planeDir, _axis.Direction()));
+    gp_Dir planeDir = workspaceController()->ActiveViewport()->getRightDirection();
+    if (planeDir.IsParallel(_axis.Direction(), 0.1)) {
+        planeDir = workspaceController()->ActiveViewport()->getUpDirection();
+    }
+    planeDir.Cross(_axis.Direction());
+    gp_Pln plane(gp_Ax3(_axis.Location(), planeDir, _axis.Direction()));
 
     //auto snapInfo = _snapHandler->snap(data);
     //if (snapInfo.mode != SnapModes::None) {
@@ -57,16 +57,16 @@ std::optional<double> AxisValueAction::_processMouseInputForAxis(MouseEventData*
     //    }
     //}
     //else {
-    //    gp_Pnt convertedPoint;
-    //    if (workspaceController()->activeViewport()->screenToPoint(
-    //        plane, static_cast<int>(data->screenPoint().x()),
-    //        static_cast<int>(data->screenPoint().y()), convertedPoint)) {
-    //        Extrema_ExtPC extrema(convertedPoint, GeomAdaptor_Curve(new Geom_Line(_axis)), 1.0e-10);
-    //        if (extrema.IsDone() && extrema.NbExt() >= 1) {
-    //            distance = convertedPoint.Distance(_axis.Location());
-    //            return extrema.Point(1).Parameter();
-    //        }
-    //    }
+        gp_Pnt convertedPoint;
+        if (workspaceController()->ActiveViewport()->screenToPoint(
+            plane, static_cast<int>(data->screenPoint.x()),
+            static_cast<int>(data->screenPoint.y()), convertedPoint)) {
+            Extrema_ExtPC extrema(convertedPoint, GeomAdaptor_Curve(new Geom_Line(_axis)), 1.0e-10);
+            if (extrema.IsDone() && extrema.NbExt() >= 1) {
+                distance = convertedPoint.Distance(_axis.Location());
+                return extrema.Point(1).Parameter();
+            }
+        }
     //}
 
     distance = 0;

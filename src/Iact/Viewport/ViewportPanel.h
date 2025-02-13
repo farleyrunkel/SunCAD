@@ -47,9 +47,9 @@ protected:
 	virtual void contextMenuEvent(QContextMenuEvent* event) override;
 
 private:
-	void _model_PropertyChanged(const QString& propertyName);
-	void _viewportControllerChanged();
-	void _updateHud(const QPointF& pos);
+	void model_PropertyChanged(const QString& propertyName);
+	void viewportControllerChanged();
+	void updateHud(const QPointF& pos);
 
 private:
 	ViewportPanelModel* m_dataContext;
