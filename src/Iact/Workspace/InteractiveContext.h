@@ -3,25 +3,27 @@
 #ifndef IACT_WORKSPACE_INTERACTIVECONTEXT_H_
 #define IACT_WORKSPACE_INTERACTIVECONTEXT_H_
 
-#include <QObject>
-#include <QList>
-#include <QString>
+// Qt includes
 #include <QColor>
+#include <QList>
+#include <QObject>
+#include <QString>
 
+// Occt includes
 #include "Comm/BaseObject.h"
 #include "Core/CoreContext.h"
 #include "Core/Viewport.h"
-#include "Iact/Workspace/WorkspaceController.h"
+#include "Iact/Workspace/EditorState.h"
 #include "Iact/Workspace/ModelController.h"
 #include "Iact/Workspace/ViewportController.h"
-#include "Iact/Workspace/EditorState.h"
+#include "Iact/Workspace/WorkspaceController.h"
 
-class InteractiveContext : public CoreContext 
+class InteractiveContext : public CoreContext
 {
     Q_OBJECT
-    Q_PROPERTY(ModelController* documentController READ documentController WRITE setDocumentController)
-    Q_PROPERTY(Sun_WorkspaceController* workspaceController READ workspaceController WRITE setWorkspaceController)
-    Q_PROPERTY(Sun_ViewportController* viewportController READ viewportController WRITE setViewportController)
+        Q_PROPERTY(ModelController* documentController READ documentController WRITE setDocumentController)
+        Q_PROPERTY(Sun_WorkspaceController* workspaceController READ workspaceController WRITE setWorkspaceController)
+        Q_PROPERTY(Sun_ViewportController* viewportController READ viewportController WRITE setViewportController)
 
 public:
     InteractiveContext();

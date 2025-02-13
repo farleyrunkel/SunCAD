@@ -1,9 +1,9 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_IACT_WORKSPACE_DISPLAYSCENE_H_
-#define SRC_IACT_WORKSPACE_DISPLAYSCENE_H_
+#ifndef IACT_WORKSPACE_DISPLAYSCENE_H_
+#define IACT_WORKSPACE_DISPLAYSCENE_H_
 
-// OpenCascade includes
+// Occt includes
 #include <NCollection_DataMap.hxx>
 #include <NCollection_List.hxx>
 
@@ -24,7 +24,8 @@ typedef NCollection_DataMap < TDF_Label,
 LabelPrsMap;
 
 //! Redisplays all objects in the viewer.
-class DisplayScene : public Standard_Transient {
+class DisplayScene : public Standard_Transient
+{
 public:
 
     // OCCT RTTI
@@ -36,9 +37,10 @@ public:
     //! \param[in] doc the XDE document to visualize.
     //! \param[in] ctx the interactive context instance.
     DisplayScene(const Handle(TDocStd_Document)& doc,
-        const Handle(AIS_InteractiveContext)& ctx) : Standard_Transient(),
+                 const Handle(AIS_InteractiveContext)& ctx) : Standard_Transient(),
         m_doc(doc),
-        m_ctx(ctx) {}
+        m_ctx(ctx)
+    {}
 
 public:
 
@@ -57,10 +59,10 @@ protected:
     //!                           connected to already created objects contained in the map.
     //! \param[in] processed      the map of processed items.
     void displayItem(const TDF_Label& label,
-        const TopLoc_Location& parentTrsf,
-        const XCAFPrs_Style& parentStyle,
-        const TCollection_AsciiString& parentId,
-        LabelPrsMap& mapOfOriginals);
+                     const TopLoc_Location& parentTrsf,
+                     const XCAFPrs_Style& parentStyle,
+                     const TCollection_AsciiString& parentId,
+                     LabelPrsMap& mapOfOriginals);
 
 protected:
 
@@ -69,7 +71,6 @@ protected:
 
     //! Interactive context facade to work with AIS.
     Handle(AIS_InteractiveContext) m_ctx;
-
 };
 
-#endif // SRC_IACT_WORKSPACE_DISPLAYSCENE_H_
+#endif // IACT_WORKSPACE_DISPLAYSCENE_H_

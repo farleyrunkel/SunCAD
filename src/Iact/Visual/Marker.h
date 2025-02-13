@@ -3,26 +3,29 @@
 #ifndef IACT_VISUAL_MARKER_H_
 #define IACT_VISUAL_MARKER_H_
 
-#include <QObject>
+// Qt includes
+#include <QDebug>
 #include <QImage>
+#include <QObject>
 #include <QPixmap>
 #include <QString>
-#include <QDebug>
 #include <QtCore>
 
-#include <gp_Pnt.hxx>
-#include <Geom_CartesianPoint.hxx>
+// OCCT includes
 #include <AIS_Point.hxx>
-#include <Image_PixMap.hxx>
-#include <Graphic3d_MarkerImage.hxx>
-#include <Prs3d_PointAspect.hxx>
 #include <ElSLib.hxx>
+#include <Geom_CartesianPoint.hxx>
+#include <gp_Pnt.hxx>
+#include <Graphic3d_MarkerImage.hxx>
+#include <Image_PixMap.hxx>
+#include <Prs3d_PointAspect.hxx>
 
-#include "ResourceUtils.h"
-#include "Comm/Types/Color.h"
+// Project includes
 #include "Comm/PixMapHelper.h"
+#include "Comm/Types/Color.h"
 #include "Iact/Visual/VisualObject.h"
 #include "Occt/Managed/AIS_PointEx.h"
+#include "ResourceUtils.h"
 
 class Marker : public VisualObject 
 {
@@ -100,14 +103,14 @@ private:
     static Handle(Image_PixMap) _TryGetMarkerAsImage(const QString& name, int size);
 
 private:
-    Styles _Styles;
-    MarkerImage _Image;
+    Styles m_styles;
+    MarkerImage m_image;
     Handle(AIS_PointEx) _AisPoint = nullptr; // OCCT 点对象
-    Handle(Geom_CartesianPoint) _P; // OCCT 坐标点
+    Handle(Geom_CartesianPoint) m_p; // OCCT 坐标点
     Handle(Prs3d_PointAspect) _PointAspect = nullptr;
-    Sun::Color _Color; // 标记颜色
-    Sun::Color _ColorBg; // 背景颜色
-    bool _IsSelectable; // 是否可选择
+    Sun::Color m_color; // 标记颜色
+    Sun::Color m_colorBg; // 背景颜色
+    bool m_isSelectable; // 是否可选择
 };
 
 #endif  // IACT_VISUAL_MARKER_H_

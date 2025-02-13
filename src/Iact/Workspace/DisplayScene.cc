@@ -21,25 +21,28 @@
 
 //-----------------------------------------------------------------------------
 
-namespace {
-    bool IsEmptyShape(const TopoDS_Shape& shape) {
-        if (shape.IsNull())
-            return true;
+namespace
+{
+bool IsEmptyShape(const TopoDS_Shape& shape)
+{
+    if (shape.IsNull())
+        return true;
 
-        if (shape.ShapeType() >= TopAbs_FACE)
-            return false;
+    if (shape.ShapeType() >= TopAbs_FACE)
+        return false;
 
-        int numSubShapes = 0;
-        for (TopoDS_Iterator it(shape); it.More(); it.Next())
-            numSubShapes++;
+    int numSubShapes = 0;
+    for (TopoDS_Iterator it(shape); it.More(); it.Next())
+        numSubShapes++;
 
-        return numSubShapes == 0;
-    }
+    return numSubShapes == 0;
+}
 }
 
 //-----------------------------------------------------------------------------
 
-bool DisplayScene::Execute() {
+bool DisplayScene::Execute()
+{
     if (m_doc.IsNull())
         return true;
 
@@ -81,10 +84,11 @@ bool DisplayScene::Execute() {
 //-----------------------------------------------------------------------------
 
 void DisplayScene::displayItem(const TDF_Label& label,
-    const TopLoc_Location& parentTrsf,
-    const XCAFPrs_Style& parentStyle,
-    const TCollection_AsciiString& parentId,
-    LabelPrsMap& mapOfOriginals) {
+                               const TopLoc_Location& parentTrsf,
+                               const XCAFPrs_Style& parentStyle,
+                               const TCollection_AsciiString& parentId,
+                               LabelPrsMap& mapOfOriginals)
+{
     // Get XDE tools.
     Handle(XCAFDoc_ShapeTool) ShapeTool = XCAFDoc_DocumentTool::ShapeTool(m_doc->Main());
     Handle(XCAFDoc_ColorTool) ColorTool = XCAFDoc_DocumentTool::ColorTool(m_doc->Main());

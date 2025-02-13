@@ -8,19 +8,19 @@
 
 InteractiveContext* InteractiveContext::s_current = nullptr;
 
-InteractiveContext::InteractiveContext() 
+InteractiveContext::InteractiveContext()
     : CoreContext()
     , m_editorState(nullptr)
     , m_documentController(nullptr)
     , m_viewportController(nullptr)
-    , m_workspaceController(nullptr) 
+    , m_workspaceController(nullptr)
 {
     InteractionModule::initialize();
     s_current = this;
     setDocumentController(new ModelController());
 }
 
-InteractiveContext::~InteractiveContext() 
+InteractiveContext::~InteractiveContext()
 {
     if (m_documentController) {
         m_documentController->dispose();
@@ -33,25 +33,26 @@ InteractiveContext::~InteractiveContext()
     m_viewportController = nullptr;
 }
 
-InteractiveContext* InteractiveContext::current() {
+InteractiveContext* InteractiveContext::current()
+{
     return s_current;
 }
 
-ModelController* InteractiveContext::documentController() const 
-{ 
-    return m_documentController; 
+ModelController* InteractiveContext::documentController() const
+{
+    return m_documentController;
 }
 
 void InteractiveContext::setDocumentController(ModelController* value)
 {
-	qDebug() << "InteractiveContext::setDocumentController";
+    qDebug() << "InteractiveContext::setDocumentController";
     m_documentController = value;
-	raisePropertyChanged("documentController");
+    raisePropertyChanged("documentController");
 }
 
-Sun_WorkspaceController* InteractiveContext::workspaceController() const 
-{ 
-    return m_workspaceController; 
+Sun_WorkspaceController* InteractiveContext::workspaceController() const
+{
+    return m_workspaceController;
 }
 
 void InteractiveContext::setWorkspaceController(Sun_WorkspaceController* value)
@@ -64,12 +65,12 @@ void InteractiveContext::setWorkspaceController(Sun_WorkspaceController* value)
     m_workspaceController = value;
 }
 
-Sun_ViewportController* InteractiveContext::viewportController() const 
-{ 
-    return m_viewportController; 
+Sun_ViewportController* InteractiveContext::viewportController() const
+{
+    return m_viewportController;
 }
 
-void InteractiveContext::setViewportController(Sun_ViewportController* value) 
+void InteractiveContext::setViewportController(Sun_ViewportController* value)
 {
     m_viewportController = value;
     raisePropertyChanged("viewportController");
@@ -88,10 +89,10 @@ void InteractiveContext::setWorkspace(Sun::Workspace* value)
     raisePropertyChanged("workspaceController");
 }
 
-void InteractiveContext::setViewport(Sun_Viewport* value) 
+void InteractiveContext::setViewport(Sun_Viewport* value)
 {
     CoreContext::setViewport(value);
-    if (value==nullptr) {
+    if (value == nullptr) {
         setViewportController(nullptr);
         m_workspaceController->SetActiveViewport(nullptr);
     }
@@ -111,17 +112,17 @@ EditorState* InteractiveContext::editorState()
     return m_editorState;
 }
 
-QList<QColor> InteractiveContext::recentUsedColors() const 
+QList<QColor> InteractiveContext::recentUsedColors() const
 {
     return m_recentUsedColors;
 }
 
-QList<QString> InteractiveContext::recentUsedScripts() const 
+QList<QString> InteractiveContext::recentUsedScripts() const
 {
     return m_recentUsedScripts;
 }
 
-void InteractiveContext::addToScriptMruList(const QString& filePath) 
+void InteractiveContext::addToScriptMruList(const QString& filePath)
 {
     int index = m_recentUsedScripts.indexOf(filePath);
     if (index >= 0) {
@@ -135,5 +136,5 @@ void InteractiveContext::addToScriptMruList(const QString& filePath)
         m_recentUsedScripts.prepend(filePath);
     }
 
-	raisePropertyChanged("recentUsedScripts");
+    raisePropertyChanged("recentUsedScripts");
 }
