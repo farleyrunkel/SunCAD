@@ -100,7 +100,7 @@ signals:
     void cursorPosition2dChanged(const gp_Pnt2d&);
 
 private:
-    Tool* m_murrentTool;
+    Tool* m_currentTool;
     Editor* m_currentEditor;
     Sun::Workspace* m_workspace;
     Sun_Viewport* m_activeViewport;

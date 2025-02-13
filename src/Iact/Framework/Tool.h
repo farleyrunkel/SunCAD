@@ -3,16 +3,19 @@
 #ifndef IACT_FRAMEWORK_TOOL_H_
 #define IACT_FRAMEWORK_TOOL_H_
 
+// Qt includes
 #include <QObject>
 #include <QString>
 #include <QList>
 
+// Occt includes
 #include "Iact/Framework/WorkspaceControl.h"
 #include "Iact/Framework/ToolAction.h"
 
-class Tool : public WorkspaceControl 
+class Tool : public WorkspaceControl
 {
 	Q_OBJECT
+
 public:
 	explicit Tool(QObject* parent = nullptr);
 
@@ -53,9 +56,11 @@ protected:
 signals:
 	void toolActionChanged(ToolAction*);
 
+protected:
+	QString m_id;
+
 private:
 	QList<ToolAction*> m_toolActions;
-	QString m_id;
 	bool m_isActive;
 };
 

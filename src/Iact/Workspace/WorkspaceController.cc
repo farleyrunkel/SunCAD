@@ -24,7 +24,7 @@
 Sun_WorkspaceController::Sun_WorkspaceController(Sun::Workspace* workspace)
     : m_workspace(workspace)
     , m_mouseEventData(new MouseEventData)
-    , m_murrentTool(nullptr)
+    , m_currentTool(nullptr)
     , m_currentEditor(nullptr)
     , m_activeViewport(nullptr)
     , m_hudManager(nullptr)
@@ -93,7 +93,7 @@ Sun_ViewportController* Sun_WorkspaceController::GetViewController(Sun_Viewport*
 
 Tool* Sun_WorkspaceController::currentTool() const 
 {
-    return m_murrentTool; 
+    return m_currentTool; 
 }
 
 bool Sun_WorkspaceController::startTool(Tool* tool) 
@@ -105,7 +105,7 @@ bool Sun_WorkspaceController::startTool(Tool* tool)
         }
         if (tool != nullptr) {
             tool->setWorkspaceController(this);
-            m_murrentTool = tool;
+            m_currentTool = tool;
             if (m_currentEditor) { 
                 m_currentEditor->stopTool(); 
             }
@@ -396,8 +396,8 @@ QList<WorkspaceControl*> Sun_WorkspaceController::enumerateControls()
     qDebug() << "Debug: m_workspaceController::enumerateControls";
     QList<WorkspaceControl*> controls;
 
-    if (m_murrentTool) {
-        controls.push_back(m_murrentTool);
+    if (m_currentTool) {
+        controls.push_back(m_currentTool);
     }
 
     if (m_currentEditor) {

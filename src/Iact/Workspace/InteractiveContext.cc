@@ -103,6 +103,14 @@ void InteractiveContext::setViewport(Sun_Viewport* value)
     }
 }
 
+EditorState* InteractiveContext::editorState()
+{
+    if (!m_editorState) {
+        m_editorState = new EditorState();
+    }
+    return m_editorState;
+}
+
 QList<QColor> InteractiveContext::recentUsedColors() const 
 {
     return m_recentUsedColors;

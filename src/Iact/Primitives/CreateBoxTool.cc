@@ -35,6 +35,7 @@ CreateBoxTool::CreateBoxTool()
 	, m_ValueHudElement(nullptr)
 	, m_previewShape(nullptr)
 {
+	m_id = "CreateBoxTool";
 }
 
 bool CreateBoxTool::onStart()

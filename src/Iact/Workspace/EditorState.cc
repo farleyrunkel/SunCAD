@@ -39,7 +39,7 @@ EditorState::~EditorState()
 
 void EditorState::on_InteractiveContext_PropertyChanged(const QString& propertyName)
 {
-	if (propertyName == "WorkspaceController") {
+	if (propertyName == "workspaceController") {
 		if (m_workspaceController) {
 			disconnect(m_workspaceController, &Sun_WorkspaceController::propertyChanged
 					   , this, &EditorState::on_WorkspaceController_PropertyChanged);
@@ -50,15 +50,16 @@ void EditorState::on_InteractiveContext_PropertyChanged(const QString& propertyN
 					, this, &EditorState::on_WorkspaceController_PropertyChanged);
 		}
 
-		on_WorkspaceController_PropertyChanged("CurrentTool");
+		on_WorkspaceController_PropertyChanged("currentTool");
 	}
-
 }
 
 void EditorState::on_WorkspaceController_PropertyChanged(const QString& propertyName)
 {
-    if (propertyName == "CurrentTool") {
-        updateActiveTool(qobject_cast<Sun_WorkspaceController*>(sender())->currentTool());
+    if (propertyName == "currentTool") {
+        auto s = qobject_cast<Sun_WorkspaceController*>(sender());
+        if (s != nullptr)
+            updateActiveTool(s->currentTool());
     }
 }
 

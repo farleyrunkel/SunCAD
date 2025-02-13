@@ -5,14 +5,16 @@
 
 // Qt includes
 #include <QIcon>
-#include <QObject>
 #include <QMessageBox>
+#include <QObject>
 
 // Project includes
-#include "ResourceUtils.h"
 #include "Core/Core.h"
-#include "Iact/Primitives/CreateBoxTool.h"
 #include "Iact/Commands/CommandHelper.h"
+#include "Iact/Primitives/CreateBoxTool.h"
+#include "Iact/Workspace/EditorState.h"
+#include "Iact/Workspace/InteractiveContext.h"
+#include "ResourceUtils.h"
 
 // Initialize the static command outside the class
 ActionCommand& ModelCommands::createBox() 
@@ -31,15 +33,13 @@ ActionCommand& ModelCommands::createBox()
         command.connect(Core::commandManager(), &CommandManager::updateEnabled,
             []() { command.setEnabled(command.canExecute()); }
         );
-        //command.connect(Core::appContext(), &InteractiveContext::propertyChanged,
-        //                [](const QString& propertyName) {
-        //    if (propertyName == "workspaceController") {
-        //        auto controller = Core::appContext()->workspaceController();
-        //        auto currentTool = controller->currentTool();
-        //        command.setCheckable(currentTool && qobject_cast<CreateBoxTool*>(currentTool) != nullptr);
-        //    }
-        //}
-        //);
+        command.connect(InteractiveContext::current()->editorState(), &EditorState::activeToolChanged,
+                        []() {
+            auto controller = InteractiveContext::current()->workspaceController();
+            auto currentTool = controller->currentTool();
+            command.setChecked(currentTool && qobject_cast<CreateBoxTool*>(currentTool) != nullptr);
+        }
+        );
     }
 
     return command; 

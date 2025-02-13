@@ -6,13 +6,12 @@
 // Project includes
 #include "Iact/Workspace/WorkspaceController.h"
 
-Tool::Tool(QObject* parent) 
+Tool::Tool(QObject* parent)
 	: WorkspaceControl()
-	, m_id(typeid(*this).name()) 
-{
-}
+	, m_id("Tool")
+{}
 
-bool Tool::start() 
+bool Tool::start()
 {
 	if (onStart()) {
 		m_isActive = true;
@@ -22,14 +21,17 @@ bool Tool::start()
 	return false;
 }
 
-bool Tool::onStart() { return false; }
+bool Tool::onStart()
+{
+	return false;
+}
 
-ToolAction* Tool::currentAction() const 
+ToolAction* Tool::currentAction() const
 {
 	return m_toolActions.size() > 0 ? m_toolActions.first() : nullptr;
 }
 
-bool Tool::cancel(bool force) 
+bool Tool::cancel(bool force)
 {
 	if (!onCancel() && !force)
 		return false;
@@ -39,7 +41,7 @@ bool Tool::cancel(bool force)
 	return true;
 }
 
-void Tool::stop() 
+void Tool::stop()
 {
 	m_isActive = false;
 	onStop();
@@ -49,35 +51,38 @@ void Tool::stop()
 	workspaceController()->invalidate();
 }
 
-QString Tool::id() const 
-{ return m_id; }
+QString Tool::id() const
+{
+	return m_id;
+}
 
-bool Tool::prepareUndo() 
+bool Tool::prepareUndo()
 {
 	return cancel(false);
 }
 
-QList<WorkspaceControl*> Tool::getChildren() const 
+QList<WorkspaceControl*> Tool::getChildren() const
 {
 	qDebug() << "Debug: Tool::getChildren";
-	return { m_toolActions.begin(), m_toolActions.end() };
+	return {m_toolActions.begin(), m_toolActions.end()};
 }
 
-bool Tool::onCancel() 
+bool Tool::onCancel()
 {
 	return true;
 }
 
-void Tool::onStop() {}
+void Tool::onStop()
+{}
 
-void Tool::cleanup() 
+void Tool::cleanup()
 {
 	stopAllActions();
 	//restoreAllVisualShapes();
 	WorkspaceControl::cleanup();
 }
 
-bool Tool::startAction(ToolAction* toolAction, bool exclusive) 
+bool Tool::startAction(ToolAction* toolAction, bool exclusive)
 {
 	if (!m_toolActions.isEmpty() && std::find(m_toolActions.begin(), m_toolActions.end(), toolAction) != m_toolActions.end())
 		return true;
@@ -103,7 +108,7 @@ bool Tool::startAction(ToolAction* toolAction, bool exclusive)
 	}
 }
 
-void Tool::stopAction(ToolAction* toolAction) 
+void Tool::stopAction(ToolAction* toolAction)
 {
 	if (toolAction == nullptr)
 		return;
@@ -115,7 +120,7 @@ void Tool::stopAction(ToolAction* toolAction)
 	emit toolActionChanged(toolAction);
 }
 
-void Tool::stopAllActions() 
+void Tool::stopAllActions()
 {
 	if (!m_toolActions.empty()) {
 		// 复制指针或引用，避免修改正在遍历的 `_Actions`

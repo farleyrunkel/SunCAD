@@ -44,6 +44,8 @@ public:
     void setWorkspace(Sun::Workspace* workspace) override;
     void setViewport(Sun_Viewport* Viewport) override;
 
+    EditorState* editorState();
+
     // RecentUsedColors getter
     QList<QColor> recentUsedColors() const;
 
