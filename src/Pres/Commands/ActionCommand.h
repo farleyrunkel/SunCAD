@@ -1,7 +1,7 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_PRES_COMMANDS_ACTIONCOMMAND_H_
-#define SRC_PRES_COMMANDS_ACTIONCOMMAND_H_
+#ifndef PRES_COMMANDS_ACTIONCOMMAND_H_
+#define PRES_COMMANDS_ACTIONCOMMAND_H_
 
 #include <functional>
 
@@ -9,7 +9,8 @@
 
 #include "Pres/Commands/RelayCommand.h"
 
-class ActionCommand final : public QAction, public RelayCommand {
+class ActionCommand final : public QAction, public RelayCommand 
+{
     Q_OBJECT
 
  public:
@@ -17,4 +18,4 @@ class ActionCommand final : public QAction, public RelayCommand {
     ActionCommand(std::function<void()> execute = nullptr, std::function<bool()> canExecute = nullptr);
 };
 
-#endif  // SRC_PRES_COMMANDS_ACTIONCOMMAND_H_
+#endif  // PRES_COMMANDS_ACTIONCOMMAND_H_
