@@ -28,7 +28,7 @@ bool PointAction::onMouseMove(MouseEventData* data)
 {
     if (!m_isFinished) {
 
-        _ensureMarker();
+        ensureMarker();
         processMouseInput(data);
 
         auto workingPlane = workspaceController()->workspace()->workingPlane();
@@ -75,7 +75,7 @@ bool PointAction::onMouseUp(MouseEventData* data)
     return true;
 }
 
-void PointAction::_ensureMarker() 
+void PointAction::ensureMarker() 
 {
     if (m_marker == nullptr) {
         m_marker = new Marker(workspaceController(), Marker::Styles::Bitmap, Marker::PlusImage());

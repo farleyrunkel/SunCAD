@@ -7,7 +7,9 @@ AxisValueAction::AxisValueAction(const gp_Ax1& axis)
     : ToolAction()
     , _axis(axis)
     , _currentValue(0.0)
-    , _currentDistance(0.0) {}
+    , _currentDistance(0.0) 
+{
+}
 
 bool AxisValueAction::onStart() 
 {
@@ -25,7 +27,7 @@ bool AxisValueAction::onStart()
 bool AxisValueAction::onMouseMove(MouseEventData* data) 
 {
     if (!_isFinished) {
-        if (_processMouseInput(data)) {
+        if (processMouseInput(data)) {
             workspaceController()->invalidate();
             auto args = std::make_shared<EventArgs>(_currentValue, _currentDistance, data);
             emit preview(args);
@@ -37,7 +39,7 @@ bool AxisValueAction::onMouseMove(MouseEventData* data)
 bool AxisValueAction::onMouseUp(MouseEventData* data) 
 {
     if (!_isFinished) {
-        if (_processMouseInput(data)) {
+        if (processMouseInput(data)) {
             workspaceController()->invalidate();
             _isFinished = true;
             auto args = std::make_shared<EventArgs>(_currentValue, _currentDistance, data);
@@ -52,7 +54,7 @@ bool AxisValueAction::onMouseDown(MouseEventData* data)
     return true; // ×èÖ¹ Rubberband Selection
 }
 
-bool AxisValueAction::_processMouseInput(MouseEventData* data) 
+bool AxisValueAction::processMouseInput(MouseEventData* data) 
 {
     double distance = 0.0;
     std::optional<double> value = _processMouseInputForAxis(data, distance);

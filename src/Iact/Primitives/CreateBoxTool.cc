@@ -14,6 +14,7 @@
 #include "Core/Topology/Body.h"
 #include "Iact/HudElements/Coord2DHudElement.h"
 #include "Iact/HudElements/MultiValueHudElement.h"
+#include "Iact/HudElements/ValueHudElement.h"
 #include "Iact/ToolActions/AxisValueAction.h"
 #include "Iact/Visual/VisualShape.h"
 #include "Iact/Workspace/WorkspaceController.h"
@@ -31,6 +32,7 @@ CreateBoxTool::CreateBoxTool()
 	: Tool()
 	, m_coord2DHudElement(nullptr)
 	, m_multiValueHudElement(nullptr)
+	, m_ValueHudElement(nullptr)
 	, m_previewShape(nullptr)
 {
 }
@@ -156,7 +158,37 @@ void CreateBoxTool::baseRectAction_Preview(const std::shared_ptr<PointAction::Ev
 void CreateBoxTool::baseRectAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args)
 {
 	auto axisPosition = ElSLib::Value(m_pointPlane1.X(), m_pointPlane1.Y(), m_plane);
+	auto axisValueAction = new AxisValueAction(gp_Ax1(axisPosition, m_plane.Axis().Direction()));
+	connect(axisValueAction, &AxisValueAction::preview, this, &CreateBoxTool::_HeightAction_Preview);
+	connect(axisValueAction, &AxisValueAction::finished, this, &CreateBoxTool::_HeightAction_Finished);
+	if (!startAction(axisValueAction)) {
+		return;
+	}
+
+	remove(m_coord2DHudElement);
+	remove(m_multiValueHudElement);
+
+	m_currentPhase = Phase::Height;
+
+	setHintMessage("Enter height, press `k:Ctrl` to round to grid stepping.");
+
+	if (m_ValueHudElement == nullptr) {
+		m_ValueHudElement = new ValueHudElement("Height:");
+		connect(m_ValueHudElement, &ValueHudElement::valueEntered, [this](double) {
+			if (m_currentPhase == Phase::Height) {
+				m_previewShape->setDimensionZ(m_height);
+				_HeightAction_Finished(nullptr);
+			};
+		});
+		add(m_multiValueHudElement);
+	}
+
+	ensurePreviewShape();
 }
+
+void CreateBoxTool::_HeightAction_Preview(const std::shared_ptr<AxisValueAction::EventArgs>& args) {}
+
+void CreateBoxTool::_HeightAction_Finished(const std::shared_ptr<AxisValueAction::EventArgs>& args) {}
 
 void CreateBoxTool::multiValueEntered(double newValue1, double newValue2)
 {

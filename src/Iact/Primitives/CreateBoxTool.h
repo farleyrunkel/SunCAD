@@ -3,16 +3,21 @@
 #ifndef IACT_PRIMITIVES_CREATEBOXTOOL_H_
 #define IACT_PRIMITIVES_CREATEBOXTOOL_H_
 
+// Qt includes
 #include <QObject>
 #include <QPointer>
 
+// Occt includes
 #include <gp_Pln.hxx>
 #include <gp_Pnt2d.hxx>
 
+// Project includes
 #include "Core/Shapes/Primitives/Box.h"
 #include "Iact/Framework/Tool.h"
 #include "Iact/HudElements/Coord2DHudElement.h"
 #include "Iact/HudElements/MultiValueHudElement.h"
+#include "Iact/HudElements/ValueHudElement.h"
+#include "Iact/ToolActions/AxisValueAction.h"
 #include "Iact/ToolActions/PointAction.h"
 #include "Iact/ToolActions/PointAction.h"
 #include "Iact/Visual/VisualObject.h"
@@ -42,6 +47,8 @@ private:
 	void pivotAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args);
 	void baseRectAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args);
 	void baseRectAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args);
+	void _HeightAction_Preview(const std::shared_ptr<AxisValueAction::EventArgs>& args);
+	void _HeightAction_Finished(const std::shared_ptr<AxisValueAction::EventArgs>& args);
 	void multiValueEntered(double newValue1, double newValue2);
 
 private:
@@ -53,6 +60,7 @@ private:
 	bool m_isTemporaryVisual;
 	Coord2DHudElement* m_coord2DHudElement;
 	MultiValueHudElement* m_multiValueHudElement;
+	ValueHudElement* m_ValueHudElement;
 	QPointer<VisualObject> m_visualShape;
 	Box* m_previewShape;
 };

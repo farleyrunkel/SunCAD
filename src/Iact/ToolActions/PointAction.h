@@ -46,7 +46,7 @@ protected:
     bool onMouseUp(MouseEventData* data) override;
 
 private:
-    void _ensureMarker();
+    void ensureMarker();
     void processMouseInput(MouseEventData* data);
 
 signals:

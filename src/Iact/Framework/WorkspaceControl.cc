@@ -1,7 +1,9 @@
 // Copyright [2024] SunCAD
 
+// Own include
 #include "Iact/Framework/WorkspaceControl.h"
 
+// Project includes
 #include "Iact/Visual/VisualObject.h"
 #include "Iact/Workspace/InteractiveContext.h"
 #include "Iact/Workspace/WorkspaceController.h"
@@ -37,6 +39,15 @@ void WorkspaceControl::add(IHudElement* hudElement)
 	auto wc = InteractiveContext::current()->workspaceController();
 	if (wc && wc->hudManager()) {
 		wc->hudManager()->addElement(hudElement);
+	}
+}
+
+void WorkspaceControl::remove(IHudElement* hudElement) 
+{
+	m_hudElements.removeAll(hudElement);
+	auto wc = InteractiveContext::current()->workspaceController();
+	if (wc && wc->hudManager()) {
+		wc->hudManager()->removeElement(hudElement);
 	}
 }
 

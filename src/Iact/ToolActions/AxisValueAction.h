@@ -30,7 +30,9 @@ public:
     public:
         EventArgs() = default;
         EventArgs(double v, double d, MouseEventData* m)
-            : value(v), distance(d), mouseEventData(m) {}
+            : value(v)
+            , distance(d)
+            , mouseEventData(m) {}
 
         double value;
         double distance;
@@ -50,7 +52,7 @@ protected:
     bool onMouseDown(MouseEventData* data) override;
 
 private:
-    bool _processMouseInput(MouseEventData* data);
+    bool processMouseInput(MouseEventData* data);
 
     std::optional<double> _processMouseInputForAxis(MouseEventData* data, double& distance);
 

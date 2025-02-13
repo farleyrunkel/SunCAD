@@ -1,15 +1,16 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_IACT_FRAMEWORK_WORKSPACECONTROLL_H_
-#define SRC_IACT_FRAMEWORK_WORKSPACECONTROLL_H_
+#ifndef IACT_FRAMEWORK_WORKSPACECONTROLL_H_
+#define IACT_FRAMEWORK_WORKSPACECONTROLL_H_
 
-#include <QObject>
+// Qt includes
 #include <QList>
+#include <QObject>
 
+// Projeect inlcudes
 #include "Iact/HudElements/HudElement.h"
-#include "Iact/Workspace/MouseEventData.h"
-
 #include "Iact/Visual/VisualObject.h"
+#include "Iact/Workspace/MouseEventData.h"
 
 class Sun_WorkspaceController;
 
@@ -30,6 +31,8 @@ protected:
 
     void add(VisualObject* visual);
     void add(IHudElement* hudElement);
+
+	void remove(IHudElement* hudElement);
 
 public:
     virtual bool onMouseMove(MouseEventData* data) override 
@@ -78,4 +81,4 @@ private:
     QList<VisualObject*> m_visualObjects;
 };
 
-#endif  // SRC_IACT_FRAMEWORK_WORKSPACECONTROLL_H_
+#endif  // IACT_FRAMEWORK_WORKSPACECONTROLL_H_
