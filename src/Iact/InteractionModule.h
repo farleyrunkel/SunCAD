@@ -10,21 +10,21 @@
 // Project includes
 #include "Iact/Visual/VisualShape.h"
 
-class InteractionModule 
+class InteractionModule
 {
 public:
-    static bool _IsInitialized;
+    static bool m_isInitialized;
 
-    static void initialize() 
+    static void initialize()
     {
-        if (_IsInitialized)
+        if (m_isInitialized)
             return;
 
         //Serializer.RegisterNamespaceAlias("Editors", "Macad.Interaction.Editors");
 
         _DoAutoRegister();
 
-        _IsInitialized = true;
+        m_isInitialized = true;
     }
 
     static void _DoAutoRegister()

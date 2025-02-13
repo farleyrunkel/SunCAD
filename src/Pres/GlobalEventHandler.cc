@@ -1,13 +1,17 @@
 // Copyright [2024] SunCAD
 
+// Own includes
 #include "Pres/GlobalEventHandler.h"
 
+// Qt includes
 #include <QLineEdit>
 #include <QFocusEvent>
 
-GlobalEventHandler::GlobalEventHandler(QObject* parent) : QObject(parent) {}
+GlobalEventHandler::GlobalEventHandler(QObject* parent) : QObject(parent)
+{}
 
-bool GlobalEventHandler::eventFilter(QObject* obj, QEvent* event) {
+bool GlobalEventHandler::eventFilter(QObject* obj, QEvent* event)
+{
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
         if (keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter) {

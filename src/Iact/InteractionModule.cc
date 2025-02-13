@@ -3,4 +3,4 @@
 // Own include
 #include "Iact/InteractionModule.h"
 
-bool InteractionModule::_IsInitialized = false;
+bool InteractionModule::m_isInitialized = false;

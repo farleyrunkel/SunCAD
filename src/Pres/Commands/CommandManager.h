@@ -1,20 +1,24 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_PRES_COMMANDS_COMMANDMANAGER_H_
-#define SRC_PRES_COMMANDS_COMMANDMANAGER_H_
+#ifndef PRES_COMMANDS_COMMANDMANAGER_H_
+#define PRES_COMMANDS_COMMANDMANAGER_H_
 
+// std includes
 #include <functional>
 
+// Qt includes
 #include <QObject>
 
-class CommandManager final : public QObject {
+class CommandManager final : public QObject
+{
     Q_OBJECT
- public:
+
+public:
     // Constructor
     CommandManager();
 
- signals:
+signals:
     void updateEnabled();
 };
 
-#endif  // SRC_PRES_COMMANDS_COMMANDMANAGER_H_
+#endif  // PRES_COMMANDS_COMMANDMANAGER_H_

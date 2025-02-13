@@ -1,21 +1,23 @@
 // Copyright [2024] SunCAD
 
+// Qt includes
 #include <QCoreApplication>
 #include <QSystemSemaphore>
 #include <QMessageBox>
 #include <QLibrary>
 
+// Project includes
 #include "App/Application.h"
 
-int main(int argc, char *argv[]) {
-
+int main(int argc, char* argv[])
+{
     QCoreApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
     Application app(argc, argv);
 
     QSystemSemaphore sema(app.applicationName(), 1, QSystemSemaphore::Open);
     if (!sema.acquire()) {
-        QMessageBox::warning(nullptr, QObject::tr("Error"), 
-            QObject::tr("An instance of the application is already running."));
+        QMessageBox::warning(nullptr, QObject::tr("Error"),
+                             QObject::tr("An instance of the application is already running."));
         return 1;
     }
 

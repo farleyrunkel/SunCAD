@@ -1,25 +1,29 @@
 // Copyright [2024] SunCAD
 
+// Own include
 #include "Iact/Workspace/ViewportController.h"
 
 Sun_ViewportController::Sun_ViewportController(Sun_Viewport* Viewport, Sun_WorkspaceController* workspacecontroller)
-	: QObject(),
-	m_viewport(Viewport),
-	m_workspaceController(workspacecontroller)
+	: QObject()
+	, m_viewport(Viewport)
+	, m_workspaceController(workspacecontroller)
 {
 	assert(Viewport != nullptr);
 	Init();
 }
 
-Sun_ViewportController::~Sun_ViewportController() {}
+Sun_ViewportController::~Sun_ViewportController()
+{}
 
-void Sun_ViewportController::SetWindow(const Handle(Aspect_Window)& theWindow, const Aspect_RenderingContext theContext) {
+void Sun_ViewportController::SetWindow(const Handle(Aspect_Window)& theWindow, const Aspect_RenderingContext theContext)
+{
 	if (!view().IsNull()) {
 		view()->SetWindow(theWindow, theContext);
 	}
 }
 
-QString Sun_ViewportController::DumpInfo(bool theIsBasic, bool theToPrint) {
+QString Sun_ViewportController::DumpInfo(bool theIsBasic, bool theToPrint)
+{
 	TCollection_AsciiString anInfo;
 	if (!view().IsNull()) {
 		TColStd_IndexedDataMapOfStringString aGlCapsDict;
@@ -43,24 +47,26 @@ QString Sun_ViewportController::DumpInfo(bool theIsBasic, bool theToPrint) {
 	return QString::fromUtf8(anInfo.ToCString());
 }
 
-void Sun_ViewportController::MouseMove(const QPointF& pos, Qt::KeyboardModifiers modifiers, MouseMoveMode mode) 
+void Sun_ViewportController::MouseMove(const QPointF& pos, Qt::KeyboardModifiers modifiers, MouseMoveMode mode)
 {
 	workspaceController()->MouseMove(this, pos, modifiers);
 	workspaceController()->invalidate();
 }
 
-void Sun_ViewportController::MouseDown(Qt::KeyboardModifiers modifiers) 
+void Sun_ViewportController::MouseDown(Qt::KeyboardModifiers modifiers)
 {
 	workspaceController()->MouseDown(this, modifiers);
 	workspaceController()->invalidate();
 }
 
-void Sun_ViewportController::MouseUp(Qt::KeyboardModifiers modifiers) {
+void Sun_ViewportController::MouseUp(Qt::KeyboardModifiers modifiers)
+{
 	workspaceController()->MouseUp(this, modifiers);
 	workspaceController()->invalidate();
 }
 
-void Sun_ViewportController::SetPredefinedView(PredefinedViews predefinedView) {
+void Sun_ViewportController::SetPredefinedView(PredefinedViews predefinedView)
+{
 	if (predefinedView == PredefinedViews::WorkingPlane) {
 		const auto& plane = workspaceController()->workspace()->workingPlane();
 		const auto& dir = plane.Axis().Direction();
@@ -111,11 +117,9 @@ void Sun_ViewportController::SetPredefinedView(PredefinedViews predefinedView) {
 
 void Sun_ViewportController::SetLockedToPlane(bool value)
 {
-	if (_LockedToPlane != value)
-	{
+	if (_LockedToPlane != value) {
 		_LockedToPlane = value;
-		if (value)
-		{
+		if (value) {
 			SetPredefinedView(PredefinedViews::WorkingPlane);
 		}
 		_SetViewCube(!value);
@@ -124,7 +128,8 @@ void Sun_ViewportController::SetLockedToPlane(bool value)
 	}
 }
 
-void Sun_ViewportController::_SetViewCube(bool isVisible) {
+void Sun_ViewportController::_SetViewCube(bool isVisible)
+{
 	auto aisContext = workspaceController()->workspace()->aisContext();
 
 	if (_ViewCube.IsNull())
@@ -140,7 +145,8 @@ void Sun_ViewportController::_SetViewCube(bool isVisible) {
 	}
 }
 
-void Sun_ViewportController::_SetViewCube(bool isVisible, uint32_t size, double duration) {
+void Sun_ViewportController::_SetViewCube(bool isVisible, uint32_t size, double duration)
+{
 	auto aisContext = workspaceController()->workspace()->aisContext();
 
 	// 如果视图立方体已存在，则使用现有方法更新其显示状态

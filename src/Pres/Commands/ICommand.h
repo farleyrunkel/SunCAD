@@ -1,10 +1,11 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_INTF_ICOMMAND_H_
-#define SRC_INTF_ICOMMAND_H_
+#ifndef INTF_ICOMMAND_H_
+#define INTF_ICOMMAND_H_
 
-class ICommand {
- public:
+class ICommand
+{
+public:
     virtual ~ICommand() = default;
 
     virtual void execute() = 0;
@@ -12,4 +13,4 @@ class ICommand {
     virtual bool canExecute() const = 0;
 };
 
-#endif // SRC_INTF_ICOMMAND_H_
+#endif // INTF_ICOMMAND_H_

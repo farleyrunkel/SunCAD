@@ -1,7 +1,7 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_IACT_WORKSPACE_VIEWPORTCONTROLLER_H_
-#define SRC_IACT_WORKSPACE_VIEWPORTCONTROLLER_H_
+#ifndef IACT_WORKSPACE_VIEWPORTCONTROLLER_H_
+#define IACT_WORKSPACE_VIEWPORTCONTROLLER_H_
 
 // Qt includes
 #include <QObject>
@@ -23,10 +23,10 @@
 class Sun_ViewportController : public QObject
 {
 	Q_OBJECT
-	Q_PROPERTY(Sun_WorkspaceController* workspaceController READ workspaceController CONSTANT)
-	Q_PROPERTY(Sun_Viewport* viewport READ viewport CONSTANT)
-	Q_PROPERTY(bool LockedToPlane READ LockedToPlane WRITE SetLockedToPlane NOTIFY LockedToPlaneChanged)
-	Q_PROPERTY(bool IsInRubberbandSelection READ IsInRubberbandSelection CONSTANT)
+		Q_PROPERTY(Sun_WorkspaceController* workspaceController READ workspaceController CONSTANT)
+		Q_PROPERTY(Sun_Viewport* viewport READ viewport CONSTANT)
+		Q_PROPERTY(bool LockedToPlane READ LockedToPlane WRITE SetLockedToPlane NOTIFY LockedToPlaneChanged)
+		Q_PROPERTY(bool IsInRubberbandSelection READ IsInRubberbandSelection CONSTANT)
 
 public:
 	enum class PredefinedViews
@@ -40,20 +40,28 @@ public:
 		WorkingPlane
 	};
 
-	enum MouseMoveMode { None, Panning, Rotating, Twisting, Zooming };
+	enum MouseMoveMode
+	{
+		None, Panning, Rotating, Twisting, Zooming
+	};
 
 public:
 	explicit Sun_ViewportController(Sun_Viewport* Viewport,
 									Sun_WorkspaceController* workspacecontroller);
 	~Sun_ViewportController();
 
-	Handle(V3d_View) view() const {
+	Handle(V3d_View) view() const
+	{
 		return this->viewport() ? this->viewport()->view() : nullptr;
 	}
 
-	Handle(AIS_ViewCube) ViewCube() const { return _ViewCube; }
+	Handle(AIS_ViewCube) ViewCube() const
+	{
+		return _ViewCube;
+	}
 
-	const Handle(Aspect_Window)& Window() const {
+	const Handle(Aspect_Window)& Window() const
+	{
 		return !view().IsNull() ? view()->Window() : nullptr;
 	}
 
@@ -66,43 +74,62 @@ public:
 				   MouseMoveMode mode = MouseMoveMode::None);
 	void MouseDown(Qt::KeyboardModifiers modifiers);
 	void MouseUp(Qt::KeyboardModifiers modifiers);
-	void StartEditing() {}
-	void StartRubberbandSelection() {}  // add necessary parameters
-	void Zoom(const QPointF& pos, double delta) {}
-	void Rotate(double deltaX, double deltaY, double deltaZ) {}
+	void StartEditing()
+	{}
+	void StartRubberbandSelection()
+	{}  // add necessary parameters
+	void Zoom(const QPointF& pos, double delta)
+	{}
+	void Rotate(double deltaX, double deltaY, double deltaZ)
+	{}
 
-	bool IsInRubberbandSelection() const {
+	bool IsInRubberbandSelection() const
+	{
 		return !_AisRubberBand.IsNull();
 	}
-	bool isSelecting() const {
+	bool isSelecting() const
+	{
 		return false;
 	}
-	bool IsLockedToPlane() const {
+	bool IsLockedToPlane() const
+	{
 		return false;
 	}
 
-	Handle(Aspect_NeutralWindow) initWindow() {
+	Handle(Aspect_NeutralWindow) initWindow()
+	{
 		return nullptr;
 	}
 	void SetPredefinedView(PredefinedViews predefinedView);
 
-	Sun_WorkspaceController* workspaceController() const {
+	Sun_WorkspaceController* workspaceController() const
+	{
 		return m_workspaceController;
 	}
-	Sun_Viewport* viewport() const { return m_viewport; }
+	Sun_Viewport* viewport() const
+	{
+		return m_viewport;
+	}
 
 	// Getter for lockedToPlane
-	bool LockedToPlane() const { return _LockedToPlane; }
+	bool LockedToPlane() const
+	{
+		return _LockedToPlane;
+	}
 
 	// Setter for lockedToPlane
 	void SetLockedToPlane(bool value);
 
 private:
-	void Init() { viewport()->init(true); }
+	void Init()
+	{
+		viewport()->init(true);
+	}
 
 	void _SetViewCube(bool isVisible);
 	void _SetViewCube(bool isVisible, uint32_t size, double duration);
-	void _SetTrihedron(bool visible) {}
+	void _SetTrihedron(bool visible)
+	{}
 
 signals:
 	void LockedToPlaneChanged(bool);
@@ -111,7 +138,7 @@ private:
 	Sun_Viewport* m_viewport = nullptr;
 	Sun_WorkspaceController* m_workspaceController = nullptr;
 	Handle(AIS_ViewCube) _ViewCube = nullptr;
-	
+
 	Handle(AIS_RubberBand) _AisRubberBand = nullptr;
 	bool _LockedToPlane = false;
 	bool _ShowTrihedron = false;
@@ -119,4 +146,4 @@ private:
 	const int RubberbandFreehandSelectionThresholdSquared = 100;
 };
 
-#endif  // SRC_IACT_WORKSPACE_VIEWPORTCONTROLLER_H_
+#endif  // IACT_WORKSPACE_VIEWPORTCONTROLLER_H_
