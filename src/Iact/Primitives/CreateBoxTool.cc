@@ -211,6 +211,15 @@ void CreateBoxTool::_HeightAction_Preview(const std::shared_ptr<AxisValueAction:
 
 void CreateBoxTool::_HeightAction_Finished(const std::shared_ptr<AxisValueAction::EventArgs>& args) 
 {
+	InteractiveContext::current()->document()->add(m_previewShape->body());
+	if (!m_isTemporaryVisual) {
+		m_visualShape->setIsSelectable(true);
+		m_visualShape = nullptr;
+	}
+
+	stop();
+
+	workspaceController()->invalidate();
 }
 
 void CreateBoxTool::multiValueEntered(double newValue1, double newValue2)

@@ -130,14 +130,13 @@ public:
         }
     }
 
+    void add(Entity*, bool update = true) {}
+	void remove(Entity*, bool update = true) {}
+
     // Abstract save-to-file with specific implementation in subclasses
     virtual bool saveToFileInternal(const QString& filePath) {
         return false;
     };
-
-
-    //boost::signals2::signal<void(Entity*, int)> notifyCollectionChangedAction_Add;
-    //boost::signals2::signal<void(Entity*, int)> notifyCollectionChangedAction_Remove;
 
 private:
     QString m_filePath;
