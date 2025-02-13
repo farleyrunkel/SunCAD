@@ -53,7 +53,7 @@ public:
     void context_PropertyChanged(const QString& propertyName);
 
 signals: 
-    void hudElementsAdded(IHudElement*);
+    void hudElementAdded(IHudElement*);
     void hudElementsRemoved(IHudElement*);
 
 private:

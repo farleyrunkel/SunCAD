@@ -180,15 +180,37 @@ void CreateBoxTool::baseRectAction_Finished(const std::shared_ptr<PointAction::E
 				_HeightAction_Finished(nullptr);
 			};
 		});
-		add(m_multiValueHudElement);
+		add(m_ValueHudElement);
 	}
 
 	ensurePreviewShape();
 }
 
-void CreateBoxTool::_HeightAction_Preview(const std::shared_ptr<AxisValueAction::EventArgs>& args) {}
+void CreateBoxTool::_HeightAction_Preview(const std::shared_ptr<AxisValueAction::EventArgs>& args) 
+{
+	m_height = args->value;
 
-void CreateBoxTool::_HeightAction_Finished(const std::shared_ptr<AxisValueAction::EventArgs>& args) {}
+	if (args->mouseEventData->modifierKeys & Qt::ControlModifier) {
+		m_height = roundToSignificantDigits(m_height);
+	}
+
+	if (std::abs(m_height) < 0.001) {
+		m_height = 0.001;
+	}
+
+	ensurePreviewShape();
+
+	m_previewShape->setDimensionZ(m_height);
+
+	if (m_isTemporaryVisual)
+		m_visualShape->update();
+
+	m_ValueHudElement->setValue(m_height);
+}
+
+void CreateBoxTool::_HeightAction_Finished(const std::shared_ptr<AxisValueAction::EventArgs>& args) 
+{
+}
 
 void CreateBoxTool::multiValueEntered(double newValue1, double newValue2)
 {

@@ -31,13 +31,25 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 	m_hudContainer->setAutoFillBackground(false);
 	m_hudContainer->setStyleSheet("background-color: rgba(128, 128, 128, 0.5);");
 
-	connect(m_dataContext, &ViewportPanelModel::hudElementsAdded
+	connect(m_dataContext, &ViewportPanelModel::hudElementAdded
 			, [this](IHudElement* element) 
 	{
 		m_hudContainer->layout()->addWidget(element);
 		m_hudContainer->setVisible(true);
-		qDebug() << "mouseMovePosition connect: " << m_mouseMovePosition;
+		m_hudContainer->update();
 		_updateHud(m_mouseMovePosition); 
+	});
+
+	connect(m_dataContext, &ViewportPanelModel::hudElementsRemoved
+			, [this](IHudElement* element) {
+		m_hudContainer->layout()->removeWidget(element);
+
+		// If there are no more elements, hide the container
+		if (m_hudContainer->layout()->count() == 0) {
+			m_hudContainer->setVisible(false);
+		}
+		m_hudContainer->update();
+		_updateHud(m_mouseMovePosition);
 	});
 
 	connect(m_dataContext, &ViewportPanelModel::propertyChanged

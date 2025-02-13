@@ -21,15 +21,25 @@ void ViewportPanelModel::addElement(IHudElement* element)
     element->setWorkspaceController(m_workspaceController);
     element->initialize();
     m_hudElements.append(element);
-    emit hudElementsAdded(element);
+    emit hudElementAdded(element);
 }
 
 void ViewportPanelModel::removeElement(IHudElement* element) 
 {
+	if (m_hudElements.contains(element)) {
+		m_hudElements.removeAll(element);
+        element->deleteLater();
+		emit hudElementsRemoved(element);
+	}
 }
 
 void ViewportPanelModel::removeElements(std::function<bool(IHudElement*)> predicate) 
 {
+	for (int i = m_hudElements.size() - 1; i >= 0; i--) {
+		if (predicate(m_hudElements[i])) {
+			removeElement(m_hudElements[i]);
+		}
+	}
 }
 
 // virtual void SetCursor(QObject* owner, Cursor* cursor) override {}

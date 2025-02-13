@@ -7,7 +7,8 @@ AxisValueAction::AxisValueAction(const gp_Ax1& axis)
     : ToolAction()
     , _axis(axis)
     , _currentValue(0.0)
-    , _currentDistance(0.0) 
+    , _currentDistance(0.0)
+    , _isFinished(false)
 {
 }
 
@@ -24,36 +25,6 @@ bool AxisValueAction::onStart()
     return true;
 }
 
-bool AxisValueAction::onMouseMove(MouseEventData* data) 
-{
-    if (!_isFinished) {
-        if (processMouseInput(data)) {
-            workspaceController()->invalidate();
-            auto args = std::make_shared<EventArgs>(_currentValue, _currentDistance, data);
-            emit preview(args);
-        }
-    }
-    return ToolAction::onMouseMove(data);
-}
-
-bool AxisValueAction::onMouseUp(MouseEventData* data) 
-{
-    if (!_isFinished) {
-        if (processMouseInput(data)) {
-            workspaceController()->invalidate();
-            _isFinished = true;
-            auto args = std::make_shared<EventArgs>(_currentValue, _currentDistance, data);
-            emit finished(args);
-        }
-    }
-    return true;
-}
-
-bool AxisValueAction::onMouseDown(MouseEventData* data) 
-{
-    return true; // ×èÖ¹ Rubberband Selection
-}
-
 bool AxisValueAction::processMouseInput(MouseEventData* data) 
 {
     double distance = 0.0;
@@ -66,7 +37,7 @@ bool AxisValueAction::processMouseInput(MouseEventData* data)
     return false;
 }
 
-std::optional<double> AxisValueAction::_processMouseInputForAxis(MouseEventData* data, double& distance) 
+std::optional<double> AxisValueAction::_processMouseInputForAxis(MouseEventData* data, double& distance)
 {
     //gp_Dir planeDir = workspaceController()->ActiveViewport()->getRightDirection();
     //if (planeDir.IsParallel(_axis.Direction(), 0.1)) {
@@ -99,5 +70,35 @@ std::optional<double> AxisValueAction::_processMouseInputForAxis(MouseEventData*
     //}
 
     distance = 0;
-    return std::nullopt;
+    return  1.1/*std::nullopt*/;
+}
+
+bool AxisValueAction::onMouseMove(MouseEventData* data) 
+{
+    if (!_isFinished) {
+        if (processMouseInput(data)) {
+            workspaceController()->invalidate();
+            auto args = std::make_shared<EventArgs>(_currentValue, _currentDistance, data);
+            emit preview(args);
+        }
+    }
+    return ToolAction::onMouseMove(data);
+}
+
+bool AxisValueAction::onMouseUp(MouseEventData* data) 
+{
+    if (!_isFinished) {
+        if (processMouseInput(data)) {
+            workspaceController()->invalidate();
+            _isFinished = true;
+            auto args = std::make_shared<EventArgs>(_currentValue, _currentDistance, data);
+            emit finished(args);
+        }
+    }
+    return true;
+}
+
+bool AxisValueAction::onMouseDown(MouseEventData* data) 
+{
+    return true; // ×èÖ¹ Rubberband Selection
 }
