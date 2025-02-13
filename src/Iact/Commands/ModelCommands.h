@@ -3,8 +3,8 @@
 #ifndef IACT_COMMANDS_MODELCOMMANDS_H_
 #define IACT_COMMANDS_MODELCOMMANDS_H_
 
+// Project includes
 #include "Pres/Commands/ActionCommand.h"
-#include <QMessageBox>
 
 class ModelCommands 
 {

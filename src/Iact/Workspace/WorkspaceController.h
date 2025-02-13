@@ -28,7 +28,7 @@ class Tool;
 class Sun_ViewportController;
 class Sun_WorkspaceController;
 
-class Sun_WorkspaceController : public QObject
+class Sun_WorkspaceController : public BaseObject
 {
     Q_OBJECT
     Q_PROPERTY(Sun::Workspace* workspace READ workspace CONSTANT)

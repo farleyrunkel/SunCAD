@@ -1,11 +1,14 @@
 // Copyright [2024] SunCAD
 
+// Own include
 #include "Iact/Commands/ModelCommands.h"
 
+// Qt includes
 #include <QIcon>
 #include <QObject>
 #include <QMessageBox>
 
+// Project includes
 #include "ResourceUtils.h"
 #include "Core/Core.h"
 #include "Iact/Primitives/CreateBoxTool.h"

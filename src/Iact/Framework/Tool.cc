@@ -1,7 +1,9 @@
 // Copyright [2024] SunCAD
 
+// Own include
 #include "Iact/Framework/Tool.h"
 
+// Project includes
 #include "Iact/Workspace/WorkspaceController.h"
 
 Tool::Tool(QObject* parent) 

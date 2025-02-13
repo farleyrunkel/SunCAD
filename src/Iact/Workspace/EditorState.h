@@ -8,6 +8,9 @@
 #include <QString>
 #include <QVariant>
 
+class Tool;
+class Sun_WorkspaceController;
+
 class EditorState final : public QObject
 {
     Q_OBJECT
@@ -27,6 +30,9 @@ public:
 
     // Active Tool
     QString activeTool() const;
+    void on_InteractiveContext_PropertyChanged(const QString& tool);
+    void on_WorkspaceController_PropertyChanged(const QString& tool);
+    void updateActiveTool(Tool* tool);
     void setActiveTool(const QString& tool);
 
     // Sketch
@@ -67,6 +73,7 @@ private:
     bool m_snapToVertexSelected;
     bool m_snapToEdgeSelected;
     bool m_snappingEnabled;
+	Sun_WorkspaceController* m_workspaceController;
 };
 
 #endif // IACT_WORKSPACE_EDITORSTATE_H_

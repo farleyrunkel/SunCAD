@@ -1,16 +1,76 @@
-#include "EditorState.h"
+// Copyright [2024] SunCAD
+
+// Own include
+#include "Iact/Workspace/EditorState.h"
+
+// Project includes
+#include "Iact/Framework/Tool.h"
+#include "Iact/Workspace/InteractiveContext.h"
+#include "Iact/Workspace/WorkspaceController.h"
 
 EditorState::EditorState(QObject* parent)
-    : QObject(parent),
-    m_sketchGroupVisible(false),
-    m_snapToGridSelected(false),
-    m_snapToVertexSelected(false),
-    m_snapToEdgeSelected(false),
-    m_snappingEnabled(false)
-{}
+    : QObject(parent)
+    , m_sketchGroupVisible(false)
+    , m_snapToGridSelected(false)
+    , m_snapToVertexSelected(false)
+    , m_snapToEdgeSelected(false)
+    , m_snappingEnabled(false)
+    , m_workspaceController(nullptr)
+{
+    connect(InteractiveContext::current(), &InteractiveContext::propertyChanged
+            , this, &EditorState::on_InteractiveContext_PropertyChanged);
+
+    m_workspaceController = InteractiveContext::current()->workspaceController();
+	if (m_workspaceController) {
+		connect(m_workspaceController, &Sun_WorkspaceController::propertyChanged
+                , this, &EditorState::on_WorkspaceController_PropertyChanged);
+	}
+}
 
 EditorState::~EditorState()
-{}
+{
+	disconnect(InteractiveContext::current(), &InteractiveContext::propertyChanged
+			   , this, &EditorState::on_InteractiveContext_PropertyChanged);
+    if (m_workspaceController) {
+        disconnect(m_workspaceController, &Sun_WorkspaceController::propertyChanged
+                   , this, &EditorState::on_WorkspaceController_PropertyChanged);
+    }
+}
+
+void EditorState::on_InteractiveContext_PropertyChanged(const QString& propertyName)
+{
+	if (propertyName == "WorkspaceController") {
+		if (m_workspaceController) {
+			disconnect(m_workspaceController, &Sun_WorkspaceController::propertyChanged
+					   , this, &EditorState::on_WorkspaceController_PropertyChanged);
+		}
+		m_workspaceController = InteractiveContext::current()->workspaceController();
+		if (m_workspaceController) {
+			connect(m_workspaceController, &Sun_WorkspaceController::propertyChanged
+					, this, &EditorState::on_WorkspaceController_PropertyChanged);
+		}
+
+		on_WorkspaceController_PropertyChanged("CurrentTool");
+	}
+
+}
+
+void EditorState::on_WorkspaceController_PropertyChanged(const QString& propertyName)
+{
+    if (propertyName == "CurrentTool") {
+        updateActiveTool(qobject_cast<Sun_WorkspaceController*>(sender())->currentTool());
+    }
+}
+
+void EditorState::updateActiveTool(Tool* tool)
+{
+    if (tool) {
+        setActiveTool(tool->id());
+    }
+    else {
+        setActiveTool("");
+    }
+}
 
 // Active Tool
 QString EditorState::activeTool() const
