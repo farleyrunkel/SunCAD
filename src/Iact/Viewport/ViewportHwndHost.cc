@@ -1,32 +1,25 @@
 // Copyright [2024] SunCAD
 
+// Own include
 #include "Iact/Viewport/ViewportHwndHost.h"
 
+// sys include
 #ifdef _WIN32
 #include <windows.h>
 #endif
 
+// Qt includes
 #include <QApplication>
 #include <QMessageBox>
 #include <QMouseEvent>
 
-#include <Standard_WarningsDisable.hxx>
-#include <Standard_WarningsRestore.hxx>
-#include <OpenGl_Context.hxx>
-#include <AIS_Shape.hxx>
-#include <AIS_ViewCube.hxx>
-#include <Aspect_DisplayConnection.hxx>
-#include <Aspect_NeutralWindow.hxx>
-#include <BRepPrimAPI_MakeBox.hxx>
-#include <Message.hxx>
-#include <OpenGl_GraphicDriver.hxx>
-#include <OpenGl_FrameBuffer.hxx>
-#include <OpenGl_View.hxx>
-#include <OpenGl_Window.hxx>
 
-namespace {
+
+namespace
+{
 //! Map Qt buttons bitmask to virtual keys.
-Aspect_VKeyMouse qtMouseButtons2VKeys(Qt::MouseButtons theButtons) {
+Aspect_VKeyMouse qtMouseButtons2VKeys(Qt::MouseButtons theButtons)
+{
     Aspect_VKeyMouse aButtons = Aspect_VKeyMouse_NONE;
     if ((theButtons & Qt::LeftButton) != 0) {
         aButtons |= Aspect_VKeyMouse_LeftButton;
@@ -41,7 +34,8 @@ Aspect_VKeyMouse qtMouseButtons2VKeys(Qt::MouseButtons theButtons) {
 }
 
 //! Map Qt mouse modifiers bitmask to virtual keys.
-Aspect_VKeyFlags qtMouseModifiers2VKeys(Qt::KeyboardModifiers theModifiers) {
+Aspect_VKeyFlags qtMouseModifiers2VKeys(Qt::KeyboardModifiers theModifiers)
+{
     Aspect_VKeyFlags aFlags = Aspect_VKeyFlags_NONE;
     if ((theModifiers & Qt::ShiftModifier) != 0) {
         aFlags |= Aspect_VKeyFlags_SHIFT;
@@ -56,7 +50,8 @@ Aspect_VKeyFlags qtMouseModifiers2VKeys(Qt::KeyboardModifiers theModifiers) {
 }
 
 //! Map Qt key to virtual key.
-Aspect_VKey qtKey2VKey(int theKey) {
+Aspect_VKey qtKey2VKey(int theKey)
+{
     switch (theKey) {
     case 1060: // ru
     case Qt::Key_A: return Aspect_VKey_A;
@@ -158,35 +153,42 @@ Aspect_VKey qtKey2VKey(int theKey) {
 //! This FBO is set to OpenGl_Context::SetDefaultFrameBuffer() as a final target.
 //! Subclass calls OpenGl_Context::SetFrameBufferSRGB() with sRGB=false flag,
 //! which asks OCCT to disable GL_FRAMEBUFFER_SRGB and apply sRGB gamma correction manually.
-class OcctQtFrameBuffer : public OpenGl_FrameBuffer {
+class OcctQtFrameBuffer : public OpenGl_FrameBuffer
+{
     DEFINE_STANDARD_RTTI_INLINE(OcctQtFrameBuffer, OpenGl_FrameBuffer)
 public:
     //! Empty constructor.
-    OcctQtFrameBuffer() {}
+    OcctQtFrameBuffer()
+    {}
 
     //! Make this FBO active in context.
-    virtual void BindBuffer(const Handle(OpenGl_Context)& theGlCtx) override {
+    virtual void BindBuffer(const Handle(OpenGl_Context)& theGlCtx) override
+    {
         OpenGl_FrameBuffer::BindBuffer(theGlCtx);
         theGlCtx->SetFrameBufferSRGB(true, false);
     }
 
     //! Make this FBO as drawing target in context.
-    virtual void BindDrawBuffer(const Handle(OpenGl_Context)& theGlCtx) override {
+    virtual void BindDrawBuffer(const Handle(OpenGl_Context)& theGlCtx) override
+    {
         OpenGl_FrameBuffer::BindDrawBuffer(theGlCtx);
         theGlCtx->SetFrameBufferSRGB(true, false);
     }
 
     //! Make this FBO as reading source in context.
-    virtual void BindReadBuffer(const Handle(OpenGl_Context)& theGlCtx) override {
+    virtual void BindReadBuffer(const Handle(OpenGl_Context)& theGlCtx) override
+    {
         OpenGl_FrameBuffer::BindReadBuffer(theGlCtx);
     }
 };
 
 //! Auxiliary wrapper to avoid OpenGL macros collisions between Qt and OCCT headers.
-class OcctGlTools {
+class OcctGlTools
+{
 public:
     //! Return GL context.
-    static Handle(OpenGl_Context) GetGlContext(const Handle(V3d_View)& theView) {
+    static Handle(OpenGl_Context) GetGlContext(const Handle(V3d_View)& theView)
+    {
         Handle(OpenGl_View) aGlView = Handle(OpenGl_View)::DownCast(theView->view());
         return aGlView->GlWindow()->GetGlContext();
     }
@@ -201,7 +203,7 @@ public:
 ViewportHwndHost::ViewportHwndHost(Sun_ViewportController* vc, QWidget* theParent)
     : _ViewportController(vc)
     , QOpenGLWidget(theParent)
-    , myIsCoreProfile(true) 
+    , myIsCoreProfile(true)
 {
     Handle(Aspect_DisplayConnection) aDisp = new Aspect_DisplayConnection();
     Handle(OpenGl_GraphicDriver) aDriver = new OpenGl_GraphicDriver(aDisp, false);
@@ -259,14 +261,15 @@ ViewportHwndHost::ViewportHwndHost(Sun_ViewportController* vc, QWidget* theParen
 // Function : ~ViewportHwndHost
 // Purpose  :
 // ================================================================
-ViewportHwndHost::~ViewportHwndHost() {
-}
+ViewportHwndHost::~ViewportHwndHost()
+{}
 
 // ================================================================
 // Function : dumpGlInfo
 // Purpose  :
 // ================================================================
-void ViewportHwndHost::dumpGlInfo(bool theIsBasic, bool theToPrint) {
+void ViewportHwndHost::dumpGlInfo(bool theIsBasic, bool theToPrint)
+{
     TColStd_IndexedDataMapOfStringString aGlCapsDict;
     myView->DiagnosticInformation(aGlCapsDict, theIsBasic ? Graphic3d_DiagnosticInfo_Basic : Graphic3d_DiagnosticInfo_Complete);
     TCollection_AsciiString anInfo;
@@ -289,7 +292,8 @@ void ViewportHwndHost::dumpGlInfo(bool theIsBasic, bool theToPrint) {
 // Function : initializeGL
 // Purpose  :
 // ================================================================
-void ViewportHwndHost::initializeGL() {
+void ViewportHwndHost::initializeGL()
+{
     const QRect aRect = rect();
     const Graphic3d_Vec2i aViewSize(aRect.right() - aRect.left(), aRect.bottom() - aRect.top());
 
@@ -325,7 +329,8 @@ void ViewportHwndHost::initializeGL() {
 // Function : closeEvent
 // Purpose  :
 // ================================================================
-void ViewportHwndHost::closeEvent(QCloseEvent* theEvent) {
+void ViewportHwndHost::closeEvent(QCloseEvent* theEvent)
+{
     theEvent->accept();
 }
 
@@ -333,7 +338,8 @@ void ViewportHwndHost::closeEvent(QCloseEvent* theEvent) {
 // Function : keyPressEvent
 // Purpose  :
 // ================================================================
-void ViewportHwndHost::keyPressEvent(QKeyEvent* theEvent) {
+void ViewportHwndHost::keyPressEvent(QKeyEvent* theEvent)
+{
     Aspect_VKey aKey = qtKey2VKey(theEvent->key());
     switch (aKey) {
     case Aspect_VKey_Escape:
@@ -355,7 +361,8 @@ void ViewportHwndHost::keyPressEvent(QKeyEvent* theEvent) {
 // Function : mousePressEvent
 // Purpose  :
 // ================================================================
-void ViewportHwndHost::mousePressEvent(QMouseEvent* theEvent) {
+void ViewportHwndHost::mousePressEvent(QMouseEvent* theEvent)
+{
     qDebug() << "ViewportHwndHost: Mouse Press event";
 
     QOpenGLWidget::mousePressEvent(theEvent);
@@ -374,7 +381,7 @@ void ViewportHwndHost::mousePressEvent(QMouseEvent* theEvent) {
 // Function : mouseReleaseEvent
 // Purpose  :
 // ================================================================
-void ViewportHwndHost::mouseReleaseEvent(QMouseEvent* theEvent) 
+void ViewportHwndHost::mouseReleaseEvent(QMouseEvent* theEvent)
 {
     QOpenGLWidget::mouseReleaseEvent(theEvent);
     const Graphic3d_Vec2i aPnt(theEvent->pos().x(), theEvent->pos().y());
@@ -392,7 +399,7 @@ void ViewportHwndHost::mouseReleaseEvent(QMouseEvent* theEvent)
 // Function : mouseMoveEvent
 // Purpose  :
 // ================================================================
-void ViewportHwndHost::mouseMoveEvent(QMouseEvent* theEvent) 
+void ViewportHwndHost::mouseMoveEvent(QMouseEvent* theEvent)
 {
     qDebug() << "ViewportHwndHost: Mouse move event";
     QOpenGLWidget::mouseMoveEvent(theEvent);
@@ -412,7 +419,8 @@ void ViewportHwndHost::mouseMoveEvent(QMouseEvent* theEvent)
 // function : wheelEvent
 // purpose  :
 // ==============================================================================
-void ViewportHwndHost::wheelEvent(QWheelEvent* theEvent) {
+void ViewportHwndHost::wheelEvent(QWheelEvent* theEvent)
+{
     QOpenGLWidget::wheelEvent(theEvent);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
     const Graphic3d_Vec2i aPos(Graphic3d_Vec2d(theEvent->position().x(), theEvent->position().y()));
@@ -443,7 +451,8 @@ void ViewportHwndHost::wheelEvent(QWheelEvent* theEvent) {
 // function : updateView
 // purpose  :
 // =======================================================================
-void ViewportHwndHost::updateView() {
+void ViewportHwndHost::updateView()
+{
     update();
     //if (window() != NULL) { window()->update(); }
 }
@@ -452,7 +461,8 @@ void ViewportHwndHost::updateView() {
 // Function : paintGL
 // Purpose  :
 // ================================================================
-void ViewportHwndHost::paintGL() {
+void ViewportHwndHost::paintGL()
+{
     if (myView->Window().IsNull()) {
         return;
     }
@@ -504,7 +514,8 @@ void ViewportHwndHost::paintGL() {
 // Purpose  :
 // ================================================================
 void ViewportHwndHost::handleViewRedraw(const Handle(AIS_InteractiveContext)& theCtx,
-                                    const Handle(V3d_View)& theView) {
+                                        const Handle(V3d_View)& theView)
+{
     AIS_ViewController::handleViewRedraw(theCtx, theView);
     if (myToAskNextFrame) {
         // ask more frames for animation
@@ -517,8 +528,9 @@ void ViewportHwndHost::handleViewRedraw(const Handle(AIS_InteractiveContext)& th
 // Purpose  :
 // ================================================================
 void ViewportHwndHost::OnSubviewChanged(const Handle(AIS_InteractiveContext)&,
-                                    const Handle(V3d_View)&,
-                                    const Handle(V3d_View)& theNewView) {
+                                        const Handle(V3d_View)&,
+                                        const Handle(V3d_View)& theNewView)
+{
     myFocusView = theNewView;
 }
 

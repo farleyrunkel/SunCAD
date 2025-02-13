@@ -1,8 +1,9 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_IACT_VIEWPORT_VIEWPORTMOUSECONTROLDEFAULT_H_
-#define SRC_IACT_VIEWPORT_VIEWPORTMOUSECONTROLDEFAULT_H_
+#ifndef IACT_VIEWPORT_VIEWPORTMOUSECONTROLDEFAULT_H_
+#define IACT_VIEWPORT_VIEWPORTMOUSECONTROLDEFAULT_H_
 
+// Qt includes
 #include <QPointF>
 #include <QMouseEvent>
 #include <QWheelEvent>
@@ -10,10 +11,11 @@
 #include <QDebug>
 #include <QScopedPointer>
 
+// Project includes
 #include "Iact/Viewport/IViewportMouseControl.h"
 #include "Iact/Workspace/ViewportController.h"
 
-class ViewportMouseControlDefault : public IViewportMouseControl 
+class ViewportMouseControlDefault : public IViewportMouseControl
 {
 public:
     explicit ViewportMouseControlDefault();
@@ -28,11 +30,11 @@ public:
 
 private:
     void updateMouseMoveMode(QMouseEvent* mouseEvent, Qt::KeyboardModifiers modifierKeys);
- 
+
 private:
     Sun_ViewportController* viewportController;
     Sun_ViewportController::MouseMoveMode currentMouseMoveMode;
     QPointF mouseDownPos;
 };
- 
-#endif  // SRC_IACT_VIEWPORT_VIEWPORTMOUSECONTROLDEFAULT_H_
+
+#endif  // IACT_VIEWPORT_VIEWPORTMOUSECONTROLDEFAULT_H_

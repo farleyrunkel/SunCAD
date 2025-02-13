@@ -1,17 +1,23 @@
 // Copyright [2024] SunCAD
 
+// Own include
 #include "Iact/Viewport/ViewportMouseControlDefault.h"
-#include <QMessageBox>
-ViewportMouseControlDefault::ViewportMouseControlDefault() : 
-    viewportController(nullptr), 
-    currentMouseMoveMode(Sun_ViewportController::MouseMoveMode::None) {
-}
 
-void ViewportMouseControlDefault::setViewportController(Sun_ViewportController* controller) {
+// Qt includes
+#include <QMessageBox>
+
+ViewportMouseControlDefault::ViewportMouseControlDefault() 
+    : viewportController(nullptr)
+    , currentMouseMoveMode(Sun_ViewportController::MouseMoveMode::None)
+{}
+
+void ViewportMouseControlDefault::setViewportController(Sun_ViewportController* controller)
+{
     viewportController = controller;
 }
 
-void ViewportMouseControlDefault::MouseMove(const QPointF& pos, QMouseEvent* mouseEvent, Qt::KeyboardModifiers modifierKeys) {
+void ViewportMouseControlDefault::MouseMove(const QPointF& pos, QMouseEvent* mouseEvent, Qt::KeyboardModifiers modifierKeys)
+{
     qDebug() << "ViewportMouseControlDefault::MouseMove: " << pos;
 
     if (!viewportController) return;
@@ -48,7 +54,7 @@ void ViewportMouseControlDefault::MouseDown(const QPointF& pos, Qt::MouseButton 
     updateMouseMoveMode(nullptr, modifierKeys);
 }
 
-void ViewportMouseControlDefault::MouseUp(const QPointF& pos, Qt::MouseButton changedButton, Qt::MouseButtons device, Qt::KeyboardModifiers modifierKeys) 
+void ViewportMouseControlDefault::MouseUp(const QPointF& pos, Qt::MouseButton changedButton, Qt::MouseButtons device, Qt::KeyboardModifiers modifierKeys)
 {
     if (!viewportController) return;
 
@@ -58,7 +64,8 @@ void ViewportMouseControlDefault::MouseUp(const QPointF& pos, Qt::MouseButton ch
     updateMouseMoveMode(nullptr, modifierKeys);
 }
 
-void ViewportMouseControlDefault::updateMouseMoveMode(QMouseEvent* mouseEvent, Qt::KeyboardModifiers modifierKeys) {
+void ViewportMouseControlDefault::updateMouseMoveMode(QMouseEvent* mouseEvent, Qt::KeyboardModifiers modifierKeys)
+{
     if (mouseEvent && (mouseEvent->buttons() & Qt::MiddleButton)) {
         if (modifierKeys & Qt::ControlModifier) {
             currentMouseMoveMode = Sun_ViewportController::MouseMoveMode::Twisting;
@@ -79,7 +86,8 @@ void ViewportMouseControlDefault::updateMouseMoveMode(QMouseEvent* mouseEvent, Q
     }
 }
 
-void ViewportMouseControlDefault::mouseWheel(const QPointF& pos, MouseWheel wheel, int delta, QInputEvent*, Qt::KeyboardModifiers modifierKeys) {
+void ViewportMouseControlDefault::mouseWheel(const QPointF& pos, MouseWheel wheel, int delta, QInputEvent*, Qt::KeyboardModifiers modifierKeys)
+{
     if (!viewportController || delta == 0) return;
 
     double scaledDelta = delta;
@@ -89,16 +97,17 @@ void ViewportMouseControlDefault::mouseWheel(const QPointF& pos, MouseWheel whee
 
     switch (wheel) {
     case MouseWheel::Vertical:
-        viewportController->Zoom(pos, scaledDelta / 200.0);
-        break;
+    viewportController->Zoom(pos, scaledDelta / 200.0);
+    break;
     case MouseWheel::Horizontal:
-        viewportController->Rotate(scaledDelta / -50.0, 0, 0);
-        break;
+    viewportController->Rotate(scaledDelta / -50.0, 0, 0);
+    break;
     }
     viewportController->MouseMove(pos, modifierKeys);
 }
 
-void ViewportMouseControlDefault::cancel() {
+void ViewportMouseControlDefault::cancel()
+{
     if (viewportController) {
         viewportController->MouseMove(QPointF(-1, -1), Qt::KeyboardModifier::NoModifier);
         currentMouseMoveMode = Sun_ViewportController::MouseMoveMode::None;

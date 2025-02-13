@@ -4,8 +4,8 @@
 #include "Core/Shapes/Shape.h"
 
 // Occt includes
-#include <TopLoc_Location.hxx>
 #include <gp_Trsf.hxx>
+#include <TopLoc_Location.hxx>
 
 // Project includes
 #include "Core/Topology/Body.h"
