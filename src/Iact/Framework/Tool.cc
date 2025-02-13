@@ -70,9 +70,9 @@ void Tool::onStop() {}
 
 void Tool::cleanup() 
 {
-	//StopAllActions();
-	//RestoreAllVisualShapes();
-	//BaseCleanup();
+	stopAllActions();
+	//restoreAllVisualShapes();
+	WorkspaceControl::cleanup();
 }
 
 bool Tool::startAction(ToolAction* toolAction, bool exclusive) 
@@ -115,8 +115,14 @@ void Tool::stopAction(ToolAction* toolAction)
 
 void Tool::stopAllActions() 
 {
-	for (const auto& action : m_toolActions) {
-		stopAction(action);
+	if (!m_toolActions.empty()) {
+		// 复制指针或引用，避免修改正在遍历的 `_Actions`
+		auto actions = std::move(m_toolActions);
+		m_toolActions.clear();
+
+		// 遍历副本并停止所有动作
+		for (const auto& action : actions) {
+			stopAction(action);
+		}
 	}
-	m_toolActions.clear();
 }

@@ -39,7 +39,7 @@ public:
 
 protected:
 	virtual bool onStart() override;
-	virtual void cleanup() override {}
+	virtual void cleanup() override;
 
 private:
 	void ensurePreviewShape();

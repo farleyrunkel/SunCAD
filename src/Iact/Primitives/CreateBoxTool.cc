@@ -55,6 +55,17 @@ bool CreateBoxTool::onStart()
 	return true;
 }
 
+void CreateBoxTool::cleanup() 
+{
+	if (m_visualShape != nullptr) {
+		workspaceController()->visualObjects()->remove(m_visualShape->entity());
+		m_visualShape->remove();
+		m_visualShape = nullptr;
+	}
+
+	Tool::cleanup();
+}
+
 void CreateBoxTool::ensurePreviewShape()
 {
 	if (m_previewShape != nullptr) {
