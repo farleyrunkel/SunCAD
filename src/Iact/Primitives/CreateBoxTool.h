@@ -47,9 +47,8 @@ private:
 	void pivotAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args);
 	void baseRectAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args);
 	void baseRectAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args);
-	void _HeightAction_Preview(const std::shared_ptr<AxisValueAction::EventArgs>& args);
-	void _HeightAction_Finished(const std::shared_ptr<AxisValueAction::EventArgs>& args);
-	void multiValueEntered(double newValue1, double newValue2);
+	void heightAction_Preview(const std::shared_ptr<AxisValueAction::EventArgs>& args);
+	void heightAction_Finished(const std::shared_ptr<AxisValueAction::EventArgs>& args);
 
 private:
 	Phase m_currentPhase;

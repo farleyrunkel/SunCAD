@@ -109,7 +109,15 @@ void CreateBoxTool::pivotAction_Finished(const std::shared_ptr<PointAction::Even
 	{
 		m_multiValueHudElement = new MultiValueHudElement("Length:", "Width:");
 		connect(m_multiValueHudElement, &MultiValueHudElement::MultiValueEntered, 
-				this, &CreateBoxTool::multiValueEntered);
+				[this] (double newValue1, double newValue2) {
+			if (m_currentPhase == Phase::BaseRect) {
+				m_pointPlane2 = gp_Pnt2d(m_pointPlane1.X() + newValue1, m_pointPlane1.Y() + newValue2);
+				baseRectAction_Preview(nullptr);
+				ensurePreviewShape();
+				baseRectAction_Finished(nullptr);
+			}
+		}
+		);
 		add(m_multiValueHudElement);
 	}
 }
@@ -159,8 +167,8 @@ void CreateBoxTool::baseRectAction_Finished(const std::shared_ptr<PointAction::E
 {
 	auto axisPosition = ElSLib::Value(m_pointPlane1.X(), m_pointPlane1.Y(), m_plane);
 	auto axisValueAction = new AxisValueAction(gp_Ax1(axisPosition, m_plane.Axis().Direction()));
-	connect(axisValueAction, &AxisValueAction::preview, this, &CreateBoxTool::_HeightAction_Preview);
-	connect(axisValueAction, &AxisValueAction::finished, this, &CreateBoxTool::_HeightAction_Finished);
+	connect(axisValueAction, &AxisValueAction::preview, this, &CreateBoxTool::heightAction_Preview);
+	connect(axisValueAction, &AxisValueAction::finished, this, &CreateBoxTool::heightAction_Finished);
 	if (!startAction(axisValueAction)) {
 		return;
 	}
@@ -177,7 +185,7 @@ void CreateBoxTool::baseRectAction_Finished(const std::shared_ptr<PointAction::E
 		connect(m_ValueHudElement, &ValueHudElement::valueEntered, [this](double) {
 			if (m_currentPhase == Phase::Height) {
 				m_previewShape->setDimensionZ(m_height);
-				_HeightAction_Finished(nullptr);
+				heightAction_Finished(nullptr);
 			};
 		});
 		add(m_ValueHudElement);
@@ -186,7 +194,7 @@ void CreateBoxTool::baseRectAction_Finished(const std::shared_ptr<PointAction::E
 	ensurePreviewShape();
 }
 
-void CreateBoxTool::_HeightAction_Preview(const std::shared_ptr<AxisValueAction::EventArgs>& args) 
+void CreateBoxTool::heightAction_Preview(const std::shared_ptr<AxisValueAction::EventArgs>& args) 
 {
 	m_height = args->value;
 
@@ -209,7 +217,7 @@ void CreateBoxTool::_HeightAction_Preview(const std::shared_ptr<AxisValueAction:
 	m_ValueHudElement->setValue(m_height);
 }
 
-void CreateBoxTool::_HeightAction_Finished(const std::shared_ptr<AxisValueAction::EventArgs>& args) 
+void CreateBoxTool::heightAction_Finished(const std::shared_ptr<AxisValueAction::EventArgs>& args) 
 {
 	InteractiveContext::current()->document()->add(m_previewShape->body());
 	if (!m_isTemporaryVisual) {
@@ -220,15 +228,4 @@ void CreateBoxTool::_HeightAction_Finished(const std::shared_ptr<AxisValueAction
 	stop();
 
 	workspaceController()->invalidate();
-}
-
-void CreateBoxTool::multiValueEntered(double newValue1, double newValue2)
-{
-	if (m_currentPhase == Phase::BaseRect)
-	{
-		m_pointPlane2 = gp_Pnt2d(m_pointPlane1.X() + newValue1, m_pointPlane1.Y() + newValue2);
-		baseRectAction_Preview(nullptr);
-		ensurePreviewShape();
-		baseRectAction_Finished(nullptr);
-	}
 }
