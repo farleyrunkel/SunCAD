@@ -8,6 +8,7 @@
 #include <QString>
 #include <QVariant>
 
+// Forward declarations
 class Tool;
 class Sun_WorkspaceController;
 

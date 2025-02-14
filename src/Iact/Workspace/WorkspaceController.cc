@@ -96,6 +96,28 @@ Tool* Sun_WorkspaceController::currentTool() const
     return m_currentTool;
 }
 
+void Sun_WorkspaceController::setCurrentTool(Tool* tool)
+{
+	if (m_currentTool != tool) {
+		m_currentTool = tool;
+		emit propertyChanged("currentTool");
+	}
+}
+
+void Sun_WorkspaceController::removeTool(Tool* tool)
+{
+	Q_ASSERT(tool != nullptr);
+    if (m_currentTool != tool) {
+        return;
+    }
+
+    m_currentTool = nullptr;
+
+	emit propertyChanged("currentTool");
+
+    invalidate();
+}
+
 bool Sun_WorkspaceController::startTool(Tool* tool)
 {
     qDebug() << "Debug: m_workspaceController::startTool";
@@ -105,7 +127,7 @@ bool Sun_WorkspaceController::startTool(Tool* tool)
         }
         if (tool != nullptr) {
             tool->setWorkspaceController(this);
-            m_currentTool = tool;
+            setCurrentTool(tool);
             if (m_currentEditor) {
                 m_currentEditor->stopTool();
             }
@@ -124,6 +146,11 @@ bool Sun_WorkspaceController::startTool(Tool* tool)
     }
 }
 
+bool Sun_WorkspaceController::isSelecting()
+{
+    return false;
+}
+
 void Sun_WorkspaceController::invalidate(bool immediateOnly, bool forceRedraw)
 {
     m_workspace->setNeedsImmediateRedraw(true);
@@ -132,6 +159,11 @@ void Sun_WorkspaceController::invalidate(bool immediateOnly, bool forceRedraw)
 
     if (forceRedraw)
         redraw();
+}
+
+IHudManager* Sun_WorkspaceController::hudManager() const
+{
+    return m_hudManager;
 }
 
 void Sun_WorkspaceController::workspace_GridChanged(Sun::Workspace* sender)

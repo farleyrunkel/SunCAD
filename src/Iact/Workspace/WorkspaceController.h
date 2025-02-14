@@ -55,21 +55,17 @@ public:
     Sun_ViewportController* GetViewController(Sun_Viewport* viewport) const;
 
     Tool* currentTool() const;
-    void removeTool(Tool* tool)
-    {}
+    void setCurrentTool(Tool* tool);
+
+    void removeTool(Tool* tool);
     bool startTool(Tool* tool);
-    bool isSelecting()
-    {
-        return false;
-    }
-    void invalidate(bool immediateOnly = false, bool forceRedraw = false);
-    ;
     bool cancelTool(Tool* tool, bool force);
 
-    IHudManager* hudManager() const
-    {
-        return m_hudManager;
-    }
+    bool isSelecting();
+    void invalidate(bool immediateOnly = false, bool forceRedraw = false);
+
+    IHudManager* hudManager() const;
+
     void setHudManager(IHudManager* hudManager);
 
     void SetActiveViewport(Sun_Viewport* Viewport);

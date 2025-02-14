@@ -17,9 +17,9 @@
 #include "ResourceUtils.h"
 
 // Initialize the static command outside the class
-ActionCommand& ModelCommands::createBox() 
+ActionCommand& ModelCommands::createBox()
 {
-    static ActionCommand command (
+    static ActionCommand command(
         []() { CommandHelper::startTool(new CreateBoxTool()); },
         []() { return CommandHelper::canStartTool(); }
     );
@@ -31,7 +31,7 @@ ActionCommand& ModelCommands::createBox()
         command.setToolTip(QObject::tr("Creates a new body with a box shape."));
 
         command.connect(Core::commandManager(), &CommandManager::updateEnabled,
-            []() { command.setEnabled(command.canExecute()); }
+                        []() { command.setEnabled(command.canExecute()); }
         );
         command.connect(InteractiveContext::current()->editorState(), &EditorState::activeToolChanged,
                         []() {
@@ -42,7 +42,7 @@ ActionCommand& ModelCommands::createBox()
         );
     }
 
-    return command; 
+    return command;
 }
 
 ActionCommand& ModelCommands::createCylinder()
@@ -59,7 +59,7 @@ ActionCommand& ModelCommands::createCylinder()
         command.setToolTip(QObject::tr("Creates a new body with a Cylinder shape."));
 
         command.connect(Core::commandManager(), &CommandManager::updateEnabled,
-            []() { command.setEnabled(command.canExecute()); }
+                        []() { command.setEnabled(command.canExecute()); }
         );
 
     }
@@ -80,7 +80,7 @@ ActionCommand& ModelCommands::createSphere()
         command.setToolTip(QObject::tr("Creates a new body with a Sphere shape."));
 
         command.connect(Core::commandManager(), &CommandManager::updateEnabled,
-            []() { command.setEnabled(command.canExecute()); }
+                        []() { command.setEnabled(command.canExecute()); }
         );
 
     }
