@@ -26,9 +26,9 @@ ActionCommand& WorkspaceCommands::doUndo()
 
     // Initialize command properties if not already set
     if (command.text().isEmpty()) {
-        command.setText(QObject::tr("Box"));
-        command.setIcon(ResourceUtils::icon("model/Prim-Box"));
-        command.setToolTip(QObject::tr("Creates a new body with a box shape."));
+        command.setText(QObject::tr("Undo"));
+        command.setIcon(ResourceUtils::icon("Edit/Edit-Undo"));
+        command.setToolTip(QObject::tr("Revert the last operation."));
 
         command.connect(Core::commandManager(), &CommandManager::updateEnabled,
                         []() { command.setEnabled(command.canExecute()); }
@@ -54,9 +54,9 @@ ActionCommand& WorkspaceCommands::doRedo()
 
     // Initialize command properties if not already set
     if (command.text().isEmpty()) {
-        command.setText(QObject::tr("Box"));
-        command.setIcon(ResourceUtils::icon("model/Prim-Box"));
-        command.setToolTip(QObject::tr("Creates a new body with a box shape."));
+        command.setText(QObject::tr("Redo"));
+        command.setIcon(ResourceUtils::icon("Edit/Edit-Redo"));
+        command.setToolTip(QObject::tr("Restore the last reverted operation."));
 
         command.connect(Core::commandManager(), &CommandManager::updateEnabled,
                         []() { command.setEnabled(command.canExecute()); }

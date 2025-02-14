@@ -69,5 +69,34 @@
         <file>icons/Marker/SketchConstraintTangent.svg</file>
         <file>icons/Marker/SketchConstraintVertical.svg</file>
         <file>icons/Marker/SketchConstraintVerticalDistance.svg</file>
+        <file>icons/Edit/Arrange-BoundingCenter.svg</file>
+        <file>icons/Edit/Arrange-MassCenter.svg</file>
+        <file>icons/Edit/Arrange-ShapePivot.svg</file>
+        <file>icons/Edit/Arrange-Transform.svg</file>
+        <file>icons/Edit/Edit-Copy.svg</file>
+        <file>icons/Edit/Edit-Cut.svg</file>
+        <file>icons/Edit/Edit-Delete.svg</file>
+        <file>icons/Edit/Edit-Duplicate.svg</file>
+        <file>icons/Edit/Edit-Paste.svg</file>
+        <file>icons/Edit/Edit-Redo.svg</file>
+        <file>icons/Edit/Edit-Undo.svg</file>
+        <file>icons/Edit/Selection-Freehand.svg</file>
+        <file>icons/Edit/Selection-Isolate.svg</file>
+        <file>icons/Edit/Selection-Rectangle.svg</file>
+        <file>icons/Edit/Selection-Touched.svg</file>
+        <file>icons/Edit/Snap-Edge.svg</file>
+        <file>icons/Edit/Snap-Enabled.svg</file>
+        <file>icons/Edit/Snap-Grid.svg</file>
+        <file>icons/Edit/Snap-Vertex.svg</file>
+        <file>icons/Edit/WorkingPlane-Align.svg</file>
+        <file>icons/Edit/WorkingPlane-Set.svg</file>
+        <file>icons/Edit/WorkingPlane-SetXY.svg</file>
+        <file>icons/Edit/WorkingPlane-SetXZ.svg</file>
+        <file>icons/Edit/WorkingPlane-SetZY.svg</file>
+        <file>icons/Layer/Layer-Editor.svg</file>
+        <file>icons/Layer/Layer-Isolation.svg</file>
+        <file>icons/Layer/Layer-MoveToLayer.svg</file>
+        <file>icons/Layer/Layer-SelectAllEntities.svg</file>
+        <file>icons/Layer/Layer-VisualProps.svg</file>
     </qresource>
 </RCC>
