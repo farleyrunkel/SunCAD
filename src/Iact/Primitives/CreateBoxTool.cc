@@ -64,6 +64,8 @@ void CreateBoxTool::cleanup()
 		m_visualShape = nullptr;
 	}
 
+	m_ValueHudElement->deleteLater();
+
 	Tool::cleanup();
 }
 
@@ -236,6 +238,8 @@ void CreateBoxTool::heightAction_Finished(const std::shared_ptr<AxisValueAction:
 		m_visualShape->setIsSelectable(true);
 		m_visualShape = nullptr;
 	}
+
+	remove(m_ValueHudElement);
 
 	stop();
 
