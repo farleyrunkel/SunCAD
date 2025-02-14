@@ -1,21 +1,25 @@
-#ifndef SRC_CORE_PROJECT_VISUALSTYLES_H_
-#define SRC_CORE_PROJECT_VISUALSTYLES_H_
+#ifndef CORE_PROJECT_VISUALSTYLES_H_
+#define CORE_PROJECT_VISUALSTYLES_H_
 
+// std includes
 #include <string>
 #include <array>
 #include <vector>
 #include <cstdint>
 
+// Project includes
 #include "Comm/Types/Color.h"
 
 // Enum definitions
-enum class PresentationMode {
+enum class PresentationMode
+{
     Wireframe,
     Solid,
     SolidWithBoundary
 };
 
-enum class LineStyle {
+enum class LineStyle
+{
     Solid,
     Dash,
     ShortDash,
@@ -23,19 +27,22 @@ enum class LineStyle {
     DotDash
 };
 
-enum class FillMode {
+enum class FillMode
+{
     None,
     Solid
 };
 
-enum class LineThickness {
+enum class LineThickness
+{
     Thin,
     Normal,
     Thick
 };
 
 // Static Colors class
-class Colors {
+class Colors
+{
 public:
     static const Sun::Color Default;
     static const Sun::Color Selection;
@@ -59,23 +66,27 @@ public:
 };
 
 // LineStyleDescription struct
-struct LineStyleDescription {
+struct LineStyleDescription
+{
     LineStyle style;
     std::string name;
     std::vector<double> pattern;
 
     LineStyleDescription(LineStyle s, const std::string& n, const std::vector<double>& p)
-        : style(s), name(n), pattern(p) {}
+        : style(s), name(n), pattern(p)
+    {}
 };
 
 // LineThicknessDescription struct
-struct LineThicknessDescription {
+struct LineThicknessDescription
+{
     LineThickness thickness;
     std::string name;
     double width;
 
     LineThicknessDescription(LineThickness t, const std::string& n, double w)
-        : thickness(t), name(n), width(w) {}
+        : thickness(t), name(n), width(w)
+    {}
 };
 
 // StyleHelper class
@@ -113,4 +124,4 @@ struct LineThicknessDescription {
 //    {LineThickness::Thick, "Thick", 3.0},
 //} };
 
-#endif  // SRC_CORE_PROJECT_VISUALSTYLES_H_
+#endif  // CORE_PROJECT_VISUALSTYLES_H_

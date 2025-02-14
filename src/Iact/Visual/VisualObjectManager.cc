@@ -14,7 +14,7 @@
 QMap<QString, VisualObjectManager::CreateVisualObjectDelegate> VisualObjectManager::s_registeredVisualTypes;
 
 VisualObjectManager::VisualObjectManager(Sun_WorkspaceController* workspaceController)
-    : m_workspaceController(workspaceController) 
+    : m_workspaceController(workspaceController)
 {
     // Connect signals
     connect(Entity_SignalHub::instance(), &Entity_SignalHub::entityRemoved, this, &VisualObjectManager::entity_EntityRemoved);
@@ -22,9 +22,8 @@ VisualObjectManager::VisualObjectManager(Sun_WorkspaceController* workspaceContr
     connect(Layer_SignalHub::instance(), &Layer_SignalHub::interactivityChanged, this, &VisualObjectManager::layer_InteractivityChanged);
 }
 
-VisualObjectManager::~VisualObjectManager() 
-{
-}
+VisualObjectManager::~VisualObjectManager()
+{}
 
 VisualObject* VisualObjectManager::createVisualObject(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity)
 {
@@ -114,7 +113,7 @@ void VisualObjectManager::update(InteractiveEntity* body)
     visualObject->update();
 }
 
-void VisualObjectManager::updateInvalidatedEntities() 
+void VisualObjectManager::updateInvalidatedEntities()
 {
     m_invalidatedInteractiveEntities.removeIf([this](InteractiveEntity* entity) {
         update(entity);
@@ -122,12 +121,12 @@ void VisualObjectManager::updateInvalidatedEntities()
     });
 }
 
-QList<Body*> VisualObjectManager::getIsolatedEntities() const 
+QList<Body*> VisualObjectManager::getIsolatedEntities() const
 {
     return m_isolatedEntities;
 }
 
-void VisualObjectManager::setIsolatedEntities(const QList<Body*>& entities) 
+void VisualObjectManager::setIsolatedEntities(const QList<Body*>& entities)
 {
     m_isolatedEntities = entities;
     emit entityIsolationChanged(!m_isolatedEntities.isEmpty());

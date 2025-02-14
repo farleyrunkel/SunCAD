@@ -8,19 +8,18 @@
 #include "Core/Topology/Layer.h"
 #include "Iact/Visual/VisualObjectManager.h"
 
-bool VisualShape::s_initOnce = []() 
-{
-	connect(Layer_SignalHub::instance(), &Layer_SignalHub::presentationChanged, []() {onPresentationChanged(nullptr); });
-	connect(Layer_SignalHub::instance(), &Layer_SignalHub::interactivityChanged, []() {onInteractivityChanged(nullptr); });
-	connect(VisualObjectManager_SignalHub::instance(), &VisualObjectManager_SignalHub::isolatedEntitiesChanged, []() {visualObjectManager_IsolatedEntitiesChanged(nullptr); });
-	return true;
+bool VisualShape::s_initOnce = []() {
+    connect(Layer_SignalHub::instance(), &Layer_SignalHub::presentationChanged, []() {onPresentationChanged(nullptr); });
+    connect(Layer_SignalHub::instance(), &Layer_SignalHub::interactivityChanged, []() {onInteractivityChanged(nullptr); });
+    connect(VisualObjectManager_SignalHub::instance(), &VisualObjectManager_SignalHub::isolatedEntitiesChanged, []() {visualObjectManager_IsolatedEntitiesChanged(nullptr); });
+    return true;
 }();
 
 VisualShape::VisualShape(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity, Options options)
     : VisualObject(workspaceController, entity)
     , m_options(options)
     , m_visualStyle(nullptr)
-    , m_errorMarker(nullptr) 
+    , m_errorMarker(nullptr)
 {
     if (entity != nullptr) {
         m_visualStyle = entity->getVisualStyleComponent();
@@ -31,7 +30,12 @@ VisualShape::VisualShape(Sun_WorkspaceController* workspaceController, Interacti
     update();
 }
 
-void VisualShape::remove() 
+VisualShape::~VisualShape()
+{
+    remove();
+}
+
+void VisualShape::remove()
 {
     if (m_aisShape.IsNull()) {
         return;
@@ -47,7 +51,7 @@ void VisualShape::remove()
     updateMarker();
 }
 
-void VisualShape::update() 
+void VisualShape::update()
 {
     qDebug() << "VisualShape::update()";
     if (m_aisShape.IsNull()) {
@@ -65,18 +69,18 @@ void VisualShape::update()
     }
 }
 
-Handle(AIS_InteractiveObject) VisualShape::aisObject() const 
+Handle(AIS_InteractiveObject) VisualShape::aisObject() const
 {
     return m_aisShape;
 }
 
-void VisualShape::setOverrideBrep(const TopoDS_Shape& shape) 
+void VisualShape::setOverrideBrep(const TopoDS_Shape& shape)
 {
     m_overrideBrep = shape;
     update();
 }
 
-void VisualShape::setVisualStyle(VisualStyle* visualStyle) 
+void VisualShape::setVisualStyle(VisualStyle* visualStyle)
 {
     if (m_visualStyle != nullptr) {
         disconnect(m_visualStyle, &VisualStyle::visualStyleChanged, this, &VisualShape::visualStyle_VisualStyleChanged);
@@ -88,7 +92,7 @@ void VisualShape::setVisualStyle(VisualStyle* visualStyle)
     updatePresentation();
 }
 
-VisualShape* VisualShape::create(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity) 
+VisualShape* VisualShape::create(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity)
 {
     if (!entity->getTransformedBRep().IsNull()) {
         return new VisualShape(workspaceController, entity);
@@ -97,15 +101,15 @@ VisualShape* VisualShape::create(Sun_WorkspaceController* workspaceController, I
     return nullptr;
 }
 
-void VisualShape::registerEntity() 
+void VisualShape::registerEntity()
 {
     VisualObjectManager::registerEntity<Body>(&VisualShape::create);
 }
 
-void VisualShape::updateAttributesForLayer(Layer* layer, AttributeSet* attributeSet) 
+void VisualShape::updateAttributesForLayer(Layer* layer, AttributeSet* attributeSet)
 {}
 
-void VisualShape::onPresentationChanged(Layer* layer) 
+void VisualShape::onPresentationChanged(Layer* layer)
 {
     if (layer == nullptr) {
         return;
@@ -147,14 +151,14 @@ void VisualShape::onPresentationChanged(Layer* layer)
     //}
 }
 
-void VisualShape::onInteractivityChanged(Layer* layer) 
+void VisualShape::onInteractivityChanged(Layer* layer)
 {
     auto workspaceController = InteractiveContext::current()->workspaceController();
     if (workspaceController == nullptr) {
         return;
     }
 
-    //for (auto visualObject : workspaceController->visualObjects()) {
+    //for (auto visualObject : workspaceController()->visualObjects()) {
     //    if (visualObject->layer() == layer) {
     //        VisualShape* visualShape = dynamic_cast<VisualShape*>(visualObject);
     //        if (visualShape != nullptr) {
@@ -165,7 +169,7 @@ void VisualShape::onInteractivityChanged(Layer* layer)
     //}
 }
 
-void VisualShape::visualObjectManager_IsolatedEntitiesChanged(VisualObjectManager* manager) 
+void VisualShape::visualObjectManager_IsolatedEntitiesChanged(VisualObjectManager* manager)
 {
     //for (auto visualObject : manager->getAll()) {
     //    VisualShape* visualShape = dynamic_cast<VisualShape*>(visualObject);
@@ -175,12 +179,12 @@ void VisualShape::visualObjectManager_IsolatedEntitiesChanged(VisualObjectManage
     //}
 }
 
-void VisualShape::visualStyle_VisualStyleChanged(Body* body, VisualStyle* visualStyle) 
+void VisualShape::visualStyle_VisualStyleChanged(Body* body, VisualStyle* visualStyle)
 {
     updatePresentation();
 }
 
-void VisualShape::updatePresentation() 
+void VisualShape::updatePresentation()
 {
     updateMarker();
 
@@ -213,7 +217,7 @@ void VisualShape::updatePresentation()
     aisContext()->RecomputePrsOnly(m_aisShape, false, true);
 }
 
-void VisualShape::updatePresentationForGhost() 
+void VisualShape::updatePresentationForGhost()
 {
     m_aisShape->SetDisplayMode((int)AIS_DisplayMode::AIS_Shaded);
     Handle(Prs3d_Drawer) ghostDrawer = new Prs3d_Drawer();
@@ -239,7 +243,7 @@ void VisualShape::updatePresentationForGhost()
     m_aisShape->SetAttributes(ghostDrawer);
 }
 
-void VisualShape::updateMarker() 
+void VisualShape::updateMarker()
 {
     if (!m_aisShape.IsNull()) {
         if (m_errorMarker == nullptr) {
@@ -254,7 +258,7 @@ void VisualShape::updateMarker()
     }
 }
 
-bool VisualShape::ensureAisObject() 
+bool VisualShape::ensureAisObject()
 {
     if (!m_aisShape.IsNull()) {
         return true;
@@ -278,7 +282,7 @@ bool VisualShape::ensureAisObject()
     return true;
 }
 
-void VisualShape::updateInteractivityStatus() 
+void VisualShape::updateInteractivityStatus()
 {
     if (m_aisShape.IsNull()) {
         return;
@@ -324,7 +328,7 @@ void VisualShape::updateInteractivityStatus()
     //emit aisObjectChanged();
 }
 
-void VisualShape::updateSelectionSensitivity() 
+void VisualShape::updateSelectionSensitivity()
 {
     if (m_aisShape.IsNull()) {
         return;

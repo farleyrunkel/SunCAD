@@ -17,13 +17,14 @@
 // SunCAD includes
 #include "Core/Topology/InteractiveEntity.h"
 
+// Forward declarations
 class Sun_WorkspaceController;
 class Body;
 class VisualObject;
 class VisualObjectManager;
 class Entity;
 
-class VisualObjectManager_SignalHub : public QObject 
+class VisualObjectManager_SignalHub : public QObject
 {
     Q_OBJECT
 
@@ -38,7 +39,7 @@ signals:
     void isolatedEntitiesChanged(VisualObjectManager*);
 };
 
-class VisualObjectManager : public QObject 
+class VisualObjectManager : public QObject
 {
     Q_OBJECT
 
@@ -46,10 +47,10 @@ public:
     explicit VisualObjectManager(Sun_WorkspaceController* workspaceController);
     ~VisualObjectManager();
 
-    using CreateVisualObjectDelegate = std::function<VisualObject*(Sun_WorkspaceController*, InteractiveEntity*)>;
+    using CreateVisualObjectDelegate = std::function<VisualObject* (Sun_WorkspaceController*, InteractiveEntity*)>;
 
     template<typename TEntity>
-    static void registerEntity(CreateVisualObjectDelegate createDelegate) 
+    static void registerEntity(CreateVisualObjectDelegate createDelegate)
     {
         QString typeName = typeid(TEntity).name();
         if (s_registeredVisualTypes.contains(typeName)) {

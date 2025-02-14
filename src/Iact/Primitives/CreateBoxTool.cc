@@ -175,6 +175,7 @@ void CreateBoxTool::baseRectAction_Preview(const std::shared_ptr<PointAction::Ev
 		m_visualShape->update();
 	}
 	m_coord2DHudElement->setValues(m_pointPlane2.X(), m_pointPlane2.Y());
+	m_multiValueHudElement->setValues(dimX, dimY);
 }
 
 void CreateBoxTool::baseRectAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args)
@@ -240,6 +241,7 @@ void CreateBoxTool::heightAction_Finished(const std::shared_ptr<AxisValueAction:
 	}
 
 	remove(m_ValueHudElement);
+	setHintMessage("");
 
 	stop();
 

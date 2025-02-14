@@ -43,6 +43,9 @@ Sun_WorkspaceController::Sun_WorkspaceController(Sun::Workspace* workspace)
     initWorkspace();
 }
 
+Sun_WorkspaceController::~Sun_WorkspaceController()
+{}
+
 void Sun_WorkspaceController::initWorkspace()
 {
     // init V3dViewer and aisContext
@@ -98,22 +101,22 @@ Tool* Sun_WorkspaceController::currentTool() const
 
 void Sun_WorkspaceController::setCurrentTool(Tool* tool)
 {
-	if (m_currentTool != tool) {
-		m_currentTool = tool;
-		emit propertyChanged("currentTool");
-	}
+    if (m_currentTool != tool) {
+        m_currentTool = tool;
+        emit propertyChanged("currentTool");
+    }
 }
 
 void Sun_WorkspaceController::removeTool(Tool* tool)
 {
-	Q_ASSERT(tool != nullptr);
+    Q_ASSERT(tool != nullptr);
     if (m_currentTool != tool) {
         return;
     }
 
     m_currentTool = nullptr;
 
-	emit propertyChanged("currentTool");
+    emit propertyChanged("currentTool");
 
     invalidate();
 }
@@ -389,6 +392,32 @@ Sun::Workspace* Sun_WorkspaceController::workspace() const
 {
     return m_workspace;
 }
+
+Sun_Viewport* Sun_WorkspaceController::ActiveViewport() const
+{
+    return m_activeViewport;
+}
+
+VisualObjectManager* Sun_WorkspaceController::visualObjects() const
+{
+    return m_visualObjectManager;
+}
+
+gp_Pnt Sun_WorkspaceController::CursorPosition() const
+{
+    return m_cursorPosition;
+}
+
+void Sun_WorkspaceController::SetCursorPosition(const gp_Pnt& pnt)
+{}
+
+gp_Pnt2d Sun_WorkspaceController::CursorPosition2d() const
+{
+    return m_cursorPosition2d;
+}
+
+void Sun_WorkspaceController::SetCursorPosition2d(const gp_Pnt2d& pnt2d)
+{}
 
 void Sun_WorkspaceController::SetActiveViewport(Sun_Viewport* Viewport)
 {

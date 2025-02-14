@@ -14,18 +14,20 @@
 // Project includes
 #include "Core/Topology/InteractiveEntity.h"
 
+// Forward declarations
 class Sun_WorkspaceController;
 
 class VisualObject : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool selectable READ isSelectable WRITE setIsSelectable)
-    Q_PROPERTY(bool selected READ isSelected WRITE setIsSelected)
-    Q_PROPERTY(QVariant tag READ tag WRITE setTag)
+        Q_PROPERTY(bool selectable READ isSelectable WRITE setIsSelectable)
+        Q_PROPERTY(bool selected READ isSelected WRITE setIsSelected)
+        Q_PROPERTY(QVariant tag READ tag WRITE setTag)
 
 protected:
     explicit VisualObject(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity);
-    virtual ~VisualObject() {}
+    virtual ~VisualObject()
+    {}
 
 public:
     virtual void remove() = 0;
@@ -35,16 +37,31 @@ public:
     Sun_WorkspaceController* workspaceController() const;
     Handle(AIS_InteractiveContext) aisContext() const;
 
-    InteractiveEntity* entity() const { return m_entity; }
+    InteractiveEntity* entity() const
+    {
+        return m_entity;
+    }
     void setLocalTransformation(const gp_Trsf& transformation);
 
 public:
-    virtual bool isSelectable() const { return false; }
-    virtual void setIsSelectable(bool value) { Q_UNUSED(value); }
+    virtual bool isSelectable() const
+    {
+        return false;
+    }
+    virtual void setIsSelectable(bool value)
+    {
+        Q_UNUSED(value);
+    }
     bool isSelected() const;
     void setIsSelected(bool value);
-    QVariant tag() const { return m_tag; }
-    void setTag(const QVariant& tag) { m_tag = tag; }
+    QVariant tag() const
+    {
+        return m_tag;
+    }
+    void setTag(const QVariant& tag)
+    {
+        m_tag = tag;
+    }
 
 signals:
     void aisObjectChanged(VisualObject* visualObject);
