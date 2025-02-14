@@ -26,6 +26,7 @@
 #include "App/WelcomeDialog.h"
 #include "Iact/Commands/DocumentCommands.h"
 #include "Iact/Commands/ModelCommands.h"
+#include "Iact/Commands/WorkspaceCommands.h"
 #include "ResourceUtils.h"
 
 MainWindow::MainWindow(QWidget* parent)
@@ -103,13 +104,9 @@ void MainWindow::setupAppButton()
 void MainWindow::setupCategories()
 {
     if (SARibbonCategory* aCategory = m_ribbonBar->addCategoryPage(tr("Edit"))) {
-        if (SARibbonPannel* aPannel = aCategory->addPannel(tr("Panel 1"))) {
-            QAction* aAction = new QAction;
-            aAction->setText("save");
-            aAction->setIcon(QIcon("://icon/save.svg"));
-            aAction->setObjectName("actSave");
-            aAction->setShortcut(QKeySequence(QLatin1String("Ctrl+S")));
-            aPannel->addLargeAction(aAction);
+        if (SARibbonPannel* aPannel = aCategory->addPannel(tr("Undo"))) {
+            aPannel->addAction(&WorkspaceCommands::doUndo(), SARibbonPannelItem::Large);
+            aPannel->addAction(&WorkspaceCommands::doRedo(), SARibbonPannelItem::Large);
         }
     }
 

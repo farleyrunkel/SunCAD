@@ -12,7 +12,9 @@
 #include "Core/Project/VisualStyles.h"
 #include "Core/Topology/Entity.h"
 
-class SerializationContext {};
+// Forward declarations
+class SerializationContext
+{};
 class Layer;
 
 class Layer_SignalHub : public QObject
@@ -20,46 +22,48 @@ class Layer_SignalHub : public QObject
     Q_OBJECT
 
 public:
-    Layer_SignalHub() = default;
-    static Layer_SignalHub* instance();
+    static Layer_SignalHub* instance()
+    {
+        static Layer_SignalHub s_signalHub;
+        return &s_signalHub;
+    }
 
 signals:
     void presentationChanged(Layer*);
     void interactivityChanged(Layer*);
-
-private:
-    static Layer_SignalHub* s_signalHub;
 };
 
 // Layer class as a declaration only, without actual implementation
-class Layer : public Entity 
+class Layer : public Entity
 {
     Q_OBJECT
 
 public:
     explicit Layer(QObject* parent = nullptr);
-//
-//    // Properties
-//    QString name() const;                   // Name property
-//    void setName(const QString& name);
-//
+    //
+    //    // Properties
+    //    QString name() const;                   // Name property
+    //    void setName(const QString& name);
+    //
 
-    bool isVisible() const {
+    bool isVisible() const
+    {
         return m_isVisible;
-    };          
+    };
 
     // IsVisible property
-    void setIsVisible(bool isVisible) {
+    void setIsVisible(bool isVisible)
+    {
         m_isVisible = isVisible;
     }
-//
-//    bool isLocked() const;                  // IsLocked property
-//    void setIsLocked(bool isLocked);
-//
-    PresentationMode presentationMode() const 
+    //
+    //    bool isLocked() const;                  // IsLocked property
+    //    void setIsLocked(bool isLocked);
+    //
+    PresentationMode presentationMode() const
     {
         return PresentationMode::Wireframe;
-    }; 
+    };
     // PresentationMode property
 //    void setPresentationMode(PresentationMode mode);
 //
@@ -88,15 +92,15 @@ public:
 //    void raisePropertyChanged(const QString& propertyName);  // Protected helper for property change notification
 //
 private:
-//    QString m_name;                        // Name
+    //    QString m_name;                        // Name
     bool m_isVisible;                      // Visibility flag
-//    bool _isLocked;                       // Lock status
-//    PresentationMode _presentationMode;   // Presentation mode
-//    QColor _color;                        // Color
-//    float _transparency;                  // Transparency
-//    LineStyle _lineStyle;                 // Line style
-//    LineThickness _lineThickness;         // Line thickness
-//    LayerCollection* _collection;         // Associated collection
+    //    bool _isLocked;                       // Lock status
+    //    PresentationMode _presentationMode;   // Presentation mode
+    //    QColor _color;                        // Color
+    //    float _transparency;                  // Transparency
+    //    LineStyle _lineStyle;                 // Line style
+    //    LineThickness _lineThickness;         // Line thickness
+    //    LayerCollection* _collection;         // Associated collection
 };
 
 #endif  // CORE_TOPOLOGY_LAYER_H_

@@ -20,18 +20,13 @@ class Entity_SignalHub : public QObject
 
 public:
     static Entity_SignalHub* instance() {
-        if (s_signalHub == nullptr) {
-            s_signalHub = new Entity_SignalHub;
-        }
-        return s_signalHub;
+		static Entity_SignalHub signalHub;
+        return &signalHub;
     }
 
 signals:
     void entityRemoved(Entity*);
     void errorStateChanged(Entity*);
-
-private:
-    static Entity_SignalHub* s_signalHub;
 };
 
 class Entity : public BaseObject
