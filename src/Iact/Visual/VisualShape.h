@@ -63,6 +63,8 @@ public:
 
     virtual Handle(AIS_InteractiveObject) aisObject() const override;
 
+    Handle(AIS_Shape) aisShape() const;
+
     void setOverrideBrep(const TopoDS_Shape& shape);
 
     void setVisualStyle(VisualStyle* visualStyle);

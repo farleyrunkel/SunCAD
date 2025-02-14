@@ -69,6 +69,23 @@ public:
     void update(InteractiveEntity* body);
     void updateInvalidatedEntities();
 
+    QList<VisualObject*> getAll() const
+    {
+		return m_interactiveToVisualDictionary.values();
+    }
+
+    QList<VisualObject*> select(std::function<bool(InteractiveEntity*)> selector) const
+    {
+        // selecte value match selector
+		QList<VisualObject*> result;
+        for (auto key : m_interactiveToVisualDictionary.keys()) {
+            if (selector(key)) {
+                result.append(m_interactiveToVisualDictionary[key]);
+            }
+        }
+        return result;
+    }
+
     QList<Body*> getIsolatedEntities() const;
     void setIsolatedEntities(const QList<Body*>& entities);
 
@@ -85,8 +102,8 @@ private:
     QList<InteractiveEntity*> m_invalidatedInteractiveEntities;
     QList<Body*> m_isolatedEntities;
 
-    QMap<InteractiveEntity*, VisualObject*> _InteractiveToVisualDictionary;
-    QMap<QUuid, InteractiveEntity*> _GuidToInteractiveDictionary;
+    QMap<InteractiveEntity*, VisualObject*> m_interactiveToVisualDictionary;
+    QMap<QUuid, InteractiveEntity*> m_uuidToInteractiveDictionary;
 
     static QMap<QString, CreateVisualObjectDelegate> s_registeredVisualTypes;
 };

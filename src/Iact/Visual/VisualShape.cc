@@ -74,6 +74,11 @@ Handle(AIS_InteractiveObject) VisualShape::aisObject() const
     return m_aisShape;
 }
 
+Handle(AIS_Shape) VisualShape::aisShape() const
+{
+    return m_aisShape;
+}
+
 void VisualShape::setOverrideBrep(const TopoDS_Shape& shape)
 {
     m_overrideBrep = shape;
@@ -127,7 +132,10 @@ void VisualShape::onPresentationChanged(Layer* layer)
     }
 
     // Update display mode
-    int newDisplayMode = (layer->presentationMode() == PresentationMode::Wireframe) ? (int)AIS_DisplayMode::AIS_WireFrame : (int)AIS_DisplayMode::AIS_Shaded;
+    int newDisplayMode = (layer->presentationMode() == PresentationMode::Wireframe) 
+        ? (int)AIS_DisplayMode::AIS_WireFrame 
+        : (int)AIS_DisplayMode::AIS_Shaded;
+
     bool displayModeChanged = attributeSet->drawer()->DisplayMode() != newDisplayMode;
     updateAttributesForLayer(layer, attributeSet);
 
@@ -137,18 +145,27 @@ void VisualShape::onPresentationChanged(Layer* layer)
         return;
     }
 
-    auto visualObjects = workspaceController->visualObjects();
-    //for (auto visualObject : ) {
-    //    if (visualObject->layer() == layer) {
-    //        VisualShape* visualShape = dynamic_cast<VisualShape*>(visualObject);
-    //        if (visualShape != nullptr && !visualShape->m_aisShape.IsNull()) {
-    //            if (displayModeChanged) {
-    //                workspaceController->workspace()->aisContext()->SetDisplayMode(visualShape->m_aisShape, newDisplayMode, false);
-    //            }
-    //            workspaceController->workspace()->aisContext()->RecomputePrsOnly(visualShape->m_aisShape, false, true);
-    //        }
-    //    }
-    //}
+    auto visualObjects = workspaceController->visualObjects()->select(
+        [layer](InteractiveEntity* value) {return value->layer() == layer; }
+    );
+
+    for (auto visualObject : visualObjects) {
+        VisualShape* visualShape = qobject_cast<VisualShape*>(visualObject);
+        if (visualShape == nullptr) {
+            continue;
+        }
+
+		auto aisShape = visualShape->aisShape();
+
+        if (aisShape.IsNull()) {
+            return;
+        }
+
+        if (displayModeChanged) {
+            workspaceController->workspace()->aisContext()->SetDisplayMode(aisShape, newDisplayMode, false);
+        }
+        workspaceController->workspace()->aisContext()->RecomputePrsOnly(aisShape, false, true);
+    }
 }
 
 void VisualShape::onInteractivityChanged(Layer* layer)
@@ -158,25 +175,31 @@ void VisualShape::onInteractivityChanged(Layer* layer)
         return;
     }
 
-    //for (auto visualObject : workspaceController()->visualObjects()) {
-    //    if (visualObject->layer() == layer) {
-    //        VisualShape* visualShape = dynamic_cast<VisualShape*>(visualObject);
-    //        if (visualShape != nullptr) {
-    //            visualShape->updateInteractivityStatus();
-    //            visualShape->updatePresentation();
-    //        }
-    //    }
-    //}
+    auto visualObjects = workspaceController->visualObjects()->select(
+        [layer](InteractiveEntity* value) {return value->layer() == layer; }
+    );
+
+    for (auto visualObject : visualObjects) {
+        VisualShape* visualShape = qobject_cast<VisualShape*>(visualObject);
+        if (visualShape == nullptr) {
+            continue;
+        }
+
+        visualShape->updateInteractivityStatus();
+        visualShape->updatePresentation();     
+    }
 }
 
 void VisualShape::visualObjectManager_IsolatedEntitiesChanged(VisualObjectManager* manager)
 {
-    //for (auto visualObject : manager->getAll()) {
-    //    VisualShape* visualShape = dynamic_cast<VisualShape*>(visualObject);
-    //    if (visualShape != nullptr) {
-    //        visualShape->updateInteractivityStatus();
-    //    }
-    //}
+    for (auto visualObject : manager->getAll()) {
+        VisualShape* visualShape = qobject_cast<VisualShape*>(visualObject);
+        if (visualShape == nullptr) {
+            continue;
+        }
+
+        visualShape->updateInteractivityStatus();
+    }
 }
 
 void VisualShape::visualStyle_VisualStyleChanged(Body* body, VisualStyle* visualStyle)

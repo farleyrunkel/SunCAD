@@ -57,8 +57,8 @@ VisualObject* VisualObjectManager::get(InteractiveEntity* body, bool forceCreati
 {
     if (!body) return nullptr;
 
-    if (_InteractiveToVisualDictionary.contains(body)) {
-        return _InteractiveToVisualDictionary[body];
+    if (m_interactiveToVisualDictionary.contains(body)) {
+        return m_interactiveToVisualDictionary[body];
     }
 
     if (forceCreation) {
@@ -77,8 +77,8 @@ VisualObject* VisualObjectManager::add(InteractiveEntity* entity)
     else {
         visualObject = createVisualObject(m_workspaceController, entity);
         if (visualObject != nullptr) {
-            _InteractiveToVisualDictionary.insert(entity, visualObject);
-            _GuidToInteractiveDictionary.insert(entity->guid(), entity);
+            m_interactiveToVisualDictionary.insert(entity, visualObject);
+            m_uuidToInteractiveDictionary.insert(entity->guid(), entity);
         }
     }
     return visualObject;
@@ -89,8 +89,8 @@ void VisualObjectManager::remove(InteractiveEntity* entity)
     auto visualShape = get(entity);
     if (visualShape != nullptr) {
         visualShape->remove();
-        _InteractiveToVisualDictionary.remove(entity);
-        _GuidToInteractiveDictionary.remove(entity->guid());
+        m_interactiveToVisualDictionary.remove(entity);
+        m_uuidToInteractiveDictionary.remove(entity->guid());
         m_invalidatedInteractiveEntities.removeOne(entity);
     }
 }
