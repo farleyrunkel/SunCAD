@@ -26,32 +26,32 @@
 // Forward declarations
 class Marker;
 class Tool;
-class Sun_ViewportController;
-class Sun_WorkspaceController;
+class ViewportController;
+class WorkspaceController;
 
-class Sun_WorkspaceController : public BaseObject
+class WorkspaceController : public BaseObject
 {
     Q_OBJECT
         Q_PROPERTY(Sun::Workspace* workspace READ workspace CONSTANT)
-        Q_PROPERTY(Sun_Viewport* ActiveViewport READ ActiveViewport WRITE SetActiveViewport NOTIFY activeViewportChanged)
+        Q_PROPERTY(Sun_Viewport* activeViewport READ activeViewport WRITE setActiveViewport NOTIFY activeViewportChanged)
         //Q_PROPERTY(ViewportController* ActiveViewController READ ActiveViewControlller CONSTANT)
         //Q_PROPERTY(IHudManager* HudManager READ HudManager WRITE SetHudManager NOTIFY HudManagerChanged)
         //Q_PROPERTY(bool LockWorkingPlane READ LockWorkingPlane WRITE SetLockWorkingPlane NOTIFY LockWorkingPlaneChanged)
         //Q_PROPERTY(SelectionManager* Selection READ Selection CONSTANT)
         //Q_PROPERTY(bool isSelecting READ isSelecting WRITE SetIsSelecting NOTIFY IsSelectingChanged)
         Q_PROPERTY(VisualObjectManager* visualObjects READ visualObjects CONSTANT)
-        Q_PROPERTY(gp_Pnt CursorPosition READ CursorPosition WRITE SetCursorPosition NOTIFY cursorPositionChanged)
-        Q_PROPERTY(gp_Pnt2d CursorPosition2d READ CursorPosition2d WRITE SetCursorPosition2d NOTIFY cursorPosition2dChanged)
+        Q_PROPERTY(gp_Pnt cursorPosition READ cursorPosition WRITE setCursorPosition NOTIFY cursorPositionChanged)
+        Q_PROPERTY(gp_Pnt2d cursorPosition2d READ cursorPosition2d WRITE setCursorPosition2d NOTIFY cursorPosition2dChanged)
 
 public:
-    explicit Sun_WorkspaceController(Sun::Workspace* workspace);
-    ~Sun_WorkspaceController();
+    explicit WorkspaceController(Sun::Workspace* workspace);
+    ~WorkspaceController();
 
 public:
     void initWorkspace();
 
-    Sun_ViewportController* GetViewController(int viewIndex) const;
-    Sun_ViewportController* GetViewController(Sun_Viewport* viewport) const;
+    ViewportController* getViewController(int viewIndex) const;
+    ViewportController* getViewController(Sun_Viewport* viewport) const;
 
     Tool* currentTool() const;
     void setCurrentTool(Tool* tool);
@@ -67,26 +67,26 @@ public:
 
     void setHudManager(IHudManager* hudManager);
 
-    void SetActiveViewport(Sun_Viewport* Viewport);
+    void setActiveViewport(Sun_Viewport* Viewport);
 
-    Sun_ViewportController* viewportController(Sun_Viewport* Viewport);
+    ViewportController* viewportController(Sun_Viewport* Viewport);
 
     void dispose();
 
     QList<WorkspaceControl*> enumerateControls();
 
-    void MouseMove(Sun_ViewportController* viewportController, QPointF pos, Qt::KeyboardModifiers modifiers);
-    void MouseDown(Sun_ViewportController* viewportController, Qt::KeyboardModifiers modifiers);
-    void MouseUp(Sun_ViewportController* viewportController, Qt::KeyboardModifiers modifiers);
+    void MouseMove(ViewportController* viewportController, QPointF pos, Qt::KeyboardModifiers modifiers);
+    void MouseDown(ViewportController* viewportController, Qt::KeyboardModifiers modifiers);
+    void MouseUp(ViewportController* viewportController, Qt::KeyboardModifiers modifiers);
 
 public:
     Sun::Workspace* workspace() const;
-    Sun_Viewport* ActiveViewport() const;
+    Sun_Viewport* activeViewport() const;
     VisualObjectManager* visualObjects() const;
-    gp_Pnt CursorPosition() const;
-    void SetCursorPosition(const gp_Pnt& pnt);
-    gp_Pnt2d CursorPosition2d() const;
-    void SetCursorPosition2d(const gp_Pnt2d& pnt2d);
+    gp_Pnt cursorPosition() const;
+    void setCursorPosition(const gp_Pnt& pnt);
+    gp_Pnt2d cursorPosition2d() const;
+    void setCursorPosition2d(const gp_Pnt2d& pnt2d);
 
 private:
     void workspace_GridChanged(Sun::Workspace*);
@@ -94,10 +94,8 @@ private:
     void redraw();
     void updateGrid();
     void initVisualSettings();
-    void recalculateGridSize()
-    {}
-    void updateParameter()
-    {}
+    void recalculateGridSize();
+    void updateParameter();
     void redrawTimer_Tick();
 
 signals:
@@ -120,11 +118,11 @@ private:
     gp_XY m_lastGridSize = gp_XY(1000.0, 1000.0);
 
 private:
-    QList<Sun_ViewportController*> m_viewportControllers;
+    QList<ViewportController*> m_viewportControllers;
 
     MouseEventData* m_mouseEventData;
     QPointF m_lastMouseMovePosition;
-    Sun_ViewportController* m_lastMouseMoveViewportController;
+    ViewportController* m_lastMouseMoveViewportController;
     Qt::KeyboardModifiers m_lastModifierKeys;
     Handle(AIS_InteractiveObject) m_lastDetectedAisObject;
     Handle(SelectMgr_EntityOwner) m_lastDetectedOwner;

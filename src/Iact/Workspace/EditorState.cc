@@ -22,7 +22,7 @@ EditorState::EditorState(QObject* parent)
 
     m_workspaceController = InteractiveContext::current()->workspaceController();
 	if (m_workspaceController) {
-		connect(m_workspaceController, &Sun_WorkspaceController::propertyChanged
+		connect(m_workspaceController, &WorkspaceController::propertyChanged
                 , this, &EditorState::on_WorkspaceController_PropertyChanged);
 	}
 }
@@ -32,7 +32,7 @@ EditorState::~EditorState()
 	disconnect(InteractiveContext::current(), &InteractiveContext::propertyChanged
 			   , this, &EditorState::on_InteractiveContext_PropertyChanged);
     if (m_workspaceController) {
-        disconnect(m_workspaceController, &Sun_WorkspaceController::propertyChanged
+        disconnect(m_workspaceController, &WorkspaceController::propertyChanged
                    , this, &EditorState::on_WorkspaceController_PropertyChanged);
     }
 }
@@ -41,12 +41,12 @@ void EditorState::on_InteractiveContext_PropertyChanged(const QString& propertyN
 {
 	if (propertyName == "workspaceController") {
 		if (m_workspaceController) {
-			disconnect(m_workspaceController, &Sun_WorkspaceController::propertyChanged
+			disconnect(m_workspaceController, &WorkspaceController::propertyChanged
 					   , this, &EditorState::on_WorkspaceController_PropertyChanged);
 		}
 		m_workspaceController = InteractiveContext::current()->workspaceController();
 		if (m_workspaceController) {
-			connect(m_workspaceController, &Sun_WorkspaceController::propertyChanged
+			connect(m_workspaceController, &WorkspaceController::propertyChanged
 					, this, &EditorState::on_WorkspaceController_PropertyChanged);
 		}
 
@@ -57,7 +57,7 @@ void EditorState::on_InteractiveContext_PropertyChanged(const QString& propertyN
 void EditorState::on_WorkspaceController_PropertyChanged(const QString& propertyName)
 {
     if (propertyName == "currentTool") {
-        auto s = qobject_cast<Sun_WorkspaceController*>(sender());
+        auto s = qobject_cast<WorkspaceController*>(sender());
         if (s != nullptr)
             updateActiveTool(s->currentTool());
     }

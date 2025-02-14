@@ -3,7 +3,7 @@
 // Own include
 #include "Iact/Workspace/ViewportController.h"
 
-Sun_ViewportController::Sun_ViewportController(Sun_Viewport* Viewport, Sun_WorkspaceController* workspacecontroller)
+ViewportController::ViewportController(Sun_Viewport* Viewport, WorkspaceController* workspacecontroller)
 	: QObject()
 	, m_viewport(Viewport)
 	, m_workspaceController(workspacecontroller)
@@ -12,17 +12,17 @@ Sun_ViewportController::Sun_ViewportController(Sun_Viewport* Viewport, Sun_Works
 	Init();
 }
 
-Sun_ViewportController::~Sun_ViewportController()
+ViewportController::~ViewportController()
 {}
 
-void Sun_ViewportController::SetWindow(const Handle(Aspect_Window)& theWindow, const Aspect_RenderingContext theContext)
+void ViewportController::SetWindow(const Handle(Aspect_Window)& theWindow, const Aspect_RenderingContext theContext)
 {
 	if (!view().IsNull()) {
 		view()->SetWindow(theWindow, theContext);
 	}
 }
 
-QString Sun_ViewportController::DumpInfo(bool theIsBasic, bool theToPrint)
+QString ViewportController::DumpInfo(bool theIsBasic, bool theToPrint)
 {
 	TCollection_AsciiString anInfo;
 	if (!view().IsNull()) {
@@ -47,25 +47,25 @@ QString Sun_ViewportController::DumpInfo(bool theIsBasic, bool theToPrint)
 	return QString::fromUtf8(anInfo.ToCString());
 }
 
-void Sun_ViewportController::MouseMove(const QPointF& pos, Qt::KeyboardModifiers modifiers, MouseMoveMode mode)
+void ViewportController::MouseMove(const QPointF& pos, Qt::KeyboardModifiers modifiers, MouseMoveMode mode)
 {
 	workspaceController()->MouseMove(this, pos, modifiers);
 	workspaceController()->invalidate();
 }
 
-void Sun_ViewportController::MouseDown(Qt::KeyboardModifiers modifiers)
+void ViewportController::MouseDown(Qt::KeyboardModifiers modifiers)
 {
 	workspaceController()->MouseDown(this, modifiers);
 	workspaceController()->invalidate();
 }
 
-void Sun_ViewportController::MouseUp(Qt::KeyboardModifiers modifiers)
+void ViewportController::MouseUp(Qt::KeyboardModifiers modifiers)
 {
 	workspaceController()->MouseUp(this, modifiers);
 	workspaceController()->invalidate();
 }
 
-void Sun_ViewportController::SetPredefinedView(PredefinedViews predefinedView)
+void ViewportController::SetPredefinedView(PredefinedViews predefinedView)
 {
 	if (predefinedView == PredefinedViews::WorkingPlane) {
 		const auto& plane = workspaceController()->workspace()->workingPlane();
@@ -115,7 +115,7 @@ void Sun_ViewportController::SetPredefinedView(PredefinedViews predefinedView)
 
 // Setter for lockedToPlane
 
-void Sun_ViewportController::SetLockedToPlane(bool value)
+void ViewportController::SetLockedToPlane(bool value)
 {
 	if (_LockedToPlane != value) {
 		_LockedToPlane = value;
@@ -128,7 +128,7 @@ void Sun_ViewportController::SetLockedToPlane(bool value)
 	}
 }
 
-void Sun_ViewportController::_SetViewCube(bool isVisible)
+void ViewportController::_SetViewCube(bool isVisible)
 {
 	auto aisContext = workspaceController()->workspace()->aisContext();
 
@@ -145,7 +145,7 @@ void Sun_ViewportController::_SetViewCube(bool isVisible)
 	}
 }
 
-void Sun_ViewportController::_SetViewCube(bool isVisible, uint32_t size, double duration)
+void ViewportController::_SetViewCube(bool isVisible, uint32_t size, double duration)
 {
 	auto aisContext = workspaceController()->workspace()->aisContext();
 

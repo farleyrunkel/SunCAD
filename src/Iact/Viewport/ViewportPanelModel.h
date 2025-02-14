@@ -34,21 +34,21 @@ public:
 
     QString hintMessage();
 
-    Sun_WorkspaceController* workspaceController() const 
+    WorkspaceController* workspaceController() const 
     {
         return m_workspaceController;
     }
 
     // ViewportController getter/setter
-    Sun_ViewportController* viewportController() const 
+    ViewportController* viewportController() const 
     {
         return m_viewportController;
     }
 
-    void setViewportController(Sun_ViewportController* value);
+    void setViewportController(ViewportController* value);
 
     // workspaceController getter/setter
-    void setWorkspaceController(Sun_WorkspaceController* value);
+    void setWorkspaceController(WorkspaceController* value);
 
     void context_PropertyChanged(const QString& propertyName);
 
@@ -57,8 +57,8 @@ signals:
     void hudElementsRemoved(IHudElement*);
 
 private:
-    Sun_WorkspaceController* m_workspaceController;
-    Sun_ViewportController* m_viewportController;
+    WorkspaceController* m_workspaceController;
+    ViewportController* m_viewportController;
     QList<IHudElement*> m_hudElements;
     QString m_hintMessage;
 };

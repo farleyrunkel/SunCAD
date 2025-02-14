@@ -8,10 +8,10 @@
 
 ViewportMouseControlDefault::ViewportMouseControlDefault() 
     : viewportController(nullptr)
-    , currentMouseMoveMode(Sun_ViewportController::MouseMoveMode::None)
+    , currentMouseMoveMode(ViewportController::MouseMoveMode::None)
 {}
 
-void ViewportMouseControlDefault::setViewportController(Sun_ViewportController* controller)
+void ViewportMouseControlDefault::setViewportController(ViewportController* controller)
 {
     viewportController = controller;
 }
@@ -22,7 +22,7 @@ void ViewportMouseControlDefault::MouseMove(const QPointF& pos, QMouseEvent* mou
 
     if (!viewportController) return;
 
-    if (currentMouseMoveMode != Sun_ViewportController::MouseMoveMode::None) {
+    if (currentMouseMoveMode != ViewportController::MouseMoveMode::None) {
         viewportController->MouseMove(pos, modifierKeys, currentMouseMoveMode);
     }
     else {
@@ -68,21 +68,21 @@ void ViewportMouseControlDefault::updateMouseMoveMode(QMouseEvent* mouseEvent, Q
 {
     if (mouseEvent && (mouseEvent->buttons() & Qt::MiddleButton)) {
         if (modifierKeys & Qt::ControlModifier) {
-            currentMouseMoveMode = Sun_ViewportController::MouseMoveMode::Twisting;
+            currentMouseMoveMode = ViewportController::MouseMoveMode::Twisting;
         }
         else if (viewportController->IsLockedToPlane()) {
-            currentMouseMoveMode = Sun_ViewportController::MouseMoveMode::Panning;
+            currentMouseMoveMode = ViewportController::MouseMoveMode::Panning;
         }
         else {
-            currentMouseMoveMode = Sun_ViewportController::MouseMoveMode::Rotating;
+            currentMouseMoveMode = ViewportController::MouseMoveMode::Rotating;
         }
     }
     else if (mouseEvent && (mouseEvent->buttons() & Qt::RightButton)) {
         currentMouseMoveMode = (modifierKeys & Qt::ControlModifier) ?
-            Sun_ViewportController::MouseMoveMode::Zooming : Sun_ViewportController::MouseMoveMode::Panning;
+            ViewportController::MouseMoveMode::Zooming : ViewportController::MouseMoveMode::Panning;
     }
     else {
-        currentMouseMoveMode = Sun_ViewportController::MouseMoveMode::None;
+        currentMouseMoveMode = ViewportController::MouseMoveMode::None;
     }
 }
 
@@ -110,6 +110,6 @@ void ViewportMouseControlDefault::cancel()
 {
     if (viewportController) {
         viewportController->MouseMove(QPointF(-1, -1), Qt::KeyboardModifier::NoModifier);
-        currentMouseMoveMode = Sun_ViewportController::MouseMoveMode::None;
+        currentMouseMoveMode = ViewportController::MouseMoveMode::None;
     }
 }

@@ -15,7 +15,7 @@ bool VisualShape::s_initOnce = []() {
     return true;
 }();
 
-VisualShape::VisualShape(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity, Options options)
+VisualShape::VisualShape(WorkspaceController* workspaceController, InteractiveEntity* entity, Options options)
     : VisualObject(workspaceController, entity)
     , m_options(options)
     , m_visualStyle(nullptr)
@@ -92,7 +92,7 @@ void VisualShape::setVisualStyle(VisualStyle* visualStyle)
     updatePresentation();
 }
 
-VisualShape* VisualShape::create(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity)
+VisualShape* VisualShape::create(WorkspaceController* workspaceController, InteractiveEntity* entity)
 {
     if (!entity->getTransformedBRep().IsNull()) {
         return new VisualShape(workspaceController, entity);

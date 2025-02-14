@@ -6,7 +6,7 @@
 #include <QWidget>
 #include <QSize>
 
-class Sun_WorkspaceController;
+class WorkspaceController;
 
 class IHudElement : public QWidget
 {
@@ -20,13 +20,13 @@ public:
 	 }
 
 public:
-	 Sun_WorkspaceController* workspaceController() const;
-	 void setWorkspaceController(Sun_WorkspaceController* controller);
+	 WorkspaceController* workspaceController() const;
+	 void setWorkspaceController(WorkspaceController* controller);
 
 	 virtual void initialize() {};
 
 private:
-	Sun_WorkspaceController* m_workspaceController;
+	WorkspaceController* m_workspaceController;
 };
 
 #endif  // IACT_HUD_ELEMENTS_HUDELEMENT_H_

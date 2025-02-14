@@ -20,10 +20,10 @@
 #include "Core/Viewport.h"
 #include "Iact/Workspace/WorkspaceController.h"
 
-class Sun_ViewportController : public QObject
+class ViewportController : public QObject
 {
 	Q_OBJECT
-		Q_PROPERTY(Sun_WorkspaceController* workspaceController READ workspaceController CONSTANT)
+		Q_PROPERTY(WorkspaceController* workspaceController READ workspaceController CONSTANT)
 		Q_PROPERTY(Sun_Viewport* viewport READ viewport CONSTANT)
 		Q_PROPERTY(bool LockedToPlane READ LockedToPlane WRITE SetLockedToPlane NOTIFY LockedToPlaneChanged)
 		Q_PROPERTY(bool IsInRubberbandSelection READ IsInRubberbandSelection CONSTANT)
@@ -46,9 +46,9 @@ public:
 	};
 
 public:
-	explicit Sun_ViewportController(Sun_Viewport* Viewport,
-									Sun_WorkspaceController* workspacecontroller);
-	~Sun_ViewportController();
+	explicit ViewportController(Sun_Viewport* Viewport,
+									WorkspaceController* workspacecontroller);
+	~ViewportController();
 
 	Handle(V3d_View) view() const
 	{
@@ -102,7 +102,7 @@ public:
 	}
 	void SetPredefinedView(PredefinedViews predefinedView);
 
-	Sun_WorkspaceController* workspaceController() const
+	WorkspaceController* workspaceController() const
 	{
 		return m_workspaceController;
 	}
@@ -136,7 +136,7 @@ signals:
 
 private:
 	Sun_Viewport* m_viewport = nullptr;
-	Sun_WorkspaceController* m_workspaceController = nullptr;
+	WorkspaceController* m_workspaceController = nullptr;
 	Handle(AIS_ViewCube) _ViewCube = nullptr;
 
 	Handle(AIS_RubberBand) _AisRubberBand = nullptr;

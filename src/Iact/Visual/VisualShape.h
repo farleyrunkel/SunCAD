@@ -53,7 +53,7 @@ public:
     };
 
 public:
-    explicit VisualShape(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity, Options options = None);
+    explicit VisualShape(WorkspaceController* workspaceController, InteractiveEntity* entity, Options options = None);
 
     virtual ~VisualShape();
 
@@ -68,7 +68,7 @@ public:
     void setVisualStyle(VisualStyle* visualStyle);
 
 public:
-    static VisualShape* create(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity);
+    static VisualShape* create(WorkspaceController* workspaceController, InteractiveEntity* entity);
 
     static void registerEntity();
 

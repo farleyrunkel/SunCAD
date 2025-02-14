@@ -10,13 +10,13 @@
 // Project includes
 #include "Iact/Workspace/WorkspaceController.h"
 
-VisualObject::VisualObject(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity)
+VisualObject::VisualObject(WorkspaceController* workspaceController, InteractiveEntity* entity)
     : QObject(nullptr)
     , m_workspaceController(workspaceController)
     , m_entity(entity)
 {}
 
-Sun_WorkspaceController* VisualObject::workspaceController() const
+WorkspaceController* VisualObject::workspaceController() const
 {
     return m_workspaceController;
 }

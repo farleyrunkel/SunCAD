@@ -15,7 +15,7 @@
 #include "Core/Topology/InteractiveEntity.h"
 
 // Forward declarations
-class Sun_WorkspaceController;
+class WorkspaceController;
 
 class VisualObject : public QObject
 {
@@ -25,7 +25,7 @@ class VisualObject : public QObject
         Q_PROPERTY(QVariant tag READ tag WRITE setTag)
 
 protected:
-    explicit VisualObject(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity);
+    explicit VisualObject(WorkspaceController* workspaceController, InteractiveEntity* entity);
     virtual ~VisualObject()
     {}
 
@@ -34,7 +34,7 @@ public:
     virtual void update() = 0;
     virtual Handle(AIS_InteractiveObject) aisObject() const = 0;
 
-    Sun_WorkspaceController* workspaceController() const;
+    WorkspaceController* workspaceController() const;
     Handle(AIS_InteractiveContext) aisContext() const;
 
     InteractiveEntity* entity() const
@@ -67,7 +67,7 @@ signals:
     void aisObjectChanged(VisualObject* visualObject);
 
 private:
-    Sun_WorkspaceController* m_workspaceController;
+    WorkspaceController* m_workspaceController;
     InteractiveEntity* m_entity;
     QVariant m_tag;
 };

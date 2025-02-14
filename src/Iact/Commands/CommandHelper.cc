@@ -4,7 +4,7 @@
 
 #include "Core/Core.h"
 
- Sun_WorkspaceController* CommandHelper::workspaceController() {
+ WorkspaceController* CommandHelper::workspaceController() {
     return Core::appContext() ? Core::appContext()->workspaceController() : nullptr;
 }
 

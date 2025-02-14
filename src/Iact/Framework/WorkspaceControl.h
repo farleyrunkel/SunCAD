@@ -12,7 +12,7 @@
 #include "Iact/Visual/VisualObject.h"
 #include "Iact/Workspace/MouseEventData.h"
 
-class Sun_WorkspaceController;
+class WorkspaceController;
 
 class WorkspaceControl : public QObject, public IMouseEventHandler 
 {
@@ -20,8 +20,8 @@ class WorkspaceControl : public QObject, public IMouseEventHandler
 public:
 	explicit WorkspaceControl(QObject* parent = nullptr);
 
-	Sun_WorkspaceController* workspaceController() const;
-	void setWorkspaceController(Sun_WorkspaceController* workspaceController);
+	WorkspaceController* workspaceController() const;
+	void setWorkspaceController(WorkspaceController* workspaceController);
 
 protected:
     virtual QList<WorkspaceControl*> getChildren() const;
@@ -76,7 +76,7 @@ public:
     }
 
 private:
-	Sun_WorkspaceController* m_workspaceController;
+	WorkspaceController* m_workspaceController;
 	QList<IHudElement*> m_hudElements;
     QList<VisualObject*> m_visualObjects;
 };

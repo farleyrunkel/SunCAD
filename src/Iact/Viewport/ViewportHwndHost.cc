@@ -200,7 +200,7 @@ public:
 // Function : ViewportHwndHost
 // Purpose  :
 // ================================================================
-ViewportHwndHost::ViewportHwndHost(Sun_ViewportController* vc, QWidget* theParent)
+ViewportHwndHost::ViewportHwndHost(ViewportController* vc, QWidget* theParent)
     : _ViewportController(vc)
     , QOpenGLWidget(theParent)
     , myIsCoreProfile(true)

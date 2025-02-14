@@ -21,7 +21,7 @@
 #include "Iact/Visual/Marker.h"
 #include "Occt/ValueTypes/Ax3.h"
 
-Sun_WorkspaceController::Sun_WorkspaceController(Sun::Workspace* workspace)
+WorkspaceController::WorkspaceController(Sun::Workspace* workspace)
     : m_workspace(workspace)
     , m_mouseEventData(new MouseEventData)
     , m_currentTool(nullptr)
@@ -30,23 +30,23 @@ Sun_WorkspaceController::Sun_WorkspaceController(Sun::Workspace* workspace)
     , m_hudManager(nullptr)
 {
     assert(m_workspace != nullptr);
-    connect(m_workspace, &Sun::Workspace::GridChanged, this, &Sun_WorkspaceController::workspace_GridChanged);
-    connect(ViewPortSignalHub::instance(), &ViewPortSignalHub::viewportChanged, this, &Sun_WorkspaceController::viewport_ViewportChanged);
+    connect(m_workspace, &Sun::Workspace::GridChanged, this, &WorkspaceController::workspace_GridChanged);
+    connect(ViewPortSignalHub::instance(), &ViewPortSignalHub::viewportChanged, this, &WorkspaceController::viewport_ViewportChanged);
 
     m_visualObjectManager = new VisualObjectManager(this);
 
     m_redrawTimer = new QTimer(this);
     m_redrawTimer->setInterval(1000 / 60);
-    connect(m_redrawTimer, &QTimer::timeout, this, &Sun_WorkspaceController::redrawTimer_Tick);
+    connect(m_redrawTimer, &QTimer::timeout, this, &WorkspaceController::redrawTimer_Tick);
     m_redrawTimer->start();
 
     initWorkspace();
 }
 
-Sun_WorkspaceController::~Sun_WorkspaceController()
+WorkspaceController::~WorkspaceController()
 {}
 
-void Sun_WorkspaceController::initWorkspace()
+void WorkspaceController::initWorkspace()
 {
     // init V3dViewer and aisContext
     workspace()->initV3dViewer();
@@ -55,7 +55,7 @@ void Sun_WorkspaceController::initWorkspace()
 
     // 遍历所有 viewport 并添加到 _viewControllers 列表
     for (auto& view : workspace()->viewports()) {
-        m_viewportControllers.append(new Sun_ViewportController(view, this));
+        m_viewportControllers.append(new ViewportController(view, this));
     }
 
     // 创建并显示网格
@@ -72,7 +72,7 @@ void Sun_WorkspaceController::initWorkspace()
     updateGrid();
 }
 
-Sun_ViewportController* Sun_WorkspaceController::GetViewController(int viewIndex) const
+ViewportController* WorkspaceController::getViewController(int viewIndex) const
 {
     if (viewIndex < 0 || viewIndex >= m_viewportControllers.size()) {
         return nullptr;
@@ -80,26 +80,26 @@ Sun_ViewportController* Sun_WorkspaceController::GetViewController(int viewIndex
     return m_viewportControllers[viewIndex];
 }
 
-Sun_ViewportController* Sun_WorkspaceController::GetViewController(Sun_Viewport* viewport) const
+ViewportController* WorkspaceController::getViewController(Sun_Viewport* viewport) const
 {
     if (viewport == nullptr) {
         return nullptr;
     }
 
     auto it = std::find_if(m_viewportControllers.begin(), m_viewportControllers.end(),
-                           [viewport](Sun_ViewportController* vc) {
+                           [viewport](ViewportController* vc) {
         return vc->viewport() == viewport;
     });
 
     return (it != m_viewportControllers.end()) ? *it : nullptr;
 }
 
-Tool* Sun_WorkspaceController::currentTool() const
+Tool* WorkspaceController::currentTool() const
 {
     return m_currentTool;
 }
 
-void Sun_WorkspaceController::setCurrentTool(Tool* tool)
+void WorkspaceController::setCurrentTool(Tool* tool)
 {
     if (m_currentTool != tool) {
         m_currentTool = tool;
@@ -107,7 +107,7 @@ void Sun_WorkspaceController::setCurrentTool(Tool* tool)
     }
 }
 
-void Sun_WorkspaceController::removeTool(Tool* tool)
+void WorkspaceController::removeTool(Tool* tool)
 {
     Q_ASSERT(tool != nullptr);
     if (m_currentTool != tool) {
@@ -121,7 +121,7 @@ void Sun_WorkspaceController::removeTool(Tool* tool)
     invalidate();
 }
 
-bool Sun_WorkspaceController::startTool(Tool* tool)
+bool WorkspaceController::startTool(Tool* tool)
 {
     qDebug() << "Debug: m_workspaceController::startTool";
     try {
@@ -149,12 +149,12 @@ bool Sun_WorkspaceController::startTool(Tool* tool)
     }
 }
 
-bool Sun_WorkspaceController::isSelecting()
+bool WorkspaceController::isSelecting()
 {
     return false;
 }
 
-void Sun_WorkspaceController::invalidate(bool immediateOnly, bool forceRedraw)
+void WorkspaceController::invalidate(bool immediateOnly, bool forceRedraw)
 {
     m_workspace->setNeedsImmediateRedraw(true);
     if (!immediateOnly)
@@ -164,12 +164,12 @@ void Sun_WorkspaceController::invalidate(bool immediateOnly, bool forceRedraw)
         redraw();
 }
 
-IHudManager* Sun_WorkspaceController::hudManager() const
+IHudManager* WorkspaceController::hudManager() const
 {
     return m_hudManager;
 }
 
-void Sun_WorkspaceController::workspace_GridChanged(Sun::Workspace* sender)
+void WorkspaceController::workspace_GridChanged(Sun::Workspace* sender)
 {
     if (m_workspace == sender) {
         recalculateGridSize();
@@ -179,10 +179,10 @@ void Sun_WorkspaceController::workspace_GridChanged(Sun::Workspace* sender)
     }
 }
 
-void Sun_WorkspaceController::viewport_ViewportChanged(Sun_Viewport* sender)
+void WorkspaceController::viewport_ViewportChanged(Sun_Viewport* sender)
 {
     if (std::any_of(m_viewportControllers.begin(), m_viewportControllers.end(),
-        [sender](Sun_ViewportController* vc) {
+        [sender](ViewportController* vc) {
         return vc->viewport() == sender;
     })) {
         recalculateGridSize();
@@ -191,7 +191,7 @@ void Sun_WorkspaceController::viewport_ViewportChanged(Sun_Viewport* sender)
     }
 }
 
-void Sun_WorkspaceController::redraw()
+void WorkspaceController::redraw()
 {
     // 更新网格
     updateGrid();
@@ -237,7 +237,7 @@ void Sun_WorkspaceController::redraw()
     }
 }
 
-void Sun_WorkspaceController::updateGrid()
+void WorkspaceController::updateGrid()
 {
     if (!m_gridNeedsUpdate)
         return;
@@ -270,7 +270,7 @@ void Sun_WorkspaceController::updateGrid()
     m_gridNeedsUpdate = false;
 }
 
-void Sun_WorkspaceController::initVisualSettings()
+void WorkspaceController::initVisualSettings()
 {
     auto aisContext = workspace()->aisContext();
 
@@ -329,18 +329,24 @@ void Sun_WorkspaceController::initVisualSettings()
     aisContext->SetHighlightStyle(Prs3d_TypeOfHighlight::Prs3d_TypeOfHighlight_LocalDynamic, hilightLocalDrawer);
 }
 
-void Sun_WorkspaceController::redrawTimer_Tick()
+inline void WorkspaceController::recalculateGridSize()
+{}
+
+inline void WorkspaceController::updateParameter()
+{}
+
+void WorkspaceController::redrawTimer_Tick()
 {
     redraw();
 }
 
-void Sun_WorkspaceController::MouseMove(Sun_ViewportController* vc, QPointF pos, Qt::KeyboardModifiers modifiers)
+void WorkspaceController::MouseMove(ViewportController* vc, QPointF pos, Qt::KeyboardModifiers modifiers)
 {
     gp_Pnt planePoint;
 
     if (!vc->viewport()->screenToPoint(workspace()->workingPlane(), (int)pos.x(), (int)pos.y(), planePoint)) {
-        SetCursorPosition(gp_Pnt());
-        SetCursorPosition2d(gp_Pnt2d());
+        setCursorPosition(gp_Pnt());
+        setCursorPosition2d(gp_Pnt2d());
     }
 
     // 重置最后检测到的对象和所有者
@@ -356,7 +362,7 @@ void Sun_WorkspaceController::MouseMove(Sun_ViewportController* vc, QPointF pos,
     }
 }
 
-void Sun_WorkspaceController::MouseDown(Sun_ViewportController* viewportController, Qt::KeyboardModifiers modifiers)
+void WorkspaceController::MouseDown(ViewportController* viewportController, Qt::KeyboardModifiers modifiers)
 {
     m_lastModifierKeys = modifiers;
     m_mouseEventData->modifierKeys = modifiers;
@@ -374,7 +380,7 @@ void Sun_WorkspaceController::MouseDown(Sun_ViewportController* viewportControll
     m_isSelecting = true;
 }
 
-void Sun_WorkspaceController::MouseUp(Sun_ViewportController* viewportController, Qt::KeyboardModifiers modifiers)
+void WorkspaceController::MouseUp(ViewportController* viewportController, Qt::KeyboardModifiers modifiers)
 {
     qDebug() << "Debug: m_workspaceController::MouseUp: " << modifiers;
     for (const auto& handler : enumerateControls()) {
@@ -383,70 +389,70 @@ void Sun_WorkspaceController::MouseUp(Sun_ViewportController* viewportController
     }
 }
 
-bool Sun_WorkspaceController::cancelTool(Tool* tool, bool force)
+bool WorkspaceController::cancelTool(Tool* tool, bool force)
 {
     return true;
 }
 
-Sun::Workspace* Sun_WorkspaceController::workspace() const
+Sun::Workspace* WorkspaceController::workspace() const
 {
     return m_workspace;
 }
 
-Sun_Viewport* Sun_WorkspaceController::ActiveViewport() const
+Sun_Viewport* WorkspaceController::activeViewport() const
 {
     return m_activeViewport;
 }
 
-VisualObjectManager* Sun_WorkspaceController::visualObjects() const
+VisualObjectManager* WorkspaceController::visualObjects() const
 {
     return m_visualObjectManager;
 }
 
-gp_Pnt Sun_WorkspaceController::CursorPosition() const
+gp_Pnt WorkspaceController::cursorPosition() const
 {
     return m_cursorPosition;
 }
 
-void Sun_WorkspaceController::SetCursorPosition(const gp_Pnt& pnt)
+void WorkspaceController::setCursorPosition(const gp_Pnt& pnt)
 {}
 
-gp_Pnt2d Sun_WorkspaceController::CursorPosition2d() const
+gp_Pnt2d WorkspaceController::cursorPosition2d() const
 {
     return m_cursorPosition2d;
 }
 
-void Sun_WorkspaceController::SetCursorPosition2d(const gp_Pnt2d& pnt2d)
+void WorkspaceController::setCursorPosition2d(const gp_Pnt2d& pnt2d)
 {}
 
-void Sun_WorkspaceController::SetActiveViewport(Sun_Viewport* Viewport)
+void WorkspaceController::setActiveViewport(Sun_Viewport* Viewport)
 {
     m_activeViewport = Viewport;
 }
 
-void Sun_WorkspaceController::setHudManager(IHudManager* hudManager)
+void WorkspaceController::setHudManager(IHudManager* hudManager)
 {
     m_hudManager = hudManager;
 }
 
-Sun_ViewportController* Sun_WorkspaceController::viewportController(Sun_Viewport* Viewport)
+ViewportController* WorkspaceController::viewportController(Sun_Viewport* Viewport)
 {
     if (Viewport == nullptr) {
         return nullptr;
     }
 
     auto it = std::find_if(m_viewportControllers.begin(), m_viewportControllers.end(),
-                           [Viewport](const Sun_ViewportController* vc) {
+                           [Viewport](const ViewportController* vc) {
         return vc->viewport() == Viewport;
     });
 
     return (it != m_viewportControllers.end()) ? *it : nullptr;
 }
 
-void Sun_WorkspaceController::dispose()
+void WorkspaceController::dispose()
 {}
 
-QList<WorkspaceControl*> Sun_WorkspaceController::enumerateControls()
+QList<WorkspaceControl*> WorkspaceController::enumerateControls()
 {
     qDebug() << "Debug: m_workspaceController::enumerateControls";
     QList<WorkspaceControl*> controls;

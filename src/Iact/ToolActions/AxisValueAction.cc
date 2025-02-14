@@ -39,9 +39,9 @@ bool AxisValueAction::processMouseInput(MouseEventData* data)
 
 std::optional<double> AxisValueAction::_processMouseInputForAxis(MouseEventData* data, double& distance)
 {
-    gp_Dir planeDir = workspaceController()->ActiveViewport()->getRightDirection();
+    gp_Dir planeDir = workspaceController()->activeViewport()->getRightDirection();
     if (planeDir.IsParallel(_axis.Direction(), 0.1)) {
-        planeDir = workspaceController()->ActiveViewport()->getUpDirection();
+        planeDir = workspaceController()->activeViewport()->getUpDirection();
     }
     planeDir.Cross(_axis.Direction());
     gp_Pln plane(gp_Ax3(_axis.Location(), planeDir, _axis.Direction()));
@@ -58,7 +58,7 @@ std::optional<double> AxisValueAction::_processMouseInputForAxis(MouseEventData*
     //}
     //else {
         gp_Pnt convertedPoint;
-        if (workspaceController()->ActiveViewport()->screenToPoint(
+        if (workspaceController()->activeViewport()->screenToPoint(
             plane, static_cast<int>(data->screenPoint.x()),
             static_cast<int>(data->screenPoint.y()), convertedPoint)) {
             Extrema_ExtPC extrema(convertedPoint, GeomAdaptor_Curve(new Geom_Line(_axis)), 1.0e-10);

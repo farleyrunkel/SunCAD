@@ -6,7 +6,7 @@
 #include <QObject>
 #include "Iact/Framework/WorkspaceControl.h"
 
-class Sun_WorkspaceController;
+class WorkspaceController;
 
 class ToolAction : public WorkspaceControl 
 {

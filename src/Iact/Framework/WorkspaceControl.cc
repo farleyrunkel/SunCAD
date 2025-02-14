@@ -14,12 +14,12 @@ WorkspaceControl::WorkspaceControl(QObject* parent)
 {
 }
 
-Sun_WorkspaceController* WorkspaceControl::workspaceController() const 
+WorkspaceController* WorkspaceControl::workspaceController() const 
 { 
 	return m_workspaceController; 
 }
 
-void WorkspaceControl::setWorkspaceController(Sun_WorkspaceController* workspaceController) 
+void WorkspaceControl::setWorkspaceController(WorkspaceController* workspaceController) 
 {
 	m_workspaceController = workspaceController;
 }

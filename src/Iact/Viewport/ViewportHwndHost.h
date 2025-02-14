@@ -40,7 +40,7 @@ class ViewportHwndHost : public QOpenGLWidget, public AIS_ViewController
 
 public:
     //! Main constructor.
-    ViewportHwndHost(Sun_ViewportController* vc, QWidget* parent = nullptr);
+    ViewportHwndHost(ViewportController* vc, QWidget* parent = nullptr);
 
     //! Destructor.
     virtual ~ViewportHwndHost();
@@ -106,7 +106,7 @@ private:
                                   const Handle(V3d_View)& theView) override;
 
 private:
-    Sun_ViewportController* _ViewportController;
+    ViewportController* _ViewportController;
     Handle(V3d_Viewer)             myViewer;
     Handle(V3d_View)               myView;
     Handle(AIS_InteractiveContext) myContext;

@@ -50,12 +50,12 @@ void InteractiveContext::setDocumentController(ModelController* value)
     raisePropertyChanged("documentController");
 }
 
-Sun_WorkspaceController* InteractiveContext::workspaceController() const
+WorkspaceController* InteractiveContext::workspaceController() const
 {
     return m_workspaceController;
 }
 
-void InteractiveContext::setWorkspaceController(Sun_WorkspaceController* value)
+void InteractiveContext::setWorkspaceController(WorkspaceController* value)
 {
     if (m_workspaceController == value)
         return;
@@ -65,12 +65,12 @@ void InteractiveContext::setWorkspaceController(Sun_WorkspaceController* value)
     m_workspaceController = value;
 }
 
-Sun_ViewportController* InteractiveContext::viewportController() const
+ViewportController* InteractiveContext::viewportController() const
 {
     return m_viewportController;
 }
 
-void InteractiveContext::setViewportController(Sun_ViewportController* value)
+void InteractiveContext::setViewportController(ViewportController* value)
 {
     m_viewportController = value;
     raisePropertyChanged("viewportController");
@@ -83,7 +83,7 @@ void InteractiveContext::setWorkspace(Sun::Workspace* value)
     setWorkspaceController(nullptr); // Safe Reset
 
     if (value) {
-        setWorkspaceController(new Sun_WorkspaceController(value));
+        setWorkspaceController(new WorkspaceController(value));
     }
     CoreContext::setWorkspace(value);
     raisePropertyChanged("workspaceController");
@@ -94,12 +94,12 @@ void InteractiveContext::setViewport(Sun_Viewport* value)
     CoreContext::setViewport(value);
     if (value == nullptr) {
         setViewportController(nullptr);
-        m_workspaceController->SetActiveViewport(nullptr);
+        m_workspaceController->setActiveViewport(nullptr);
     }
     else {
-        m_workspaceController->SetActiveViewport(CoreContext::viewport());
+        m_workspaceController->setActiveViewport(CoreContext::viewport());
         auto a = CoreContext::viewport();
-        auto b = m_workspaceController->GetViewController(a);
+        auto b = m_workspaceController->getViewController(a);
         setViewportController(b);
     }
 }

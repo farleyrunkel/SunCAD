@@ -13,7 +13,7 @@
 
 QMap<QString, VisualObjectManager::CreateVisualObjectDelegate> VisualObjectManager::s_registeredVisualTypes;
 
-VisualObjectManager::VisualObjectManager(Sun_WorkspaceController* workspaceController)
+VisualObjectManager::VisualObjectManager(WorkspaceController* workspaceController)
     : m_workspaceController(workspaceController)
 {
     // Connect signals
@@ -25,7 +25,7 @@ VisualObjectManager::VisualObjectManager(Sun_WorkspaceController* workspaceContr
 VisualObjectManager::~VisualObjectManager()
 {}
 
-VisualObject* VisualObjectManager::createVisualObject(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity)
+VisualObject* VisualObjectManager::createVisualObject(WorkspaceController* workspaceController, InteractiveEntity* entity)
 {
     if (!entity) {
         qWarning() << "Entity is null, cannot create visual object.";

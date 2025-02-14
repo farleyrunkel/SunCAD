@@ -10,7 +10,7 @@
 
 // Forward declarations
 class Tool;
-class Sun_WorkspaceController;
+class WorkspaceController;
 
 class EditorState final : public QObject
 {
@@ -74,7 +74,7 @@ private:
     bool m_snapToVertexSelected;
     bool m_snapToEdgeSelected;
     bool m_snappingEnabled;
-	Sun_WorkspaceController* m_workspaceController;
+	WorkspaceController* m_workspaceController;
 };
 
 #endif // IACT_WORKSPACE_EDITORSTATE_H_

@@ -22,7 +22,7 @@ class IViewportMouseControl {
     virtual ~IViewportMouseControl() = default;
 
     // Set the viewport controller
-    virtual void setViewportController(Sun_ViewportController* controller) { m_viewportController = controller; }
+    virtual void setViewportController(ViewportController* controller) { m_viewportController = controller; }
 
     // Handle mouse move event
     virtual void MouseMove(const QPointF& pos, QMouseEvent* mouseEvent, Qt::KeyboardModifiers modifierKeys) = 0;
@@ -40,7 +40,7 @@ class IViewportMouseControl {
     virtual void cancel() = 0;
 
  private:
-    Sun_ViewportController* m_viewportController;
+    ViewportController* m_viewportController;
 };
 
 #endif  // SRC_IACT_VIEWPORT_IVIEWPORTMOUSECONTROL_H_

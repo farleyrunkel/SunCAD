@@ -18,7 +18,7 @@
 #include "Core/Topology/InteractiveEntity.h"
 
 // Forward declarations
-class Sun_WorkspaceController;
+class WorkspaceController;
 class Body;
 class VisualObject;
 class VisualObjectManager;
@@ -44,10 +44,10 @@ class VisualObjectManager : public QObject
     Q_OBJECT
 
 public:
-    explicit VisualObjectManager(Sun_WorkspaceController* workspaceController);
+    explicit VisualObjectManager(WorkspaceController* workspaceController);
     ~VisualObjectManager();
 
-    using CreateVisualObjectDelegate = std::function<VisualObject* (Sun_WorkspaceController*, InteractiveEntity*)>;
+    using CreateVisualObjectDelegate = std::function<VisualObject* (WorkspaceController*, InteractiveEntity*)>;
 
     template<typename TEntity>
     static void registerEntity(CreateVisualObjectDelegate createDelegate)
@@ -61,7 +61,7 @@ public:
         s_registeredVisualTypes.insert(typeName, createDelegate);
     }
 
-    VisualObject* createVisualObject(Sun_WorkspaceController* workspaceController, InteractiveEntity* entity);
+    VisualObject* createVisualObject(WorkspaceController* workspaceController, InteractiveEntity* entity);
 
     VisualObject* get(InteractiveEntity* body, bool forceCreation = false);
     VisualObject* add(InteractiveEntity* body);
@@ -81,7 +81,7 @@ private:
     void interactiveEntity_VisualChanged(InteractiveEntity* entity);
 
 private:
-    Sun_WorkspaceController* m_workspaceController;
+    WorkspaceController* m_workspaceController;
     QList<InteractiveEntity*> m_invalidatedInteractiveEntities;
     QList<Body*> m_isolatedEntities;
 

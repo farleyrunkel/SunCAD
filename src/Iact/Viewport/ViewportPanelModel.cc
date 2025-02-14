@@ -55,13 +55,13 @@ QString ViewportPanelModel::hintMessage()
     return m_hintMessage;
 }
 
-void ViewportPanelModel::setViewportController(Sun_ViewportController* value) 
+void ViewportPanelModel::setViewportController(ViewportController* value) 
 {
     m_viewportController = value;
     raisePropertyChanged("viewportController");
 }
 
-void ViewportPanelModel::setWorkspaceController(Sun_WorkspaceController* value) 
+void ViewportPanelModel::setWorkspaceController(WorkspaceController* value) 
 {
     if (m_workspaceController != value) {
         m_workspaceController = value;
