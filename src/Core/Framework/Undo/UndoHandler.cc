@@ -54,7 +54,7 @@ void UndoHandler::addAction(UndoAction* action)
 
 void UndoHandler::doUndo(int steps)
 {
-    while (steps > 0 && !canUndo()) {
+    while (steps > 0 && canUndo()) {
         restore(false);  // restore the previous state (undo)
         steps--;
     }
@@ -65,7 +65,7 @@ void UndoHandler::doUndo(int steps)
 
 void UndoHandler::doRedo(int steps)
 {
-    while (steps > 0 && !canRedo()) {
+    while (steps > 0 && canRedo()) {
         restore(true);  // restore the previously undone state (redo)
         steps--;
     }
@@ -78,8 +78,12 @@ void UndoHandler::restore(bool fromRedoStack)
     auto actions = sourceStack.top();  // Get the most recent actions
     sourceStack.pop();  // Remove the actions from the stack
 
+	m_isRestoring = true;
+
     // restore the actions in reverse order
     for (auto& action : actions) {
-        //action->restore();
+        action->restore();
     }
+
+    m_isRestoring = false;
 }
