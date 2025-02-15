@@ -3,7 +3,12 @@
 // Own include
 #include "Core/Framework/Undo/UndoHandler.h"
 
-// Check if undo is possible
+// Constructor
+
+UndoHandler::UndoHandler()
+    : m_isRestoring(false)
+{
+}
 
 bool UndoHandler::canUndo() const
 {
@@ -17,13 +22,24 @@ bool UndoHandler::canRedo() const
     return !m_redoStack.empty();
 }
 
+void UndoHandler::commit(bool toRedoStack)
+{
+    auto stack = toRedoStack ? m_redoStack : m_undoStack;
+    if (m_pendingActions.count() > 0) {
+        // Reverse action list to undo the last at first
+        std::reverse(m_pendingActions.begin(), m_pendingActions.end());
+        stack.push(m_pendingActions);
+        m_pendingActions.clear();
+    }
+}
+
 // commit the current actions to the undo stack
 
 void UndoHandler::commit()
 {
-    if (!m_pendingActions.empty()) {
-        m_undoStack.push(m_pendingActions);
-        m_pendingActions.clear();
+    if (!m_isRestoring) {
+		commit(false);
+        m_redoStack.clear();
     }
 }
 

@@ -20,8 +20,16 @@
 class UndoHandler
 {
 public:
+    enum TopologyAction
+    {
+        Added,
+        Removed,
+        Moved
+    };
+
+public:
     // Constructor
-    UndoHandler() = default;
+    UndoHandler();;
 
     // Check if undo is possible
     bool canUndo() const;
@@ -29,8 +37,10 @@ public:
     // Check if redo is possible
     bool canRedo() const;
 
+    void commit(bool toRedoStack);
     // commit the current actions to the undo stack
     void commit();
+
 
     // Add a new action to the pending actions list
     void addAction(UndoAction* action);
@@ -51,6 +61,8 @@ private:
 
     // List of pending actions
     QList<UndoAction*> m_pendingActions;
+
+    bool m_isRestoring; // ·ÀÖ¹»Ö¸´Ê±µÄµÝ¹é
 };
 
 #endif  // CORE_FRAMEWORK_UNDO_UNDOHANDLER_H_
