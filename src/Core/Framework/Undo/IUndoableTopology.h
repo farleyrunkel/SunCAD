@@ -1,5 +1,5 @@
-#ifndef IUNDOABLETOPOLOGY_H
-#define IUNDOABLETOPOLOGY_H
+#ifndef CORE_FRAMEWORK_UNDO_IUNDOABLETOPOLOGY_H
+#define CORE_FRAMEWORK_UNDO_IUNDOABLETOPOLOGY_H
 
 #include <QUuid> 
 #include "Core/Topology/Entity.h" 
@@ -22,4 +22,4 @@ public:
     virtual void MoveChildFromUndo(Entity* instance, Entity* newParent) = 0;
 };
 
-#endif 
+#endif  // CORE_FRAMEWORK_UNDO_IUNDOABLETOPOLOGY_H

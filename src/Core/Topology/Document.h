@@ -15,9 +15,9 @@
 
 // Project includes
 #include "Core/EntityContainer.h"
-#include "Core/Topology/Entity.h"`
+//#include "Core/Framework/undo/UndoHandler.h"
+#include "Core/Topology/Entity.h"
 
-class UndoHandler {};
 class IDecorable {};
 
 //#include "Core/SerializationContext.h"
@@ -141,7 +141,7 @@ public:
 private:
     QString m_filePath;
     bool HasUnsavedChanges;
-    QScopedPointer<UndoHandler> _undoHandler;
+    //UndoHandler* _undoHandler;
     QMap<QUuid, Entity*> Instances;
     QMap<QString, int> LastNameSuffices;
 };
