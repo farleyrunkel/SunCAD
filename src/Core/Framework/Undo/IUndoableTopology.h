@@ -1,7 +1,10 @@
 #ifndef CORE_FRAMEWORK_UNDO_IUNDOABLETOPOLOGY_H
 #define CORE_FRAMEWORK_UNDO_IUNDOABLETOPOLOGY_H
 
+// Qt includes
 #include <QUuid> 
+
+// Project includes
 #include "Core/Topology/Entity.h" 
 
 class IUndoableTopology
