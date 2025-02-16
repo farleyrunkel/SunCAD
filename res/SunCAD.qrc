@@ -98,5 +98,25 @@
         <file>icons/Layer/Layer-MoveToLayer.svg</file>
         <file>icons/Layer/Layer-SelectAllEntities.svg</file>
         <file>icons/Layer/Layer-VisualProps.svg</file>
+        <file>icons/View/Grid-Circ.svg</file>
+        <file>icons/View/Grid-Divisions.svg</file>
+        <file>icons/View/Grid-Rect.svg</file>
+        <file>icons/View/Grid-RectCenter.svg</file>
+        <file>icons/View/Grid-Rotation.svg</file>
+        <file>icons/View/Grid-Step.svg</file>
+        <file>icons/View/View-Back.svg</file>
+        <file>icons/View/View-Bottom.svg</file>
+        <file>icons/View/View-ExportDrawing.svg</file>
+        <file>icons/View/View-Front.svg</file>
+        <file>icons/View/View-Left.svg</file>
+        <file>icons/View/View-RenderHLR.svg</file>
+        <file>icons/View/View-RenderRaytraced.svg</file>
+        <file>icons/View/View-RenderSolidShaded.svg</file>
+        <file>icons/View/View-Right.svg</file>
+        <file>icons/View/View-Top.svg</file>
+        <file>icons/View/Zoom-All.svg</file>
+        <file>icons/View/Zoom-In.svg</file>
+        <file>icons/View/Zoom-Out.svg</file>
+        <file>icons/View/Zoom-Selection.svg</file>
     </qresource>
 </RCC>

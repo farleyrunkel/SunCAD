@@ -4,6 +4,7 @@
 #define IACT_COMMANDS_WORKSPACECOMMANDS_H_
 
 // Project includes
+#include "Iact/Workspace/ViewportController.h"
 #include "Pres/Commands/ActionCommand.h"
 
 class WorkspaceCommands
@@ -11,7 +12,7 @@ class WorkspaceCommands
 public:
     static ActionCommand& doUndo();
     static ActionCommand& doRedo();
-    static ActionCommand& setPredefinedView();
+    static ActionCommand& setPredefinedView(ViewportController::PredefinedViews param);
 };
 
 #endif  // IACT_COMMANDS_WORKSPACECOMMANDS_H_

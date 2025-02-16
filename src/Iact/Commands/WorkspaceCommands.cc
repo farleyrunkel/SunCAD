@@ -51,19 +51,53 @@ ActionCommand& WorkspaceCommands::doRedo()
     return command;
 }
 
-ActionCommand& WorkspaceCommands::setPredefinedView()
+ActionCommand& WorkspaceCommands::setPredefinedView(ViewportController::PredefinedViews param)
 {
-    static ActionCommand command(
-        []() { CommandHelper::startTool(new CreateBoxTool()); },
-        []() { return CommandHelper::canStartTool(); }
-    );
+    ActionCommand* p = nullptr;
+    if (param == ViewportController::PredefinedViews::Top) {
+        static ActionCommand command(
+            [param]() { InteractiveContext::current()->viewportController()->setPredefinedView(param); },
+            []() { return CommandHelper::canExecuteOnViewport(); }
+        );
+        p = &command;
+    }
+    else if (param == ViewportController::PredefinedViews::Bottom) {
+        static ActionCommand command(
+            [param]() { InteractiveContext::current()->viewportController()->setPredefinedView(param); },
+            []() { return CommandHelper::canExecuteOnViewport(); }
+        );
+        p = &command;
+    }
+    else if (param == ViewportController::PredefinedViews::Front) {
+        static ActionCommand command(
+            [param]() { InteractiveContext::current()->viewportController()->setPredefinedView(param); },
+            []() { return CommandHelper::canExecuteOnViewport(); }
+        );
+        p = &command;
+    }
+    else if (param == ViewportController::PredefinedViews::Back) {
+        static ActionCommand command(
+            [param]() { InteractiveContext::current()->viewportController()->setPredefinedView(param); },
+            []() { return CommandHelper::canExecuteOnViewport(); }
+        );
+        p = &command;
+    }
+    else if (param == ViewportController::PredefinedViews::Right) {
+        static ActionCommand command(
+            [param]() { InteractiveContext::current()->viewportController()->setPredefinedView(param); },
+            []() { return CommandHelper::canExecuteOnViewport(); }
+        );
+        p = &command;
+    }
+    else {
+    }
+    const QMetaEnum metaEnum = QMetaEnum::fromType<ViewportController::PredefinedViews>();
+    auto str = metaEnum.valueToKey(param);
 
     // Initialize command properties if not already set
-    if (command.text().isEmpty()) {
-        command.setText(QObject::tr("Redo"));
-        command.setIcon(ResourceUtils::icon("Edit/Edit-Redo"));
-        command.setToolTip(QObject::tr("Restore the last reverted operation."));
+    if (p && p->text().isEmpty()) {
+        p->setText(QObject::tr(str));
+        p->setIcon(ResourceUtils::icon(QString("View/View-") + str));
     }
-
-    return command;
+    return *p;
 }

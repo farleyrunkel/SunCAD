@@ -5,6 +5,7 @@
 
 // Qt includes
 #include <QObject>
+#include <QMetaType>
 
 // Occt includes
 #include <AIS_RubberBand.hxx>
@@ -29,7 +30,7 @@ class ViewportController : public QObject
 		Q_PROPERTY(bool IsInRubberbandSelection READ IsInRubberbandSelection CONSTANT)
 
 public:
-	enum class PredefinedViews
+	enum PredefinedViews
 	{
 		Top,
 		Bottom,
@@ -39,11 +40,13 @@ public:
 		Back,
 		WorkingPlane
 	};
+	Q_ENUM(PredefinedViews)
 
 	enum MouseMoveMode
 	{
 		None, Panning, Rotating, Twisting, Zooming
 	};
+	Q_ENUM(MouseMoveMode)
 
 public:
 	explicit ViewportController(Sun_Viewport* Viewport,
