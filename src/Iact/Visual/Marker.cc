@@ -8,7 +8,7 @@
 
 // Project includes
 #include "Iact/Workspace/WorkspaceController.h"
-#include "Occt/Managed/AIS_PointEx.h"
+#include "Occt/OcctExtensions/AIS_PointEx.h"
 
 Marker::Marker(WorkspaceController* workspaceController, Styles styles, const MarkerImage& image)
     : VisualObject(workspaceController, nullptr)

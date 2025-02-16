@@ -1,15 +1,15 @@
 ﻿// Copyright [2024] SunCAD
 
-#ifndef OCCT_MANAGED_AIS_POINTEX_H_
-#define OCCT_MANAGED_AIS_POINTEX_H_
+#ifndef OCCT_OCCTEXTENSIONS_AIS_POINTEX_H_
+#define OCCT_OCCTEXTENSIONS_AIS_POINTEX_H_
 
+// Occt includes
 #include <AIS_Point.hxx>
-#include <Prs3d_Drawer.hxx>
 #include <Geom_Point.hxx>
-#include <Quantity_Color.hxx>
-#include <PrsMgr_PresentationManager.hxx>
+#include <Prs3d_Drawer.hxx>
 #include <Prs3d_Presentation.hxx>
-
+#include <PrsMgr_PresentationManager.hxx>
+#include <Quantity_Color.hxx>
 
 class AIS_PointEx : public AIS_Point
 {
@@ -29,4 +29,4 @@ private:
 
 DEFINE_STANDARD_HANDLE(AIS_PointEx, AIS_Point)
 
-#endif  // OCCT_MANAGED_AIS_POINTEX_H_
+#endif  // OCCT_OCCTEXTENSIONS_AIS_POINTEX_H_

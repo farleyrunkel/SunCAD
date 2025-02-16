@@ -1,10 +1,12 @@
 ﻿// Copyright [2024] SunCAD
 
-#include "Occt/Managed/AIS_PointEx.h"
+// Own include
+#include "Occt/OcctExtensions/AIS_PointEx.h"
 
+// Occt includes
 #include <Graphic3d_AspectMarker3d.hxx>
-#include <PrsMgr_PresentationManager.hxx>
 #include <Prs3d_Drawer.hxx>
+#include <PrsMgr_PresentationManager.hxx>
 #include <StdPrs_Point.hxx>
 
 IMPLEMENT_STANDARD_RTTIEXT(AIS_PointEx,AIS_Point)

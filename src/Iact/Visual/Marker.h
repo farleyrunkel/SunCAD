@@ -23,7 +23,7 @@
 // Project includes
 #include "Comm/Types/Color.h"
 #include "Iact/Visual/VisualObject.h"
-#include "Occt/Managed/AIS_PointEx.h"
+#include "Occt/OcctExtensions/AIS_PointEx.h"
 #include "Occt/OcctHelper/PixMapHelper.h"
 #include "ResourceUtils.h"
 

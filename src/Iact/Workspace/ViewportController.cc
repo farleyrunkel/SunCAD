@@ -13,6 +13,10 @@
 #include <V3d_TypeOfOrientation.hxx>
 #include <V3d_View.hxx>
 
+// Project includes
+#include "Occt/OcctHelper/PixMapHelper.h"
+#include "ResourceUtils.h"
+
 ViewportController::ViewportController(Sun_Viewport* Viewport, WorkspaceController* workspacecontroller)
 	: QObject()
 	, m_viewport(Viewport)
@@ -186,16 +190,16 @@ void ViewportController::setViewCube(bool isVisible, int size, double duration)
 	if (!isVisible) return;
 
 	// 加载位图资源
-	//auto bitmap = ResourceUtils::readBitmapFromResource("Visual/ViewCubeSides.png");
-	//if (bitmap == nullptr) {
-	//    Messages::error("Could not load view cube texture from resource.");
+	//QImage bitmap = ResourceUtils::readBitmapFromResource("Visual/ViewCubeSides.png");
+	//if (bitmap.isNull()) {
+	//	qCritical() << "Could not load view cube texture from resource.";
 	//    return;
 	//}
 
 	//// 将位图转换为 PixMap 格式
 	//auto pixmap = PixMapHelper::convertFromBitmap(bitmap);
-	//if (pixmap == nullptr) {
-	//    Messages::error("Could not load view cube texture into pixmap.");
+	//if (pixmap.IsNull()) {
+	//	qCritical() << "Could not load view cube texture into pixmap.";
 	//    return;
 	//}
 
@@ -238,14 +242,14 @@ void ViewportController::setViewCube(bool isVisible, int size, double duration)
 	m_viewCube->DynamicHilightAttributes()->ShadingAspect()->SetColor(highlightColor);
 	m_viewCube->DynamicHilightAttributes()->ShadingAspect()->SetMaterial(*material);
 
-	//// 显示或隐藏视图立方体
-	//if (isVisible) {
-	//    aisContext->Display(m_viewCube, false);
+	// 显示或隐藏视图立方体
+	if (isVisible) {
+	    aisContext->Display(m_viewCube, false);
 
-	//    for (const auto& viewport : workspaceController()->workspace()->viewports()) {
-	//        aisContext->SetViewAffinity(m_viewCube, viewport->v3dView(), viewport.get() == currentViewport().get());
-	//    }
-	//}
+	    //for (const auto& viewport : workspaceController()->workspace()->viewports()) {
+	    //    aisContext->SetViewAffinity(m_viewCube, viewport->v3dView(), viewport.get() == currentViewport().get());
+	    //}
+	}
 
 	workspaceController()->invalidate(true);
 }
