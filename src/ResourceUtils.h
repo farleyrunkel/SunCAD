@@ -6,7 +6,7 @@
 #include <QString>
 #include <QIcon>
 #include <QFile>
-#include <QDebug>
+#include <QImage>
 
 class ResourceUtils
 {
@@ -23,12 +23,29 @@ public:
         return QIcon(iconPath(iconName));
     }
 
+    static QString GetResourceUri(const QString& filename)
+    {
+        return assemblyName().append(filename);
+    }
+
+    static QImage readBitmapFromResource(const QString& filename)
+    {
+        return QImage(GetResourceUri(filename));
+    }
+
+
 public:
     static bool isResourcePathValid(const QString& resourcePath)
     {
         QFile file(resourcePath);
         return file.exists();
     }
+
+private:
+    static QString assemblyName()
+    {
+        return ":/";
+    };
 };
 
 #endif // RESOURCEUTILS_H_

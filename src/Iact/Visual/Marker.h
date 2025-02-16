@@ -21,10 +21,10 @@
 #include <Prs3d_PointAspect.hxx>
 
 // Project includes
-#include "Comm/PixMapHelper.h"
 #include "Comm/Types/Color.h"
 #include "Iact/Visual/VisualObject.h"
 #include "Occt/Managed/AIS_PointEx.h"
+#include "Occt/OcctHelper/PixMapHelper.h"
 #include "ResourceUtils.h"
 
 class Marker : public VisualObject 

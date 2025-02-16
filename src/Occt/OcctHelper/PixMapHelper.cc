@@ -1,8 +1,17 @@
 // Copyright [2024] SunCAD
 
-#include "Comm/PixMapHelper.h"
+// Own include
+#include "Occt/OcctHelper/PixMapHelper.h"
 
-Handle(Image_PixMap) PixMapHelper::convertFromBitmap(const QImage& image) {
+// Qt include
+#include <QImage>
+
+// Occt includes
+#include <Image_PixMap.hxx>
+#include <Image_Format.hxx>
+
+Handle(Image_PixMap) PixMapHelper::convertFromBitmap(const QImage& image)
+{
     if (image.isNull()) {
         throw std::runtime_error("Failed to convert QPixmap to QImage.");
     }
