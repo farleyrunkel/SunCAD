@@ -172,7 +172,7 @@ void ViewportController::setViewCube(bool isVisible)
 	}
 }
 
-void ViewportController::setViewCube(bool isVisible, uint32_t size, double duration)
+void ViewportController::setViewCube(bool isVisible, int size, double duration)
 {
 	auto aisContext = workspaceController()->workspace()->aisContext();
 
@@ -185,7 +185,7 @@ void ViewportController::setViewCube(bool isVisible, uint32_t size, double durat
 	// 如果不需要显示视图立方体则直接返回
 	if (!isVisible) return;
 
-	//// 加载位图资源
+	// 加载位图资源
 	//auto bitmap = ResourceUtils::readBitmapFromResource("Visual/ViewCubeSides.png");
 	//if (bitmap == nullptr) {
 	//    Messages::error("Could not load view cube texture from resource.");

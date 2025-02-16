@@ -305,7 +305,7 @@ void ViewportHwndHost::initializeGL()
         return;
     }
 
-    Handle(Aspect_NeutralWindow) aWindow = _ViewportController->initWindow();
+    Handle(Aspect_NeutralWindow) aWindow = Handle(Aspect_NeutralWindow)::DownCast(myView->Window());
     if (aWindow.IsNull()) {
         aWindow = new Aspect_NeutralWindow();
         aWindow->SetVirtual(true);
@@ -322,7 +322,8 @@ void ViewportHwndHost::initializeGL()
 
     aWindow->SetSize(aViewSize.x(), aViewSize.y());
     myView->SetWindow(aWindow, aGlCtx->RenderingContext());
-    dumpGlInfo(true, true);
+
+    _ViewportController->updateParameter();
 }
 
 // ================================================================

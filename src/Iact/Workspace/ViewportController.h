@@ -90,10 +90,10 @@ public:
 		return false;
 	}
 
-	Handle(Aspect_NeutralWindow) initWindow()
+	void updateParameter()
 	{
-		return nullptr;
-	}
+		setViewCube(true, 30, 1);
+	};
 
 	void setPredefinedView(PredefinedViews predefinedView);
 
@@ -120,7 +120,7 @@ private:
 	void init();
 
 	void setViewCube(bool isVisible);
-	void setViewCube(bool isVisible, uint32_t size, double duration);
+	void setViewCube(bool isVisible, int size, double duration);
 	void setTrihedron(bool visible)
 	{}
 
