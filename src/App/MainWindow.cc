@@ -119,10 +119,7 @@ void MainWindow::setupCategories()
     }
 
     if (SARibbonCategory* aCategory = m_ribbonBar->addCategoryPage(tr("ToolBox"))) {
-        if (SARibbonPannel* aPannel = aCategory->addPannel(tr("Create"))) {
-            aPannel->addAction(&ModelCommands::createBox(), SARibbonPannelItem::Large);
-            aPannel->addAction(&ModelCommands::createCylinder(), SARibbonPannelItem::Large);
-            aPannel->addAction(&ModelCommands::createSphere(), SARibbonPannelItem::Large);
+        if (SARibbonPannel* aPannel = aCategory->addPannel(tr("Convert"))) {
         }
     }
 
@@ -136,10 +133,8 @@ void MainWindow::setupCategories()
             aPannel->addAction(&WorkspaceCommands::setPredefinedView(ViewportController::Back));
         }
         if (SARibbonPannel* aPannel = aCategory->addPannel(tr("Zoom"))) {
-            aPannel->addAction(&AppCommands::showDocumentExplorer(), SARibbonPannelItem::Large);
         }
         if (SARibbonPannel* aPannel = aCategory->addPannel(tr("Display"))) {
-            aPannel->addAction(&AppCommands::showDocumentExplorer(), SARibbonPannelItem::Large);
         }
     }
 }
