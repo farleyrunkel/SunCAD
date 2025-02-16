@@ -67,8 +67,8 @@ ActionCommand& AppCommands::resetWindowLayout()
     );
     // Initialize command properties if not already set
     if (command.text().isEmpty()) {
-        command.setText(QObject::tr("Reset Window Layout"));
-        command.setToolTip(QObject::tr("Resets the Window layout to the default layout."));
+        command.setText(QObject::tr("Reset window Layout"));
+        command.setToolTip(QObject::tr("Resets the window layout to the default layout."));
         command.setIcon(ResourceUtils::icon("App/App-RestoreLayout"));
     }
     return command;

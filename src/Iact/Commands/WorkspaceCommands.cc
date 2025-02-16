@@ -29,17 +29,6 @@ ActionCommand& WorkspaceCommands::doUndo()
         command.setText(QObject::tr("Undo"));
         command.setIcon(ResourceUtils::icon("Edit/Edit-Undo"));
         command.setToolTip(QObject::tr("Revert the last operation."));
-
-        command.connect(Core::commandManager(), &CommandManager::updateEnabled,
-                        []() { command.setEnabled(command.canExecute()); }
-        );
-        command.connect(InteractiveContext::current()->editorState(), &EditorState::activeToolChanged,
-                        []() {
-            auto controller = InteractiveContext::current()->workspaceController();
-            auto currentTool = controller->currentTool();
-            command.setChecked(currentTool && qobject_cast<CreateBoxTool*>(currentTool) != nullptr);
-        }
-        );
     }
 
     return command;
@@ -57,17 +46,23 @@ ActionCommand& WorkspaceCommands::doRedo()
         command.setText(QObject::tr("Redo"));
         command.setIcon(ResourceUtils::icon("Edit/Edit-Redo"));
         command.setToolTip(QObject::tr("Restore the last reverted operation."));
+    }
 
-        command.connect(Core::commandManager(), &CommandManager::updateEnabled,
-                        []() { command.setEnabled(command.canExecute()); }
-        );
-        command.connect(InteractiveContext::current()->editorState(), &EditorState::activeToolChanged,
-                        []() {
-            auto controller = InteractiveContext::current()->workspaceController();
-            auto currentTool = controller->currentTool();
-            command.setChecked(currentTool && qobject_cast<CreateBoxTool*>(currentTool) != nullptr);
-        }
-        );
+    return command;
+}
+
+ActionCommand& WorkspaceCommands::setPredefinedView()
+{
+    static ActionCommand command(
+        []() { CommandHelper::startTool(new CreateBoxTool()); },
+        []() { return CommandHelper::canStartTool(); }
+    );
+
+    // Initialize command properties if not already set
+    if (command.text().isEmpty()) {
+        command.setText(QObject::tr("Redo"));
+        command.setIcon(ResourceUtils::icon("Edit/Edit-Redo"));
+        command.setToolTip(QObject::tr("Restore the last reverted operation."));
     }
 
     return command;

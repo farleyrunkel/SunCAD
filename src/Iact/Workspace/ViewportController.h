@@ -55,15 +55,9 @@ public:
 		return this->viewport() ? this->viewport()->view() : nullptr;
 	}
 
-	Handle(AIS_ViewCube) ViewCube() const
-	{
-		return _ViewCube;
-	}
+	Handle(AIS_ViewCube) viewCube() const;
 
-	const Handle(Aspect_Window)& Window() const
-	{
-		return !view().IsNull() ? view()->Window() : nullptr;
-	}
+	Handle(Aspect_Window) window() const;
 
 	void SetWindow(const Handle(Aspect_Window)& theWindow,
 				   const Aspect_RenderingContext theContext = nullptr);
@@ -85,7 +79,7 @@ public:
 
 	bool IsInRubberbandSelection() const
 	{
-		return !_AisRubberBand.IsNull();
+		return !m_aisRubberBand.IsNull();
 	}
 	bool isSelecting() const
 	{
@@ -100,12 +94,14 @@ public:
 	{
 		return nullptr;
 	}
-	void SetPredefinedView(PredefinedViews predefinedView);
+
+	void setPredefinedView(PredefinedViews predefinedView);
 
 	WorkspaceController* workspaceController() const
 	{
 		return m_workspaceController;
 	}
+
 	Sun_Viewport* viewport() const
 	{
 		return m_viewport;
@@ -114,34 +110,31 @@ public:
 	// Getter for lockedToPlane
 	bool LockedToPlane() const
 	{
-		return _LockedToPlane;
+		return m_lockedToPlane;
 	}
 
 	// Setter for lockedToPlane
 	void SetLockedToPlane(bool value);
 
 private:
-	void Init()
-	{
-		viewport()->init(true);
-	}
+	void init();
 
-	void _SetViewCube(bool isVisible);
-	void _SetViewCube(bool isVisible, uint32_t size, double duration);
-	void _SetTrihedron(bool visible)
+	void setViewCube(bool isVisible);
+	void setViewCube(bool isVisible, uint32_t size, double duration);
+	void setTrihedron(bool visible)
 	{}
 
 signals:
 	void LockedToPlaneChanged(bool);
 
 private:
-	Sun_Viewport* m_viewport = nullptr;
-	WorkspaceController* m_workspaceController = nullptr;
-	Handle(AIS_ViewCube) _ViewCube = nullptr;
+	Sun_Viewport* m_viewport;
+	WorkspaceController* m_workspaceController;
+	Handle(AIS_ViewCube) m_viewCube;
 
-	Handle(AIS_RubberBand) _AisRubberBand = nullptr;
-	bool _LockedToPlane = false;
-	bool _ShowTrihedron = false;
+	Handle(AIS_RubberBand) m_aisRubberBand;
+	bool m_lockedToPlane;
+	bool m_showTrihedron;
 
 	const int RubberbandFreehandSelectionThresholdSquared = 100;
 };

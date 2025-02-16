@@ -11,6 +11,7 @@ class WorkspaceCommands
 public:
     static ActionCommand& doUndo();
     static ActionCommand& doRedo();
+    static ActionCommand& setPredefinedView();
 };
 
 #endif  // IACT_COMMANDS_WORKSPACECOMMANDS_H_
