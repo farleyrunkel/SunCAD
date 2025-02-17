@@ -24,7 +24,7 @@ public:
 
     void MouseMove(const QPointF& pos, QMouseEvent* mouseEvent, Qt::KeyboardModifiers modifierKeys) override;
     void mouseWheel(const QPointF& pos, MouseWheel wheel, int delta, QInputEvent* /*device*/, Qt::KeyboardModifiers modifierKeys) override;
-    void MouseDown(const QPointF& pos, Qt::MouseButton changedButton, int clickCount, Qt::MouseButton button, Qt::KeyboardModifiers modifierKeys) override;
+    void MouseDown(const QPointF& pos, Qt::MouseButton changedButton, int clickCount, Qt::MouseButtons device, Qt::KeyboardModifiers modifierKeys) override;
     void MouseUp(const QPointF& pos, Qt::MouseButton changedButton, Qt::MouseButtons device, Qt::KeyboardModifiers modifierKeys) override;
     void cancel() override;
 

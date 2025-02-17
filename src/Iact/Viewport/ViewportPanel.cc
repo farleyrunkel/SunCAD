@@ -86,8 +86,15 @@ void ViewportPanel::wheelEvent(QWheelEvent* event)
 
 void ViewportPanel::mousePressEvent(QMouseEvent* event) 
 {
-	qDebug() << "ViewportPanel: Mouse press event";
+	QWidget::mousePressEvent(event);
+	m_mouseMovePosition = this->mapFromGlobal(event->globalPos());
 
+	setFocus();
+
+	if (m_viewportHwndHost) {
+		auto p = m_viewportHwndHost->mapFromParent(m_mouseMovePosition);
+		m_mouseControl->MouseDown(p, event->button(), 1 , event->buttons(), event->modifiers());
+	}
 }
 
 void ViewportPanel::resizeEvent(QResizeEvent* event) 

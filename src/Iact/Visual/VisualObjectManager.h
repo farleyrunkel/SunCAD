@@ -14,8 +14,9 @@
 #include <AIS_InteractiveContext.hxx>
 #include <gp_Trsf.hxx>
 
-// SunCAD includes
+// Project includes
 #include "Core/Topology/InteractiveEntity.h"
+#include "Occt/AisExtensions/AISX_Guid.h"
 
 // Forward declarations
 class WorkspaceController;
@@ -65,8 +66,29 @@ public:
 
     VisualObject* get(InteractiveEntity* body, bool forceCreation = false);
     VisualObject* add(InteractiveEntity* body);
-    void remove(InteractiveEntity* body);
+
     void update(InteractiveEntity* body);
+    void remove(InteractiveEntity* body);
+
+    InteractiveEntity* getEntity(const Handle(AIS_InteractiveObject)& aisInteractiveObject)
+    {
+        if (aisInteractiveObject.IsNull())
+            return nullptr;
+
+        auto owner = aisInteractiveObject->GetOwner();
+
+        QUuid uuid;
+        if (!AISX_Guid::tryGetGuid(owner, uuid))
+        {
+            return nullptr;
+        }
+
+        InteractiveEntity* entity = m_uuidToInteractiveDictionary.value(uuid, nullptr);
+
+        return entity;
+    }
+
+
     void updateInvalidatedEntities();
 
     QList<VisualObject*> getAll() const

@@ -352,8 +352,16 @@ void WorkspaceController::MouseMove(ViewportController* vc, QPointF pos, Qt::Key
     // 重置最后检测到的对象和所有者
     m_lastDetectedAisObject = nullptr;
     m_lastDetectedOwner = nullptr;
-
     m_mouseEventData->set(vc->viewport(), pos, planePoint, modifiers);
+
+    auto aisContext = workspace()->aisContext();
+    if (aisContext->HasDetected()) {
+        m_lastDetectedOwner = aisContext->DetectedOwner();
+        m_lastDetectedAisObject = aisContext->DetectedInteractive();
+        TopoDS_Shape detectedShape = AisHelper::GetShapeFromEntityOwner(m_lastDetectedOwner);
+        InteractiveEntity* detectedEntity = visualObjects()->getEntity(m_lastDetectedAisObject);
+        //_MouseEventData.SetDetectedElement(_LastDetectedAisObject, detectedEntity, detectedShape);
+    }
 
     qDebug() << "Debug: m_workspaceController::MouseMove: " << pos;
     for (const auto& handler : enumerateControls()) {
@@ -367,8 +375,12 @@ void WorkspaceController::MouseDown(ViewportController* viewportController, Qt::
     m_lastModifierKeys = modifiers;
     m_mouseEventData->modifierKeys = modifiers;
 
-    if (m_lastDetectedAisObject->get_type_name() == "AIS_VI") {
-
+    auto a = Handle(AIS_ViewCube)::DownCast(m_lastDetectedAisObject);
+    auto b = Handle(AIS_ViewCubeOwner)::DownCast(m_lastDetectedOwner);
+    if (!a.IsNull() && !b.IsNull()) {
+        if (!viewportController->LockedToPlane()) {
+            a->HandleClick(b);
+        }
     }
 
     bool handed = false;
