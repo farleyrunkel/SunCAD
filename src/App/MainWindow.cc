@@ -133,6 +133,7 @@ void MainWindow::setupCategories()
             aPannel->addAction(&WorkspaceCommands::setPredefinedView(ViewportController::Back));
         }
         if (SARibbonPannel* aPannel = aCategory->addPannel(tr("Zoom"))) {
+            aPannel->addAction(&WorkspaceCommands::zoomFitAll());
         }
         if (SARibbonPannel* aPannel = aCategory->addPannel(tr("Display"))) {
         }

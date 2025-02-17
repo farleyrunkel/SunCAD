@@ -13,6 +13,8 @@ public:
     static ActionCommand& doUndo();
     static ActionCommand& doRedo();
     static ActionCommand& setPredefinedView(ViewportController::PredefinedViews param);
+    static ActionCommand& zoomFitAll();
+
 };
 
 #endif  // IACT_COMMANDS_WORKSPACECOMMANDS_H_

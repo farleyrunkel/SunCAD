@@ -101,3 +101,20 @@ ActionCommand& WorkspaceCommands::setPredefinedView(ViewportController::Predefin
     }
     return *p;
 }
+
+ActionCommand& WorkspaceCommands::zoomFitAll()
+{
+    static ActionCommand command(
+        []() { InteractiveContext::current()->viewportController()->zoomFitAll(); },
+        []() { return CommandHelper::canExecuteOnViewport(); }
+    );
+
+    // Initialize command properties if not already set
+    if (command.text().isEmpty()) {
+        command.setText(QObject::tr("Zoom All"));
+        command.setIcon(ResourceUtils::icon("View/Zoom-All"));
+        command.setToolTip(QObject::tr("Adjusts the position and scale of the viewport so all visible entities are in view."));
+    }
+
+    return command;
+}

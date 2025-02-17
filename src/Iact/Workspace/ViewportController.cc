@@ -25,6 +25,7 @@ ViewportController::ViewportController(Sun_Viewport* Viewport, WorkspaceControll
 	, m_viewCube(nullptr)
 	, m_lockedToPlane(false)
 	, m_showTrihedron(false)
+	, m_zoomFitAllOnInit(false)
 	, m_aisRubberBand(nullptr)
 	, m_host(nullptr)
 {
@@ -160,6 +161,20 @@ void ViewportController::SetLockedToPlane(bool value)
 		setTrihedron(!value && m_showTrihedron);
 		emit LockedToPlaneChanged(value);
 	}
+}
+
+void ViewportController::zoomFitAll()
+{
+	if (m_host == nullptr) {
+		// We need a window, defer call
+		m_zoomFitAllOnInit = true;
+		return;
+	}
+	workspaceController()->visualObjects()->updateInvalidatedEntities();
+	viewport()->v3dView()->FitAll(0.1, false);
+	viewport()->v3dView()->ZFitAll(1.0);
+	workspaceController()->invalidate();
+	//viewport()->OnViewMoved();
 }
 
 void ViewportController::init()

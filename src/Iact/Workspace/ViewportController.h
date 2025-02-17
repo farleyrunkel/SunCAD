@@ -127,6 +127,8 @@ public:
 	// Setter for lockedToPlane
 	void SetLockedToPlane(bool value);
 
+	void zoomFitAll();
+
 private:
 	void init();
 
@@ -147,6 +149,7 @@ private:
 	Handle(AIS_RubberBand) m_aisRubberBand;
 	bool m_lockedToPlane;
 	bool m_showTrihedron;
+	bool m_zoomFitAllOnInit;
 
 	const int RubberbandFreehandSelectionThresholdSquared = 100;
 };
