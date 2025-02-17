@@ -71,6 +71,18 @@ void ViewportController::MouseUp(Qt::KeyboardModifiers modifiers)
 	workspaceController()->invalidate();
 }
 
+void ViewportController::zoom(double value)
+{
+	if (value > 0) {
+		viewport()->v3dView()->SetZoom(1.0 + value, true);
+	}
+	else if (value < 0) {
+		viewport()->v3dView()->SetZoom(1.0 / (1.0 - value), true);
+	}
+	workspaceController()->invalidate();
+	viewport()->onViewMoved();
+}
+
 void ViewportController::setPredefinedView(PredefinedViews predefinedView)
 {
 	if (predefinedView == PredefinedViews::WorkingPlane) {
@@ -150,7 +162,7 @@ void ViewportController::zoomFitAll()
 	workspaceController()->invalidate();
 
 	update();
-	//viewport()->OnViewMoved();
+	viewport()->onViewMoved();
 }
 
 void ViewportController::init()

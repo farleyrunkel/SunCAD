@@ -6,7 +6,7 @@
 // Qt includes
 #include <QMessageBox>
 
-ViewportMouseControlDefault::ViewportMouseControlDefault() 
+ViewportMouseControlDefault::ViewportMouseControlDefault()
     : viewportController(nullptr)
     , currentMouseMoveMode(ViewportController::MouseMoveMode::None)
 {}
@@ -97,11 +97,11 @@ void ViewportMouseControlDefault::mouseWheel(const QPointF& pos, MouseWheel whee
 
     switch (wheel) {
     case MouseWheel::Vertical:
-    viewportController->Zoom(pos, scaledDelta / 200.0);
-    break;
+        viewportController->zoom(pos, scaledDelta / 200.0);
+        break;
     case MouseWheel::Horizontal:
-    viewportController->Rotate(scaledDelta / -50.0, 0, 0);
-    break;
+        viewportController->Rotate(scaledDelta / -50.0, 0, 0);
+        break;
     }
     viewportController->MouseMove(pos, modifierKeys);
 }

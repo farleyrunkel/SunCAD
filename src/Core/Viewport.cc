@@ -15,7 +15,7 @@ Sun_Viewport::Sun_Viewport(QObject* parent)
 {}
 
 Sun_Viewport::Sun_Viewport(Sun::Workspace* workspace, QObject* parent)
-    : QObject(parent)
+    : BaseObject(parent)
     , m_workspace(workspace)
     , m_renderMode(SolidShaded)
     , m_twist(0.0)
@@ -242,6 +242,17 @@ gp_Dir Sun_Viewport::getViewDirection()
     validateViewGeometry();
     auto eyeVector = gp_Vec(m_targetPoint, m_eyePoint);
     return gp_Dir(eyeVector);
+}
+
+void Sun_Viewport::onViewMoved()
+{
+    raisePropertyChanged("PixelSize");
+    raisePropertyChanged("GizmoScale");
+    raisePropertyChanged("EyePoint");
+    raisePropertyChanged("TargetPoint");
+    raisePropertyChanged("Twist");
+    raisePropertyChanged("Scale");
+    emit ViewPortSignalHub::instance()->viewportChanged(this);
 }
 
 // Destructor

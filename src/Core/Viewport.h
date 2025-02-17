@@ -23,6 +23,7 @@
 #include <V3d_View.hxx>
 
 // Project includes
+#include "Comm/BaseObject.h"
 #include "Core/Workspace.h"
 
 class Sun_Viewport;
@@ -41,7 +42,7 @@ signals:
     void viewportChanged(Sun_Viewport*);
 };
 
-class Sun_Viewport : public QObject 
+class Sun_Viewport : public BaseObject
 {
     Q_OBJECT
     Q_PROPERTY(gp_Pnt eyePoint READ eyePoint WRITE setEyePoint NOTIFY eyePointChanged)
@@ -107,6 +108,8 @@ class Sun_Viewport : public QObject
     gp_Dir getRightDirection();
 	gp_Dir getUpDirection();
 	gp_Dir getViewDirection();
+
+    void onViewMoved();
 
 private:
     void validateViewGeometry() {}

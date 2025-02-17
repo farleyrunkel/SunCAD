@@ -120,3 +120,37 @@ ActionCommand& WorkspaceCommands::zoomFitAll()
 
     return command;
 }
+
+ActionCommand& WorkspaceCommands::zoomIn()
+{
+    static ActionCommand command(
+        []() { InteractiveContext::current()->viewportController()->zoom(0.5); },
+        []() { return CommandHelper::canExecuteOnViewport(); }
+    );
+
+    // Initialize command properties if not already set
+    if (command.text().isEmpty()) {
+        command.setText(QObject::tr("Zoom In"));
+        command.setIcon(ResourceUtils::icon("View/Zoom-In"));
+        command.setCheckable(false);
+    }
+
+    return command;
+}
+
+ActionCommand& WorkspaceCommands::zoomOut()
+{
+    static ActionCommand command(
+        []() { InteractiveContext::current()->viewportController()->zoom(-0.5); },
+        []() { return CommandHelper::canExecuteOnViewport(); }
+    );
+
+    // Initialize command properties if not already set
+    if (command.text().isEmpty()) {
+        command.setText(QObject::tr("Zoom Out"));
+        command.setIcon(ResourceUtils::icon("View/Zoom-Out"));
+        command.setCheckable(false);
+    }
+
+    return command;
+}

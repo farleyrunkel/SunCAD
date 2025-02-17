@@ -88,8 +88,10 @@ public:
 	{}
 	void StartRubberbandSelection()
 	{}  // add necessary parameters
-	void Zoom(const QPointF& pos, double delta)
+	void zoom(const QPointF& pos, double delta)
 	{}
+	void zoom(double value);
+
 	void Rotate(double deltaX, double deltaY, double deltaZ)
 	{}
 
