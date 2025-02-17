@@ -381,6 +381,7 @@ void WorkspaceController::MouseDown(ViewportController* viewportController, Qt::
         if (!viewportController->LockedToPlane()) {
             a->HandleClick(b);
         }
+        return;
     }
 
     bool handed = false;
@@ -398,6 +399,12 @@ void WorkspaceController::MouseDown(ViewportController* viewportController, Qt::
 
 void WorkspaceController::MouseUp(ViewportController* viewportController, Qt::KeyboardModifiers modifiers)
 {
+    auto a = Handle(AIS_ViewCube)::DownCast(m_lastDetectedAisObject);
+    auto b = Handle(AIS_ViewCubeOwner)::DownCast(m_lastDetectedOwner);
+    if (!a.IsNull() && !b.IsNull()) {
+        return;
+    }
+
     qDebug() << "Debug: m_workspaceController::MouseUp: " << modifiers;
     for (const auto& handler : enumerateControls()) {
         if (handler->onMouseUp(m_mouseEventData))

@@ -106,7 +106,7 @@ private:
                                   const Handle(V3d_View)& theView) override;
 
 private:
-    ViewportController* _ViewportController;
+    ViewportController* m_viewportController;
     Handle(V3d_Viewer)             myViewer;
     Handle(V3d_View)               myView;
     Handle(AIS_InteractiveContext) myContext;

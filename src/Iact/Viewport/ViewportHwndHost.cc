@@ -13,8 +13,6 @@
 #include <QMessageBox>
 #include <QMouseEvent>
 
-
-
 namespace
 {
 //! Map Qt buttons bitmask to virtual keys.
@@ -201,10 +199,12 @@ public:
 // Purpose  :
 // ================================================================
 ViewportHwndHost::ViewportHwndHost(ViewportController* vc, QWidget* theParent)
-    : _ViewportController(vc)
-    , QOpenGLWidget(theParent)
+    : QOpenGLWidget(theParent)
+    , m_viewportController(vc)
     , myIsCoreProfile(true)
 {
+    m_viewportController->setWidget(this);
+
     Handle(Aspect_DisplayConnection) aDisp = new Aspect_DisplayConnection();
     Handle(OpenGl_GraphicDriver) aDriver = new OpenGl_GraphicDriver(aDisp, false);
     // lets QOpenGLWidget to manage buffer swap
@@ -214,7 +214,7 @@ ViewportHwndHost::ViewportHwndHost(ViewportController* vc, QWidget* theParent)
     // offscreen FBOs should be always used
     aDriver->ChangeOptions().useSystemBuffer = false;
 
-    auto viewport = _ViewportController->viewport();
+    auto viewport = m_viewportController->viewport();
     myView = viewport->v3dView();
     myViewer = viewport->workspace()->v3dViewer();
     myContext = viewport->workspace()->aisContext();
@@ -305,7 +305,7 @@ void ViewportHwndHost::initializeGL()
         return;
     }
 
-    Handle(Aspect_NeutralWindow) aWindow = Handle(Aspect_NeutralWindow)::DownCast(myView->Window());
+    Handle(Aspect_NeutralWindow) aWindow = Handle(Aspect_NeutralWindow)::DownCast(m_viewportController->window());
     if (aWindow.IsNull()) {
         aWindow = new Aspect_NeutralWindow();
         aWindow->SetVirtual(true);
@@ -321,9 +321,8 @@ void ViewportHwndHost::initializeGL()
     }
 
     aWindow->SetSize(aViewSize.x(), aViewSize.y());
-    myView->SetWindow(aWindow, aGlCtx->RenderingContext());
-
-    _ViewportController->updateParameter();
+    m_viewportController->SetWindow(aWindow, aGlCtx->RenderingContext());
+    m_viewportController->updateParameter();
 }
 
 // ================================================================
@@ -402,9 +401,7 @@ void ViewportHwndHost::mouseReleaseEvent(QMouseEvent* theEvent)
 // ================================================================
 void ViewportHwndHost::mouseMoveEvent(QMouseEvent* theEvent)
 {
-    qDebug() << "ViewportHwndHost: Mouse move event";
     QOpenGLWidget::mouseMoveEvent(theEvent);
-    qDebug() << "ViewportHwndHost aNewPos: " << theEvent->pos();
 
     const Graphic3d_Vec2i aNewPos(theEvent->pos().x(), theEvent->pos().y());
     if (!myView.IsNull()

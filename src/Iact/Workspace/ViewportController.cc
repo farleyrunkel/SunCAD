@@ -26,6 +26,7 @@ ViewportController::ViewportController(Sun_Viewport* Viewport, WorkspaceControll
 	, m_lockedToPlane(false)
 	, m_showTrihedron(false)
 	, m_aisRubberBand(nullptr)
+	, m_host(nullptr)
 {
 	assert(Viewport != nullptr);
 	init();
@@ -135,7 +136,13 @@ void ViewportController::setPredefinedView(PredefinedViews predefinedView)
 	}
 
 	Handle(AIS_ViewCubeOwner) viewCubeOwner = new AIS_ViewCubeOwner(m_viewCube, orientation);
+
+	m_viewCube->SetAutoStartAnimation(true);
+
 	m_viewCube->HandleClick(viewCubeOwner);
+
+	if (m_host)
+		m_host->update();
 
 	workspaceController()->invalidate();
 }

@@ -6,6 +6,7 @@
 // Qt includes
 #include <QMetaType>
 #include <QObject>
+#include <QWidget>
 
 // Occt includes
 #include <AIS_RubberBand.hxx>
@@ -65,6 +66,12 @@ public:
 
 	void SetWindow(const Handle(Aspect_Window)& theWindow,
 				   const Aspect_RenderingContext theContext = nullptr);
+
+
+	void setWidget(QWidget* widget)
+	{
+		m_host = widget;
+	}
 
 	QString DumpInfo(bool theIsBasic, bool theToPrint);
 
@@ -132,6 +139,7 @@ signals:
 	void LockedToPlaneChanged(bool);
 
 private:
+	QWidget* m_host;
 	Sun_Viewport* m_viewport;
 	WorkspaceController* m_workspaceController;
 	Handle(AIS_ViewCubeEx) m_viewCube;
