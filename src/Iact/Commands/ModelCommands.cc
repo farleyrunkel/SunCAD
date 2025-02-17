@@ -13,6 +13,7 @@
 #include "Iact/Commands/CommandHelper.h"
 #include "Iact/Primitives/CreateBoxTool.h"
 #include "Iact/Primitives/CreateCylinderTool.h"
+#include "Iact/Primitives/CreateSphereTool.h"
 #include "Iact/Workspace/EditorState.h"
 #include "Iact/Workspace/InteractiveContext.h"
 #include "ResourceUtils.h"
@@ -62,7 +63,13 @@ ActionCommand& ModelCommands::createCylinder()
         command.connect(Core::commandManager(), &CommandManager::updateEnabled,
                         []() { command.setEnabled(command.canExecute()); }
         );
-
+        command.connect(InteractiveContext::current()->editorState(), &EditorState::activeToolChanged,
+                        []() {
+            auto controller = InteractiveContext::current()->workspaceController();
+            auto currentTool = controller->currentTool();
+            command.setChecked(currentTool && qobject_cast<CreateCylinderTool*>(currentTool) != nullptr);
+        }
+        );
     }
     return command;
 }
@@ -70,7 +77,7 @@ ActionCommand& ModelCommands::createCylinder()
 ActionCommand& ModelCommands::createSphere()
 {
     static ActionCommand command(
-        []() { CommandHelper::startTool(new CreateBoxTool()); },
+        []() { CommandHelper::startTool(new CreateSphereTool()); },
         []() { return CommandHelper::canStartTool(); }
     );
 
@@ -83,7 +90,13 @@ ActionCommand& ModelCommands::createSphere()
         command.connect(Core::commandManager(), &CommandManager::updateEnabled,
                         []() { command.setEnabled(command.canExecute()); }
         );
-
+        command.connect(InteractiveContext::current()->editorState(), &EditorState::activeToolChanged,
+                        []() {
+            auto controller = InteractiveContext::current()->workspaceController();
+            auto currentTool = controller->currentTool();
+            command.setChecked(currentTool && qobject_cast<CreateSphereTool*>(currentTool) != nullptr);
+        }
+        );
     }
     return command;
 }

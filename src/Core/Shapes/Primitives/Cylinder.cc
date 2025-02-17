@@ -3,6 +3,10 @@
 // Own include
 #include "Core/Shapes/Primitives/Cylinder.h"
 
+// Occt includes
+#include <BRepPrimAPI_MakeCylinder.hxx>
+#include <TopoDS_Solid.hxx>
+
 Cylinder::Cylinder(double radius, double height)
     : m_radius(radius)
     , m_height(height)
