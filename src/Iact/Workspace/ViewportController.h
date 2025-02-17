@@ -67,10 +67,15 @@ public:
 	void SetWindow(const Handle(Aspect_Window)& theWindow,
 				   const Aspect_RenderingContext theContext = nullptr);
 
-
 	void setWidget(QWidget* widget)
 	{
 		m_host = widget;
+	}
+
+	void update()
+	{
+		if (m_host)
+			m_host->update();
 	}
 
 	QString DumpInfo(bool theIsBasic, bool theToPrint);

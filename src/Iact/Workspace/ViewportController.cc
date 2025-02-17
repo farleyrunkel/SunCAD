@@ -53,31 +53,6 @@ void ViewportController::SetWindow(const Handle(Aspect_Window)& theWindow, const
 	}
 }
 
-QString ViewportController::DumpInfo(bool theIsBasic, bool theToPrint)
-{
-	TCollection_AsciiString anInfo;
-	if (!view().IsNull()) {
-		TColStd_IndexedDataMapOfStringString aGlCapsDict;
-		view()->DiagnosticInformation(aGlCapsDict, theIsBasic
-									  ? Graphic3d_DiagnosticInfo_Basic
-									  : Graphic3d_DiagnosticInfo_Complete);
-		TColStd_IndexedDataMapOfStringString::Iterator aValueIter(aGlCapsDict);
-		for (; aValueIter.More(); aValueIter.Next()) {
-			if (!aValueIter.Value().IsEmpty()) {
-				if (!anInfo.IsEmpty()) {
-					anInfo += "\n";
-				}
-				anInfo += aValueIter.Key() + ": " + aValueIter.Value();
-			}
-		}
-
-		if (theToPrint) {
-			Message::SendInfo(anInfo);
-		}
-	}
-	return QString::fromUtf8(anInfo.ToCString());
-}
-
 void ViewportController::MouseMove(const QPointF& pos, Qt::KeyboardModifiers modifiers, MouseMoveMode mode)
 {
 	workspaceController()->MouseMove(this, pos, modifiers);
@@ -275,4 +250,29 @@ void ViewportController::setViewCube(bool isVisible, int size, double duration)
 	}
 
 	workspaceController()->invalidate(true);
+}
+
+QString ViewportController::DumpInfo(bool theIsBasic, bool theToPrint)
+{
+	TCollection_AsciiString anInfo;
+	if (!view().IsNull()) {
+		TColStd_IndexedDataMapOfStringString aGlCapsDict;
+		view()->DiagnosticInformation(aGlCapsDict, theIsBasic
+									  ? Graphic3d_DiagnosticInfo_Basic
+									  : Graphic3d_DiagnosticInfo_Complete);
+		TColStd_IndexedDataMapOfStringString::Iterator aValueIter(aGlCapsDict);
+		for (; aValueIter.More(); aValueIter.Next()) {
+			if (!aValueIter.Value().IsEmpty()) {
+				if (!anInfo.IsEmpty()) {
+					anInfo += "\n";
+				}
+				anInfo += aValueIter.Key() + ": " + aValueIter.Value();
+			}
+		}
+
+		if (theToPrint) {
+			Message::SendInfo(anInfo);
+		}
+	}
+	return QString::fromUtf8(anInfo.ToCString());
 }

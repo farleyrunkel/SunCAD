@@ -305,7 +305,7 @@ void ViewportHwndHost::initializeGL()
         return;
     }
 
-    Handle(Aspect_NeutralWindow) aWindow = Handle(Aspect_NeutralWindow)::DownCast(m_viewportController->window());
+    Handle(Aspect_NeutralWindow) aWindow = Handle(Aspect_NeutralWindow)::DownCast(myView->Window());
     if (aWindow.IsNull()) {
         aWindow = new Aspect_NeutralWindow();
         aWindow->SetVirtual(true);
@@ -323,6 +323,58 @@ void ViewportHwndHost::initializeGL()
     aWindow->SetSize(aViewSize.x(), aViewSize.y());
     m_viewportController->SetWindow(aWindow, aGlCtx->RenderingContext());
     m_viewportController->updateParameter();
+}
+
+// ================================================================
+// Function : paintGL
+// Purpose  :
+// ================================================================
+void ViewportHwndHost::paintGL()
+{
+    if (myView->Window().IsNull()) {
+        return;
+    }
+
+    // wrap FBO created by QOpenGLWidget
+    // get context from this (composer) view rather than from arbitrary one
+    //Handle(OpenGl_GraphicDriver) aDriver = Handle(OpenGl_GraphicDriver)::DownCast (myContext->CurrentViewer()->Driver());
+    //Handle(OpenGl_Context) aGlCtx = aDriver->GetSharedContext();
+    Handle(OpenGl_Context) aGlCtx = OcctGlTools::GetGlContext(myView);
+    Handle(OpenGl_FrameBuffer) aDefaultFbo = aGlCtx->DefaultFrameBuffer();
+    if (aDefaultFbo.IsNull()) {
+        aDefaultFbo = new OcctQtFrameBuffer();
+        aGlCtx->SetDefaultFrameBuffer(aDefaultFbo);
+    }
+    if (!aDefaultFbo->InitWrapper(aGlCtx)) {
+        aDefaultFbo.Nullify();
+        Message::DefaultMessenger()->Send("Default FBO wrapper creation failed", Message_Fail);
+        QMessageBox::critical(0, "Failure", "Default FBO wrapper creation failed");
+        QApplication::exit(1);
+        return;
+    }
+
+    Graphic3d_Vec2i aViewSizeOld;
+    //const QRect aRect = rect(); Graphic3d_Vec2i aViewSizeNew(aRect.right() - aRect.left(), aRect.bottom() - aRect.top());
+    Graphic3d_Vec2i aViewSizeNew = aDefaultFbo->GetVPSize();
+    Handle(Aspect_NeutralWindow) aWindow = Handle(Aspect_NeutralWindow)::DownCast(myView->Window());
+    aWindow->Size(aViewSizeOld.x(), aViewSizeOld.y());
+    if (aViewSizeNew != aViewSizeOld) {
+        aWindow->SetSize(aViewSizeNew.x(), aViewSizeNew.y());
+        myView->MustBeResized();
+        myView->Invalidate();
+        dumpGlInfo(true, false);
+
+        for (const Handle(V3d_View)& aSubviewIter : myView->Subviews()) {
+            aSubviewIter->MustBeResized();
+            aSubviewIter->Invalidate();
+            aDefaultFbo->SetupViewport(aGlCtx);
+        }
+    }
+
+    // flush pending input events and redraw the viewer
+    Handle(V3d_View) aView = !myFocusView.IsNull() ? myFocusView : myView;
+    aView->InvalidateImmediate();
+    FlushViewEvents(myContext, aView, true);
 }
 
 // ================================================================
@@ -453,58 +505,6 @@ void ViewportHwndHost::updateView()
 {
     update();
     //if (window() != NULL) { window()->update(); }
-}
-
-// ================================================================
-// Function : paintGL
-// Purpose  :
-// ================================================================
-void ViewportHwndHost::paintGL()
-{
-    if (myView->Window().IsNull()) {
-        return;
-    }
-
-    // wrap FBO created by QOpenGLWidget
-    // get context from this (composer) view rather than from arbitrary one
-    //Handle(OpenGl_GraphicDriver) aDriver = Handle(OpenGl_GraphicDriver)::DownCast (myContext->CurrentViewer()->Driver());
-    //Handle(OpenGl_Context) aGlCtx = aDriver->GetSharedContext();
-    Handle(OpenGl_Context) aGlCtx = OcctGlTools::GetGlContext(myView);
-    Handle(OpenGl_FrameBuffer) aDefaultFbo = aGlCtx->DefaultFrameBuffer();
-    if (aDefaultFbo.IsNull()) {
-        aDefaultFbo = new OcctQtFrameBuffer();
-        aGlCtx->SetDefaultFrameBuffer(aDefaultFbo);
-    }
-    if (!aDefaultFbo->InitWrapper(aGlCtx)) {
-        aDefaultFbo.Nullify();
-        Message::DefaultMessenger()->Send("Default FBO wrapper creation failed", Message_Fail);
-        QMessageBox::critical(0, "Failure", "Default FBO wrapper creation failed");
-        QApplication::exit(1);
-        return;
-    }
-
-    Graphic3d_Vec2i aViewSizeOld;
-    //const QRect aRect = rect(); Graphic3d_Vec2i aViewSizeNew(aRect.right() - aRect.left(), aRect.bottom() - aRect.top());
-    Graphic3d_Vec2i aViewSizeNew = aDefaultFbo->GetVPSize();
-    Handle(Aspect_NeutralWindow) aWindow = Handle(Aspect_NeutralWindow)::DownCast(myView->Window());
-    aWindow->Size(aViewSizeOld.x(), aViewSizeOld.y());
-    if (aViewSizeNew != aViewSizeOld) {
-        aWindow->SetSize(aViewSizeNew.x(), aViewSizeNew.y());
-        myView->MustBeResized();
-        myView->Invalidate();
-        dumpGlInfo(true, false);
-
-        for (const Handle(V3d_View)& aSubviewIter : myView->Subviews()) {
-            aSubviewIter->MustBeResized();
-            aSubviewIter->Invalidate();
-            aDefaultFbo->SetupViewport(aGlCtx);
-        }
-    }
-
-    // flush pending input events and redraw the viewer
-    Handle(V3d_View) aView = !myFocusView.IsNull() ? myFocusView : myView;
-    aView->InvalidateImmediate();
-    FlushViewEvents(myContext, aView, true);
 }
 
 // ================================================================
