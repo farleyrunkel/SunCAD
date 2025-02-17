@@ -118,5 +118,11 @@
         <file>icons/View/Zoom-In.svg</file>
         <file>icons/View/Zoom-Out.svg</file>
         <file>icons/View/Zoom-Selection.svg</file>
+        <file>icons/Tools/Tool-ConvertToSketch.svg</file>
+        <file>icons/Tools/Tool-ConvertToSolid.svg</file>
+        <file>icons/Tools/Tool-EdgesSelection.svg</file>
+        <file>icons/Tools/Tool-RunScript.svg</file>
+        <file>icons/Tools/Tool-ShapeInspect.svg</file>
+        <file>icons/Tools/Tool-SketchEditor.svg</file>
     </qresource>
 </RCC>

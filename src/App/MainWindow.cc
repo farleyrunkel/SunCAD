@@ -26,6 +26,7 @@
 #include "App/WelcomeDialog.h"
 #include "Iact/Commands/DocumentCommands.h"
 #include "Iact/Commands/ModelCommands.h"
+#include "Iact/Commands/ToolboxCommands.h"
 #include "Iact/Commands/WorkspaceCommands.h"
 #include "ResourceUtils.h"
 
@@ -120,6 +121,7 @@ void MainWindow::setupCategories()
 
     if (SARibbonCategory* aCategory = m_ribbonBar->addCategoryPage(tr("ToolBox"))) {
         if (SARibbonPannel* aPannel = aCategory->addPannel(tr("Convert"))) {
+            aPannel->addAction(&ToolboxCommands::convertToSolid());
         }
     }
 

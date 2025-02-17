@@ -79,6 +79,7 @@ void ViewportController::zoom(double value)
 	else if (value < 0) {
 		viewport()->v3dView()->SetZoom(1.0 / (1.0 - value), true);
 	}
+	update();
 	workspaceController()->invalidate();
 	viewport()->onViewMoved();
 }
