@@ -12,6 +12,7 @@
 #include "Core/Core.h"
 #include "Iact/Commands/CommandHelper.h"
 #include "Iact/Primitives/CreateBoxTool.h"
+#include "Iact/Primitives/CreateCylinderTool.h"
 #include "Iact/Workspace/EditorState.h"
 #include "Iact/Workspace/InteractiveContext.h"
 #include "ResourceUtils.h"
@@ -48,7 +49,7 @@ ActionCommand& ModelCommands::createBox()
 ActionCommand& ModelCommands::createCylinder()
 {
     static ActionCommand command(
-        []() { CommandHelper::startTool(new CreateBoxTool()); },
+        []() { CommandHelper::startTool(new CreateCylinderTool()); },
         []() { return CommandHelper::canStartTool(); }
     );
 

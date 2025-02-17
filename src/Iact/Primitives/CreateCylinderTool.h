@@ -14,13 +14,13 @@
 #include <gp_Vec.hxx>
 
 // Project includes
+#include "Core/Shapes/Primitives/Cylinder.h"
 #include "Iact/Framework/Tool.h"
 #include "Iact/HudElements/Coord2DHudElement.h"
 #include "Iact/HudElements/ValueHudElement.h"
-#include "Iact/ToolActions/PointAction.h"
 #include "Iact/ToolActions/AxisValueAction.h"
-#include "Iact/Visual/VisualShape.h"
-#include "Core/Shapes/Primitives/Cylinder.h"
+#include "Iact/ToolActions/PointAction.h"
+#include "Iact/Visual/VisualObject.h"
 
 class CreateCylinderTool : public Tool
 {
@@ -62,7 +62,7 @@ private:
     double m_height;
 
     Cylinder* m_previewShape;
-    VisualShape* m_visualShape;
+    VisualObject* m_visualShape;
     bool m_isTemporaryVisual;
 
     Coord2DHudElement* m_coord2DHudElement;

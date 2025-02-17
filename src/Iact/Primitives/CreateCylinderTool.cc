@@ -1,15 +1,24 @@
 // Copyright [2024] SunCAD
 
+// Own include
+#include "Iact/Primitives/CreateCylinderTool.h"
+
 // Qt includes
 #include <QCursor>
 
 // Project includes
-#include "Iact/Primitives/CreateCylinderTool.h"
-#include "Iact/ToolActions/PointAction.h"
-#include "Iact/ToolActions/AxisValueAction.h"
-#include "Core/Shapes/Primitives/Cylinder.h"
-#include "Iact/Visual/VisualShape.h"
 #include "Comm/Framework/Utils/Maths.h"
+#include "Core/Shapes/Primitives/Cylinder.h"
+#include "Core/Topology/Body.h"
+#include "Iact/Framework/Tool.h"
+#include "Iact/HudElements/Coord2DHudElement.h"
+#include "Iact/HudElements/MultiValueHudElement.h"
+#include "Iact/HudElements/ValueHudElement.h"
+#include "Iact/ToolActions/AxisValueAction.h"
+#include "Iact/ToolActions/PointAction.h"
+#include "Iact/Visual/VisualObject.h"
+#include "Iact/Visual/VisualShape.h"
+#include "Iact/Workspace/WorkspaceController.h"
 
 CreateCylinderTool::CreateCylinderTool()
     : m_coord2DHudElement(nullptr)
@@ -193,18 +202,18 @@ void CreateCylinderTool::ensurePreviewShape()
     m_previewShape = new Cylinder();
     m_previewShape->setHeight(0.01);
 
-    //auto body = Body::create(m_previewShape);
-    //m_previewShape->body()->setRotation(workspaceController()->workspace()->getWorkingPlaneRotation());
+    auto body = Body::create(m_previewShape);
+    m_previewShape->body()->setRotation(workspaceController()->workspace()->getWorkingPlaneRotation());
 
-    //if (body->layer()->isVisible()) {
-    //    m_visualShape = workspaceController()->visualObjects()->get(body, true);
-    //    m_isTemporaryVisual = false;
-    //}
-    //else {
-    //    m_visualShape = new VisualShape(workspaceController(), body, VisualShape::Options::Ghosting);
-    //    m_isTemporaryVisual = true;
-    //}
+    if (body->layer()->isVisible()) {
+        m_visualShape = workspaceController()->visualObjects()->get(body, true);
+        m_isTemporaryVisual = false;
+    }
+    else {
+        m_visualShape = new VisualShape(workspaceController(), body, VisualShape::Options::Ghosting);
+        m_isTemporaryVisual = true;
+    }
 
-    //m_visualShape->setIsSelectable(false);
-    //m_previewShape->body()->setPosition(m_pivotPoint);
+    m_visualShape->setIsSelectable(false);
+    m_previewShape->body()->setPosition(m_pivotPoint);
 }
