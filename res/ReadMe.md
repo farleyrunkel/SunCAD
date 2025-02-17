@@ -1,1 +1,0 @@
-[figma](https://www.figma.com/design/CDP0OR1Wz375i7KcrckNeE/Material-Design-Icons-Light-(Community)?node-id=0-1&t=0pih03EQfrHNZxvP-1)

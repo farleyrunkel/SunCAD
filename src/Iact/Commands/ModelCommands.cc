@@ -27,7 +27,7 @@ ActionCommand& ModelCommands::createBox()
     // Initialize command properties if not already set
     if (command.text().isEmpty()) {
         command.setText(QObject::tr("Box"));
-        command.setIcon(ResourceUtils::icon("model/Prim-Box"));
+        command.setIcon(ResourceUtils::icon("Model/Prim-Box"));
         command.setToolTip(QObject::tr("Creates a new body with a box shape."));
 
         command.connect(Core::commandManager(), &CommandManager::updateEnabled,
@@ -55,7 +55,7 @@ ActionCommand& ModelCommands::createCylinder()
     // Initialize command properties if not already set
     if (command.text().isEmpty()) {
         command.setText(QObject::tr("Cylinder"));
-        command.setIcon(ResourceUtils::icon("model/Prim-Cylinder"));
+        command.setIcon(ResourceUtils::icon("Model/Prim-Cylinder"));
         command.setToolTip(QObject::tr("Creates a new body with a Cylinder shape."));
 
         command.connect(Core::commandManager(), &CommandManager::updateEnabled,
@@ -76,7 +76,7 @@ ActionCommand& ModelCommands::createSphere()
     // Initialize command properties if not already set
     if (command.text().isEmpty()) {
         command.setText(QObject::tr("Sphere"));
-        command.setIcon(ResourceUtils::icon("model/Prim-Sphere"));
+        command.setIcon(ResourceUtils::icon("Model/Prim-Sphere"));
         command.setToolTip(QObject::tr("Creates a new body with a Sphere shape."));
 
         command.connect(Core::commandManager(), &CommandManager::updateEnabled,

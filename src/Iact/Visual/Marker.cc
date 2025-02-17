@@ -199,7 +199,7 @@ Handle(Image_PixMap) Marker::_TryGetMarkerAsImage(const QString& name, int size)
     int dpiScale = 1;
     int finalSize = static_cast<int>(size * dpiScale);
 
-    QString imagePath = ResourceUtils::iconPath("Marker/" + name);
+    QString imagePath = ResourceUtils::markerPath(name);
 
     QImage image(imagePath);
     if (!image.load(imagePath, "svg")) {
