@@ -117,8 +117,7 @@ void ViewportController::setPredefinedView(PredefinedViews predefinedView)
 
 	m_viewCube->HandleClick(viewCubeOwner);
 
-	if (m_host)
-		m_host->update();
+	update();
 
 	workspaceController()->invalidate();
 }
@@ -149,6 +148,8 @@ void ViewportController::zoomFitAll()
 	viewport()->v3dView()->FitAll(0.1, false);
 	viewport()->v3dView()->ZFitAll(1.0);
 	workspaceController()->invalidate();
+
+	update();
 	//viewport()->OnViewMoved();
 }
 

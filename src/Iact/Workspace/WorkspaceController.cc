@@ -226,10 +226,6 @@ void WorkspaceController::redraw()
 
         // 标记不再需要重绘
         workspace()->setNeedsRedraw(false);
-
-        for (auto vc : m_viewportControllers) {
-            vc->update();
-        }
     }
     // 如果需要立即重绘
     else if (workspace()->needsImmediateRedraw()) {

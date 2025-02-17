@@ -98,6 +98,7 @@ ActionCommand& WorkspaceCommands::setPredefinedView(ViewportController::Predefin
     if (p && p->text().isEmpty()) {
         p->setText(QObject::tr(str));
         p->setIcon(ResourceUtils::icon(QString("View/View-") + str));
+        p->setCheckable(false);
     }
     return *p;
 }
@@ -114,6 +115,7 @@ ActionCommand& WorkspaceCommands::zoomFitAll()
         command.setText(QObject::tr("Zoom All"));
         command.setIcon(ResourceUtils::icon("View/Zoom-All"));
         command.setToolTip(QObject::tr("Adjusts the position and scale of the viewport so all visible entities are in view."));
+        command.setCheckable(false);
     }
 
     return command;
