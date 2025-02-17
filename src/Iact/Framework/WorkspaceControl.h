@@ -6,6 +6,7 @@
 // Qt includes
 #include <QList>
 #include <QObject>
+#include <QCursor>
 
 // Projeect inlcudes
 #include "Iact/HudElements/HudElement.h"
@@ -33,6 +34,10 @@ protected:
     void add(IHudElement* hudElement);
 
 	void remove(IHudElement* hudElement);
+
+    void setCursor(const QCursor& cursor)
+    {
+    }
 
 public:
     virtual bool onMouseMove(MouseEventData* data) override 

@@ -10,6 +10,7 @@
 #include <ElSLib.hxx>
 
 // Project includes
+#include "Comm/Framework/Utils/Maths.h"
 #include "Core/Shapes/Primitives/Box.h"
 #include "Core/Topology/Body.h"
 #include "Iact/HudElements/Coord2DHudElement.h"
@@ -18,15 +19,6 @@
 #include "Iact/ToolActions/AxisValueAction.h"
 #include "Iact/Visual/VisualShape.h"
 #include "Iact/Workspace/WorkspaceController.h"
-
-namespace 
-{
-	double roundToSignificantDigits(double value, int digits = 3) {
-		if (value == 0) return 0;
-		double factor = std::pow(10, digits - std::ceil(std::log10(value < 0 ? -value : value)));
-		return std::round(value * factor) / factor;
-	}
-}
 
 CreateBoxTool::CreateBoxTool() 
 	: Tool()
@@ -214,7 +206,7 @@ void CreateBoxTool::heightAction_Preview(const std::shared_ptr<AxisValueAction::
 	m_height = args->value;
 
 	if (args->mouseEventData->modifierKeys & Qt::ControlModifier) {
-		m_height = roundToSignificantDigits(m_height);
+		m_height = Maths::roundToSignificantDigits(m_height);
 	}
 
 	if (std::abs(m_height) < 0.001) {

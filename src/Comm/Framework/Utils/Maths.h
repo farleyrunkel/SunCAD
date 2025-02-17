@@ -80,6 +80,13 @@ public:
         return std::round(value / divider) * divider;
     }
 
+    static double roundToSignificantDigits(double value, int digits = 3)
+    {
+        if (value == 0) return 0;
+        double factor = std::pow(10, digits - std::ceil(std::log10(value < 0 ? -value : value)));
+        return std::round(value * factor) / factor;
+    }
+
 private:
     static inline int _precision = 3;
     static inline QString _precisionFormatString = "F3";
