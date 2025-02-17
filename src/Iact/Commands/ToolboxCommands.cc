@@ -4,18 +4,13 @@
 #include "Iact/Commands/ToolboxCommands.h"
 
 // Project includes
-#include "Core/Core.h"
-#include "Iact/Commands/CommandHelper.h"
-#include "Iact/Primitives/CreateBoxTool.h"
-#include "Iact/Workspace/EditorState.h"
-#include "Iact/Workspace/InteractiveContext.h"
 #include "ResourceUtils.h"
 
 ActionCommand& ToolboxCommands::convertToSolid()
 {
     static ActionCommand command(
-        []() { InteractiveContext::current()->viewportController()->zoom(-0.5); },
-        []() { return CommandHelper::canExecuteOnViewport(); }
+        []() { return false; },
+        []() { return false; }
     );
 
     // Initialize command properties if not already set
