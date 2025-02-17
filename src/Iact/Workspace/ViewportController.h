@@ -4,8 +4,8 @@
 #define IACT_WORKSPACE_VIEWPORTCONTROLLER_H_
 
 // Qt includes
-#include <QObject>
 #include <QMetaType>
+#include <QObject>
 
 // Occt includes
 #include <AIS_RubberBand.hxx>
@@ -20,6 +20,7 @@
 // Project includes
 #include "Core/Viewport.h"
 #include "Iact/Workspace/WorkspaceController.h"
+#include "Occt/OcctExtensions/AIS_ViewCubeEx.h"
 
 class ViewportController : public QObject
 {
@@ -133,7 +134,7 @@ signals:
 private:
 	Sun_Viewport* m_viewport;
 	WorkspaceController* m_workspaceController;
-	Handle(AIS_ViewCube) m_viewCube;
+	Handle(AIS_ViewCubeEx) m_viewCube;
 
 	Handle(AIS_RubberBand) m_aisRubberBand;
 	bool m_lockedToPlane;

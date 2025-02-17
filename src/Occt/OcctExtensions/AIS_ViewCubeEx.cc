@@ -3,6 +3,20 @@
 // Own include
 #include "Occt/OcctExtensions/AIS_ViewCubeEx.h"
 
+// Occt includes
+#include <AIS_ViewCube.hxx>
+#include <Graphic3d_ArrayOfSegments.hxx>
+#include <Graphic3d_ArrayOfTriangles.hxx>
+#include <Graphic3d_Texture2D.hxx>
+#include <Image_PixMap.hxx>
+#include <Prs3d_Drawer.hxx>
+#include <Prs3d_LineAspect.hxx>
+#include <Prs3d_Presentation.hxx>
+#include <PrsMgr_PresentationManager.hxx>
+#include <SelectMgr_EntityOwner.hxx>
+#include <V3d.hxx>
+#include <V3d_TypeOfOrientation.hxx>
+
 IMPLEMENT_STANDARD_RTTIEXT(AIS_ViewCubeEx, AIS_ViewCube)
 
 //--------------------------------------------------------------------------------------------------

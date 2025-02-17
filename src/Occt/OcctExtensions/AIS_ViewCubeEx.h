@@ -3,12 +3,19 @@
 #ifndef OCCT_OCCTEXTENSIONS_AIS_VIEWCUBEEX_H_
 #define OCCT_OCCTEXTENSIONS_AIS_VIEWCUBEEX_H_
 
+// Occt includes
 #include <AIS_ViewCube.hxx>
+#include <Graphic3d_ArrayOfTriangles.hxx>
+#include <Image_PixMap.hxx>
+#include <Prs3d_Drawer.hxx>
+#include <Prs3d_Presentation.hxx>
+#include <PrsMgr_PresentationManager.hxx>
+#include <SelectMgr_EntityOwner.hxx>
+#include <V3d_TypeOfOrientation.hxx>
 
 DEFINE_STANDARD_HANDLE(AIS_ViewCubeEx, AIS_ViewCube)
 
-
-public class AIS_ViewCubeEx : public ::AIS_ViewCube
+class AIS_ViewCubeEx : public AIS_ViewCube
 {
 	DEFINE_STANDARD_RTTIEXT(AIS_ViewCubeEx, AIS_ViewCube)
 

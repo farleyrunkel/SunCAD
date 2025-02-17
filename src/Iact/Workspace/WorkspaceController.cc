@@ -367,6 +367,10 @@ void WorkspaceController::MouseDown(ViewportController* viewportController, Qt::
     m_lastModifierKeys = modifiers;
     m_mouseEventData->modifierKeys = modifiers;
 
+    if (m_lastDetectedAisObject->get_type_name() == "AIS_VI") {
+
+    }
+
     bool handed = false;
     qDebug() << "Debug: m_workspaceController::MouseDown: " << modifiers;
     for (const auto& handler : enumerateControls()) {

@@ -14,6 +14,7 @@
 #include <V3d_View.hxx>
 
 // Project includes
+#include "Occt/OcctExtensions/AIS_ViewCubeEx.h"
 #include "Occt/OcctHelper/PixMapHelper.h"
 #include "ResourceUtils.h"
 
@@ -204,7 +205,7 @@ void ViewportController::setViewCube(bool isVisible, int size, double duration)
 	//}
 
 	// 初始化视图立方体
-	m_viewCube = new AIS_ViewCube();
+	m_viewCube = new AIS_ViewCubeEx();
 	//m_viewCube->SetSize(size * viewport::dpiScale());
 	//m_viewCube->SetBoxFacetExtension(size * viewport::dpiScale() * 0.15);
 	//m_viewCube->SetViewAnimation(viewport::aisAnimationCamera());
