@@ -7,7 +7,7 @@ Model::Model()
 {
 }
 
-QVector<Sun::Workspace*>& Model::workspaces() 
+QVector<Workspace*>& Model::workspaces() 
 {
 	return m_workspaces; 
 }

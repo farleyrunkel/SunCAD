@@ -20,7 +20,7 @@ class Model : public Document
 public:
 	Model();
 
-	QVector<Sun::Workspace*>& workspaces();
+	QVector<Workspace*>& workspaces();
 
 public:
 	static QString fileExtension() { return "step"; };
@@ -33,7 +33,7 @@ public:
 	boost::signals2::signal<void()> resetUnsavedChanges;
 
 private: 
-	QList<Sun::Workspace*> m_workspaces;
+	QList<Workspace*> m_workspaces;
 };
 
 #endif  // CORE_TOPOLOGY_MODEL_H_

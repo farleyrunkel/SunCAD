@@ -32,7 +32,7 @@ class WorkspaceController;
 class WorkspaceController : public BaseObject
 {
     Q_OBJECT
-        Q_PROPERTY(Sun::Workspace* workspace READ workspace CONSTANT)
+        Q_PROPERTY(Workspace* workspace READ workspace CONSTANT)
         Q_PROPERTY(Viewport* activeViewport READ activeViewport WRITE setActiveViewport NOTIFY activeViewportChanged)
         //Q_PROPERTY(ViewportController* ActiveViewController READ ActiveViewControlller CONSTANT)
         //Q_PROPERTY(IHudManager* HudManager READ HudManager WRITE SetHudManager NOTIFY HudManagerChanged)
@@ -44,7 +44,7 @@ class WorkspaceController : public BaseObject
         Q_PROPERTY(gp_Pnt2d cursorPosition2d READ cursorPosition2d WRITE setCursorPosition2d NOTIFY cursorPosition2dChanged)
 
 public:
-    explicit WorkspaceController(Sun::Workspace* workspace);
+    explicit WorkspaceController(Workspace* workspace);
     ~WorkspaceController();
 
 public:
@@ -80,7 +80,7 @@ public:
     void MouseUp(ViewportController* viewportController, Qt::KeyboardModifiers modifiers);
 
 public:
-    Sun::Workspace* workspace() const;
+    Workspace* workspace() const;
     Viewport* activeViewport() const;
     VisualObjectManager* visualObjects() const;
     gp_Pnt cursorPosition() const;
@@ -89,7 +89,7 @@ public:
     void setCursorPosition2d(const gp_Pnt2d& pnt2d);
 
 private:
-    void workspace_GridChanged(Sun::Workspace*);
+    void workspace_GridChanged(Workspace*);
     void viewport_ViewportChanged(Viewport*);
     void redraw();
     void updateGrid();
@@ -106,7 +106,7 @@ signals:
 private:
     Tool* m_currentTool;
     Editor* m_currentEditor;
-    Sun::Workspace* m_workspace;
+    Workspace* m_workspace;
     Viewport* m_activeViewport;
     IHudManager* m_hudManager;
     VisualObjectManager* m_visualObjectManager;

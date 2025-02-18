@@ -65,7 +65,7 @@ class Viewport : public BaseObject
     explicit Viewport(QObject* parent = nullptr);
 
     // Constructor
-    explicit Viewport(Sun::Workspace* workspace, QObject* parent = nullptr);
+    explicit Viewport(Workspace* workspace, QObject* parent = nullptr);
 
     // Destructor
     ~Viewport();
@@ -104,7 +104,7 @@ class Viewport : public BaseObject
     Handle(V3d_View) view() const;
 
     Handle(V3d_View) v3dView() const;
-	Sun::Workspace* workspace() const;
+	Workspace* workspace() const;
     Handle(AIS_AnimationCamera) aisAnimationCamera() const;
 
     bool screenToPoint(gp_Pln plane, int screenX, int screenY, gp_Pnt& resultPnt);
@@ -127,7 +127,7 @@ private:
     void viewportChanged(Viewport*);
 
  private:
-    Sun::Workspace* m_workspace;
+    Workspace* m_workspace;
     gp_Pnt m_eyePoint = gp_Pnt(10, 10, 10);
     gp_Pnt m_targetPoint = gp_Pnt(0, 0, 0);
     double m_twist = 0.0;

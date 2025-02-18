@@ -18,15 +18,15 @@ void CoreContext::setDocument(Model* document) {
         emit documentChanged(document);
 
         if (m_document && !m_document->workspaces().contains(m_workspace)) {
-            Sun::Workspace* firstPrDefault = ( m_document->workspaces().empty()
-                                        ? new Sun::Workspace(m_document)
+            Workspace* firstPrDefault = ( m_document->workspaces().empty()
+                                        ? new Workspace(m_document)
                                         : m_document->workspaces().first() );
             setWorkspace(firstPrDefault);
         }
     }
 }
 
-void CoreContext::setWorkspace(Sun::Workspace* workspace) {
+void CoreContext::setWorkspace(Workspace* workspace) {
     if (m_workspace != workspace) {
         m_workspace = workspace;
         emit workspaceChanged(workspace);

@@ -21,7 +21,7 @@
 #include "Iact/Visual/Marker.h"
 #include "Occt/ValueTypes/Ax3.h"
 
-WorkspaceController::WorkspaceController(Sun::Workspace* workspace)
+WorkspaceController::WorkspaceController(Workspace* workspace)
     : m_workspace(workspace)
     , m_mouseEventData(new MouseEventData)
     , m_currentTool(nullptr)
@@ -30,7 +30,7 @@ WorkspaceController::WorkspaceController(Sun::Workspace* workspace)
     , m_hudManager(nullptr)
 {
     assert(m_workspace != nullptr);
-    connect(m_workspace, &Sun::Workspace::GridChanged, this, &WorkspaceController::workspace_GridChanged);
+    connect(m_workspace, &Workspace::GridChanged, this, &WorkspaceController::workspace_GridChanged);
     connect(ViewPortSignalHub::instance(), &ViewPortSignalHub::viewportChanged, this, &WorkspaceController::viewport_ViewportChanged);
 
     m_visualObjectManager = new VisualObjectManager(this);
@@ -169,7 +169,7 @@ IHudManager* WorkspaceController::hudManager() const
     return m_hudManager;
 }
 
-void WorkspaceController::workspace_GridChanged(Sun::Workspace* sender)
+void WorkspaceController::workspace_GridChanged(Workspace* sender)
 {
     if (m_workspace == sender) {
         recalculateGridSize();
@@ -245,7 +245,7 @@ void WorkspaceController::updateGrid()
     if (m_grid.IsNull())
         return;
 
-    Sun_WorkingContext* wc = workspace()->workingContext();
+    WorkingContext* wc = workspace()->workingContext();
 
     if (workspace()->gridEnabled()) {
         gp_Ax3 position = wc->WorkingPlane().Position();
@@ -256,7 +256,7 @@ void WorkspaceController::updateGrid()
         m_grid->SetExtents(m_lastGridSize.X(), m_lastGridSize.Y());
         m_grid->SetDivisions(wc->GridStep(), wc->GridDivisions() * M_PI / 180.0);
 
-        if (wc->GridType() == Sun::Workspace::GridTypes::Rectangular) {
+        if (wc->GridType() == Workspace::GridTypes::Rectangular) {
             workspace()->aisContext()->SetDisplayMode(m_grid, 1, false);
         }
         else {
@@ -417,7 +417,7 @@ bool WorkspaceController::cancelTool(Tool* tool, bool force)
     return true;
 }
 
-Sun::Workspace* WorkspaceController::workspace() const
+Workspace* WorkspaceController::workspace() const
 {
     return m_workspace;
 }

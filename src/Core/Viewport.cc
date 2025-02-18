@@ -14,7 +14,7 @@ Viewport::Viewport(QObject* parent)
     : Viewport(nullptr, parent) 
 {}
 
-Viewport::Viewport(Sun::Workspace* workspace, QObject* parent)
+Viewport::Viewport(Workspace* workspace, QObject* parent)
     : BaseObject(parent)
     , m_workspace(workspace)
     , m_renderMode(SolidShaded)
@@ -187,7 +187,7 @@ Handle(V3d_View) Viewport::v3dView() const
      return m_v3dView;
 }
 
-Sun::Workspace* Viewport::workspace() const 
+Workspace* Viewport::workspace() const 
 {
      return m_workspace;
 }

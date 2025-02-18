@@ -23,21 +23,21 @@
 //--------------------------------------------------------------------------------------------------
 // Constructor and Destructor
 
-Sun::Workspace::Workspace()
+Workspace::Workspace()
     : m_v3dViewer(nullptr)
     , m_aisContext(nullptr)
     , m_gridEnabled(false)
     , m_needsRedraw(false)
     , m_needsImmediateRedraw(false)
     , m_currentWorkingContext(nullptr)
-    , m_globalWorkingContext(new Sun_WorkingContext)
+    , m_globalWorkingContext(new WorkingContext)
     , m_model(nullptr) 
 {
     init();
 }
 
-Sun::Workspace::Workspace(Model* model) 
-    : Sun::Workspace() 
+Workspace::Workspace(Model* model) 
+    : Workspace() 
 {
     m_model = model;
     m_viewports.append(new Viewport(this));
@@ -51,13 +51,13 @@ Sun::Workspace::Workspace(Model* model)
 //    m_viewports.clear();
 //}
 
-void Sun::Workspace::init()
+void Workspace::init()
 {
     m_currentWorkingContext = m_globalWorkingContext;
     m_gridEnabled = true;
 }
 
-void Sun::Workspace::_applyWorkingContext()
+void Workspace::_applyWorkingContext()
 {
     if (m_aisContext.IsNull()) {
         //m_v3dViewer->SetPrivilegedPlane(m_currentWorkingContext->workingPlane.Position());
@@ -69,7 +69,7 @@ void Sun::Workspace::_applyWorkingContext()
 //--------------------------------------------------------------------------------------------------
 // Initialize V3d_Viewer and AIS_InteractiveContext
 
-void Sun::Workspace::initV3dViewer()
+void Workspace::initV3dViewer()
 {
     if (m_v3dViewer.IsNull()) {
         Handle(Aspect_DisplayConnection) aDisp = new Aspect_DisplayConnection();
@@ -99,7 +99,7 @@ void Sun::Workspace::initV3dViewer()
     _applyWorkingContext();
 }
 
-void Sun::Workspace::initAisContext()
+void Workspace::initAisContext()
 {
     if (m_v3dViewer.IsNull()) {
         initV3dViewer();
@@ -133,34 +133,34 @@ void Sun::Workspace::initAisContext()
     m_aisContext->SetHighlightStyle(style);
 }
 
-void Sun::Workspace::SetWorkingPlane(const gp_Pln& value)
+void Workspace::SetWorkingPlane(const gp_Pln& value)
 {
     m_currentWorkingContext->SetWorkingPlane(value);
     //Model::MarkAsUnsaved();
     _applyWorkingContext();
 }
 
-Handle(V3d_Viewer) Sun::Workspace::v3dViewer() const
+Handle(V3d_Viewer) Workspace::v3dViewer() const
 {
     return m_v3dViewer;
 }
 
-Handle(AIS_InteractiveContext) Sun::Workspace::aisContext() const
+Handle(AIS_InteractiveContext) Workspace::aisContext() const
 {
     return m_aisContext;
 }
 
-bool Sun::Workspace::needsRedraw() const 
+bool Workspace::needsRedraw() const 
 {
     return m_needsRedraw;
 }
 
-bool Sun::Workspace::needsImmediateRedraw() const 
+bool Workspace::needsImmediateRedraw() const 
 {
     return m_needsImmediateRedraw;
 }
 
-void Sun::Workspace::setGridEnabled(bool value)
+void Workspace::setGridEnabled(bool value)
 {
     if (m_gridEnabled != value) {
         m_gridEnabled = value;
@@ -170,17 +170,17 @@ void Sun::Workspace::setGridEnabled(bool value)
     }
 }
 
-Sun::Workspace::GridTypes Sun::Workspace::gridType() const 
+Workspace::GridTypes Workspace::gridType() const 
 {
     return m_currentWorkingContext->GridType();
 }
 
-Sun_WorkingContext* Sun::Workspace::workingContext() const 
+WorkingContext* Workspace::workingContext() const 
 {
     return m_currentWorkingContext; 
 }
 
-const gp_Pln& Sun::Workspace::workingPlane() const 
+const gp_Pln& Workspace::workingPlane() const 
 {
     return m_currentWorkingContext->WorkingPlane();
 }
@@ -188,17 +188,17 @@ const gp_Pln& Sun::Workspace::workingPlane() const
 //--------------------------------------------------------------------------------------------------
 // Setters
 
-void Sun::Workspace::setNeedsRedraw(bool value) 
+void Workspace::setNeedsRedraw(bool value) 
 {
     m_needsRedraw = value;
 }
 
-void Sun::Workspace::setNeedsImmediateRedraw(bool value) 
+void Workspace::setNeedsImmediateRedraw(bool value) 
 {
     m_needsImmediateRedraw = value;
 }
 
-gp_Quaternion Sun::Workspace::getWorkingPlaneRotation() 
+gp_Quaternion Workspace::getWorkingPlaneRotation() 
 {
     auto& wp = workingPlane();
     gp_Mat mat(

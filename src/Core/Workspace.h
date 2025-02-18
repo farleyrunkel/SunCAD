@@ -19,9 +19,7 @@
 
 class Model;
 class Viewport;
-class Sun_WorkingContext;
-
-namespace Sun {
+class WorkingContext;
 
 class Workspace : public BaseObject 
 {
@@ -38,8 +36,8 @@ class Workspace : public BaseObject
     Q_PROPERTY(double GridRotation)
     Q_PROPERTY(int GridDivisions)
     Q_PROPERTY(Pln _WorkingPlane)
-    Q_PROPERTY(Sun_WorkingContext Sun_WorkingContext)
-    Q_PROPERTY(Sun_WorkingContext GlobalWorkingContext)
+    Q_PROPERTY(WorkingContext WorkingContext)
+    Q_PROPERTY(WorkingContext GlobalWorkingContext)
 
 public:
     enum GridTypes {
@@ -63,7 +61,7 @@ public:
 
     void SetGridType(GridTypes) { return; }
 
-    Sun_WorkingContext* workingContext() const;
+    WorkingContext* workingContext() const;
 
     const gp_Pln& workingPlane() const;
 
@@ -86,7 +84,7 @@ public:
     gp_Quaternion getWorkingPlaneRotation();
 
 signals:
-    void GridChanged(Sun::Workspace*);
+    void GridChanged(Workspace*);
 
 private:
      void init();
@@ -107,9 +105,8 @@ private:
     Model* m_model;  // The active model
 
     gp_Pln _WorkingPlane;
-    Sun_WorkingContext* m_currentWorkingContext;
-    Sun_WorkingContext* m_globalWorkingContext;
+    WorkingContext* m_currentWorkingContext;
+    WorkingContext* m_globalWorkingContext;
 };
 
-}
 #endif  // CORE_WORKSPACE_H_
