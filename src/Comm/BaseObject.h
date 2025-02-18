@@ -16,6 +16,11 @@ public:
 protected: 
 	virtual void raisePropertyChanged(const QString& propertyName);
 
+	bool isDeserializing() const
+	{
+		return m_isDeserializing;
+	}
+
 protected:
 	bool m_isDeserializing = false;
 
