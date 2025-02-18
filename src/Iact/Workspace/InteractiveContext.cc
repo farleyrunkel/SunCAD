@@ -89,7 +89,7 @@ void InteractiveContext::setWorkspace(Sun::Workspace* value)
     raisePropertyChanged("workspaceController");
 }
 
-void InteractiveContext::setViewport(Sun_Viewport* value)
+void InteractiveContext::setViewport(Viewport* value)
 {
     CoreContext::setViewport(value);
     if (value == nullptr) {

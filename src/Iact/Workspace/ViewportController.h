@@ -27,7 +27,7 @@ class ViewportController : public QObject
 {
 	Q_OBJECT
 		Q_PROPERTY(WorkspaceController* workspaceController READ workspaceController CONSTANT)
-		Q_PROPERTY(Sun_Viewport* viewport READ viewport CONSTANT)
+		Q_PROPERTY(Viewport* viewport READ viewport CONSTANT)
 		Q_PROPERTY(bool LockedToPlane READ LockedToPlane WRITE SetLockedToPlane NOTIFY LockedToPlaneChanged)
 		Q_PROPERTY(bool IsInRubberbandSelection READ IsInRubberbandSelection CONSTANT)
 
@@ -51,7 +51,7 @@ public:
 	Q_ENUM(MouseMoveMode)
 
 public:
-	explicit ViewportController(Sun_Viewport* Viewport,
+	explicit ViewportController(Viewport* Viewport,
 									WorkspaceController* workspacecontroller);
 	~ViewportController();
 
@@ -120,7 +120,7 @@ public:
 		return m_workspaceController;
 	}
 
-	Sun_Viewport* viewport() const
+	Viewport* viewport() const
 	{
 		return m_viewport;
 	}
@@ -149,7 +149,7 @@ signals:
 
 private:
 	QWidget* m_host;
-	Sun_Viewport* m_viewport;
+	Viewport* m_viewport;
 	WorkspaceController* m_workspaceController;
 	Handle(AIS_ViewCubeEx) m_viewCube;
 

@@ -18,9 +18,9 @@
 #include "Occt/OcctHelper/PixMapHelper.h"
 #include "ResourceUtils.h"
 
-ViewportController::ViewportController(Sun_Viewport* Viewport, WorkspaceController* workspacecontroller)
+ViewportController::ViewportController(Viewport* viewport, WorkspaceController* workspacecontroller)
 	: QObject()
-	, m_viewport(Viewport)
+	, m_viewport(viewport)
 	, m_workspaceController(workspacecontroller)
 	, m_viewCube(nullptr)
 	, m_lockedToPlane(false)
@@ -29,7 +29,7 @@ ViewportController::ViewportController(Sun_Viewport* Viewport, WorkspaceControll
 	, m_aisRubberBand(nullptr)
 	, m_host(nullptr)
 {
-	assert(Viewport != nullptr);
+	assert(viewport != nullptr);
 	init();
 }
 
@@ -126,10 +126,7 @@ void ViewportController::setPredefinedView(PredefinedViews predefinedView)
 
 	Handle(AIS_ViewCubeOwner) viewCubeOwner = new AIS_ViewCubeOwner(m_viewCube, orientation);
 
-	m_viewCube->SetAutoStartAnimation(true);
-
 	m_viewCube->HandleClick(viewCubeOwner);
-
 	update();
 
 	workspaceController()->invalidate();
@@ -217,9 +214,9 @@ void ViewportController::setViewCube(bool isVisible, int size, double duration)
 
 	// 初始化视图立方体
 	m_viewCube = new AIS_ViewCubeEx();
-	//m_viewCube->SetSize(size * viewport::dpiScale());
-	//m_viewCube->SetBoxFacetExtension(size * viewport::dpiScale() * 0.15);
-	//m_viewCube->SetViewAnimation(viewport::aisAnimationCamera());
+	m_viewCube->SetSize(size * viewport()->dpiScale());
+	m_viewCube->SetBoxFacetExtension(size * viewport()->dpiScale() * 0.15);
+	m_viewCube->SetViewAnimation(viewport()->aisAnimationCamera());
 	m_viewCube->SetFixedAnimationLoop(false);
 	m_viewCube->SetDrawAxes(false);
 	m_viewCube->SetDuration(duration);

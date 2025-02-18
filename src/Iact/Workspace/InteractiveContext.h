@@ -44,7 +44,7 @@ public:
     void setViewportController(ViewportController* controller);
 
     void setWorkspace(Sun::Workspace* workspace) override;
-    void setViewport(Sun_Viewport* Viewport) override;
+    void setViewport(Viewport* viewport) override;
 
     EditorState* editorState();
 

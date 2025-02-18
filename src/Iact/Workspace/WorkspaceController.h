@@ -33,7 +33,7 @@ class WorkspaceController : public BaseObject
 {
     Q_OBJECT
         Q_PROPERTY(Sun::Workspace* workspace READ workspace CONSTANT)
-        Q_PROPERTY(Sun_Viewport* activeViewport READ activeViewport WRITE setActiveViewport NOTIFY activeViewportChanged)
+        Q_PROPERTY(Viewport* activeViewport READ activeViewport WRITE setActiveViewport NOTIFY activeViewportChanged)
         //Q_PROPERTY(ViewportController* ActiveViewController READ ActiveViewControlller CONSTANT)
         //Q_PROPERTY(IHudManager* HudManager READ HudManager WRITE SetHudManager NOTIFY HudManagerChanged)
         //Q_PROPERTY(bool LockWorkingPlane READ LockWorkingPlane WRITE SetLockWorkingPlane NOTIFY LockWorkingPlaneChanged)
@@ -51,7 +51,7 @@ public:
     void initWorkspace();
 
     ViewportController* getViewController(int viewIndex) const;
-    ViewportController* getViewController(Sun_Viewport* viewport) const;
+    ViewportController* getViewController(Viewport* viewport) const;
 
     Tool* currentTool() const;
     void setCurrentTool(Tool* tool);
@@ -67,9 +67,9 @@ public:
 
     void setHudManager(IHudManager* hudManager);
 
-    void setActiveViewport(Sun_Viewport* Viewport);
+    void setActiveViewport(Viewport* viewport);
 
-    ViewportController* viewportController(Sun_Viewport* Viewport);
+    ViewportController* viewportController(Viewport* viewport);
 
     void dispose();
 
@@ -81,7 +81,7 @@ public:
 
 public:
     Sun::Workspace* workspace() const;
-    Sun_Viewport* activeViewport() const;
+    Viewport* activeViewport() const;
     VisualObjectManager* visualObjects() const;
     gp_Pnt cursorPosition() const;
     void setCursorPosition(const gp_Pnt& pnt);
@@ -90,7 +90,7 @@ public:
 
 private:
     void workspace_GridChanged(Sun::Workspace*);
-    void viewport_ViewportChanged(Sun_Viewport*);
+    void viewport_ViewportChanged(Viewport*);
     void redraw();
     void updateGrid();
     void initVisualSettings();
@@ -99,7 +99,7 @@ private:
     void redrawTimer_Tick();
 
 signals:
-    void activeViewportChanged(Sun_Viewport*);
+    void activeViewportChanged(Viewport*);
     void cursorPositionChanged(const gp_Pnt&);
     void cursorPosition2dChanged(const gp_Pnt2d&);
 
@@ -107,7 +107,7 @@ private:
     Tool* m_currentTool;
     Editor* m_currentEditor;
     Sun::Workspace* m_workspace;
-    Sun_Viewport* m_activeViewport;
+    Viewport* m_activeViewport;
     IHudManager* m_hudManager;
     VisualObjectManager* m_visualObjectManager;
 

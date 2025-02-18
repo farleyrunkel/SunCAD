@@ -18,7 +18,7 @@
 #include "Core/Extensions/ColorExtensions.h"
 
 class Model;
-class Sun_Viewport;
+class Viewport;
 class Sun_WorkingContext;
 
 namespace Sun {
@@ -26,7 +26,7 @@ namespace Sun {
 class Workspace : public BaseObject 
 {
     Q_OBJECT
-    Q_PROPERTY(QList<Sun_Viewport*> Viewports READ viewports)
+    Q_PROPERTY(QList<Viewport*> Viewports READ viewports)
     Q_PROPERTY(Handle(V3d_Viewer) V3dViewer READ v3dViewer)
     Q_PROPERTY(Handle(AIS_InteractiveContext) aisContext READ aisContext)
     Q_PROPERTY(bool NeedsRedraw READ needsRedraw WRITE setNeedsRedraw)
@@ -70,7 +70,7 @@ public:
     void SetWorkingPlane(const gp_Pln& value);
 
     // Viewports management
-    QList<Sun_Viewport*>& viewports() { return m_viewports; }
+    QList<Viewport*>& viewports() { return m_viewports; }
     Handle(V3d_Viewer) v3dViewer() const;
     Handle(AIS_InteractiveContext) aisContext() const;
 
@@ -103,7 +103,7 @@ private:
     bool m_needsRedraw;  // Flag to check if redraw is needed
     bool m_needsImmediateRedraw;  // Flag for immediate redraw
 
-    QList<Sun_Viewport*> m_viewports;  // List of viewports
+    QList<Viewport*> m_viewports;  // List of viewports
     Model* m_model;  // The active model
 
     gp_Pln _WorkingPlane;

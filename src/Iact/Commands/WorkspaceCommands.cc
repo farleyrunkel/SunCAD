@@ -20,8 +20,8 @@
 ActionCommand& WorkspaceCommands::doUndo()
 {
     static ActionCommand command(
-        []() { CommandHelper::startTool(new CreateBoxTool()); },
-        []() { return CommandHelper::canStartTool(); }
+        []() { ; },
+        []() { return false; }
     );
 
     // Initialize command properties if not already set
@@ -29,6 +29,7 @@ ActionCommand& WorkspaceCommands::doUndo()
         command.setText(QObject::tr("Undo"));
         command.setIcon(ResourceUtils::icon("Edit/Edit-Undo"));
         command.setToolTip(QObject::tr("Revert the last operation."));
+        command.setCheckable(false);
     }
 
     return command;
@@ -37,8 +38,8 @@ ActionCommand& WorkspaceCommands::doUndo()
 ActionCommand& WorkspaceCommands::doRedo()
 {
     static ActionCommand command(
-        []() { CommandHelper::startTool(new CreateBoxTool()); },
-        []() { return CommandHelper::canStartTool(); }
+        []() { ; },
+        []() { return false; }
     );
 
     // Initialize command properties if not already set
@@ -46,6 +47,7 @@ ActionCommand& WorkspaceCommands::doRedo()
         command.setText(QObject::tr("Redo"));
         command.setIcon(ResourceUtils::icon("Edit/Edit-Redo"));
         command.setToolTip(QObject::tr("Restore the last reverted operation."));
+        command.setCheckable(false);
     }
 
     return command;

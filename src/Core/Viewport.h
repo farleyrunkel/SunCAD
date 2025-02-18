@@ -26,7 +26,7 @@
 #include "Comm/BaseObject.h"
 #include "Core/Workspace.h"
 
-class Sun_Viewport;
+class Viewport;
 
 class ViewPortSignalHub : public QObject
 {
@@ -39,10 +39,10 @@ public:
     }
 
 signals:
-    void viewportChanged(Sun_Viewport*);
+    void viewportChanged(Viewport*);
 };
 
-class Sun_Viewport : public BaseObject
+class Viewport : public BaseObject
 {
     Q_OBJECT
     Q_PROPERTY(gp_Pnt eyePoint READ eyePoint WRITE setEyePoint NOTIFY eyePointChanged)
@@ -62,13 +62,13 @@ class Sun_Viewport : public BaseObject
     Q_ENUM(RenderModes)
 
     // Constructor
-    explicit Sun_Viewport(QObject* parent = nullptr);
+    explicit Viewport(QObject* parent = nullptr);
 
     // Constructor
-    explicit Sun_Viewport(Sun::Workspace* workspace, QObject* parent = nullptr);
+    explicit Viewport(Sun::Workspace* workspace, QObject* parent = nullptr);
 
     // Destructor
-    ~Sun_Viewport();
+    ~Viewport();
 
     // Initialize viewport with MSAA support
     void init(bool useMsaa);
@@ -89,6 +89,10 @@ class Sun_Viewport : public BaseObject
     double scale();
 
     void setScale(double value);
+
+    double dpiScale() const;
+
+    void setDpiScale(double value);
 
     RenderModes renderMode() const;
 
@@ -120,7 +124,7 @@ private:
     void twistChanged();
     void scaleChanged();
     void renderModeChanged();
-    void viewportChanged(Sun_Viewport*);
+    void viewportChanged(Viewport*);
 
  private:
     Sun::Workspace* m_workspace;
@@ -128,6 +132,7 @@ private:
     gp_Pnt m_targetPoint = gp_Pnt(0, 0, 0);
     double m_twist = 0.0;
     double m_scale = 100.0;
+    double m_dpiScale = 1.0;
     RenderModes m_renderMode;
 
     Handle(V3d_View) m_v3dView;

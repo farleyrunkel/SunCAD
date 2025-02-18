@@ -32,17 +32,17 @@ void CoreContext::setWorkspace(Sun::Workspace* workspace) {
         emit workspaceChanged(workspace);
 
         if (m_workspace) {
-            Sun_Viewport* firstPrDefault = ( m_workspace->viewports().empty()
-                                       ? new Sun_Viewport(m_workspace)
+            Viewport* firstPrDefault = ( m_workspace->viewports().empty()
+                                       ? new Viewport(m_workspace)
                                        : m_workspace->viewports().first() );
             setViewport(firstPrDefault);
         }
     }
 }
 
-void CoreContext::setViewport(Sun_Viewport* Viewport) {
-    if (m_viewport != Viewport) {
-        m_viewport = Viewport;
-        emit viewportChanged(Viewport);
+void CoreContext::setViewport(Viewport* viewport) {
+    if (m_viewport != viewport) {
+        m_viewport = viewport;
+        emit viewportChanged(viewport);
     }
 }

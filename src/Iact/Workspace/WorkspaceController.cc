@@ -80,7 +80,7 @@ ViewportController* WorkspaceController::getViewController(int viewIndex) const
     return m_viewportControllers[viewIndex];
 }
 
-ViewportController* WorkspaceController::getViewController(Sun_Viewport* viewport) const
+ViewportController* WorkspaceController::getViewController(Viewport* viewport) const
 {
     if (viewport == nullptr) {
         return nullptr;
@@ -179,7 +179,7 @@ void WorkspaceController::workspace_GridChanged(Sun::Workspace* sender)
     }
 }
 
-void WorkspaceController::viewport_ViewportChanged(Sun_Viewport* sender)
+void WorkspaceController::viewport_ViewportChanged(Viewport* sender)
 {
     if (std::any_of(m_viewportControllers.begin(), m_viewportControllers.end(),
         [sender](ViewportController* vc) {
@@ -216,7 +216,7 @@ void WorkspaceController::redraw()
 
         // 遍历所有视口，渲染 HLR 模式下的视口
         for (auto& v : workspace()->viewports()) {
-            if (v->renderMode() == Sun_Viewport::RenderModes::HLR)
+            if (v->renderMode() == Viewport::RenderModes::HLR)
                 v->v3dView()->Update();
         }
 
@@ -422,7 +422,7 @@ Sun::Workspace* WorkspaceController::workspace() const
     return m_workspace;
 }
 
-Sun_Viewport* WorkspaceController::activeViewport() const
+Viewport* WorkspaceController::activeViewport() const
 {
     return m_activeViewport;
 }
@@ -448,9 +448,9 @@ gp_Pnt2d WorkspaceController::cursorPosition2d() const
 void WorkspaceController::setCursorPosition2d(const gp_Pnt2d& pnt2d)
 {}
 
-void WorkspaceController::setActiveViewport(Sun_Viewport* Viewport)
+void WorkspaceController::setActiveViewport(Viewport* viewport)
 {
-    m_activeViewport = Viewport;
+    m_activeViewport = viewport;
 }
 
 void WorkspaceController::setHudManager(IHudManager* hudManager)
@@ -458,15 +458,15 @@ void WorkspaceController::setHudManager(IHudManager* hudManager)
     m_hudManager = hudManager;
 }
 
-ViewportController* WorkspaceController::viewportController(Sun_Viewport* Viewport)
+ViewportController* WorkspaceController::viewportController(Viewport* viewport)
 {
-    if (Viewport == nullptr) {
+    if (viewport == nullptr) {
         return nullptr;
     }
 
     auto it = std::find_if(m_viewportControllers.begin(), m_viewportControllers.end(),
-                           [Viewport](const ViewportController* vc) {
-        return vc->viewport() == Viewport;
+                           [viewport](const ViewportController* vc) {
+        return vc->viewport() == viewport;
     });
 
     return (it != m_viewportControllers.end()) ? *it : nullptr;

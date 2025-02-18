@@ -40,7 +40,7 @@ Sun::Workspace::Workspace(Model* model)
     : Sun::Workspace() 
 {
     m_model = model;
-    m_viewports.append(new Sun_Viewport(this));
+    m_viewports.append(new Viewport(this));
 }
 
 //workspace::~workspace() {

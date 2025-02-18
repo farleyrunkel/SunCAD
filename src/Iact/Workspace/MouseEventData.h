@@ -27,7 +27,7 @@ class IMouseEventHandler {
 class InteractiveEntity;
 class AIS_InteractiveObject;
 class TopoDS_Shape;
-class Sun_Viewport;
+class Viewport;
 //--------------------------------------------------------------------------------------------------
 // 鼠标事件数据结构
 class MouseEventData 
@@ -66,7 +66,7 @@ public:
     };
 
     // 鼠标事件数据的主要属性
-    Sun_Viewport* Viewport = nullptr;
+    Viewport* viewport = nullptr;
     QPointF screenPoint;
     gp_Pnt PointOnPlane;
     Qt::KeyboardModifiers modifierKeys;
@@ -75,8 +75,8 @@ public:
 
     // 构造函数
     MouseEventData() {}
-    MouseEventData(Sun_Viewport* vp, const QPointF& sp, const gp_Pnt& pp, Qt::KeyboardModifiers mk)
-        : Viewport(vp), screenPoint(sp), PointOnPlane(pp), modifierKeys(mk) {}
+    MouseEventData(Viewport* vp, const QPointF& sp, const gp_Pnt& pp, Qt::KeyboardModifiers mk)
+        : viewport(vp), screenPoint(sp), PointOnPlane(pp), modifierKeys(mk) {}
 
     // 检测到的主要实体
     InteractiveEntity* detectedEntity() const;
@@ -91,7 +91,7 @@ public:
     void clear();
 
     // 设置事件数据
-    void set(Sun_Viewport* vp, const QPointF& sp, const gp_Pnt& pp, Qt::KeyboardModifiers mk);
+    void set(Viewport* vp, const QPointF& sp, const gp_Pnt& pp, Qt::KeyboardModifiers mk);
 
     // 设置检测元素的列表
     void setDetectedElements(const QList<AIS_InteractiveObject*>& aisObjects,

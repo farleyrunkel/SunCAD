@@ -10,23 +10,23 @@
 
 // Constructor
 
-Sun_Viewport::Sun_Viewport(QObject* parent) 
-    : Sun_Viewport(nullptr, parent) 
+Viewport::Viewport(QObject* parent) 
+    : Viewport(nullptr, parent) 
 {}
 
-Sun_Viewport::Sun_Viewport(Sun::Workspace* workspace, QObject* parent)
+Viewport::Viewport(Sun::Workspace* workspace, QObject* parent)
     : BaseObject(parent)
     , m_workspace(workspace)
     , m_renderMode(SolidShaded)
     , m_twist(0.0)
     , m_scale(100.0)
 {
-    connect(this, &Sun_Viewport::viewportChanged, ViewPortSignalHub::instance(), &ViewPortSignalHub::viewportChanged);
+    connect(this, &Viewport::viewportChanged, ViewPortSignalHub::instance(), &ViewPortSignalHub::viewportChanged);
 }
 
  // Getters and setters for properties
 
-gp_Pnt Sun_Viewport::eyePoint() 
+gp_Pnt Viewport::eyePoint() 
 {
      if (m_v3dView) {
          double xEye = 0, yEye = 0, zEye = 0;
@@ -36,7 +36,7 @@ gp_Pnt Sun_Viewport::eyePoint()
      return m_eyePoint;
 }
 
-void Sun_Viewport::setEyePoint(const gp_Pnt& point) 
+void Viewport::setEyePoint(const gp_Pnt& point) 
 {
     m_eyePoint = point;
     if (m_v3dView) {
@@ -45,7 +45,7 @@ void Sun_Viewport::setEyePoint(const gp_Pnt& point)
     }
 }
 
-gp_Pnt Sun_Viewport::targetPoint() 
+gp_Pnt Viewport::targetPoint() 
 {
     if (m_v3dView) {
         double xAt = 0, yAt = 0, zAt = 0;
@@ -55,7 +55,7 @@ gp_Pnt Sun_Viewport::targetPoint()
     return m_targetPoint;
 }
 
-void Sun_Viewport::setTargetPoint(const gp_Pnt& point) 
+void Viewport::setTargetPoint(const gp_Pnt& point) 
 {
     m_targetPoint = point;
     if (m_v3dView) {
@@ -64,7 +64,7 @@ void Sun_Viewport::setTargetPoint(const gp_Pnt& point)
     }
 }
 
-double Sun_Viewport::twist() 
+double Viewport::twist() 
 {
     if (m_v3dView) {
         m_twist = m_v3dView->Twist() * 180.0 / M_PI;  // Convert to degrees
@@ -72,7 +72,7 @@ double Sun_Viewport::twist()
     return m_twist;
 }
 
-void Sun_Viewport::setTwist(double value) 
+void Viewport::setTwist(double value) 
 {
     if (m_v3dView) {
         m_v3dView->SetTwist(value * M_PI / 180.0);  // Convert to radians
@@ -83,7 +83,7 @@ void Sun_Viewport::setTwist(double value)
     }
 }
 
-double Sun_Viewport::scale()
+double Viewport::scale()
 {
     if (m_v3dView) {
         m_scale = m_v3dView->Scale();
@@ -91,7 +91,7 @@ double Sun_Viewport::scale()
     return m_scale;
 }
 
-void Sun_Viewport::setScale(double value) 
+void Viewport::setScale(double value) 
 {
     if (m_v3dView) {
         m_v3dView->SetScale(value);
@@ -102,12 +102,25 @@ void Sun_Viewport::setScale(double value)
     }
 }
 
-Sun_Viewport::RenderModes Sun_Viewport::renderMode() const 
+double Viewport::dpiScale() const
+{
+    return m_dpiScale;
+}
+
+void Viewport::setDpiScale(double value)
+{
+    if (m_dpiScale != value) {
+        m_dpiScale = value;
+        raisePropertyChanged("DpiScale");
+    }
+}
+
+Viewport::RenderModes Viewport::renderMode() const 
 {
     return m_renderMode;
 }
 
-void Sun_Viewport::setRenderMode(RenderModes mode) 
+void Viewport::setRenderMode(RenderModes mode) 
 {
     if (m_renderMode != mode) {
         m_renderMode = mode;
@@ -116,7 +129,7 @@ void Sun_Viewport::setRenderMode(RenderModes mode)
     }
 }
 
-void Sun_Viewport::init(bool useMsaa) 
+void Viewport::init(bool useMsaa) 
 {
     if (m_v3dView || !m_workspace) {
         return;
@@ -149,7 +162,7 @@ void Sun_Viewport::init(bool useMsaa)
 
 // Function to update render mode
 
-void Sun_Viewport::updateRenderMode() 
+void Viewport::updateRenderMode() 
 {
     if (!m_v3dView) return;
 
@@ -164,27 +177,27 @@ void Sun_Viewport::updateRenderMode()
     }
 }
 
-Handle(V3d_View) Sun_Viewport::view() const 
+Handle(V3d_View) Viewport::view() const 
 {
      return m_v3dView;
 }
 
-Handle(V3d_View) Sun_Viewport::v3dView() const 
+Handle(V3d_View) Viewport::v3dView() const 
 {
      return m_v3dView;
 }
 
-Sun::Workspace* Sun_Viewport::workspace() const 
+Sun::Workspace* Viewport::workspace() const 
 {
      return m_workspace;
 }
 
-Handle(AIS_AnimationCamera) Sun_Viewport::aisAnimationCamera() const 
+Handle(AIS_AnimationCamera) Viewport::aisAnimationCamera() const 
 {
      return m_aisAnimationCamera;
 }
 
-bool Sun_Viewport::screenToPoint(gp_Pln plane, int screenX, int screenY, gp_Pnt& resultPnt)
+bool Viewport::screenToPoint(gp_Pln plane, int screenX, int screenY, gp_Pnt& resultPnt)
 {
     if (!v3dView().IsNull()) {
         try {
@@ -219,14 +232,14 @@ bool Sun_Viewport::screenToPoint(gp_Pln plane, int screenX, int screenY, gp_Pnt&
      return false;
  }
 
-gp_Dir Sun_Viewport::getRightDirection()
+gp_Dir Viewport::getRightDirection()
 {
     auto upDir = getUpDirection();
     auto eyeDir = getViewDirection();
     return upDir.Crossed(eyeDir);
 }
 
-gp_Dir Sun_Viewport::getUpDirection() 
+gp_Dir Viewport::getUpDirection() 
 {
     if (v3dView().IsNull()) {
         return gp_Dir(0, 0, 1);
@@ -237,14 +250,14 @@ gp_Dir Sun_Viewport::getUpDirection()
     return gp_Dir(xUp, yUp, zUp);
 }
 
-gp_Dir Sun_Viewport::getViewDirection() 
+gp_Dir Viewport::getViewDirection() 
 {
     validateViewGeometry();
     auto eyeVector = gp_Vec(m_targetPoint, m_eyePoint);
     return gp_Dir(eyeVector);
 }
 
-void Sun_Viewport::onViewMoved()
+void Viewport::onViewMoved()
 {
     raisePropertyChanged("PixelSize");
     raisePropertyChanged("GizmoScale");
@@ -257,7 +270,7 @@ void Sun_Viewport::onViewMoved()
 
 // Destructor
 
- Sun_Viewport::~Sun_Viewport() 
+ Viewport::~Viewport() 
  {
     m_aisAnimationCamera->Delete();
     if (m_v3dView) {
