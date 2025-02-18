@@ -59,7 +59,7 @@ void CreateCylinderTool::cleanup()
         m_visualShape = nullptr;
     }
 
-    delete m_valueHudElement;
+    m_valueHudElement->deleteLater();
     m_valueHudElement = nullptr;
 
     Tool::cleanup();

@@ -1,5 +1,3 @@
-// Copyright [2024] SunCAD
-
 // Own include
 #include "Iact/Primitives/CreateSphereTool.h"
 
@@ -8,11 +6,10 @@
 
 // Project includes
 #include "Comm/Framework/Utils/Maths.h"
-#include "Core/Shapes/Primitives/Cylinder.h"
+#include "Core/Shapes/Primitives/Sphere.h"
 #include "Core/Topology/Body.h"
 #include "Iact/Framework/Tool.h"
 #include "Iact/HudElements/Coord2DHudElement.h"
-#include "Iact/HudElements/MultiValueHudElement.h"
 #include "Iact/HudElements/ValueHudElement.h"
 #include "Iact/ToolActions/AxisValueAction.h"
 #include "Iact/ToolActions/PointAction.h"
@@ -21,147 +18,142 @@
 #include "Iact/Workspace/WorkspaceController.h"
 
 CreateSphereTool::CreateSphereTool()
-    : m_currentPhase(Phase::PivotPoint),
-    m_previewShape(nullptr),
-    m_isTemporaryVisual(false),
-    m_coord2DHudElement(nullptr),
-    m_valueHudElement(nullptr)
-{}
-
-CreateSphereTool::~CreateSphereTool()
+    : m_coord2DHudElement(nullptr)
+    , m_valueHudElement(nullptr)
+    , m_previewShape(nullptr)
+    , m_visualShape(nullptr)
+    , m_isTemporaryVisual(false)
 {
-    cleanup();
+    m_id = "CreateSphereTool";
 }
 
 bool CreateSphereTool::onStart()
 {
-    //WorkspaceController::instance().Selection.SelectEntity(nullptr);
+    m_currentPhase = Phase::PivotPoint;
 
-    //auto pointAction = new PointAction();
-    //if (!startAction(pointAction))
-    //    return false;
+    auto pointAction = new PointAction();
+    if (!startAction(pointAction)) {
+        return false;
+    }
 
-    //connect(pointAction, &PointAction::preview, this, &CreateSphereTool::PivotAction_Preview);
-    //connect(pointAction, &PointAction::finished, this, &CreateSphereTool::PivotAction_Finished);
+    connect(pointAction, &PointAction::preview, this, &CreateSphereTool::pivotAction_Preview);
+    connect(pointAction, &PointAction::finished, this, &CreateSphereTool::pivotAction_Finished);
 
-    //m_currentPhase = Phase::PivotPoint;
-    //setHintMessage("__Select center point.__");
-
-    //m_coord2DHudElement = new Coord2DHudElement();
-    //add(m_coord2DHudElement);
+    setHintMessage("Select center point.");
+    m_coord2DHudElement = new Coord2DHudElement();
+    add(m_coord2DHudElement);
+    setCursor(QCursor(Qt::CrossCursor));
 
     return true;
 }
 
 void CreateSphereTool::cleanup()
 {
-    //if (m_visualShape) {
-    //    WorkspaceController::instance()->VisualObjects()->remove(m_visualShape->Entity());
-    //    m_visualShape->Remove();
-    //    m_visualShape.clear();
-    //}
+    if (m_visualShape != nullptr) {
+        workspaceController()->visualObjects()->remove(m_visualShape->entity());
+        m_visualShape->remove();
+        m_visualShape = nullptr;
+    }
+
+    m_valueHudElement->deleteLater();
+    m_valueHudElement = nullptr;
 
     Tool::cleanup();
 }
 
-void CreateSphereTool::PivotAction_Preview(PointAction* sender, const PointAction::EventArgs& args)
+void CreateSphereTool::pivotAction_Preview(const std::shared_ptr<PointAction::EventArgs>& args)
 {
-    if (m_coord2DHudElement)
-        m_coord2DHudElement->setValues(args.PointOnPlane.X(), args.PointOnPlane.Y());
+    if (m_coord2DHudElement) {
+        m_coord2DHudElement->setValues(args->PointOnPlane.X(), args->PointOnPlane.Y());
+    }
 }
 
-void CreateSphereTool::PivotAction_Finished(PointAction* action, const PointAction::EventArgs& args)
+void CreateSphereTool::pivotAction_Finished(const std::shared_ptr<PointAction::EventArgs>& args)
 {
-    //m_position = args.Point.Rounded();
-    //StopAction(action);
+    m_position = args->Point;
+    stopAction(dynamic_cast<PointAction*>(sender()));
 
-    //auto axisValueAction = new AxisValueAction(Ax1(m_position, Dir::DZ));
-    //if (!StartAction(axisValueAction))
-    //    return;
+    auto axisValueAction = new AxisValueAction(gp_Ax1(m_position, gp::DZ()));
+    if (!startAction(axisValueAction)) {
+        return;
+    }
 
-    //connect(axisValueAction, &AxisValueAction::Preview, this, &CreateSphereTool::RadiusAction_Preview);
-    //connect(axisValueAction, &AxisValueAction::Finished, this, &CreateSphereTool::RadiusAction_Finished);
+    connect(axisValueAction, &AxisValueAction::preview, this, &CreateSphereTool::radiusAction_Preview);
+    connect(axisValueAction, &AxisValueAction::finished, this, &CreateSphereTool::radiusAction_Finished);
 
-    //m_currentPhase = Phase::Radius;
-    //SetHintMessage("__Select Radius__, press `Ctrl` to round to grid stepping.");
+    m_currentPhase = Phase::Radius;
+    setHintMessage("Select Radius, press `Ctrl` to round to grid stepping.");
 
-    //RemoveHudElement(m_coord2DHudElement);
-    //if (!m_valueHudElement) {
-    //    m_valueHudElement = new ValueHudElement();
-    //    m_valueHudElement->SetLabel("Radius:");
-    //    m_valueHudElement->SetUnits(ValueUnits::Length);
-    //    connect(m_valueHudElement, &ValueHudElement::ValueEntered, this, &CreateSphereTool::ValueEntered);
-    //    AddHudElement(m_valueHudElement);
-    //}
-
-    //SetCursor(Cursors::SetRadius);
+    remove(m_coord2DHudElement);
+    if (m_valueHudElement == nullptr) {
+        m_valueHudElement = new ValueHudElement("Radius:");
+        connect(m_valueHudElement, &ValueHudElement::valueEntered, this, &CreateSphereTool::valueEntered);
+        add(m_valueHudElement);
+    }
+    setCursor(Qt::CrossCursor);
 }
 
-void CreateSphereTool::RadiusAction_Preview(AxisValueAction* action, const AxisValueAction::EventArgs& args)
+void CreateSphereTool::radiusAction_Preview(const std::shared_ptr<AxisValueAction::EventArgs>& args)
 {
-    //m_radius = args.Distance.Round();
-    //if (m_radius < 0.001)
-    //    m_radius = 0.001;
+    m_radius = args->distance;
 
-    //if (args.MouseEventData.ModifierKeys.Has(ModifierKeys::Control)) {
-    //    m_radius = Maths::RoundToNearest(m_radius, WorkspaceController::Instance().Workspace.GridStep());
-    //}
+    if (m_radius < 0.001) {
+        m_radius = 0.001;
+    }
 
-    //EnsurePreviewShape();
-    //m_previewShape->SetRadius(m_radius);
+    if (args->mouseEventData->modifierKeys & Qt::ControlModifier) {
+        m_radius = Maths::roundToSignificantDigits(m_radius);
+    }
 
-    //if (m_isTemporaryVisual)
-    //    m_visualShape->Update();
-
-    //if (m_valueHudElement)
-    //    m_valueHudElement->SetValue(m_radius);
+    ensurePreviewShape();
+    m_previewShape->setRadius(m_radius);
+    m_visualShape->update();
+    m_valueHudElement->setValue(m_radius);
 }
 
-void CreateSphereTool::RadiusAction_Finished(AxisValueAction* action, const AxisValueAction::EventArgs& args)
+void CreateSphereTool::radiusAction_Finished(const std::shared_ptr<AxisValueAction::EventArgs>& args)
 {
-    //InteractiveContext::Current().Document.Add(m_previewShape->Body());
-    //if (!m_isTemporaryVisual) {
-    //    m_visualShape->SetSelectable(true);
-    //    m_visualShape.clear(); // Prevent removal
-    //}
+    //InteractiveContext::current()->document()->add(m_previewShape->body());
+    m_visualShape->setIsSelectable(true);
+    m_visualShape = nullptr;
 
-    //CommitChanges();
-
-    //Stop();
-    //WorkspaceController::Instance().Selection.SelectEntity(m_previewShape->Body());
-    //WorkspaceController::Instance().Invalidate();
+    remove(m_valueHudElement);
+    setHintMessage("");
+    stop();
+    workspaceController()->invalidate();
 }
 
-void CreateSphereTool::ValueEntered(ValueHudElement* hudElement, double newValue)
+void CreateSphereTool::valueEntered(double newValue)
 {
-    //if (m_currentPhase == Phase::Radius) {
-    //    m_radius = std::abs(newValue) >= 0.001 ? newValue : 0.001;
-    //    EnsurePreviewShape();
-    //    m_previewShape->SetRadius(m_radius);
-    //    RadiusAction_Finished(nullptr, nullptr);
-    //}
+    if (m_currentPhase == Phase::Radius) {
+        m_radius = newValue >= 0.001 ? newValue : 0.001;
+        ensurePreviewShape();
+        m_previewShape->setRadius(m_radius);
+        radiusAction_Finished(nullptr);
+    }
 }
 
-void CreateSphereTool::EnsurePreviewShape()
+void CreateSphereTool::ensurePreviewShape()
 {
-    //if (m_previewShape)
-    //    return;
+    if (m_previewShape != nullptr) {
+        return;
+    }
 
-    //// Create solid
-    //m_previewShape = new Sphere();
-    //m_previewShape->SetRadius(m_radius);
-    //auto body = Body::Create(m_previewShape);
-    //m_previewShape->Body().SetRotation(WorkspaceController::Instance().Workspace.GetWorkingPlaneRotation());
-    //m_previewShape->Body().SetPosition(m_position);
+    m_previewShape = new Sphere();
+    m_previewShape->setRadius(m_radius);
 
-    //if (body->Layer().IsVisible()) {
-    //    m_visualShape = WorkspaceController::Instance().VisualObjects.Get(body, true);
-    //    m_isTemporaryVisual = false;
-    //}
-    //else {
-    //    m_visualShape = new VisualShape(WorkspaceController::Instance(), body, VisualShape::Options::Ghosting);
-    //    m_isTemporaryVisual = true;
-    //}
+    auto body = Body::create(m_previewShape);
+    m_previewShape->body()->setRotation(workspaceController()->workspace()->getWorkingPlaneRotation());
+    m_previewShape->body()->setPosition(m_position);
 
-    //m_visualShape->SetSelectable(false);
+    if (body->layer()->isVisible()) {
+        m_visualShape = workspaceController()->visualObjects()->get(body, true);
+        m_isTemporaryVisual = false;
+    }
+    else {
+        m_visualShape = new VisualShape(workspaceController(), body, VisualShape::Options::Ghosting);
+        m_isTemporaryVisual = true;
+    }
+
+    m_visualShape->setIsSelectable(false);
 }
