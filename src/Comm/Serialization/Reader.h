@@ -1,19 +1,13 @@
 // Copyright [2024] SunCAD
 
-#ifndef SRC_COMM_SERIALIZATION_READER_H
-#define SRC_COMM_SERIALIZATION_READER_H
+#ifndef COMM_SERIALIZATION_READER_H
+#define COMM_SERIALIZATION_READER_H
 
+class Reader
+{
+public:
+	Reader();
 
-namespace Sun {
+};
 
-
-	class Reader
-	{
-	public:
-		Reader();
-
-	};
-
-}  // namespace Sun
-
-#endif // SRC_COMM_SERIALIZATION_READER_H
+#endif // COMM_SERIALIZATION_READER_H
