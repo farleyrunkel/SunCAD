@@ -13,7 +13,7 @@ class BaseObject : public QObject
 public:
 	BaseObject(QObject* parent = nullptr) : QObject(parent) {}
 
-protected: 
+protected:
 	virtual void raisePropertyChanged(const QString& propertyName);
 
 	bool isDeserializing() const

@@ -7,17 +7,9 @@
 #include <QOpenGLWidget>
 
 // OCCT includes
-#include <Standard_WarningsDisable.hxx>
-#include <Standard_WarningsRestore.hxx>
 #include <AIS_InteractiveContext.hxx>
-#include <AIS_ViewController.hxx>
-#include <V3d_View.hxx>
-
-// Project includes
-#include "Iact/Workspace/ViewportController.h"
-
-// Occt includes
 #include <AIS_Shape.hxx>
+#include <AIS_ViewController.hxx>
 #include <AIS_ViewCube.hxx>
 #include <Aspect_DisplayConnection.hxx>
 #include <Aspect_NeutralWindow.hxx>
@@ -30,6 +22,10 @@
 #include <OpenGl_Window.hxx>
 #include <Standard_WarningsDisable.hxx>
 #include <Standard_WarningsRestore.hxx>
+#include <V3d_View.hxx>
+
+// Project includes
+#include "Iact/Workspace/ViewportController.h"
 
 // Forward declarations
 class AIS_ViewCube;

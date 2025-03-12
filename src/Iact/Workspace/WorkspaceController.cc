@@ -337,7 +337,7 @@ inline void WorkspaceController::updateParameter()
 
 void WorkspaceController::redrawTimer_Tick()
 {
-    redraw();
+    //redraw();
 }
 
 void WorkspaceController::MouseMove(ViewportController* vc, QPointF pos, Qt::KeyboardModifiers modifiers)

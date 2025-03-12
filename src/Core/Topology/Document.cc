@@ -18,7 +18,7 @@ QString Document::name() const
 
 // Getter and Setter for FilePath
 
-inline QString Document::filePath() const 
+inline QString Document::filePath() const
 {
     return m_filePath;
 }

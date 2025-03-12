@@ -77,7 +77,6 @@ private:
     QString m_name;
     QUuid m_layerId;
     bool m_isVisible;
-
 };
 
 #endif  // CORE_TOPOLOGY_OMTERACTIVEENTITY_H_
