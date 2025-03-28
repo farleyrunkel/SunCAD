@@ -23,7 +23,7 @@
 #include "Iact/Viewport/HudManager.h"
 
 /// @brief ViewportPanel class
-class ViewportPanel : public QWidget 
+class ViewportPanel : public QWidget
 {
 	Q_OBJECT
 
@@ -32,8 +32,9 @@ public:
 	~ViewportPanel() override {}
 
 public:
-	HudManager* dataContext() const {
-		return m_dataContext;
+	HudManager* hudManager() const
+	{
+		return m_hudManager;
 	}
 
 protected:
@@ -52,7 +53,7 @@ private:
 	void updateHud(const QPointF& pos);
 
 private:
-	HudManager* m_dataContext;
+	HudManager* m_hudManager;
 	ViewportHwndHost* m_viewportHwndHost;
 	IViewportMouseControl* m_mouseControl;
 	QFrame* m_hudContainer;

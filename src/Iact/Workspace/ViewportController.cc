@@ -36,6 +36,20 @@ ViewportController::ViewportController(Viewport* viewport, WorkspaceController* 
 ViewportController::~ViewportController()
 {}
 
+void ViewportController::initWindow()
+{
+	if(m_zoomFitAllOnInit)
+	{
+		m_zoomFitAllOnInit = false;
+		zoomFitAll();
+	}
+	m_viewport->v3dView()->Update();
+	m_viewport->v3dView()->MustBeResized();
+	m_viewport->v3dView()->SetImmediateUpdate(false);
+
+	updateParameter();
+}
+
 Handle(AIS_ViewCube) ViewportController::viewCube() const
 {
 	return m_viewCube;

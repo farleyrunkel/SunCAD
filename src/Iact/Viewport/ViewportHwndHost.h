@@ -36,13 +36,19 @@ class ViewportHwndHost : public QOpenGLWidget, public AIS_ViewController
 
 public:
     //! Main constructor.
-    ViewportHwndHost(ViewportController* vc, QWidget* parent = nullptr);
+    ViewportHwndHost(const Handle(V3d_View)& view,
+                     const Handle(V3d_Viewer)& viewer,
+                     const Handle(AIS_InteractiveContext)& vc,
+                     QWidget* parent = nullptr);
+
+    //! Main constructor.
+    ViewportHwndHost(ViewportController* vc,  QWidget* parent = nullptr);
 
     //! Destructor.
     virtual ~ViewportHwndHost();
 
-    //! Return Viewer.
-    const Handle(V3d_Viewer)& Viewer() const {
+    //! Return viewer.
+    const Handle(V3d_Viewer)& viewer() const {
         return myViewer;
     }
 
@@ -52,7 +58,7 @@ public:
     }
 
     //! Return AIS context.
-    const Handle(AIS_InteractiveContext)& Context() const {
+    const Handle(AIS_InteractiveContext)& context() const {
         return myContext;
     }
 

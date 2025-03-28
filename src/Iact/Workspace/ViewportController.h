@@ -55,6 +55,8 @@ public:
 									WorkspaceController* workspacecontroller);
 	~ViewportController();
 
+	void initWindow();
+
 	Handle(V3d_View) view() const
 	{
 		return this->viewport() ? this->viewport()->view() : nullptr;

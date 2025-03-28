@@ -53,9 +53,9 @@ ViewportView::ViewportView(QWidget* parent)
     setWidget(m_viewportPanel);
     setWidgetResizable(true);
 
-    connect(m_viewportPanel->dataContext(), &HudManager::propertyChanged, [this](auto propertyName) {
+    connect(m_viewportPanel->hudManager(), &HudManager::propertyChanged, [this](auto propertyName) {
         if (propertyName == "hintMessage") {
-            m_messageBar->setText(m_viewportPanel->dataContext()->hintMessage());
+            m_messageBar->setText(m_viewportPanel->hudManager()->hintMessage());
         }
     });
 
