@@ -13,11 +13,11 @@
 // Project Libraries
 #include "Comm/PropertyChangedEventArgs.h"
 #include "Iact/Viewport/ViewportMouseControlDefault.h"
-#include "Iact/Viewport/ViewportPanelModel.h"
+#include "Iact/Viewport/HudManager.h"
 
 ViewportPanel::ViewportPanel(QWidget* parent)
 	: QWidget(parent)
-	, m_dataContext(new ViewportPanelModel())
+	, m_dataContext(new HudManager())
 	, m_mouseControl(new ViewportMouseControlDefault())
 	, m_hudContainer(new QFrame(this))
 	, m_viewportHwndHost(nullptr)
@@ -31,7 +31,7 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 	m_hudContainer->setAutoFillBackground(false);
 	m_hudContainer->setStyleSheet("background-color: rgba(128, 128, 128, 0.5);");
 
-	connect(m_dataContext, &ViewportPanelModel::hudElementAdded
+	connect(m_dataContext, &HudManager::hudElementAdded
 			, [this](IHudElement* element) 
 	{
 		m_hudContainer->layout()->addWidget(element);
@@ -40,7 +40,7 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 		updateHud(m_mouseMovePosition); 
 	});
 
-	connect(m_dataContext, &ViewportPanelModel::hudElementsRemoved
+	connect(m_dataContext, &HudManager::hudElementsRemoved
 			, [this](IHudElement* element) {
 		m_hudContainer->layout()->removeWidget(element);
 
@@ -52,7 +52,7 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 		updateHud(m_mouseMovePosition);
 	});
 
-	connect(m_dataContext, &ViewportPanelModel::propertyChanged
+	connect(m_dataContext, &HudManager::propertyChanged
 			, this, &ViewportPanel::model_PropertyChanged);
 
 	// Initialize layout for the panel
@@ -155,6 +155,7 @@ void ViewportPanel::viewportControllerChanged()
 	}
 
 	auto newHost = new ViewportHwndHost(viewportController, this);
+	newHost->setFocus();
 
 	if (m_viewportHwndHost != nullptr) {
 		layout()->replaceWidget(m_viewportHwndHost, newHost);

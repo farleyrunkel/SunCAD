@@ -32,6 +32,9 @@
 
 MainWindow::MainWindow(QWidget* parent)
     : SARibbonMainWindow(parent)
+	, m_appButton(nullptr)
+	, m_ribbonBar(nullptr)
+	, m_dockManager(nullptr)
 {
     setupUi();
 
@@ -148,6 +151,7 @@ void MainWindow::setupDockWidgets()
 {
     // Set up a central dock widget 
     ads::CDockWidget* CentralDockWidget = new ads::CDockWidget("Workspace");
+
     CentralDockWidget->setWidget(new ViewportView());
     auto* CentralDockArea = m_dockManager->setCentralWidget(CentralDockWidget);
 

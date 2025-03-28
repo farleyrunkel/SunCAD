@@ -4,6 +4,7 @@
 #include "Iact/Framework/WorkspaceControl.h"
 
 // Project includes
+#include "Iact/Viewport/HudManager.h"
 #include "Iact/Visual/VisualObject.h"
 #include "Iact/Workspace/InteractiveContext.h"
 #include "Iact/Workspace/WorkspaceController.h"

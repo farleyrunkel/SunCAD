@@ -10,15 +10,16 @@
 #include <QDebug>
 
 // Occt includes
-#include <gp_XY.hxx>
 #include <gp_Pnt.hxx>
 #include <gp_Pnt2d.hxx>
+#include <gp_XY.hxx>
 
 // Peoject inludes
 #include "Core/Project/WorkingContext.h"
-#include "Iact/Workspace/ViewportController.h"
 #include "Iact/Framework/Tool.h"
+#include "Iact/Viewport/HudManager.h"
 #include "Iact/Visual/Marker.h"
+#include "Iact/Workspace/ViewportController.h"
 #include "Occt/ValueTypes/Ax3.h"
 
 WorkspaceController::WorkspaceController(Workspace* workspace)
@@ -164,7 +165,7 @@ void WorkspaceController::invalidate(bool immediateOnly, bool forceRedraw)
         redraw();
 }
 
-IHudManager* WorkspaceController::hudManager() const
+HudManager* WorkspaceController::hudManager() const
 {
     return m_hudManager;
 }
@@ -453,7 +454,7 @@ void WorkspaceController::setActiveViewport(Viewport* viewport)
     m_activeViewport = viewport;
 }
 
-void WorkspaceController::setHudManager(IHudManager* hudManager)
+void WorkspaceController::setHudManager(HudManager* hudManager)
 {
     m_hudManager = hudManager;
 }

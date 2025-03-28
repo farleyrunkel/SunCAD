@@ -1,18 +1,18 @@
 // Copyright [2024] SunCAD
 
-#include "Iact/Viewport/ViewportPanelModel.h"
+#include "Iact/Viewport/HudManager.h"
 
-ViewportPanelModel::ViewportPanelModel()
+HudManager::HudManager()
     : m_workspaceController(nullptr)
     , m_viewportController(nullptr) 
 {
     //Entity.ErrorStateChanged += _Entity_ErrorStateChanged;
-    connect(InteractiveContext::current(), &InteractiveContext::propertyChanged, this, &ViewportPanelModel::context_PropertyChanged);
+    connect(InteractiveContext::current(), &InteractiveContext::propertyChanged, this, &HudManager::context_PropertyChanged);
     setWorkspaceController(InteractiveContext::current()->workspaceController());
     setViewportController(InteractiveContext::current()->viewportController());
 }
 
-void ViewportPanelModel::addElement(IHudElement* element) 
+void HudManager::addElement(IHudElement* element) 
 {
     if (m_hudElements.contains(element)) {
         return;
@@ -24,7 +24,7 @@ void ViewportPanelModel::addElement(IHudElement* element)
     emit hudElementAdded(element);
 }
 
-void ViewportPanelModel::removeElement(IHudElement* element) 
+void HudManager::removeElement(IHudElement* element) 
 {
 	if (m_hudElements.contains(element)) {
 		m_hudElements.removeAll(element);
@@ -33,7 +33,7 @@ void ViewportPanelModel::removeElement(IHudElement* element)
 	}
 }
 
-void ViewportPanelModel::removeElements(std::function<bool(IHudElement*)> predicate) 
+void HudManager::removeElements(std::function<bool(IHudElement*)> predicate) 
 {
 	for (int i = m_hudElements.size() - 1; i >= 0; i--) {
 		if (predicate(m_hudElements[i])) {
@@ -44,39 +44,39 @@ void ViewportPanelModel::removeElements(std::function<bool(IHudElement*)> predic
 
 // virtual void SetCursor(QObject* owner, Cursor* cursor) override {}
 
-void ViewportPanelModel::setHintMessage(const QString& message) 
+void HudManager::setHintMessage(const QString& message) 
 {
     m_hintMessage = message;
     emit propertyChanged("hintMessage");
 }
 
-QString ViewportPanelModel::hintMessage() 
+QString HudManager::hintMessage() 
 {
     return m_hintMessage;
 }
 
-void ViewportPanelModel::setViewportController(ViewportController* value) 
+void HudManager::setViewportController(ViewportController* value) 
 {
     m_viewportController = value;
-    raisePropertyChanged("viewportController");
+    emit propertyChanged("viewportController");
 }
 
-void ViewportPanelModel::setWorkspaceController(WorkspaceController* value) 
+void HudManager::setWorkspaceController(WorkspaceController* value) 
 {
     if (m_workspaceController != value) {
         m_workspaceController = value;
         if (m_workspaceController != nullptr) {
-            m_workspaceController->setHudManager(this);
+            //m_workspaceController->setHudManager(this);
         }
         else {
             //HudElements.Clear();
         }
         m_workspaceController = value;
-        raisePropertyChanged("workspaceController");
+        emit propertyChanged("workspaceController");
     }
 }
 
-void ViewportPanelModel::context_PropertyChanged(const QString& propertyName) 
+void HudManager::context_PropertyChanged(const QString& propertyName) 
 {
     if (propertyName == "workspaceController") {
         if (m_workspaceController != nullptr) {

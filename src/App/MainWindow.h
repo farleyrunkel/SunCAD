@@ -35,10 +35,10 @@ private:
     void onMainWindowLoaded();
 
 private:
-    QMenu* m_appButton = nullptr;
-    SARibbonBar* m_ribbonBar = nullptr;
+    QMenu* m_appButton;
+    SARibbonBar* m_ribbonBar;
     // The main container for docking
-    ads::CDockManager* m_dockManager = nullptr;
+    ads::CDockManager* m_dockManager;
 };
 
 #endif  // APP_MAINWINDOW_H_

@@ -20,7 +20,7 @@
 #include "Comm/PropertyChangedEventArgs.h"
 #include "Iact/Viewport/IViewportMouseControl.h"
 #include "Iact/Viewport/ViewportHwndHost.h"
-#include "Iact/Viewport/ViewportPanelModel.h"
+#include "Iact/Viewport/HudManager.h"
 
 /// @brief ViewportPanel class
 class ViewportPanel : public QWidget 
@@ -32,7 +32,7 @@ public:
 	~ViewportPanel() override {}
 
 public:
-	ViewportPanelModel* dataContext() const {
+	HudManager* dataContext() const {
 		return m_dataContext;
 	}
 
@@ -52,7 +52,7 @@ private:
 	void updateHud(const QPointF& pos);
 
 private:
-	ViewportPanelModel* m_dataContext;
+	HudManager* m_dataContext;
 	ViewportHwndHost* m_viewportHwndHost;
 	IViewportMouseControl* m_mouseControl;
 	QFrame* m_hudContainer;

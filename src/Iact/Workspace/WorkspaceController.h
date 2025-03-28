@@ -17,7 +17,6 @@
 #include "Core/Viewport.h"
 #include "Core/Workspace.h"
 #include "Iact/Framework/Editor.h"
-#include "Iact/HudElements/IHudManager.h"
 #include "Iact/Visual/VisualObjectManager.h"
 #include "Iact/Workspace/MouseEventData.h"
 #include "Occt/AisExtensions/AISX_Grid.h"
@@ -28,6 +27,7 @@ class Marker;
 class Tool;
 class ViewportController;
 class WorkspaceController;
+class HudManager;
 
 class WorkspaceController : public BaseObject
 {
@@ -35,7 +35,7 @@ class WorkspaceController : public BaseObject
         Q_PROPERTY(Workspace* workspace READ workspace CONSTANT)
         Q_PROPERTY(Viewport* activeViewport READ activeViewport WRITE setActiveViewport NOTIFY activeViewportChanged)
         //Q_PROPERTY(ViewportController* ActiveViewController READ ActiveViewControlller CONSTANT)
-        //Q_PROPERTY(IHudManager* HudManager READ HudManager WRITE SetHudManager NOTIFY HudManagerChanged)
+        //Q_PROPERTY(HudManager* HudManager READ HudManager WRITE SetHudManager NOTIFY HudManagerChanged)
         //Q_PROPERTY(bool LockWorkingPlane READ LockWorkingPlane WRITE SetLockWorkingPlane NOTIFY LockWorkingPlaneChanged)
         //Q_PROPERTY(SelectionManager* Selection READ Selection CONSTANT)
         //Q_PROPERTY(bool isSelecting READ isSelecting WRITE SetIsSelecting NOTIFY IsSelectingChanged)
@@ -63,9 +63,9 @@ public:
     bool isSelecting();
     void invalidate(bool immediateOnly = false, bool forceRedraw = false);
 
-    IHudManager* hudManager() const;
+    HudManager* hudManager() const;
 
-    void setHudManager(IHudManager* hudManager);
+    void setHudManager(HudManager* hudManager);
 
     void setActiveViewport(Viewport* viewport);
 
@@ -108,7 +108,7 @@ private:
     Editor* m_currentEditor;
     Workspace* m_workspace;
     Viewport* m_activeViewport;
-    IHudManager* m_hudManager;
+    HudManager* m_hudManager;
     VisualObjectManager* m_visualObjectManager;
 
     QTimer* m_redrawTimer;
@@ -130,6 +130,5 @@ private:
     gp_Pnt2d m_cursorPosition2d;
     bool m_isSelecting;
 };
-
 
 #endif // IACT_WORKSPACE_WORKSPACECONTROLLER_H_
