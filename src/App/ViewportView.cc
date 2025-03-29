@@ -33,7 +33,7 @@ ViewportView::ViewportView(QWidget* parent)
     font.setBold(true);
 
     // Tool and error message area
-    m_messageBar = new QLabel("Tool and error message area");
+    m_messageBar = new QLabel("Tool and error message area", this);
     m_messageBar->setContentsMargins(20, 2, 20, 2);
     m_messageBar->setFont(font);
     m_messageBar->setStyleSheet("background-color: lightyellow;");
@@ -59,52 +59,44 @@ ViewportView::ViewportView(QWidget* parent)
         }
     });
 
-    connect(this, &ViewportView::OnUpdateAvailable, [this]() {
-        QString updateMessage = QString("A new version is available for download: %1").arg(QString::fromStdString(" "));
-        m_messageBar->setText(updateMessage);
-    });
     // Initialize commands
-    _UpdateCommand = std::make_shared<RelayCommand>([this]() { this->_UpdateExecute(); });
-    _DismissUpdateCommand = std::make_shared<RelayCommand>([this]() { this->_DismissUpdateExecute(); });
+    m_updateCommand = std::make_shared<RelayCommand>([this]() { this->updateExecute(); });
+    m_dismissUpdateCommand = std::make_shared<RelayCommand>([this]() { this->dismissUpdateExecute(); });
 }
 
-// Property for UpdateMessage
+// Property for updateMessage
 
-const std::string& ViewportView::UpdateMessage() const
+const QString& ViewportView::updateMessage() const
 {
-    return _UpdateMessage;
+    return m_updateMessage;
 }
 
-void ViewportView::SetUpdateMessage(const std::string& value)
+void ViewportView::setUpdateMessage(const QString& value)
 {
-    if(_UpdateMessage != value)
+    if(m_updateMessage != value)
     {
-        _UpdateMessage = value;
-        RaisePropertyChanged("UpdateMessage");
+        m_updateMessage = value;
+        emit propertyChanged("UpdateMessage");
     }
 }
 
 // Update Info handling
 
-void ViewportView::_VersionCheck_UpdateAvailable(const std::string& updateUrl, const std::string& updateVersion)
+void ViewportView::versionCheck_UpdateAvailable(const QString& updateUrl, const QString& updateVersion)
 {
-    _UpdateMessage = "A new version is available for download: " + updateVersion;
-    RaisePropertyChanged("UpdateMessage");
+    m_updateMessage = "A new version is available for download: " + updateVersion;
+    emit propertyChanged("UpdateMessage");
 
-    // Notify observers (trigger event)
-    emit OnUpdateAvailable();
-
-    // Normally would be passed to UI for user interaction
-    std::cout << _UpdateMessage << std::endl;
+    emit updateAvailable();
 }
 
 // Executes when update is available
 
-void ViewportView::_UpdateExecute()
+void ViewportView::updateExecute()
 {
-    _DismissUpdateExecute();
+    dismissUpdateExecute();
 
-    if(!_UpdateMessage.empty())
+    if(!m_updateMessage.isEmpty())
     {
         // Open the update URL (simulated here with a print statement)
         std::cout << "Navigating to: " << "https://example.com/update" << std::endl;
@@ -113,21 +105,7 @@ void ViewportView::_UpdateExecute()
 
 // Dismiss update message
 
-void ViewportView::_DismissUpdateExecute()
+void ViewportView::dismissUpdateExecute()
 {
-    SetUpdateMessage("");
-}
-
-// Event-like mechanism: Notify property change
-
-void ViewportView::RaisePropertyChanged(const std::string& propertyName)
-{
-    // In a real application, this could notify the UI that the property has changed
-    std::cout << propertyName << " changed!" << std::endl;
-}
-
-ViewportView::~ViewportView()
-{
-    delete m_viewportPanel;
-    delete m_messageBar;
+    setUpdateMessage("");
 }

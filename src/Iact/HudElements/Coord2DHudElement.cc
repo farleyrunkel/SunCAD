@@ -10,7 +10,7 @@
 #include <QString>
 
 Coord2DHudElement::Coord2DHudElement(QWidget* parent)
-    : IHudElement(parent)
+    : HudElement(parent)
     , _LabelX(nullptr)
     , _LabelY(nullptr)
     , _CoordinateX(0.0)

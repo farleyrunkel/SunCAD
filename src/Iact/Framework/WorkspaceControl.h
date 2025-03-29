@@ -31,9 +31,9 @@ protected:
     void setHintMessage(const QString& message);
 
     void add(VisualObject* visual);
-    void add(IHudElement* hudElement);
+    void add(HudElement* hudElement);
 
-	void remove(IHudElement* hudElement);
+	void remove(HudElement* hudElement);
 
     void setCursor(const QCursor& cursor)
     {
@@ -82,7 +82,7 @@ public:
 
 private:
 	WorkspaceController* m_workspaceController;
-	QList<IHudElement*> m_hudElements;
+	QList<HudElement*> m_hudElements;
     QList<VisualObject*> m_visualObjects;
 };
 

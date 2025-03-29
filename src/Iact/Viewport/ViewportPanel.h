@@ -32,7 +32,7 @@ public:
 	~ViewportPanel() override {}
 
 public:
-	HudManager* hudManager() const
+	std::shared_ptr<HudManager> hudManager() const
 	{
 		return m_hudManager;
 	}
@@ -48,16 +48,19 @@ protected:
 	virtual void contextMenuEvent(QContextMenuEvent* event) override;
 
 private:
-	void model_PropertyChanged(const QString& propertyName);
-	void viewportControllerChanged();
+	void onPropertyChanged(const QString& propertyName);
+	void onViewportControllerChanged();
 	void updateHud(const QPointF& pos);
 
 private:
-	HudManager* m_hudManager;
-	ViewportHwndHost* m_viewportHwndHost;
-	IViewportMouseControl* m_mouseControl;
-	QFrame* m_hudContainer;
+	std::shared_ptr<HudManager> m_hudManager;
+
 	QPointF m_mouseMovePosition;
+	IViewportMouseControl* m_mouseControl;
+
+	ViewportWidget* m_viewportHwndHost;
+	QFrame* m_hudContainer;
+
 	bool _SuppressContextMenu;
 	bool _ContextMenuIsOpen;
 };

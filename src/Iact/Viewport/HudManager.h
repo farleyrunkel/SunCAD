@@ -23,43 +23,63 @@ class HudManager : public QObject
 public:
 	HudManager();
 
-    virtual void addElement(IHudElement* element) ;
+    virtual void addElement(HudElement* element) ;
 
-    virtual void removeElement(IHudElement* element) ;
-    virtual void removeElements(std::function<bool(IHudElement*)> predicate) ;
+    virtual void removeElement(HudElement* element) ;
+    virtual void removeElements(std::function<bool(HudElement*)> predicate) ;
 
     // virtual void SetCursor(QObject* owner, Cursor* cursor)  {}
     virtual void setHintMessage(const QString& message) ;
 
-    QString hintMessage();
+    QString hintMessage() const;
 
-    WorkspaceController* workspaceController() const 
+    std::shared_ptr<WorkspaceController> workspaceController() const
     {
         return m_workspaceController;
     }
 
     // ViewportController getter/setter
-    ViewportController* viewportController() const 
+    std::shared_ptr<ViewportController> viewportController() const
     {
         return m_viewportController;
     }
 
-    void setViewportController(ViewportController* value);
+    void setViewportController(const std::shared_ptr<ViewportController>& value)
+    {
+        m_viewportController = value;
+        emit propertyChanged("viewportController");
+    }
 
     // workspaceController getter/setter
-    void setWorkspaceController(WorkspaceController* value);
+    void setWorkspaceController(const std::shared_ptr<WorkspaceController>& value)
+    {
+        if(m_workspaceController != value)
+        {
+            m_workspaceController = value;
+            if(m_workspaceController != nullptr)
+            {
+                //m_workspaceController->setHudManager(this);
+            }
+            else
+            {
+                //HudElements.Clear();
+            }
+            m_workspaceController = value;
+            emit propertyChanged("workspaceController");
+        }
+    }
 
     void context_PropertyChanged(const QString& propertyName);
 
-signals: 
-    void hudElementAdded(IHudElement*);
-    void hudElementsRemoved(IHudElement*);
+signals:
+    void hudElementAdded(HudElement*);
+    void hudElementsRemoved(HudElement*);
     void propertyChanged(const QString& property);
 
 private:
-    WorkspaceController* m_workspaceController;
-    ViewportController* m_viewportController;
-    QList<IHudElement*> m_hudElements;
+    std::shared_ptr<WorkspaceController> m_workspaceController;
+    std::shared_ptr<ViewportController>  m_viewportController;
+    QList<HudElement*> m_hudElements;
     QString m_hintMessage;
 };
 

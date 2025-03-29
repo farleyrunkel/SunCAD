@@ -8,12 +8,12 @@
 
 class WorkspaceController;
 
-class IHudElement : public QWidget
+class HudElement : public QWidget
 {
 	Q_OBJECT
 
 public:
-	 explicit IHudElement(QWidget* parent = nullptr) 
+	 explicit HudElement(QWidget* parent = nullptr) 
 		 : QWidget(parent)
 		 , m_workspaceController(nullptr)
 	 {

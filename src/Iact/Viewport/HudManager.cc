@@ -12,7 +12,7 @@ HudManager::HudManager()
     setViewportController(InteractiveContext::current()->viewportController());
 }
 
-void HudManager::addElement(IHudElement* element) 
+void HudManager::addElement(HudElement* element) 
 {
     if (m_hudElements.contains(element)) {
         return;
@@ -24,7 +24,7 @@ void HudManager::addElement(IHudElement* element)
     emit hudElementAdded(element);
 }
 
-void HudManager::removeElement(IHudElement* element) 
+void HudManager::removeElement(HudElement* element) 
 {
 	if (m_hudElements.contains(element)) {
 		m_hudElements.removeAll(element);
@@ -33,7 +33,7 @@ void HudManager::removeElement(IHudElement* element)
 	}
 }
 
-void HudManager::removeElements(std::function<bool(IHudElement*)> predicate) 
+void HudManager::removeElements(std::function<bool(HudElement*)> predicate) 
 {
 	for (int i = m_hudElements.size() - 1; i >= 0; i--) {
 		if (predicate(m_hudElements[i])) {
@@ -50,30 +50,9 @@ void HudManager::setHintMessage(const QString& message)
     emit propertyChanged("hintMessage");
 }
 
-QString HudManager::hintMessage() 
+QString HudManager::hintMessage() const
 {
     return m_hintMessage;
-}
-
-void HudManager::setViewportController(ViewportController* value) 
-{
-    m_viewportController = value;
-    emit propertyChanged("viewportController");
-}
-
-void HudManager::setWorkspaceController(WorkspaceController* value) 
-{
-    if (m_workspaceController != value) {
-        m_workspaceController = value;
-        if (m_workspaceController != nullptr) {
-            //m_workspaceController->setHudManager(this);
-        }
-        else {
-            //HudElements.Clear();
-        }
-        m_workspaceController = value;
-        emit propertyChanged("workspaceController");
-    }
 }
 
 void HudManager::context_PropertyChanged(const QString& propertyName) 

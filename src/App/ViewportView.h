@@ -19,39 +19,34 @@ class ViewportView : public QScrollArea
 
 public:
     explicit ViewportView(QWidget* parent = nullptr);
-    ~ViewportView() override;
 
-    // Property for UpdateMessage
-    const std::string& UpdateMessage() const;
+    // Property for updateMessage
+    const QString& updateMessage() const;
 
-    void SetUpdateMessage(const std::string& value);
-
-
-    // Update Info handling
-    void _VersionCheck_UpdateAvailable(const std::string& updateUrl, const std::string& updateVersion);
-
-    // Executes when update is available
-    void _UpdateExecute();
-
-    // Dismiss update message
-    void _DismissUpdateExecute();
-
-signals:
-    void OnUpdateAvailable();
+    void setUpdateMessage(const QString& value);
 
 private:
-    std::string _UpdateMessage;
+    // Update Info handling
+    void versionCheck_UpdateAvailable(const QString& updateUrl, const QString& updateVersion);
 
-    // Command handlers (private members)
-    std::shared_ptr<RelayCommand> _UpdateCommand;
-    std::shared_ptr<RelayCommand> _DismissUpdateCommand;
+    // Executes when update is available
+    void updateExecute();
 
-    // Event-like mechanism: Notify property change
-    void RaisePropertyChanged(const std::string& propertyName);
+    // Dismiss update message
+    void dismissUpdateExecute();
+
+signals:
+    void updateAvailable();
+    void propertyChanged(const QString& propertyName);
 
 private:
     ViewportPanel* m_viewportPanel;
     QLabel* m_messageBar;
+
+    std::shared_ptr<RelayCommand> m_updateCommand;
+    std::shared_ptr<RelayCommand> m_dismissUpdateCommand;
+
+    QString m_updateMessage;
 }; // class ViewportView
 
 #endif  // APP_VIEWPORTVIEW_H_

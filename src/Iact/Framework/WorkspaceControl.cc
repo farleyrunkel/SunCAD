@@ -30,7 +30,7 @@ QList<WorkspaceControl*> WorkspaceControl::getChildren() const
 	return {};
 }
 
-void WorkspaceControl::add(IHudElement* hudElement)
+void WorkspaceControl::add(HudElement* hudElement)
 {
 	if (hudElement == nullptr || m_hudElements.contains(hudElement)) 
 	{
@@ -43,7 +43,7 @@ void WorkspaceControl::add(IHudElement* hudElement)
 	}
 }
 
-void WorkspaceControl::remove(IHudElement* hudElement) 
+void WorkspaceControl::remove(HudElement* hudElement) 
 {
 	m_hudElements.removeAll(hudElement);
 	auto wc = InteractiveContext::current()->workspaceController();

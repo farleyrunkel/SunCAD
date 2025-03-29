@@ -66,11 +66,11 @@ public:
 } // namespace
 
   // ================================================================
-// Function : ViewportHwndHost
+// Function : ViewportWidget
 // Purpose  :
 // ================================================================
 
-ViewportHwndHost::ViewportHwndHost(const Handle(V3d_View)& view,
+ViewportWidget::ViewportWidget(const Handle(V3d_View)& view,
                                    const Handle(V3d_Viewer)& viewer,
                                    const Handle(AIS_InteractiveContext)& vc,
                                    QWidget* parent)
@@ -139,11 +139,11 @@ ViewportHwndHost::ViewportHwndHost(const Handle(V3d_View)& view,
 }
 
 // ================================================================
-// Function : ViewportHwndHost
+// Function : ViewportWidget
 // Purpose  :
 // ================================================================
-ViewportHwndHost::ViewportHwndHost(ViewportController* vc, QWidget* theParent)
-    : ViewportHwndHost(vc->viewport()->v3dView(),
+ViewportWidget::ViewportWidget(ViewportController* vc, QWidget* theParent)
+    : ViewportWidget(vc->viewport()->v3dView(),
                        vc->viewport()->workspace()->v3dViewer(),
                        vc->viewport()->workspace()->aisContext(),
                        theParent)
@@ -165,17 +165,17 @@ ViewportHwndHost::ViewportHwndHost(ViewportController* vc, QWidget* theParent)
 }
 
 // ================================================================
-// Function : ~ViewportHwndHost
+// Function : ~ViewportWidget
 // Purpose  :
 // ================================================================
-ViewportHwndHost::~ViewportHwndHost()
+ViewportWidget::~ViewportWidget()
 {}
 
 // ================================================================
 // Function : dumpGlInfo
 // Purpose  :
 // ================================================================
-void ViewportHwndHost::dumpGlInfo(bool theIsBasic, bool theToPrint)
+void ViewportWidget::dumpGlInfo(bool theIsBasic, bool theToPrint)
 {
     TColStd_IndexedDataMapOfStringString aGlCapsDict;
     myView->DiagnosticInformation(aGlCapsDict, theIsBasic ? Graphic3d_DiagnosticInfo_Basic : Graphic3d_DiagnosticInfo_Complete);
@@ -203,7 +203,7 @@ void ViewportHwndHost::dumpGlInfo(bool theIsBasic, bool theToPrint)
 // Function : initializeGL
 // Purpose  :
 // ================================================================
-void ViewportHwndHost::initializeGL()
+void ViewportWidget::initializeGL()
 {
     if(myView.IsNull())
     {
@@ -245,7 +245,7 @@ void ViewportHwndHost::initializeGL()
 // Function : paintGL
 // Purpose  :
 // ================================================================
-void ViewportHwndHost::paintGL()
+void ViewportWidget::paintGL()
 {
     if(myView->Window().IsNull())
     {
@@ -317,7 +317,7 @@ void ViewportHwndHost::paintGL()
 // Function : closeEvent
 // Purpose  :
 // ================================================================
-void ViewportHwndHost::closeEvent(QCloseEvent* theEvent)
+void ViewportWidget::closeEvent(QCloseEvent* theEvent)
 {
     theEvent->accept();
 }
@@ -326,7 +326,7 @@ void ViewportHwndHost::closeEvent(QCloseEvent* theEvent)
 // Function : keyPressEvent
 // Purpose  :
 // ================================================================
-void ViewportHwndHost::keyPressEvent(QKeyEvent* theEvent)
+void ViewportWidget::keyPressEvent(QKeyEvent* theEvent)
 {
     Aspect_VKey aKey = QtMouseHelper::qtKey2VKey(theEvent->key());
     switch(aKey)
@@ -350,7 +350,7 @@ void ViewportHwndHost::keyPressEvent(QKeyEvent* theEvent)
 // Function : mousePressEvent
 // Purpose  :
 // ================================================================
-void ViewportHwndHost::mousePressEvent(QMouseEvent* theEvent)
+void ViewportWidget::mousePressEvent(QMouseEvent* theEvent)
 {
     qDebug() << "ViewportHwndHost: Mouse Press event";
 
@@ -371,7 +371,7 @@ void ViewportHwndHost::mousePressEvent(QMouseEvent* theEvent)
 // Function : mouseReleaseEvent
 // Purpose  :
 // ================================================================
-void ViewportHwndHost::mouseReleaseEvent(QMouseEvent* theEvent)
+void ViewportWidget::mouseReleaseEvent(QMouseEvent* theEvent)
 {
     QOpenGLWidget::mouseReleaseEvent(theEvent);
     const Graphic3d_Vec2i aPnt(theEvent->pos().x(), theEvent->pos().y());
@@ -390,7 +390,7 @@ void ViewportHwndHost::mouseReleaseEvent(QMouseEvent* theEvent)
 // Function : mouseMoveEvent
 // Purpose  :
 // ================================================================
-void ViewportHwndHost::mouseMoveEvent(QMouseEvent* theEvent)
+void ViewportWidget::mouseMoveEvent(QMouseEvent* theEvent)
 {
     QOpenGLWidget::mouseMoveEvent(theEvent);
 
@@ -409,7 +409,7 @@ void ViewportHwndHost::mouseMoveEvent(QMouseEvent* theEvent)
 // function : wheelEvent
 // purpose  :
 // ==============================================================================
-void ViewportHwndHost::wheelEvent(QWheelEvent* theEvent)
+void ViewportWidget::wheelEvent(QWheelEvent* theEvent)
 {
     QOpenGLWidget::wheelEvent(theEvent);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
@@ -445,7 +445,7 @@ void ViewportHwndHost::wheelEvent(QWheelEvent* theEvent)
 // function : updateView
 // purpose  :
 // =======================================================================
-void ViewportHwndHost::updateView()
+void ViewportWidget::updateView()
 {
     update();
     //if (window() != NULL) { window()->update(); }
@@ -455,7 +455,7 @@ void ViewportHwndHost::updateView()
 // Function : handleViewRedraw
 // Purpose  :
 // ================================================================
-void ViewportHwndHost::handleViewRedraw(const Handle(AIS_InteractiveContext)& theCtx,
+void ViewportWidget::handleViewRedraw(const Handle(AIS_InteractiveContext)& theCtx,
                                         const Handle(V3d_View)& theView)
 {
     AIS_ViewController::handleViewRedraw(theCtx, theView);
@@ -470,7 +470,7 @@ void ViewportHwndHost::handleViewRedraw(const Handle(AIS_InteractiveContext)& th
 // Function : OnSubviewChanged
 // Purpose  :
 // ================================================================
-void ViewportHwndHost::OnSubviewChanged(const Handle(AIS_InteractiveContext)&,
+void ViewportWidget::OnSubviewChanged(const Handle(AIS_InteractiveContext)&,
                                         const Handle(V3d_View)&,
                                         const Handle(V3d_View)& theNewView)
 {

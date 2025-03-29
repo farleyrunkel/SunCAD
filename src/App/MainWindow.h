@@ -37,7 +37,6 @@ private:
 private:
     QMenu* m_appButton;
     SARibbonBar* m_ribbonBar;
-    // The main container for docking
     ads::CDockManager* m_dockManager;
 };
 

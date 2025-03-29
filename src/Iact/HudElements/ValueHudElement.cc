@@ -12,7 +12,7 @@
 #include <QWidget>
 
 ValueHudElement::ValueHudElement(const QString& label, QWidget* parent)
-    : IHudElement(parent)
+    : HudElement(parent)
     , m_label(new QLabel(label, this))
     , m_edit(new QLineEdit("0.0", this))
     , m_isInKeyboardMode(false) 

@@ -9,6 +9,7 @@
 // Occt includes
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <TopoDS_Solid.hxx>
+#include <TDF_Label.hxx>
 
 // Project includes
 #include "Core/Shapes/Shape.h"
@@ -22,7 +23,18 @@ class Box : public Shape
 public:
     explicit Box(double dimX = 1.0, double dimY = 1.0, double dimZ = 1.0);
 
-    // Properties
+public:
+    TDF_Label label() const
+    {
+		return m_label;
+    }
+
+    void setLabel(const TDF_Label& label)
+    {
+		m_label = label;
+    }
+
+    // Propertie
 
     double dimensionX() const;
 
@@ -60,6 +72,8 @@ private:
     double m_dimensionX;
     double m_dimensionY;
     double m_dimensionZ;
+
+	TDF_Label m_label;
 };
 
 #endif  // CORE_SHAPES_PRIMITIVES_BOX_H_

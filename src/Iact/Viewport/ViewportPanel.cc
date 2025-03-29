@@ -31,8 +31,8 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 	m_hudContainer->setAutoFillBackground(false);
 	m_hudContainer->setStyleSheet("background-color: rgba(128, 128, 128, 0.5);");
 
-	connect(m_hudManager, &HudManager::hudElementAdded
-			, [this](IHudElement* element) 
+	connect(m_hudManager.get(), &HudManager::hudElementAdded
+			, [this](HudElement* element) 
 	{
 		m_hudContainer->layout()->addWidget(element);
 		m_hudContainer->setVisible(true);
@@ -40,8 +40,8 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 		updateHud(m_mouseMovePosition); 
 	});
 
-	connect(m_hudManager, &HudManager::hudElementsRemoved
-			, [this](IHudElement* element) {
+	connect(m_hudManager.get(), &HudManager::hudElementsRemoved
+			, [this](HudElement* element) {
 		m_hudContainer->layout()->removeWidget(element);
 
 		// If there are no more elements, hide the container
@@ -52,14 +52,14 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 		updateHud(m_mouseMovePosition);
 	});
 
-	connect(m_hudManager, &HudManager::propertyChanged
-			, this, &ViewportPanel::model_PropertyChanged);
+	connect(m_hudManager.get(), &HudManager::propertyChanged
+			, this, &ViewportPanel::onPropertyChanged);
 
 	// Initialize layout for the panel
 	setLayout(new QVBoxLayout(this));
 	setMouseTracking(true);
 
-	viewportControllerChanged();
+	onViewportControllerChanged();
 	m_hudContainer->raise();
 }
 
@@ -75,7 +75,7 @@ void ViewportPanel::mouseMoveEvent(QMouseEvent* event)
 		m_mouseControl->MouseMove(p, event, event->modifiers());
 	}
 	m_hudContainer->adjustSize();
-	m_hudContainer->update();  // 强制重新绘制控件
+	m_hudContainer->update();
 	updateHud(m_mouseMovePosition);
 }
 
@@ -116,9 +116,6 @@ void ViewportPanel::mouseReleaseEvent(QMouseEvent* event)
 	updateHud(m_mouseMovePosition);
 }
 
-
-// 重载 contextMenuEvent 以显示右键菜单
-
 void ViewportPanel::contextMenuEvent(QContextMenuEvent* event) 
 {
 	qDebug() << "ViewportPanel: Context menu event";
@@ -133,17 +130,17 @@ void ViewportPanel::contextMenuEvent(QContextMenuEvent* event)
 	contextMenu.exec(event->globalPos());
 }
 
-void ViewportPanel::model_PropertyChanged(const QString& propertyName)
+void ViewportPanel::onPropertyChanged(const QString& propertyName)
 {
 	if (propertyName == "viewportController") {
-		viewportControllerChanged();
+		onViewportControllerChanged();
 	}
 	if (propertyName == "hintMessage") {
 
 	}
 }
 
-void ViewportPanel::viewportControllerChanged() 
+void ViewportPanel::onViewportControllerChanged() 
 {
 	auto viewportController = m_hudManager->viewportController();
 
@@ -154,7 +151,7 @@ void ViewportPanel::viewportControllerChanged()
 		m_mouseControl->setViewportController(viewportController);
 	}
 
-	auto newHost = new ViewportHwndHost(viewportController, this);
+	auto newHost = new ViewportWidget(viewportController, this);
 	newHost->setFocus();
 
 	if (m_viewportHwndHost != nullptr) {

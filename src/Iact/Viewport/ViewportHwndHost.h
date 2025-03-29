@@ -30,22 +30,22 @@
 // Forward declarations
 class AIS_ViewCube;
 
-class ViewportHwndHost : public QOpenGLWidget, public AIS_ViewController 
+class ViewportWidget : public QOpenGLWidget, public AIS_ViewController 
 {
     Q_OBJECT
 
 public:
     //! Main constructor.
-    ViewportHwndHost(const Handle(V3d_View)& view,
+    ViewportWidget(const Handle(V3d_View)& view,
                      const Handle(V3d_Viewer)& viewer,
                      const Handle(AIS_InteractiveContext)& vc,
                      QWidget* parent = nullptr);
 
     //! Main constructor.
-    ViewportHwndHost(ViewportController* vc,  QWidget* parent = nullptr);
+    ViewportWidget(ViewportController* vc,  QWidget* parent = nullptr);
 
     //! Destructor.
-    virtual ~ViewportHwndHost();
+    virtual ~ViewportWidget();
 
     //! Return viewer.
     const Handle(V3d_Viewer)& viewer() const {

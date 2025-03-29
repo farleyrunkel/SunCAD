@@ -14,7 +14,7 @@
 // Project includes
 #include "Iact/HudElements/HudElement.h"
 
-class ValueHudElement : public IHudElement 
+class ValueHudElement : public HudElement 
 {
     Q_OBJECT
 

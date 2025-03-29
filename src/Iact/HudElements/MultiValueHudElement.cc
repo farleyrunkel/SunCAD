@@ -15,7 +15,7 @@
 #include "Iact/HudElements/HudElement.h"
 
 MultiValueHudElement::MultiValueHudElement(const QString& text1, const QString& text2, QWidget* parent)
-    : IHudElement(parent)
+    : HudElement(parent)
     , m_label1(new QLabel(text1, this))
     , m_label2(new QLabel(text2, this))
     , m_edit1(new QLineEdit("0.0", this))
