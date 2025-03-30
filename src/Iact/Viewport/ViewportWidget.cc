@@ -1,7 +1,7 @@
 // Copyright [2024] SunCAD
 
 // Own include
-#include "Iact/Viewport/ViewportHwndHost.h"
+#include "Iact/Viewport/ViewportWidget.h"
 
 // sys include
 #ifdef _WIN32

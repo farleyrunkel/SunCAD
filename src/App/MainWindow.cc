@@ -139,6 +139,7 @@ void MainWindow::setupCategories()
         }
         if (SARibbonPannel* aPannel = aCategory->addPannel(tr("Zoom"))) {
             aPannel->addAction(&WorkspaceCommands::zoomFitAll());
+            aPannel->addAction(&WorkspaceCommands::zoomFitAll());
             aPannel->addAction(&WorkspaceCommands::zoomIn());
             aPannel->addAction(&WorkspaceCommands::zoomOut());
         }

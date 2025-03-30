@@ -27,7 +27,6 @@ ViewportController::ViewportController(Viewport* viewport, WorkspaceController* 
 	, m_showTrihedron(false)
 	, m_zoomFitAllOnInit(false)
 	, m_aisRubberBand(nullptr)
-	, m_host(nullptr)
 {
 	assert(viewport != nullptr);
 	init();
@@ -85,18 +84,6 @@ void ViewportController::MouseUp(Qt::KeyboardModifiers modifiers)
 	workspaceController()->invalidate();
 }
 
-void ViewportController::zoom(double value)
-{
-	if (value > 0) {
-		viewport()->v3dView()->SetZoom(1.0 + value, true);
-	}
-	else if (value < 0) {
-		viewport()->v3dView()->SetZoom(1.0 / (1.0 - value), true);
-	}
-	workspaceController()->invalidate();
-	viewport()->onViewMoved();
-}
-
 void ViewportController::setPredefinedView(PredefinedViews predefinedView)
 {
 	if (predefinedView == PredefinedViews::WorkingPlane) {
@@ -142,6 +129,8 @@ void ViewportController::setPredefinedView(PredefinedViews predefinedView)
 	m_viewCube->HandleClick(viewCubeOwner);
 
 	workspaceController()->invalidate();
+
+	m_viewport->onViewMoved();
 }
 
 // Setter for lockedToPlane
@@ -159,9 +148,24 @@ void ViewportController::SetLockedToPlane(bool value)
 	}
 }
 
+void ViewportController::zoom(double value)
+{
+	if(value > 0)
+	{
+		viewport()->v3dView()->SetZoom(1.0 + value, true);
+	}
+	else if(value < 0)
+	{
+		viewport()->v3dView()->SetZoom(1.0 / (1.0 - value), true);
+	}
+	workspaceController()->invalidate();
+
+	m_viewport->onViewMoved();
+}
+
 void ViewportController::zoomFitAll()
 {
-	if (m_host == nullptr) {
+	if (window().IsNull()) {
 		// We need a window, defer call
 		m_zoomFitAllOnInit = true;
 		return;
@@ -171,7 +175,7 @@ void ViewportController::zoomFitAll()
 	viewport()->v3dView()->ZFitAll(1.0);
 	workspaceController()->invalidate();
 
-	viewport()->onViewMoved();
+	m_viewport->onViewMoved();
 }
 
 void ViewportController::init()

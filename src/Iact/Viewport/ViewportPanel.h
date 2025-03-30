@@ -19,7 +19,7 @@
 // Project includes
 #include "Comm/PropertyChangedEventArgs.h"
 #include "Iact/Viewport/IViewportMouseControl.h"
-#include "Iact/Viewport/ViewportHwndHost.h"
+#include "Iact/Viewport/ViewportWidget.h"
 #include "Iact/Viewport/HudManager.h"
 
 /// @brief ViewportPanel class

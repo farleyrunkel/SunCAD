@@ -69,11 +69,6 @@ public:
 	void SetWindow(const Handle(Aspect_Window)& theWindow,
 				   const Aspect_RenderingContext theContext = nullptr);
 
-	void setWidget(QWidget* widget)
-	{
-		m_host = widget;
-	}
-
 	QString DumpInfo(bool theIsBasic, bool theToPrint);
 
 	void MouseMove(const QPointF& pos, Qt::KeyboardModifiers modifiers,
@@ -144,7 +139,6 @@ signals:
 	void LockedToPlaneChanged(bool);
 
 private:
-	QWidget* m_host;
 	Viewport* m_viewport;
 	WorkspaceController* m_workspaceController;
 	Handle(AIS_ViewCubeEx) m_viewCube;
