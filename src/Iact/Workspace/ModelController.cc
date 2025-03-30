@@ -14,9 +14,11 @@
 #include <STEPCAFControl_Reader.hxx>
 #include <TDocStd_Application.hxx>
 #include <TDocStd_Document.hxx>
+#include <TFunction_DriverTable.hxx>
 
 // SunCAD includes
 #include "App/Application.h"
+#include "Core/Shapes/Drivers/BoxDriver.h"
 #include "Core/Topology/Model.h"
 #include "Iact/Workspace/DisplayScene.h"
 
@@ -59,7 +61,11 @@ namespace
 ModelController::ModelController(QObject* parent) 
 	: QObject(parent)
     , TDocStd_Application()
-{}
+{
+    // Instantiate a TOcafFunction_BoxDriver and add it to the TFunction_DriverTable
+    TFunction_DriverTable::Get()->AddDriver(TOcafFunction_BoxDriver::GetID(),
+                                            new TOcafFunction_BoxDriver());
+}
 
 Model* ModelController::newModel() 
 {

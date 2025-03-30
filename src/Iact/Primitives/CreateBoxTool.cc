@@ -66,7 +66,12 @@ void CreateBoxTool::ensurePreviewShape()
 	if (m_previewShape != nullptr) {
 		return;
 	}
-	m_previewShape = new Box();
+
+	auto doc = InteractiveContext::current()->document();
+	TDF_Label aLabel = TDF_TagSource::NewChild(doc->Main());
+
+	m_previewShape = new Box(aLabel);
+
 	m_previewShape->setDimensionZ(0.01);
 
 	auto body = Body::create(m_previewShape);

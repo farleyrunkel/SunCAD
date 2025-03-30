@@ -3,65 +3,88 @@
 // Own include
 #include "Core/Shapes/Primitives/Box.h"
 
-Box::Box(double dimX, double dimY, double dimZ)
-    : m_dimensionX(dimX)
-    , m_dimensionY(dimY)
-    , m_dimensionZ(dimZ) 
+#include <BRepPrimAPI_MakeBox.hxx>
+#include <TopoDS_Solid.hxx>
+#include <TDF_Label.hxx>
+#include <TDataStd_Real.hxx>
+#include <TDataStd_Name.hxx>
+#include <TFunction_Function.hxx>
+#include <TFunction_Logbook.hxx>
+#include <TFunction_Driver.hxx>
+#include <TFunction_DriverTable.hxx>
+#include <TNaming_Builder.hxx>
+#include <TPrsStd_AISPresentation.hxx>
+#include <TNaming_NamedShape.hxx>
+#include <Precision.hxx>
+
+#include "Core/Shapes/Drivers/BoxDriver.h"
+
+Box::Box(const TDF_Label& label)
 {
-    // Ensure dimensions are not zero
-    if (m_dimensionX == 0.0) m_dimensionX = 0.001;
-    if (m_dimensionY == 0.0) m_dimensionY = 0.001;
-    if (m_dimensionZ == 0.0) m_dimensionZ = 0.001;
+    m_label = label;
+
+    // Set the dimensions
+    TDataStd_Real::Set(m_label.FindChild(1), 1.0);
+    TDataStd_Real::Set(m_label.FindChild(2), 1.0);
+    TDataStd_Real::Set(m_label.FindChild(3), 1.0);
 }
 
 double Box::dimensionX() const 
 {
-    return m_dimensionX;
+    Handle(TDataStd_Real) aCurrentReal;
+    m_label.FindChild(1).FindAttribute(TDataStd_Real::GetID(), aCurrentReal);
+    return aCurrentReal->Get();
 }
 
 void Box::setDimensionX(double value)
 {
-    if (m_dimensionX != value) {
+    if(std::abs(dimensionX() - value) > Precision::Confusion())
+    {
         saveUndo();
-        m_dimensionX = (value != 0.0) ? value : 0.001;
+        TDataStd_Real::Set(m_label.FindChild(1), value);
         invalidate();
         emit dimensionXChanged();
     }
 }
 
-void Box::saveUndo()
-{
-}
-
 double Box::dimensionY() const 
 {
-    return m_dimensionY;
+	Handle(TDataStd_Real) aCurrentReal;
+	m_label.FindChild(2).FindAttribute(TDataStd_Real::GetID(), aCurrentReal);
+	return aCurrentReal->Get();
 }
 
 void Box::setDimensionY(double value)
 {
-    if (m_dimensionY != value) {
+    if(std::abs(dimensionY() - value) > Precision::Confusion())
+    {
         saveUndo();
-        m_dimensionY = (value != 0.0) ? value : 0.001;
+        TDataStd_Real::Set(m_label.FindChild(2), value);
         invalidate();
         emit dimensionYChanged();
     }
 }
 
-void Box::setDimensionZ(double value) 
+double Box::dimensionZ() const
 {
-    if (m_dimensionZ != value) {
-        saveUndo();
-        m_dimensionZ = (value != 0.0) ? value : 0.001;
-        invalidate();
-        emit dimensionZChanged();
-    }
+	Handle(TDataStd_Real) aCurrentReal;
+	m_label.FindChild(3).FindAttribute(TDataStd_Real::GetID(), aCurrentReal);
+	return aCurrentReal->Get();
 }
 
-Box* Box::create(double dimX, double dimY, double dimZ)
+void Box::setDimensionZ(double value) 
 {
-    return new Box(dimX, dimY, dimZ);
+	if(std::abs(dimensionZ() - value) > Precision::Confusion())
+	{
+		saveUndo();
+		TDataStd_Real::Set(m_label.FindChild(3), value);
+		invalidate();
+		emit dimensionZChanged();
+	}
 }
+
+void Box::saveUndo()
+{}
 
 ShapeType Box::shapeType() const 
 {
@@ -70,14 +93,35 @@ ShapeType Box::shapeType() const
 
 bool Box::makeInternal(Shape::MakeFlags flags) 
 {
-    // Ensure dimensions are not zero
-    double dimX = (m_dimensionX != 0.0) ? m_dimensionX : 0.001;
-    double dimY = (m_dimensionY != 0.0) ? m_dimensionY : 0.001;
-    double dimZ = (m_dimensionZ != 0.0) ? m_dimensionZ : 0.001;
+    // Instantiate a TFunction_Function attribute connected to the current box driver
+    // and attach it to the data structure as an attribute of the Box Label
+    Handle(TFunction_Function) myFunction = TFunction_Function::Set(m_label, TOcafFunction_BoxDriver::GetID());
 
-    // Create the box using Open CASCADE
-    BRepPrimAPI_MakeBox makeBox(dimX, dimY, dimZ);
-    setBRep(makeBox.Solid());
+    // Initialize and execute the box driver (look at the "Execute()" code)
+    Handle(TFunction_Logbook) aLogBook = TFunction_Logbook::Set(m_label);
+
+    Handle(TFunction_Driver) myBoxDriver;
+    // Find the TOcafFunction_BoxDriver in the TFunction_DriverTable using its GUID
+    if(!TFunction_DriverTable::Get()->FindDriver(TOcafFunction_BoxDriver::GetID(), myBoxDriver))
+    {
+        qDebug() << "Ocaf Box driver not found";
+    }
+
+    myBoxDriver->Init(m_label);
+    if(myBoxDriver->Execute(aLogBook))
+    {
+        qDebug() << "Create Box function execute failed";
+    }
+
+	// Get the NamedShape attribute
+	Handle(TNaming_NamedShape) aNamedShape;
+    if(!m_label.FindAttribute(TNaming_NamedShape::GetID(), aNamedShape))
+    {
+		qDebug() << "NamedShape attribute not found";
+    }
+	TopoDS_Shape aShape = aNamedShape->Get();
+
+    setBRep(aShape);
 
     return Shape::makeInternal(flags);
 }

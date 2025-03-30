@@ -10,6 +10,7 @@
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <TopoDS_Solid.hxx>
 #include <TDF_Label.hxx>
+#include <TDataStd_Real.hxx>
 
 // Project includes
 #include "Core/Shapes/Shape.h"
@@ -21,7 +22,11 @@ class Box : public Shape
     Q_OBJECT
 
 public:
-    explicit Box(double dimX = 1.0, double dimY = 1.0, double dimZ = 1.0);
+    explicit Box(const TDF_Label& label);
+
+	~Box() override = default;
+
+	// Getters and setters
 
 public:
     TDF_Label label() const
@@ -46,15 +51,9 @@ public:
 
     void setDimensionY(double value);
 
-    double dimensionZ() const {
-        return m_dimensionZ;
-    }
+    double dimensionZ() const;
 
     void setDimensionZ(double value);
-
-    // Factory method
-
-    static Box* create(double dimX, double dimY, double dimZ);
 
     // Overrides
 
@@ -69,9 +68,6 @@ signals:
     void dimensionZChanged();
 
 private:
-    double m_dimensionX;
-    double m_dimensionY;
-    double m_dimensionZ;
 
 	TDF_Label m_label;
 };
