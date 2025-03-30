@@ -3,21 +3,22 @@
 #include "Core/Workspace.h"
 
 #include <AIS_ViewCube.hxx>
-#include <Aspect_Handle.hxx>
 #include <Aspect_DisplayConnection.hxx>
+#include <Aspect_Handle.hxx>
 #include <Graphic3d_GraphicDriver.hxx>
-#include <Prs3d_ArrowAspect.hxx>
 #include <OpenGl_GraphicDriver.hxx>
-#include <V3d_View.hxx>
+#include <Prs3d_ArrowAspect.hxx>
+#include <Quantity_Color.hxx>
+#include <TPrsStd_AISViewer.hxx>
 #include <V3d_AmbientLight.hxx>
+#include <V3d_DirectionalLight.hxx>
 #include <V3d_TypeOfOrientation.hxx>
 #include <V3d_TypeOfVisualization.hxx>
-#include <Quantity_Color.hxx>
-#include <V3d_DirectionalLight.hxx>
+#include <V3d_View.hxx>
 
-#include "Core/Viewport.h"
-#include "Core/Topology/Model.h"
 #include "Core/Project/WorkingContext.h"
+#include "Core/Topology/Model.h"
+#include "Core/Viewport.h"
 
 
 //--------------------------------------------------------------------------------------------------
@@ -85,6 +86,8 @@ void Workspace::initV3dViewer()
 
         // create viewer
         m_v3dViewer = new V3d_Viewer(aDriver);
+
+        TPrsStd_AISViewer::New(m_model->Main(), m_v3dViewer);
     }
 
     // Initialize 3D viewer with graphic driver
@@ -107,6 +110,7 @@ void Workspace::initAisContext()
 
     if (m_aisContext.IsNull()) {
         m_aisContext = new AIS_InteractiveContext(m_v3dViewer);
+
         m_aisContext->UpdateCurrentViewer();
     }
 
