@@ -3,10 +3,15 @@
 // Own include
 #include "Core/Viewport.h"
 
+// boost includes
+#include <boost/signals2.hpp>
+
 // Occt includes
 #include <AIS_AnimationCamera.hxx>
 #include <IntAna_IntConicQuad.hxx>
 #include <Precision.hxx>
+
+boost::signals2::signal<void(Viewport*)> Viewport::viewportChangedSignal;
 
 // Constructor
 
@@ -21,7 +26,6 @@ Viewport::Viewport(Workspace* workspace, QObject* parent)
     , m_twist(0.0)
     , m_scale(100.0)
 {
-    connect(this, &Viewport::viewportChanged, ViewPortSignalHub::instance(), &ViewPortSignalHub::viewportChanged);
 }
 
  // Getters and setters for properties
@@ -265,7 +269,7 @@ void Viewport::onViewMoved()
     raisePropertyChanged("TargetPoint");
     raisePropertyChanged("Twist");
     raisePropertyChanged("Scale");
-    emit ViewPortSignalHub::instance()->viewportChanged(this);
+	viewportChangedSignal(this);
 }
 
 // Destructor

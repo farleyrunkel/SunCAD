@@ -392,6 +392,7 @@ void ViewportWidget::mouseReleaseEvent(QMouseEvent* theEvent)
 // ================================================================
 void ViewportWidget::mouseMoveEvent(QMouseEvent* theEvent)
 {
+	qDebug() << "ViewportHwndHost: Mouse Move event";
     QOpenGLWidget::mouseMoveEvent(theEvent);
 
     const Graphic3d_Vec2i aNewPos(theEvent->pos().x(), theEvent->pos().y());
@@ -447,6 +448,7 @@ void ViewportWidget::wheelEvent(QWheelEvent* theEvent)
 // =======================================================================
 void ViewportWidget::updateView()
 {
+	qDebug() << "ViewportHwndHost: Update view";
     update();
     //if (window() != NULL) { window()->update(); }
 }

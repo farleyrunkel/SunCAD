@@ -174,6 +174,7 @@ void CreateBoxTool::baseRectAction_Finished(const std::shared_ptr<PointAction::E
 {
 	auto axisPosition = ElSLib::Value(m_pointPlane1.X(), m_pointPlane1.Y(), m_plane);
 	auto axisValueAction = new AxisValueAction(gp_Ax1(axisPosition, m_plane.Axis().Direction()));
+
 	connect(axisValueAction, &AxisValueAction::preview, this, &CreateBoxTool::heightAction_Preview);
 	connect(axisValueAction, &AxisValueAction::finished, this, &CreateBoxTool::heightAction_Finished);
 	if (!startAction(axisValueAction)) {
@@ -197,12 +198,12 @@ void CreateBoxTool::baseRectAction_Finished(const std::shared_ptr<PointAction::E
 		});
 		add(m_ValueHudElement);
 	}
-
-	ensurePreviewShape();
 }
 
 void CreateBoxTool::heightAction_Preview(const std::shared_ptr<AxisValueAction::EventArgs>& args) 
 {
+	qDebug() << "Debug: CreateBoxTool::heightAction_Preview";
+
 	m_height = args->value;
 
 	if (args->mouseEventData->modifierKeys & Qt::ControlModifier) {
@@ -212,6 +213,8 @@ void CreateBoxTool::heightAction_Preview(const std::shared_ptr<AxisValueAction::
 	if (std::abs(m_height) < 0.001) {
 		m_height = 0.001;
 	}
+
+	qDebug() << "Debug: CreateBoxTool::heightAction_Preview: m_height: " << m_height;
 
 	ensurePreviewShape();
 

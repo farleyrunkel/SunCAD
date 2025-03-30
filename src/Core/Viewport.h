@@ -6,6 +6,9 @@
 // stl include
 #include <cmath>
 
+// boost includes
+#include <boost/signals2.hpp>
+
 // Qt includes
 #include <QDebug>
 #include <QObject>
@@ -28,32 +31,18 @@
 
 class Viewport;
 
-class ViewPortSignalHub : public QObject
-{
-    Q_OBJECT
-public:
-    static ViewPortSignalHub* instance() 
-    {
-        static ViewPortSignalHub hub;
-        return &hub;
-    }
-
-signals:
-    void viewportChanged(Viewport*);
-};
-
 class Viewport : public BaseObject
 {
     Q_OBJECT
-    Q_PROPERTY(gp_Pnt eyePoint READ eyePoint WRITE setEyePoint NOTIFY eyePointChanged)
-    Q_PROPERTY(gp_Pnt targetPoint READ targetPoint WRITE setTargetPoint NOTIFY targetPointChanged)
-    Q_PROPERTY(double twist READ twist WRITE setTwist NOTIFY twistChanged)
-    Q_PROPERTY(double scale READ scale WRITE setScale NOTIFY scaleChanged)
-    Q_PROPERTY(RenderModes renderMode READ renderMode WRITE setRenderMode NOTIFY renderModeChanged)
+        Q_PROPERTY(gp_Pnt eyePoint READ eyePoint WRITE setEyePoint NOTIFY eyePointChanged)
+        Q_PROPERTY(gp_Pnt targetPoint READ targetPoint WRITE setTargetPoint NOTIFY targetPointChanged)
+        Q_PROPERTY(double twist READ twist WRITE setTwist NOTIFY twistChanged)
+        Q_PROPERTY(double scale READ scale WRITE setScale NOTIFY scaleChanged)
+        Q_PROPERTY(RenderModes renderMode READ renderMode WRITE setRenderMode NOTIFY renderModeChanged)
 
- public:
+public:
     // Enum for RenderModes
-    enum RenderModes 
+    enum RenderModes
     {
         SolidShaded,
         HLR,
@@ -61,8 +50,8 @@ class Viewport : public BaseObject
     };
     Q_ENUM(RenderModes)
 
-    // Constructor
-    explicit Viewport(QObject* parent = nullptr);
+        // Constructor
+        explicit Viewport(QObject* parent = nullptr);
 
     // Constructor
     explicit Viewport(Workspace* workspace, QObject* parent = nullptr);
@@ -104,29 +93,31 @@ class Viewport : public BaseObject
     Handle(V3d_View) view() const;
 
     Handle(V3d_View) v3dView() const;
-	Workspace* workspace() const;
+    Workspace* workspace() const;
     Handle(AIS_AnimationCamera) aisAnimationCamera() const;
 
     bool screenToPoint(gp_Pln plane, int screenX, int screenY, gp_Pnt& resultPnt);
 
     gp_Dir getRightDirection();
-	gp_Dir getUpDirection();
-	gp_Dir getViewDirection();
+    gp_Dir getUpDirection();
+    gp_Dir getViewDirection();
 
     void onViewMoved();
 
 private:
     void validateViewGeometry() {}
 
- signals:
+signals:
     void eyePointChanged();
     void targetPointChanged();
     void twistChanged();
     void scaleChanged();
     void renderModeChanged();
     void viewportChanged(Viewport*);
+public:
+	static boost::signals2::signal<void(Viewport*)> viewportChangedSignal;
 
- private:
+private:
     Workspace* m_workspace;
     gp_Pnt m_eyePoint = gp_Pnt(10, 10, 10);
     gp_Pnt m_targetPoint = gp_Pnt(0, 0, 0);

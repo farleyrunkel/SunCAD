@@ -58,11 +58,11 @@ public:
             m_workspaceController = value;
             if(m_workspaceController != nullptr)
             {
-                //m_workspaceController->setHudManager(this);
+                m_workspaceController->setHudManager(this);
             }
             else
             {
-                //HudElements.Clear();
+                m_hudElements.clear();
             }
             m_workspaceController = value;
             emit propertyChanged("workspaceController");

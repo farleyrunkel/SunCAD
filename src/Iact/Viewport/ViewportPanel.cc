@@ -119,8 +119,6 @@ void ViewportPanel::mousePressEvent(QMouseEvent* event)
 	QWidget::mousePressEvent(event);
 	m_mouseMovePosition = this->mapFromGlobal(event->globalPos());
 
-	setFocus();
-
 	if (m_viewportHwndHost) {
 		auto p = m_viewportHwndHost->mapFromParent(m_mouseMovePosition);
 		m_mouseControl->MouseDown(p, event->button(), 1 , event->buttons(), event->modifiers());
@@ -183,6 +181,8 @@ void ViewportPanel::onViewportControllerChanged()
 
 	auto newHost = new ViewportWidget(viewportController, this);
 	newHost->setFocus();
+
+	m_hudManager->setWorkspaceController(viewportController->workspaceController());
 
 	if (m_viewportHwndHost != nullptr) {
 		layout()->replaceWidget(m_viewportHwndHost, newHost);

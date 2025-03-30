@@ -32,7 +32,9 @@ WorkspaceController::WorkspaceController(Workspace* workspace)
 {
     assert(m_workspace != nullptr);
     connect(m_workspace, &Workspace::GridChanged, this, &WorkspaceController::workspace_GridChanged);
-    connect(ViewPortSignalHub::instance(), &ViewPortSignalHub::viewportChanged, this, &WorkspaceController::viewport_ViewportChanged);
+
+    Viewport::viewportChangedSignal
+        .connect(std::bind(&WorkspaceController::viewport_ViewportChanged, this, std::placeholders::_1));
 
     m_visualObjectManager = new VisualObjectManager(this);
 
@@ -338,7 +340,7 @@ inline void WorkspaceController::updateParameter()
 
 void WorkspaceController::redrawTimer_Tick()
 {
-    //redraw();
+    redraw();
 }
 
 void WorkspaceController::MouseMove(ViewportController* vc, QPointF pos, Qt::KeyboardModifiers modifiers)

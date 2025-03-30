@@ -55,15 +55,19 @@ void VisualShape::update()
 {
     qDebug() << "VisualShape::update()";
     if (m_aisShape.IsNull()) {
+		qDebug() << "VisualShape::update() - aisShape is null";
         ensureAisObject();
     }
     else {
+		qDebug() << "VisualShape::update() - aisShape is not null";
         TopoDS_Shape ocShape = (m_overrideBrep.IsNull() ? entity()->getTransformedBRep() : m_overrideBrep);
         if (!ocShape.IsNull()) {
+            qDebug() << "VisualShape::update() - Not IsNull";
             remove();
             ensureAisObject();
         }
         else {
+            qDebug() << "VisualShape::update() - updateMarker";
             updateMarker();
         }
     }
@@ -209,6 +213,8 @@ void VisualShape::visualStyle_VisualStyleChanged(Body* body, VisualStyle* visual
 
 void VisualShape::updatePresentation()
 {
+    qDebug() << "VisualShape::updatePresentation";
+
     updateMarker();
 
     if (m_aisShape.IsNull()) {
@@ -237,6 +243,7 @@ void VisualShape::updatePresentation()
         updatePresentationForGhost();
     }
 
+    qDebug() << "VisualShape::updatePresentation - RecomputePrsOnly";
     aisContext()->RecomputePrsOnly(m_aisShape, false, true);
 }
 
@@ -283,18 +290,24 @@ void VisualShape::updateMarker()
 
 bool VisualShape::ensureAisObject()
 {
+	qDebug() << "VisualShape::ensureAisObject()";
     if (!m_aisShape.IsNull()) {
+		qDebug() << "VisualShape::ensureAisObject() - aisShape is not null";
         return true;
     }
 
     if (entity() == nullptr || aisContext().IsNull()) {
+		qDebug() << "VisualShape::ensureAisObject() - entity is null or aisContext is null";
         return false;
     }
 
     TopoDS_Shape brep = m_overrideBrep.IsNull() ? entity()->getTransformedBRep() : m_overrideBrep;
     if (brep.IsNull()) {
+		qDebug() << "VisualShape::ensureAisObject() - brep is null";
         return false;
     }
+
+    qDebug() << "VisualShape::ensureAisObject() - new AIS_Shape";
 
     m_aisShape = new AIS_Shape(brep);
     m_aisShape->SetOwner(new AISX_Guid(entity()->guid()));
@@ -332,7 +345,7 @@ void VisualShape::updateInteractivityStatus()
             aisContext()->Update(m_aisShape, false);
         }
         else {
-            aisContext()->Display(m_aisShape, false);
+            aisContext()->Display(m_aisShape, AIS_Shaded, 0, false);
         }
 
         updateSelectionSensitivity();

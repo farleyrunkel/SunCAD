@@ -80,6 +80,7 @@ bool AxisValueAction::onMouseMove(MouseEventData* data)
             workspaceController()->invalidate();
             auto args = std::make_shared<EventArgs>(_currentValue, _currentDistance, data);
             emit preview(args);
+			qDebug() << "Debug: AxisValueAction::onMouseMove";
         }
     }
     return ToolAction::onMouseMove(data);
@@ -100,5 +101,5 @@ bool AxisValueAction::onMouseUp(MouseEventData* data)
 
 bool AxisValueAction::onMouseDown(MouseEventData* data) 
 {
-    return true; // ×èÖ¹ Rubberband Selection
+    return true;
 }
