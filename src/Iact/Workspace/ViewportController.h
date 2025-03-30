@@ -74,12 +74,6 @@ public:
 		m_host = widget;
 	}
 
-	void update()
-	{
-		if (m_host)
-			m_host->update();
-	}
-
 	QString DumpInfo(bool theIsBasic, bool theToPrint);
 
 	void MouseMove(const QPointF& pos, Qt::KeyboardModifiers modifiers,

@@ -151,7 +151,7 @@ ViewportWidget::ViewportWidget(ViewportController* vc, QWidget* theParent)
     m_viewportController = vc;
     m_viewportController->initWindow();
 
-	connect(m_viewportController->viewport(), &Viewport::viewportChanged, [this](const auto&) { updateView(); });
+    m_viewportController->viewport()->viewportChangedSignal.connect([this](const auto&) { updateView(); });
 
     if(!myViewCube.IsNull())
     {

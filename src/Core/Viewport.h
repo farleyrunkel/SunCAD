@@ -91,10 +91,10 @@ public:
     void updateRenderMode();
 
     Handle(V3d_View) view() const;
-
     Handle(V3d_View) v3dView() const;
-    Workspace* workspace() const;
     Handle(AIS_AnimationCamera) aisAnimationCamera() const;
+
+    Workspace* workspace() const;
 
     bool screenToPoint(gp_Pln plane, int screenX, int screenY, gp_Pnt& resultPnt);
 
@@ -115,7 +115,7 @@ signals:
     void renderModeChanged();
     void viewportChanged(Viewport*);
 public:
-	static boost::signals2::signal<void(Viewport*)> viewportChangedSignal;
+    static boost::signals2::signal<void(Viewport*)> viewportChangedSignal;
 
 private:
     Workspace* m_workspace;

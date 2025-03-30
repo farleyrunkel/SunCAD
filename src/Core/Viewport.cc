@@ -263,12 +263,13 @@ gp_Dir Viewport::getViewDirection()
 
 void Viewport::onViewMoved()
 {
-    raisePropertyChanged("PixelSize");
-    raisePropertyChanged("GizmoScale");
-    raisePropertyChanged("EyePoint");
-    raisePropertyChanged("TargetPoint");
-    raisePropertyChanged("Twist");
-    raisePropertyChanged("Scale");
+    raisePropertyChanged("pixelSize");
+    raisePropertyChanged("gizmoScale");
+    raisePropertyChanged("eyePoint");
+    raisePropertyChanged("targetPoint");
+    raisePropertyChanged("twist");
+    raisePropertyChanged("scale");
+
 	viewportChangedSignal(this);
 }
 

@@ -93,7 +93,6 @@ void ViewportController::zoom(double value)
 	else if (value < 0) {
 		viewport()->v3dView()->SetZoom(1.0 / (1.0 - value), true);
 	}
-	update();
 	workspaceController()->invalidate();
 	viewport()->onViewMoved();
 }
@@ -141,7 +140,6 @@ void ViewportController::setPredefinedView(PredefinedViews predefinedView)
 	Handle(AIS_ViewCubeOwner) viewCubeOwner = new AIS_ViewCubeOwner(m_viewCube, orientation);
 
 	m_viewCube->HandleClick(viewCubeOwner);
-	update();
 
 	workspaceController()->invalidate();
 }
@@ -173,7 +171,6 @@ void ViewportController::zoomFitAll()
 	viewport()->v3dView()->ZFitAll(1.0);
 	workspaceController()->invalidate();
 
-	update();
 	viewport()->onViewMoved();
 }
 
