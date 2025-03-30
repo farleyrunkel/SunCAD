@@ -7,7 +7,6 @@ HudManager::HudManager()
     , m_viewportController(nullptr) 
 {
     //Entity.ErrorStateChanged += _Entity_ErrorStateChanged;
-    connect(InteractiveContext::current(), &InteractiveContext::propertyChanged, this, &HudManager::context_PropertyChanged);
     setWorkspaceController(InteractiveContext::current()->workspaceController());
     setViewportController(InteractiveContext::current()->viewportController());
 }

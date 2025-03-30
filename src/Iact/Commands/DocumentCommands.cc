@@ -10,7 +10,6 @@
 #include "App/Application.h"
 #include "Iact/Commands/CommandHelper.h"
 
-
 ActionCommand& DocumentCommands::createNewModel() {
     static ActionCommand command(
         []() { if (CommandHelper::documentController()->askForSavingModelChanges()) {

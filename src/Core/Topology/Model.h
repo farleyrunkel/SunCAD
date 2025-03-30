@@ -9,16 +9,20 @@
 // Qt includes
 #include <QList>
 #include <QObject>
+#include <QVector>
+
+// Occt includes
+#include <TDocStd_Document.hxx>
 
 // Project includes
 #include "Core/Topology/Document.h"
 #include "Core/Topology/InteractiveEntity.h"
 #include "Core/Workspace.h"
 
-class Model : public Document
+class Model : public Document, public TDocStd_Document
 {
 public:
-	Model();
+	Model(const QString& format = "XamlOcaf");
 
 	QVector<Workspace*>& workspaces();
 

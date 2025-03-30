@@ -9,9 +9,6 @@
 #include <QTranslator>
 #include <QCoreApplication>
 
-// Occt includes
-#include <TDocStd_Application.hxx>
-
 // Project includes
 #include "App/AppContext.h"
 #include "App/MainWindow.h"
@@ -20,7 +17,7 @@
 
 #define App static_cast<Application*>(QCoreApplication::instance())
 
-class Application : public QApplication, public TDocStd_Application
+class Application : public QApplication
 {
     Q_OBJECT
 

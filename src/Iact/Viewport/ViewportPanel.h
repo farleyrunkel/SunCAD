@@ -36,10 +36,47 @@ public:
 		delete m_mouseControl;
 	}
 
+	void context_PropertyChanged(const QString& propertyName);
+
 public:
 	HudManager* hudManager() const
 	{
 		return m_hudManager;
+	}
+	WorkspaceController* workspaceController() const
+	{
+		return m_workspaceController;
+	}
+
+	// ViewportController getter/setter
+	ViewportController* viewportController() const
+	{
+		return m_viewportController;
+	}
+
+	void setViewportController(ViewportController* value)
+	{
+		m_viewportController = value;
+		emit propertyChanged("viewportController");
+	}
+
+	// workspaceController getter/setter
+	void setWorkspaceController(WorkspaceController* value)
+	{
+		if(m_workspaceController != value)
+		{
+			m_workspaceController = value;
+			if(m_workspaceController != nullptr)
+			{
+				//m_workspaceController->setHudManager(this);
+			}
+			else
+			{
+				//HudElements.Clear();
+			}
+			m_workspaceController = value;
+			emit propertyChanged("workspaceController");
+		}
 	}
 
 protected:
@@ -57,6 +94,9 @@ private:
 	void onViewportControllerChanged();
 	void updateHud(const QPointF& pos);
 
+signals:
+	void propertyChanged(const QString& property);
+
 private:
 	HudManager* m_hudManager;
 
@@ -65,6 +105,9 @@ private:
 
 	ViewportWidget* m_viewportHwndHost;
 	QFrame* m_hudContainer;
+
+	WorkspaceController* m_workspaceController;
+	ViewportController* m_viewportController;
 
 	bool _SuppressContextMenu;
 	bool _ContextMenuIsOpen;

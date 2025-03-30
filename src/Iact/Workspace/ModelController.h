@@ -7,10 +7,13 @@
 #include <QObject>
 #include <QString>
 
+#include <TDocStd_Document.hxx>
+#include <TDocStd_Application.hxx>
+
 // Project includes
 #include "Core/Topology/Model.h"
 
-class ModelController : public QObject 
+class ModelController : public QObject, public TDocStd_Application
 {
     Q_OBJECT
 

@@ -20,7 +20,6 @@
 
 Application::Application(int& argc, char** argv)
     : QApplication(argc, argv)
-	, TDocStd_Application()
     , m_mainWindow(nullptr)
     , m_welcomeDialog(nullptr)
     , m_appContext(nullptr)

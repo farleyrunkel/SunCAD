@@ -3,7 +3,14 @@
 // Own include
 #include "Core/Topology/Model.h"
 
-Model::Model() 
+// Occt includes
+#include <TDocStd_Document.hxx>
+
+// Project includes
+#include "Core/Topology/Document.h"
+
+Model::Model(const QString& format)
+	: TDocStd_Document(format.toUtf8().constData())
 {
 }
 

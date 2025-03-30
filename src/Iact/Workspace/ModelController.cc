@@ -57,11 +57,14 @@ namespace
 }
 
 ModelController::ModelController(QObject* parent) 
+	: QObject(parent)
+    , TDocStd_Application()
 {}
 
 Model* ModelController::newModel() 
 {
     Model* newModel = new Model();
+
     App->appContext()->setDocument(newModel);
     newModel->resetUnsavedChanges();
     return newModel;

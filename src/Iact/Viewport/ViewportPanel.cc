@@ -22,6 +22,8 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 	, m_hudContainer(new QFrame(this))
 	, m_viewportHwndHost(nullptr)
 	, m_mouseMovePosition(0.0, 0.0)
+	, m_workspaceController(nullptr)
+	, m_viewportController(nullptr)
 {
 	m_hudContainer->setFrameShape(QFrame::NoFrame);
 	m_hudContainer->setMouseTracking(true);
@@ -52,8 +54,9 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 		updateHud(m_mouseMovePosition);
 	});
 
-	connect(m_hudManager, &HudManager::propertyChanged
-			, this, &ViewportPanel::onPropertyChanged);
+	connect(InteractiveContext::current(), &InteractiveContext::propertyChanged, this, &ViewportPanel::context_PropertyChanged);
+
+	connect(this, &ViewportPanel::propertyChanged, this, &ViewportPanel::onPropertyChanged);
 
 	// Initialize layout for the panel
 	setLayout(new QVBoxLayout(this));
@@ -61,6 +64,33 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 
 	onViewportControllerChanged();
 	m_hudContainer->raise();
+}
+
+void ViewportPanel::context_PropertyChanged(const QString& propertyName)
+{
+	if(propertyName == "workspaceController")
+	{
+		if(m_workspaceController != nullptr)
+		{
+			//m_workspaceController.Selection.SelectionChanged -= _Selection_SelectionChanged;
+		}
+		if(auto context = dynamic_cast<InteractiveContext*>(sender()))
+		{
+			setWorkspaceController(context->workspaceController());
+		}
+
+		if(m_workspaceController != nullptr)
+		{
+			//m_workspaceController.Selection.SelectionChanged += _Selection_SelectionChanged;
+		}
+	}
+	else if(propertyName == "viewportController")
+	{
+		if(auto context = dynamic_cast<InteractiveContext*>(sender()))
+		{
+			setViewportController(context->viewportController());
+		}
+	}
 }
 
 void ViewportPanel::mouseMoveEvent(QMouseEvent* event)
@@ -142,7 +172,7 @@ void ViewportPanel::onPropertyChanged(const QString& propertyName)
 
 void ViewportPanel::onViewportControllerChanged() 
 {
-	auto viewportController = m_hudManager->viewportController();
+	auto viewportController = this->viewportController();
 
 	if (viewportController == nullptr)
 		return;
