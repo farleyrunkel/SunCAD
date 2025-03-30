@@ -7,7 +7,6 @@
 #include "App/AboutDialog.h"
 #include "App/Application.h"
 #include "App/Commands/AppCommands.h"
-#include "Core/Core.h"
 #include "Iact/Commands/CommandHelper.h"
 #include "Iact/Commands/DocumentCommands.h"
 #include "ResourceUtils.h"
@@ -24,7 +23,7 @@ RelayCommand& AppCommands::initApplication()
 ActionCommand& AppCommands::exitApplication()
 {
     static ActionCommand command(
-        []() { Core::mainWindow()->close(); }
+        []() { App->mainWindow()->close(); }
     );
     // Initialize command properties if not already set
     if (command.text().isEmpty()) {
@@ -36,7 +35,7 @@ ActionCommand& AppCommands::exitApplication()
 
 ActionCommand& AppCommands::showAboutDialog()
 {
-    static AboutDialog aboutDialog(Core::mainWindow());
+    static AboutDialog aboutDialog(App->mainWindow());
     static ActionCommand command(
         []() { aboutDialog.show(); }
     );

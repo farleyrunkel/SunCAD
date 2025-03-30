@@ -1,15 +1,14 @@
 // Copyright [2024] SunCAD
 
 #include "Iact/Commands/CommandHelper.h"
-
-#include "Core/Core.h"
+#include "App/Application.h"
 
  WorkspaceController* CommandHelper::workspaceController() {
-    return Core::appContext() ? Core::appContext()->workspaceController() : nullptr;
+    return App->appContext() ? App->appContext()->workspaceController() : nullptr;
 }
 
  ModelController* CommandHelper::documentController() {
-    return Core::appContext() ? Core::appContext()->documentController() : nullptr;
+    return App->appContext() ? App->appContext()->documentController() : nullptr;
 }
 
  Tool* CommandHelper::currentTool() {
@@ -22,8 +21,8 @@
 }
 
  bool CommandHelper::canExecuteOnViewport() {
-    return Core::appContext() && Core::appContext()->viewportController()
-        && Core::appContext()->viewportController()->viewport();
+    return App->appContext() && App->appContext()->viewportController()
+        && App->appContext()->viewportController()->viewport();
 }
 
  bool CommandHelper::canStartTool() {

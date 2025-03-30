@@ -29,7 +29,12 @@ class ViewportPanel : public QWidget
 
 public:
 	explicit ViewportPanel(QWidget* parent = nullptr);
-	~ViewportPanel() override {}
+	~ViewportPanel() override {
+		delete m_hudManager;
+		delete m_viewportHwndHost;
+		delete m_hudContainer;
+		delete m_mouseControl;
+	}
 
 public:
 	HudManager* hudManager() const

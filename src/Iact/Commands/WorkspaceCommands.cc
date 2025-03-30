@@ -9,7 +9,6 @@
 #include <QObject>
 
 // Project includes
-#include "Core/Core.h"
 #include "Iact/Commands/CommandHelper.h"
 #include "Iact/Primitives/CreateBoxTool.h"
 #include "Iact/Workspace/EditorState.h"

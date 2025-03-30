@@ -6,6 +6,11 @@
 // Qt includes
 #include <QApplication>
 #include <QString>
+#include <QTranslator>
+#include <QCoreApplication>
+
+// Occt includes
+#include <TDocStd_Application.hxx>
 
 // Project includes
 #include "App/AppContext.h"
@@ -13,10 +18,9 @@
 #include "App/WelcomeDialog.h"
 #include "Pres/Commands/CommandManager.h"
 
-// Forward declarations
-class Core;
+#define App static_cast<Application*>(QCoreApplication::instance())
 
-class Application : public QApplication
+class Application : public QApplication, public TDocStd_Application
 {
     Q_OBJECT
 
@@ -24,11 +28,13 @@ public:
     Application(int& argc, char** argv);
     ~Application();
 
-private:
-    void initTranslation();
+public:
+	MainWindow* mainWindow() const { return m_mainWindow; }
+	AppContext* appContext() const { return m_appContext; }
+	CommandManager* commandManager() const { return m_commandManager; }
 
 private:
-    friend class Core;
+    void initTranslation();
 
 private:
     MainWindow* m_mainWindow;

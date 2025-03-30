@@ -4,10 +4,10 @@
 #include "Iact/Workspace/ModelController.h"
 
 // Qt includes
-#include <QFileDialog>
-#include <QElapsedTimer>
-#include <QMessageBox>
 #include <QDebug>
+#include <QElapsedTimer>
+#include <QFileDialog>
+#include <QMessageBox>
 
 // OpenCascade includes
 #include <BinXCAFDrivers.hxx>
@@ -16,7 +16,7 @@
 #include <TDocStd_Document.hxx>
 
 // SunCAD includes
-#include "Core/Core.h"
+#include "App/Application.h"
 #include "Core/Topology/Model.h"
 #include "Iact/Workspace/DisplayScene.h"
 
@@ -62,7 +62,7 @@ ModelController::ModelController(QObject* parent)
 Model* ModelController::newModel() 
 {
     Model* newModel = new Model();
-    Core::appContext()->setDocument(newModel);
+    App->appContext()->setDocument(newModel);
     newModel->resetUnsavedChanges();
     return newModel;
 }
@@ -99,7 +99,7 @@ bool ModelController::openModel(const QString& file)
         std::cout << "Failed to read STEP model from file " << file.toStdString() << std::endl;
         return false;
     }
-    if (auto workspace = Core::appContext()->workspace(); workspace != nullptr) {
+    if (auto workspace = App->appContext()->workspace(); workspace != nullptr) {
         DisplayScene cmd(doc, workspace->aisContext());
         if (!cmd.Execute()) {
             std::cout << "Failed to visualize CAD model with `DisplayScene` command." << std::endl;
@@ -112,7 +112,7 @@ bool ModelController::openModel(const QString& file)
 
 bool ModelController::saveModel()
 {
-    auto model = Core::appContext()->document();
+    auto model = App->appContext()->document();
     if (model->filePath().isEmpty()) {
         return saveModelAs();
     }
@@ -131,11 +131,11 @@ bool ModelController::saveModelAs()
 
 bool ModelController::askForSavingModelChanges()
 { 
-    if (Core::appContext()->document() == nullptr) {
+    if (App->appContext()->document() == nullptr) {
         return true;
     }
 
-    if (Core::appContext()->document()->hasUnsavedChanges()) {
+    if (App->appContext()->document()->hasUnsavedChanges()) {
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(nullptr, "Confirmation", "Are you sure you want to proceed?",
             QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
