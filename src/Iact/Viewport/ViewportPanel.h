@@ -32,7 +32,7 @@ public:
 	~ViewportPanel() override {}
 
 public:
-	std::shared_ptr<HudManager> hudManager() const
+	HudManager* hudManager() const
 	{
 		return m_hudManager;
 	}
@@ -53,7 +53,7 @@ private:
 	void updateHud(const QPointF& pos);
 
 private:
-	std::shared_ptr<HudManager> m_hudManager;
+	HudManager* m_hudManager;
 
 	QPointF m_mouseMovePosition;
 	IViewportMouseControl* m_mouseControl;

@@ -33,25 +33,25 @@ public:
 
     QString hintMessage() const;
 
-    std::shared_ptr<WorkspaceController> workspaceController() const
+    WorkspaceController* workspaceController() const
     {
         return m_workspaceController;
     }
 
     // ViewportController getter/setter
-    std::shared_ptr<ViewportController> viewportController() const
+    ViewportController* viewportController() const
     {
         return m_viewportController;
     }
 
-    void setViewportController(const std::shared_ptr<ViewportController>& value)
+    void setViewportController(ViewportController* value)
     {
         m_viewportController = value;
         emit propertyChanged("viewportController");
     }
 
     // workspaceController getter/setter
-    void setWorkspaceController(const std::shared_ptr<WorkspaceController>& value)
+    void setWorkspaceController(WorkspaceController* value)
     {
         if(m_workspaceController != value)
         {
@@ -77,8 +77,8 @@ signals:
     void propertyChanged(const QString& property);
 
 private:
-    std::shared_ptr<WorkspaceController> m_workspaceController;
-    std::shared_ptr<ViewportController>  m_viewportController;
+    WorkspaceController* m_workspaceController;
+    ViewportController*  m_viewportController;
     QList<HudElement*> m_hudElements;
     QString m_hintMessage;
 };

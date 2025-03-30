@@ -31,7 +31,7 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 	m_hudContainer->setAutoFillBackground(false);
 	m_hudContainer->setStyleSheet("background-color: rgba(128, 128, 128, 0.5);");
 
-	connect(m_hudManager.get(), &HudManager::hudElementAdded
+	connect(m_hudManager, &HudManager::hudElementAdded
 			, [this](HudElement* element) 
 	{
 		m_hudContainer->layout()->addWidget(element);
@@ -40,7 +40,7 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 		updateHud(m_mouseMovePosition); 
 	});
 
-	connect(m_hudManager.get(), &HudManager::hudElementsRemoved
+	connect(m_hudManager, &HudManager::hudElementsRemoved
 			, [this](HudElement* element) {
 		m_hudContainer->layout()->removeWidget(element);
 
@@ -52,7 +52,7 @@ ViewportPanel::ViewportPanel(QWidget* parent)
 		updateHud(m_mouseMovePosition);
 	});
 
-	connect(m_hudManager.get(), &HudManager::propertyChanged
+	connect(m_hudManager, &HudManager::propertyChanged
 			, this, &ViewportPanel::onPropertyChanged);
 
 	// Initialize layout for the panel
