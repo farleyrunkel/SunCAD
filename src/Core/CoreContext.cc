@@ -3,6 +3,9 @@
 // Own include
 #include "Core/CoreContext.h"
 
+#include "Core/Topology/Document.h"
+#include "Core/Workspace.h"
+
 CoreContext::CoreContext() :
     m_workspace(nullptr),
     m_viewport(nullptr),
@@ -13,7 +16,7 @@ CoreContext::CoreContext() :
 
 CoreContext* CoreContext::m_current = nullptr;
 
-void CoreContext::setDocument(Document* document) {
+void CoreContext::setDocument(DocumentPtr document) {
     if (document != m_document) {
         m_document = document;
         emit documentChanged(document);

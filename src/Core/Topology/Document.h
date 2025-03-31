@@ -23,7 +23,7 @@
 class Document : public Document_Old, public TDocStd_Document
 {
 public:
-	Document(const QString& format = "XmlOcaf");
+	Document(const QString& format);
 
 	QVector<Workspace*>& workspaces();
 
@@ -42,8 +42,5 @@ public:
 private: 
 	QList<Workspace*> m_workspaces;
 };
-
-DEFINE_STANDARD_HANDLE(Document, TDocStd_Document)
-using DocumentPtr = OccHandle<Document>;
 
 #endif  // CORE_TOPOLOGY_MODEL_H_

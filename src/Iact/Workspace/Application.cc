@@ -20,6 +20,7 @@
 #include "App/GuiApplication.h"
 #include "Core/Shapes/Drivers/BoxDriver.h"
 #include "Core/Topology/Document.h"
+#include "Core/Topology/DocumentPtr.hxx"
 #include "Iact/Workspace/DisplayScene.h"
 
 //-----------------------------------------------------------------------------
@@ -72,19 +73,19 @@ Application::Application(QObject* parent)
                                             new TOcafFunction_BoxDriver());
 }
 
-Document* Application::newModel(const QString& format)
+DocumentPtr Application::newModel(const QString& format)
 {
     const char* docNameFormat = format.toUtf8().constData();
 
     Handle(CDM_Document) stdDoc;
     this->NewDocument(docNameFormat, stdDoc);
 
-    Handle(Document) newModel = Handle(Document)::DownCast(stdDoc);
+    DocumentPtr newModel = Handle(Document)::DownCast(stdDoc);
 
-    App->appContext()->setDocument(newModel.get());
+    App->appContext()->setDocument(newModel);
     newModel->resetUnsavedChanges();
 
-    return newModel.get();
+    return newModel;
 }
 
 void Application::NewDocument(const TCollection_ExtendedString&, Handle(CDM_Document)& outDocument)
@@ -170,7 +171,7 @@ bool Application::saveModelAs()
 
 bool Application::askForSavingModelChanges()
 {
-    if(App->appContext()->document() == nullptr)
+    if(App->appContext()->document().IsNull())
     {
         return true;
     }

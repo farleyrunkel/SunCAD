@@ -21,7 +21,7 @@ DatumPlane* DatumPlane::create()
     //imagePlane->setName(CoreContext::current()->document() ?
     //                    CoreContext::current()->document()->addNextNameSuffix("DatumPlane") : "DatumPlane");
     //imagePlane->setLayer(CoreContext::current()->layers() ? CoreContext::current()->layers()->activeLayer() : nullptr);
-    imagePlane->setDocument(CoreContext::current()->document());
+    //imagePlane->setDocument(CoreContext::current()->document());
     emit imagePlane->visualChanged();
     return imagePlane;
 }

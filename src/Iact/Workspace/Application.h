@@ -11,11 +11,8 @@
 #include <TDocStd_Application.hxx>
 
 // Project includes
+#include "Comm/OccHandle.h"
 #include "Core/Topology/Document.h"
-
-
-DEFINE_STANDARD_HANDLE(Application, TDocStd_Application)
-
 
 class Application : public QObject, public TDocStd_Application
 {
@@ -26,7 +23,8 @@ public:
 
     void dispose();
 
-    Document* newModel(const QString& format = "XmlOcaf");
+    DocumentPtr newModel(const QString& format = "XmlOcaf");
+
     void NewDocument(const TCollection_ExtendedString&, Handle(CDM_Document)& outDocument);
     void addDocument(const Handle(Document)& doc);
     bool openModelFrom(const QString& initialDirectory);
@@ -34,6 +32,12 @@ public:
     bool saveModel();
     bool saveModelAs();
     bool askForSavingModelChanges();
+
+	DEFINE_STANDARD_RTTI_INLINE(Application, TDocStd_Application)
+private:
 };
+
+DEFINE_STANDARD_HANDLE(Application, TDocStd_Application)
+using ApplicationPtr = OccHandle<Application>;
 
 #endif // IACT_WORKSPACE_MODELCONTROLLER_H_

@@ -37,7 +37,7 @@ Workspace::Workspace()
     init();
 }
 
-Workspace::Workspace(Document* model) 
+Workspace::Workspace(DocumentPtr model) 
     : Workspace() 
 {
     m_model = model;
