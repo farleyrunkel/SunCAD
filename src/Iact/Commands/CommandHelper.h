@@ -4,14 +4,14 @@
 #define SRC_IACT_COMMANDS_COMMANDHELPER_H_
 
 #include "Iact/Framework/Tool.h"
-#include "Iact/Workspace/Application.h"
+#include "Iact/Workspace/ApplicationPtr.hxx"
 #include "Iact/Workspace/WorkspaceController.h"
 
 class CommandHelper {
  public:
     static WorkspaceController* workspaceController();
 
-    static Application* documentController();
+    static ApplicationPtr application();
 
     static Tool* currentTool();
 

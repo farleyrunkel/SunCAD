@@ -5,6 +5,7 @@
 
 // Project includes
 #include "Iact/InteractionModule.h"
+#include "Iact/Workspace/Application.h"
 
 InteractiveContext* InteractiveContext::s_current = nullptr;
 
@@ -17,7 +18,7 @@ InteractiveContext::InteractiveContext()
 {
     InteractionModule::initialize();
     s_current = this;
-    setDocumentController(new Application());
+    setApplication(new Application());
 }
 
 InteractiveContext::~InteractiveContext()
@@ -38,12 +39,12 @@ InteractiveContext* InteractiveContext::current()
     return s_current;
 }
 
-Application* InteractiveContext::documentController() const
+ApplicationPtr InteractiveContext::application() const
 {
     return m_documentController;
 }
 
-void InteractiveContext::setDocumentController(Application* value)
+void InteractiveContext::setApplication(ApplicationPtr value)
 {
     qDebug() << "InteractiveContext::setDocumentController";
     m_documentController = value;

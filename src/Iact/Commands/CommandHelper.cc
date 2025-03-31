@@ -3,28 +3,34 @@
 #include "Iact/Commands/CommandHelper.h"
 #include "App/GuiApplication.h"
 
- WorkspaceController* CommandHelper::workspaceController() {
-    return QApp->appContext() ? QApp->appContext()->workspaceController() : nullptr;
+WorkspaceController* CommandHelper::workspaceController()
+{
+    return QApp->appContext()->workspaceController();
 }
 
- Application* CommandHelper::documentController() {
-    return QApp->appContext() ? QApp->appContext()->documentController() : nullptr;
+ApplicationPtr CommandHelper::application()
+{
+    return QApp->appContext()->application();
 }
 
- Tool* CommandHelper::currentTool() {
+Tool* CommandHelper::currentTool()
+{
     return workspaceController() ? workspaceController()->currentTool() : nullptr;
 }
 
- bool CommandHelper::startTool(Tool* tool) {
-     qDebug() << "Debug: CommandHelper::startTool";
+bool CommandHelper::startTool(Tool* tool)
+{
+    qDebug() << "Debug: CommandHelper::startTool";
     return workspaceController() && workspaceController()->startTool(tool);
 }
 
- bool CommandHelper::canExecuteOnViewport() {
+bool CommandHelper::canExecuteOnViewport()
+{
     return QApp->appContext() && QApp->appContext()->viewportController()
         && QApp->appContext()->viewportController()->viewport();
 }
 
- bool CommandHelper::canStartTool() {
+bool CommandHelper::canStartTool()
+{
     return workspaceController() != nullptr;
 }
