@@ -13,6 +13,10 @@
 // Project includes
 #include "Core/Topology/Model.h"
 
+
+DEFINE_STANDARD_HANDLE(Application, TDocStd_Application)
+
+
 class Application : public QObject, public TDocStd_Application
 {
     Q_OBJECT
