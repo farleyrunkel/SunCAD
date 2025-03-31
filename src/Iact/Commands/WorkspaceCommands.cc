@@ -13,7 +13,6 @@
 #include "Iact/Primitives/CreateBoxTool.h"
 #include "Iact/Workspace/EditorState.h"
 #include "Iact/Workspace/InteractiveContext.h"
-#include "ResourceUtils.h"
 
 // Initialize the static command outside the class
 ActionCommand& WorkspaceCommands::doUndo()

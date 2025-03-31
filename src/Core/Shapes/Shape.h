@@ -20,19 +20,21 @@
 // Base class for shape
 class Body;
 
-enum ShapeType 
-{
-    Unknown,
-    Sketch,
-    Solid,
-    Mesh,
-};
 
 class Shape : public Entity, public IShapeOperand, public IShapeDependent
 {
     Q_OBJECT
 
-public:
+
+public:      
+    enum ShapeType
+    {
+        Unknown,
+        Sketch,
+        Solid,
+        Mesh,
+    };
+
     enum MakeFlags
     {
         None = 0,

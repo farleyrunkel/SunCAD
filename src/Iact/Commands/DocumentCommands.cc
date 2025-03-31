@@ -6,7 +6,6 @@
 #include <QObject>
 #include <QMessageBox>
 
-#include "ResourceUtils.h"
 #include "App/GuiApplication.h"
 #include "Iact/Commands/CommandHelper.h"
 

@@ -87,7 +87,7 @@ Sphere* Sphere::create(double radius)
     return new Sphere(radius);
 }
 
-ShapeType Sphere::shapeType() const
+Sphere::ShapeType Sphere::shapeType() const
 {
     return ShapeType::Solid;
 }

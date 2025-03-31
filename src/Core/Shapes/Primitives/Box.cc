@@ -86,7 +86,7 @@ void Box::setDimensionZ(double value)
 void Box::saveUndo()
 {}
 
-ShapeType Box::shapeType() const 
+Shape::ShapeType Box::shapeType() const
 {
     return ShapeType::Solid;
 }

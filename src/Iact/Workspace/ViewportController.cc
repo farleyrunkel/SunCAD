@@ -16,7 +16,6 @@
 // Project includes
 #include "Occt/OcctExtensions/AIS_ViewCubeEx.h"
 #include "Occt/OcctHelper/PixMapHelper.h"
-#include "ResourceUtils.h"
 
 ViewportController::ViewportController(Viewport* viewport, WorkspaceController* workspacecontroller)
 	: QObject()

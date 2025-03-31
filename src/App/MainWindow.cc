@@ -28,7 +28,6 @@
 #include "Iact/Commands/ModelCommands.h"
 #include "Iact/Commands/ToolboxCommands.h"
 #include "Iact/Commands/WorkspaceCommands.h"
-#include "ResourceUtils.h"
 
 MainWindow::MainWindow(QWidget* parent)
     : SARibbonMainWindow(parent)

@@ -4,7 +4,6 @@
 #define DocumentPtr_H_
 
 #include <TDocStd_Document.hxx>
-#include "Comm/OccHandle.hxx"
 
 class Document;
 DEFINE_STANDARD_HANDLE(Document, TDocStd_Document)

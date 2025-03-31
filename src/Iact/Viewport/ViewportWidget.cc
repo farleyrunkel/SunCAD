@@ -12,6 +12,7 @@
 #include <QApplication>
 #include <QMessageBox>
 #include <QMouseEvent>
+#include <QOpenGLWidget>
 
 #include "Comm/QtMouseHelper.h"
 

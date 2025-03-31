@@ -1,7 +1,6 @@
 
 set(PROJECT_SOURCES ${CMAKE_SOURCE_DIR}/src/SunCAD.cc)
 set(PROJECT_RESOURCES 
-    ${CMAKE_SOURCE_DIR}/src/ResourceUtils.h
     ${CMAKE_SOURCE_DIR}/res/SunCAD.qrc)
 
 # Recursively find all source and header files
@@ -22,6 +21,7 @@ qt_add_executable(${PROJECT_NAME}
     ${PROJECT_SOURCES}
     ${PROJECT_RESOURCES}
 )
+target_precompile_headers(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/src/Pch.hxx)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/src)
 target_include_directories(${PROJECT_NAME} PRIVATE ${OpenCASCADE_INCLUDE_DIR})

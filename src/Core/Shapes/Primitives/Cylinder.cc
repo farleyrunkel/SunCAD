@@ -56,7 +56,7 @@ Cylinder* Cylinder::create(double radius, double height)
     return new Cylinder(radius, height);
 }
 
-ShapeType Cylinder::shapeType() const
+Shape::ShapeType Cylinder::shapeType() const
 {
     return ShapeType::Solid;
 }

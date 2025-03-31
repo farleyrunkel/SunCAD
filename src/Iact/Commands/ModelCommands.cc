@@ -16,7 +16,6 @@
 #include "Iact/Primitives/CreateSphereTool.h"
 #include "Iact/Workspace/EditorState.h"
 #include "Iact/Workspace/InteractiveContext.h"
-#include "ResourceUtils.h"
 
 // Initialize the static command outside the class
 ActionCommand& ModelCommands::createBox()
