@@ -11,7 +11,6 @@
 Document::Document(const QString& format)
 	: TDocStd_Document(format.toUtf8().constData())
 {
-	SetUndoLimit(10);
 }
 
 QVector<Workspace*>& Document::workspaces() 

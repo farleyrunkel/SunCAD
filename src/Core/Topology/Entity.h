@@ -8,6 +8,9 @@
 #include <QObject>
 #include <QUuid>
 
+// Occt includes
+#include <TDF_Label.hxx>
+
 // Project includes
 #include "Comm/BaseObject.h"
 
@@ -36,6 +39,17 @@ class Entity : public BaseObject
 public:
     // Constructor
     explicit Entity(QObject* parent = nullptr);
+
+    TDF_Label label() const
+    {
+        return m_label;
+    }
+
+    void setLabel(const TDF_Label& label)
+    {
+        m_label = label;
+    }
+
 
     // Guid property (using QUuid)
     QUuid guid() const;
@@ -89,10 +103,12 @@ protected:
     // Save undo state for property changes
     virtual void saveUndo(const QString& propertyName, const QVariant& value);
 
-private:
+protected:
     QUuid m_guid;
     bool m_hasErrors;
     IDocument* m_document;
+
+    TDF_Label m_label;
 };
 
 #endif  // CORE_TOPOLOGY_ENTITY_H_

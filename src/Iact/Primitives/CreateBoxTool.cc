@@ -18,6 +18,7 @@
 #include "Iact/HudElements/ValueHudElement.h"
 #include "Iact/ToolActions/AxisValueAction.h"
 #include "Iact/Visual/VisualShape.h"
+#include "Iact/Workspace/Application.h"
 #include "Iact/Workspace/WorkspaceController.h"
 
 CreateBoxTool::CreateBoxTool() 
@@ -55,6 +56,18 @@ void CreateBoxTool::onStop()
 {
 	auto doc = InteractiveContext::current()->document();
 	doc->CommitCommand();
+
+	auto undos = doc->GetAvailableUndos();
+
+	//auto app = InteractiveContext::current()->application();
+
+	//PCDM_StoreStatus sstatus = app->SaveAs(doc, "E:/Documents/occt-lessons/lessons/Lesson12_Undo/result.xml");
+	//if(sstatus != PCDM_SS_OK)
+	//{
+	//	app->Close(doc);
+	//	return;
+	//}
+	//app->Close(doc);
 }
 
 void CreateBoxTool::cleanup() 

@@ -32,7 +32,7 @@ Workspace::Workspace()
     , m_needsImmediateRedraw(false)
     , m_currentWorkingContext(nullptr)
     , m_globalWorkingContext(new WorkingContext)
-    , m_model(nullptr) 
+    , m_document(nullptr) 
 {
     init();
 }
@@ -40,7 +40,7 @@ Workspace::Workspace()
 Workspace::Workspace(DocumentPtr model) 
     : Workspace() 
 {
-    m_model = model;
+    m_document = model;
     m_viewports.append(new Viewport(this));
 }
 
@@ -58,7 +58,7 @@ void Workspace::init()
     m_gridEnabled = true;
 }
 
-void Workspace::_applyWorkingContext()
+void Workspace::applyWorkingContext()
 {
     if (m_aisContext.IsNull()) {
         //m_v3dViewer->SetPrivilegedPlane(m_currentWorkingContext->workingPlane.Position());
@@ -87,7 +87,7 @@ void Workspace::initV3dViewer()
         // create viewer
         m_v3dViewer = new V3d_Viewer(aDriver);
 
-        TPrsStd_AISViewer::New(m_model->Main(), m_v3dViewer);
+        TPrsStd_AISViewer::New(m_document->Main(), m_v3dViewer);
     }
 
     // Initialize 3D viewer with graphic driver
@@ -98,8 +98,7 @@ void Workspace::initV3dViewer()
     m_v3dViewer->SetDefaultVisualization(V3d_TypeOfVisualization::V3d_ZBUFFER);
     m_v3dViewer->SetLightOn(new V3d_DirectionalLight(V3d_TypeOfOrientation::V3d_Zneg, Quantity_Color(Quantity_NOC_WHITE), true));
     m_v3dViewer->SetLightOn(new V3d_AmbientLight(Quantity_Color(Quantity_NOC_WHITE)));
-
-    _applyWorkingContext();
+    applyWorkingContext();
 }
 
 void Workspace::initAisContext()
@@ -110,9 +109,9 @@ void Workspace::initAisContext()
 
     if (m_aisContext.IsNull()) {
         m_aisContext = new AIS_InteractiveContext(m_v3dViewer);
-
         m_aisContext->UpdateCurrentViewer();
     }
+    m_aisContext->SetDisplayMode(AIS_Shaded, Standard_True);
 
     m_aisContext->SetAutoActivateSelection(true);
     m_aisContext->SetToHilightSelected(false);
@@ -122,7 +121,7 @@ void Workspace::initAisContext()
     m_aisContext->EnableDrawHiddenLine();
 
     // Reinit ais parameters
-    _applyWorkingContext();
+    applyWorkingContext();
     m_aisContext->SetPixelTolerance(2);
 
     auto drawer = m_aisContext->DefaultDrawer();
@@ -141,7 +140,7 @@ void Workspace::SetWorkingPlane(const gp_Pln& value)
 {
     m_currentWorkingContext->SetWorkingPlane(value);
     //Document::MarkAsUnsaved();
-    _applyWorkingContext();
+    applyWorkingContext();
 }
 
 Handle(V3d_Viewer) Workspace::v3dViewer() const
@@ -224,9 +223,9 @@ gp_Quaternion Workspace::getWorkingPlaneRotation()
 // Document handling
 
 //const Document* workspace::model() const {
-//    return m_model;
+//    return m_document;
 //}
 //
 //void workspace::setModel(Document* model) {
-//    m_model = model;
+//    m_document = model;
 //}

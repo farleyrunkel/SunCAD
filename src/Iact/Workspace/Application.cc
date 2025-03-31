@@ -38,8 +38,9 @@ DocumentPtr Application::newModel(const QString& format)
 
     Handle(CDM_Document) stdDoc;
     this->NewDocument(docNameFormat, stdDoc);
-
     DocumentPtr newModel = Handle(Document)::DownCast(stdDoc);
+
+    newModel->SetUndoLimit(30);
 
     QApp->appContext()->setDocument(newModel);
     newModel->resetUnsavedChanges();

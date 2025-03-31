@@ -141,6 +141,8 @@ TopoDS_Shape Body::getBRep()
 TopoDS_Shape Body::getTransformedBRep() const
 {
     auto s = shape();
+	s->ensureBRep();
+
     if (s == nullptr) {
         return {};
     }

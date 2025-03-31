@@ -309,7 +309,7 @@ bool VisualShape::ensureAisObject()
 
     qDebug() << "VisualShape::ensureAisObject() - new AIS_Shape";
 
-    m_aisShape = new AIS_Shape(brep);
+    m_aisShape = new AIS_Shape({});
     m_aisShape->SetOwner(new AISX_Guid(entity()->guid()));
 
     updatePresentation();

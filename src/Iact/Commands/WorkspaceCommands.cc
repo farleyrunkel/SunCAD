@@ -8,25 +8,55 @@
 #include <QMessageBox>
 #include <QObject>
 
+// Occt includes
+#include <AIS_ListOfInteractive.hxx>
+#include <AIS_ListIteratorOfListOfInteractive.hxx>
+
 // Project includes
 #include "Iact/Commands/CommandHelper.h"
 #include "Iact/Primitives/CreateBoxTool.h"
 #include "Iact/Workspace/EditorState.h"
 #include "Iact/Workspace/InteractiveContext.h"
 
+#include "Iact/Workspace/Application.h"
+
 // Initialize the static command outside the class
 ActionCommand& WorkspaceCommands::doUndo()
 {
     static ActionCommand command(
         []() {
-        auto myOcafDoc = InteractiveContext::current()->document();
-        auto myWorkspace = InteractiveContext::current()->workspace();
-        auto myContext = myWorkspace->aisContext();
-        if(myOcafDoc->Undo())
+        auto app = InteractiveContext::current()->application();
+        auto aDoc = InteractiveContext::current()->document();
+
+		auto VC = InteractiveContext::current()->viewportController();
+
+        auto aWorkspace = InteractiveContext::current()->workspace();
+        auto aContext = aWorkspace->aisContext();
+        auto undos = aDoc->GetAvailableUndos();
+
+        if(aDoc->Undo())
         {
-            myOcafDoc->CommitCommand();
-            myContext->UpdateCurrentViewer();
-            qDebug() << "Redo was done successfully";
+            aDoc->CommitCommand();
+            aContext->UpdateCurrentViewer();
+
+            //AIS_ListOfInteractive aList;
+            //aContext->DisplayedObjects(aList);
+            //AIS_ListIteratorOfListOfInteractive aListIterator;
+            //for(aListIterator.Initialize(aList); aListIterator.More(); aListIterator.Next())
+            //{
+            //    aContext->Remove(aListIterator.Value(), true);
+            //    break;
+            //}
+
+            qDebug() << "Undo was done successfully";
+
+            //PCDM_StoreStatus sstatus = app->SaveAs(aDoc, "E:/Documents/occt-lessons/lessons/Lesson12_Undo/result.xml");
+            //if(sstatus != PCDM_SS_OK)
+            //{
+            //    app->Close(aDoc);
+            //    return;
+            //}
+            //app->Close(aDoc);
         }
         else
         {

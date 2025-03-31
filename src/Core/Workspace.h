@@ -79,7 +79,7 @@ public:
     void setNeedsImmediateRedraw(bool value);
 
     // Document management
-    DocumentPtr model() const { return m_model ; }
+    DocumentPtr model() const { return m_document ; }
 
     gp_Quaternion getWorkingPlaneRotation();
 
@@ -88,7 +88,7 @@ signals:
 
 private:
      void init();
-     void _applyWorkingContext();
+     void applyWorkingContext();
      void _RaiseGridChanged() {
          emit GridChanged(this);
      }
@@ -102,7 +102,7 @@ private:
     bool m_needsImmediateRedraw;  // Flag for immediate redraw
 
     QList<Viewport*> m_viewports;  // List of viewports
-    DocumentPtr m_model;  // The active model
+    DocumentPtr m_document;  // The active model
 
     gp_Pln _WorkingPlane;
     WorkingContext* m_currentWorkingContext;

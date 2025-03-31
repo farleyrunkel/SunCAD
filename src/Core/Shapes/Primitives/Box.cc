@@ -112,16 +112,13 @@ bool Box::makeInternal(Shape::MakeFlags flags)
     {
         qDebug() << "Create Box function execute failed";
     }
+    //// Get the TPrsStd_AISPresentation of the new box TNaming_NamedShape
+    //Handle(TPrsStd_AISPresentation) anAisPresentation = TPrsStd_AISPresentation::Set(m_label, TNaming_NamedShape::GetID());
+    //// Display it
 
-	// Get the NamedShape attribute
-	Handle(TNaming_NamedShape) aNamedShape;
-    if(!m_label.FindAttribute(TNaming_NamedShape::GetID(), aNamedShape))
-    {
-		qDebug() << "NamedShape attribute not found";
-    }
-	TopoDS_Shape aShape = aNamedShape->Get();
+    //anAisPresentation->Display(1);
 
-    setBRep(aShape);
+    setTransformedBRep(m_label.FindChild(4));
 
     return Shape::makeInternal(flags);
 }

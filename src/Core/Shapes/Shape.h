@@ -57,9 +57,11 @@ public:
     Body* body();
     void setBody(Body* value);
     virtual ShapeType shapeType() const = 0;
-    TopoDS_Shape BRep() const;
+    TopoDS_Shape BRep();
     void setBRep(const TopoDS_Shape& value);
     TopoDS_Shape getTransformedBRep();
+    void setTransformedBRep(const TDF_Label& child);
+
     TopoDS_Shape getBRep();
     bool skip();
 
@@ -73,12 +75,12 @@ public:
     bool isVisible() {
         return false;
     }
+    bool ensureBRep();
 
 protected:
     virtual bool makeInternal(MakeFlags flags);
 
 private:
-    bool ensureBRep();
 
 signals:
     void shapeChanged(Shape*);

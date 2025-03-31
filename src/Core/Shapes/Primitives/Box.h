@@ -29,15 +29,6 @@ public:
 	// Getters and setters
 
 public:
-    TDF_Label label() const
-    {
-		return m_label;
-    }
-
-    void setLabel(const TDF_Label& label)
-    {
-		m_label = label;
-    }
 
     // Propertie
 
@@ -69,7 +60,6 @@ signals:
 
 private:
 
-	TDF_Label m_label;
 };
 
 #endif  // CORE_SHAPES_PRIMITIVES_BOX_H_

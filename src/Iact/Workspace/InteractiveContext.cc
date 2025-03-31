@@ -3,6 +3,9 @@
 // Own include
 #include "Iact/Workspace/InteractiveContext.h"
 
+// Occt includes
+#include <XmlDrivers.hxx>
+
 // Project includes
 #include "Iact/InteractionModule.h"
 #include "Iact/Workspace/Application.h"
@@ -46,9 +49,10 @@ ApplicationPtr InteractiveContext::application() const
 
 void InteractiveContext::setApplication(ApplicationPtr value)
 {
-    qDebug() << "InteractiveContext::setDocumentController";
+    qDebug() << "InteractiveContext::setApplication";
     m_documentController = value;
-    raisePropertyChanged("documentController");
+    XmlDrivers::DefineFormat(value);
+    raisePropertyChanged("application");
 }
 
 WorkspaceController* InteractiveContext::workspaceController() const

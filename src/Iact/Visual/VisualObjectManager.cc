@@ -35,11 +35,10 @@ VisualObject* VisualObjectManager::createVisualObject(WorkspaceController* works
     QString typeName = typeid(*entity).name();
     if (!s_registeredVisualTypes.contains(typeName)) {
         qWarning() << "No registered visual object for entity type" << typeName;
-        return nullptr; // 没有注册的类型返回空
+        return nullptr;
     }
 
     try {
-        // 根据注册的类型创建 VisualObject
         VisualObject* visualObject = s_registeredVisualTypes[typeName](workspaceController, entity);
         return visualObject;
     }
