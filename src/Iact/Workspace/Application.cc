@@ -23,47 +23,6 @@
 #include "Core/Topology/DocumentPtr.hxx"
 #include "Iact/Workspace/DisplayScene.h"
 
-//-----------------------------------------------------------------------------
-
-namespace
-{
-Handle(TDocStd_Document) ReadStepWithMeta(const char* filename)
-{
-    STEPCAFControl_Reader Reader;
-
-    // Create XDE document.
-    Handle(TDocStd_Application) app = new TDocStd_Application;
-    BinXCAFDrivers::DefineFormat(app);
-    Handle(TDocStd_Document) doc;
-    app->NewDocument("BinXCAF", doc);
-
-    // Read CAD and associated data from file
-    try
-    {
-        IFSelect_ReturnStatus outcome = Reader.ReadFile(filename);
-        //
-        if(outcome != IFSelect_RetDone)
-        {
-            app->Close(doc);
-            return nullptr;
-        }
-
-        if(!Reader.Transfer(doc))
-        {
-            app->Close(doc);
-            return nullptr;
-        }
-    }
-    catch(...)
-    {
-        app->Close(doc);
-        return nullptr;
-    }
-
-    return doc;
-}
-}
-
 Application::Application(QObject* parent)
     : QObject(parent)
     , TDocStd_Application()
@@ -127,7 +86,43 @@ bool Application::openModelFrom(const QString& initialDirectory)
 
 bool Application::openModel(const QString& file)
 {
-    Handle(TDocStd_Document) doc = ::ReadStepWithMeta(file.toStdString().c_str());
+    auto ReadStepWithMeta = [](const char* filename)->Handle(TDocStd_Document)
+    {
+        STEPCAFControl_Reader Reader;
+
+        // Create XDE document.
+        Handle(TDocStd_Application) app = new TDocStd_Application;
+        BinXCAFDrivers::DefineFormat(app);
+        Handle(TDocStd_Document) doc;
+        app->NewDocument("BinXCAF", doc);
+
+        // Read CAD and associated data from file
+        try
+        {
+            IFSelect_ReturnStatus outcome = Reader.ReadFile(filename);
+            //
+            if(outcome != IFSelect_RetDone)
+            {
+                app->Close(doc);
+                return nullptr;
+            }
+
+            if(!Reader.Transfer(doc))
+            {
+                app->Close(doc);
+                return nullptr;
+            }
+        }
+        catch(...)
+        {
+            app->Close(doc);
+            return nullptr;
+        }
+
+        return doc;
+    };
+
+    Handle(TDocStd_Document) doc = ReadStepWithMeta(file.toStdString().c_str());
 
     if(doc.IsNull())
     {
