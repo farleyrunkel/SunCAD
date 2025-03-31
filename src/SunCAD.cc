@@ -1,5 +1,7 @@
 // Copyright [2024] SunCAD
 
+#include "Pch.h"
+
 // Qt includes
 #include <QCoreApplication>
 #include <QSystemSemaphore>

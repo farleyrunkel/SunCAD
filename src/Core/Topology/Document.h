@@ -15,16 +15,13 @@
 #include <TDocStd_Document.hxx>
 
 // Project includes
+#include "Comm/OccHandle.h"
 #include "Core/Topology/Document_Old.h"
 #include "Core/Topology/InteractiveEntity.h"
 #include "Core/Workspace.h"
 
-
-DEFINE_STANDARD_HANDLE(Document, TDocStd_Document)
-
 class Document : public Document_Old, public TDocStd_Document
 {
-	DEFINE_STANDARD_RTTI_INLINE(Document, TDocStd_Document)
 public:
 	Document(const QString& format = "XmlOcaf");
 
@@ -40,8 +37,13 @@ public:
 //signals:
 	boost::signals2::signal<void()> resetUnsavedChanges;
 
+	DEFINE_STANDARD_RTTI_INLINE(Document, TDocStd_Document)
+
 private: 
 	QList<Workspace*> m_workspaces;
 };
+
+DEFINE_STANDARD_HANDLE(Document, TDocStd_Document)
+using DocumentPtr = OccHandle<Document>;
 
 #endif  // CORE_TOPOLOGY_MODEL_H_
