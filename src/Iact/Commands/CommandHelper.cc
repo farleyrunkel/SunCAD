@@ -1,7 +1,7 @@
 // Copyright [2024] SunCAD
 
 #include "Iact/Commands/CommandHelper.h"
-#include "App/Application.h"
+#include "App/GuiApplication.h"
 
  WorkspaceController* CommandHelper::workspaceController() {
     return App->appContext() ? App->appContext()->workspaceController() : nullptr;

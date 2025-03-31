@@ -7,12 +7,12 @@
 #include <QLibrary>
 
 // Project includes
-#include "App/Application.h"
+#include "App/GuiApplication.h"
 
 int main(int argc, char* argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
-    Application app(argc, argv);
+    GuiApplication app(argc, argv);
 
     QSystemSemaphore sema(app.applicationName(), 1, QSystemSemaphore::Open);
     if (!sema.acquire()) {

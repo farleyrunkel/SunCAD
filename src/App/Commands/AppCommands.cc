@@ -5,7 +5,7 @@
 
 // Project includes
 #include "App/AboutDialog.h"
-#include "App/Application.h"
+#include "App/GuiApplication.h"
 #include "App/Commands/AppCommands.h"
 #include "Iact/Commands/CommandHelper.h"
 #include "Iact/Commands/DocumentCommands.h"

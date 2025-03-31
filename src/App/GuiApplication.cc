@@ -1,7 +1,7 @@
 // Copyright [2024] SunCAD
 
 // Own include
-#include "App/Application.h"
+#include "App/GuiApplication.h"
 
 // stl includes
 #include <iostream>
@@ -18,7 +18,7 @@
 #include "App/WelcomeDialog.h"
 #include "Pres/GlobalEventHandler.h"
 
-Application::Application(int& argc, char** argv)
+GuiApplication::GuiApplication(int& argc, char** argv)
     : QApplication(argc, argv)
     , m_mainWindow(nullptr)
     , m_welcomeDialog(nullptr)
@@ -51,11 +51,11 @@ Application::Application(int& argc, char** argv)
     this->installEventFilter(globalEventHandler); // Install the event filter
 }
 
-Application::~Application()
+GuiApplication::~GuiApplication()
 {}
 
 // Initialize synchronization mechanisms
-void Application::initTranslation()
+void GuiApplication::initTranslation()
 {
     // Set up translator for localization
     QTranslator translator;

@@ -17,7 +17,7 @@
 #include <TFunction_DriverTable.hxx>
 
 // SunCAD includes
-#include "App/Application.h"
+#include "App/GuiApplication.h"
 #include "Core/Shapes/Drivers/BoxDriver.h"
 #include "Core/Topology/Model.h"
 #include "Iact/Workspace/DisplayScene.h"

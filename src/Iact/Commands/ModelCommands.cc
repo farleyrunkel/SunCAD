@@ -9,6 +9,7 @@
 #include <QObject>
 
 // Project includes
+#include "App/GuiApplication.h"
 #include "Iact/Commands/CommandHelper.h"
 #include "Iact/Primitives/CreateBoxTool.h"
 #include "Iact/Primitives/CreateCylinderTool.h"
@@ -16,7 +17,6 @@
 #include "Iact/Workspace/EditorState.h"
 #include "Iact/Workspace/InteractiveContext.h"
 #include "ResourceUtils.h"
-#include "App/Application.h"
 
 // Initialize the static command outside the class
 ActionCommand& ModelCommands::createBox()

@@ -15,15 +15,15 @@
 #include "App/WelcomeDialog.h"
 #include "Pres/Commands/CommandManager.h"
 
-#define App static_cast<Application*>(QCoreApplication::instance())
+#define App static_cast<GuiApplication*>(QCoreApplication::instance())
 
-class Application : public QApplication
+class GuiApplication : public QApplication
 {
     Q_OBJECT
 
 public:
-    Application(int& argc, char** argv);
-    ~Application();
+    GuiApplication(int& argc, char** argv);
+    ~GuiApplication();
 
 public:
 	MainWindow* mainWindow() const { return m_mainWindow; }
