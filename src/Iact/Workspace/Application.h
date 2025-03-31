@@ -22,7 +22,7 @@ public:
 
     void dispose();
 
-    DocumentPtr newModel(const QString& format = "XmlOcaf");
+    DocumentPtr newModel(const QString& format);
 
     void NewDocument(const TCollection_ExtendedString&, Handle(CDM_Document)& outDocument);
     void addDocument(const Handle(Document)& doc);

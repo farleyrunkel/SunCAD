@@ -15,7 +15,7 @@ ActionCommand& DocumentCommands::createNewModel()
     static ActionCommand command(
         []() { if(CommandHelper::application()->askForSavingModelChanges())
     {
-        CommandHelper::application()->newModel();
+        CommandHelper::application()->newModel("XmlOcaf");
     }},
         []() { return !CommandHelper::application().IsNull(); }
     );
