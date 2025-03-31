@@ -1,7 +1,7 @@
 // Copyright [2024] SunCAD
 
 // Own include
-#include "Iact/Workspace/ModelController.h"
+#include "Iact/Workspace/Application.h"
 
 // Qt includes
 #include <QDebug>
@@ -63,7 +63,7 @@ Handle(TDocStd_Document) ReadStepWithMeta(const char* filename)
 }
 }
 
-ModelController::ModelController(QObject* parent)
+Application::Application(QObject* parent)
     : QObject(parent)
     , TDocStd_Application()
 {
@@ -72,7 +72,7 @@ ModelController::ModelController(QObject* parent)
                                             new TOcafFunction_BoxDriver());
 }
 
-Model* ModelController::newModel(const QString& format)
+Model* Application::newModel(const QString& format)
 {
     const char* docNameFormat = format.toUtf8().constData();
 
@@ -87,7 +87,7 @@ Model* ModelController::newModel(const QString& format)
     return newModel.get();
 }
 
-void ModelController::NewDocument(const TCollection_ExtendedString&, Handle(CDM_Document)& outDocument)
+void Application::NewDocument(const TCollection_ExtendedString&, Handle(CDM_Document)& outDocument)
 {
     Handle(Model) newDoc = new Model("XmlOcaf");
     CDF_Application::Open(newDoc);
@@ -95,10 +95,10 @@ void ModelController::NewDocument(const TCollection_ExtendedString&, Handle(CDM_
     outDocument = newDoc;
 }
 
-void ModelController::addDocument(const Handle(Model)& doc)
+void Application::addDocument(const Handle(Model)& doc)
 {}
 
-bool ModelController::openModelFrom(const QString& initialDirectory)
+bool Application::openModelFrom(const QString& initialDirectory)
 {
     // create and open file dialog;
     QFileDialog dlg;
@@ -124,7 +124,7 @@ bool ModelController::openModelFrom(const QString& initialDirectory)
     return openModel(filePath);
 }
 
-bool ModelController::openModel(const QString& file)
+bool Application::openModel(const QString& file)
 {
     Handle(TDocStd_Document) doc = ::ReadStepWithMeta(file.toStdString().c_str());
 
@@ -146,7 +146,7 @@ bool ModelController::openModel(const QString& file)
     return true;
 }
 
-bool ModelController::saveModel()
+bool Application::saveModel()
 {
     auto model = App->appContext()->document();
     if(model->filePath().isEmpty())
@@ -163,12 +163,12 @@ bool ModelController::saveModel()
     return false;
 }
 
-bool ModelController::saveModelAs()
+bool Application::saveModelAs()
 {
     return false;
 }
 
-bool ModelController::askForSavingModelChanges()
+bool Application::askForSavingModelChanges()
 {
     if(App->appContext()->document() == nullptr)
     {
@@ -198,5 +198,5 @@ bool ModelController::askForSavingModelChanges()
     return true;
 }
 
-void ModelController::dispose()
+void Application::dispose()
 {}

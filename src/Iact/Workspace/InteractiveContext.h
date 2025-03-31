@@ -14,14 +14,14 @@
 #include "Core/CoreContext.h"
 #include "Core/Viewport.h"
 #include "Iact/Workspace/EditorState.h"
-#include "Iact/Workspace/ModelController.h"
+#include "Iact/Workspace/Application.h"
 #include "Iact/Workspace/ViewportController.h"
 #include "Iact/Workspace/WorkspaceController.h"
 
 class InteractiveContext : public CoreContext
 {
     Q_OBJECT
-        Q_PROPERTY(ModelController* documentController READ documentController WRITE setDocumentController)
+        Q_PROPERTY(Application* documentController READ documentController WRITE setDocumentController)
         Q_PROPERTY(WorkspaceController* workspaceController READ workspaceController WRITE setWorkspaceController)
         Q_PROPERTY(ViewportController* viewportController READ viewportController WRITE setViewportController)
 
@@ -31,9 +31,9 @@ public:
 
     static InteractiveContext* current();
 
-    // ModelController getter/setter
-    ModelController* documentController() const;
-    void setDocumentController(ModelController* controller);
+    // Application getter/setter
+    Application* documentController() const;
+    void setDocumentController(Application* controller);
 
     // workspaceController getter/setter
     WorkspaceController* workspaceController() const;
@@ -58,7 +58,7 @@ public:
 
 private:
     EditorState* m_editorState;
-    ModelController* m_documentController;
+    Application* m_documentController;
     WorkspaceController* m_workspaceController;
     ViewportController* m_viewportController;
 

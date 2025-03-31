@@ -13,12 +13,12 @@
 // Project includes
 #include "Core/Topology/Model.h"
 
-class ModelController : public QObject, public TDocStd_Application
+class Application : public QObject, public TDocStd_Application
 {
     Q_OBJECT
 
 public:
-    explicit ModelController(QObject* parent = nullptr);;
+    explicit Application(QObject* parent = nullptr);;
 
     void dispose();
 

@@ -17,7 +17,7 @@ InteractiveContext::InteractiveContext()
 {
     InteractionModule::initialize();
     s_current = this;
-    setDocumentController(new ModelController());
+    setDocumentController(new Application());
 }
 
 InteractiveContext::~InteractiveContext()
@@ -38,12 +38,12 @@ InteractiveContext* InteractiveContext::current()
     return s_current;
 }
 
-ModelController* InteractiveContext::documentController() const
+Application* InteractiveContext::documentController() const
 {
     return m_documentController;
 }
 
-void InteractiveContext::setDocumentController(ModelController* value)
+void InteractiveContext::setDocumentController(Application* value)
 {
     qDebug() << "InteractiveContext::setDocumentController";
     m_documentController = value;

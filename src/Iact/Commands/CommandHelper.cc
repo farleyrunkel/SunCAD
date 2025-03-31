@@ -7,7 +7,7 @@
     return App->appContext() ? App->appContext()->workspaceController() : nullptr;
 }
 
- ModelController* CommandHelper::documentController() {
+ Application* CommandHelper::documentController() {
     return App->appContext() ? App->appContext()->documentController() : nullptr;
 }
 
