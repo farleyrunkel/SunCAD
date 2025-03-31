@@ -25,7 +25,7 @@ void InteractiveEntity::setName(const QString& name)
     //    m_name = name;
     //    emit propertyChanged();  // Equivalent to raisePropertyChanged
     //    if (!m_isDeserializing && CoreContext::current()) {
-    //        if (Document* doc = Document::current()) {
+    //        if (Document_Old* doc = Document_Old::current()) {
     //            doc->instanceChanged(this);
     //        }
     //    }
@@ -45,7 +45,7 @@ void InteractiveEntity::setIsVisible(bool isVisible)
     //    m_isVisible = isVisible;
     //    emit propertyChanged();
     //    if (!m_isDeserializing && CoreContext::current() && CoreContext::current()->workspace()) {
-    //        if (Document* doc = Document::current()) {
+    //        if (Document_Old* doc = Document_Old::current()) {
     //            doc->instanceChanged(this);
     //        }
     //        raiseVisualChanged();
@@ -69,7 +69,7 @@ void InteractiveEntity::setLayerId(const QUuid& layerId)
     //    emit propertyChanged("Layer");
     //    if (!m_isDeserializing && CoreContext::current() && CoreContext::current()->workspace()) {
     //        raiseVisualChanged();
-    //        if (Document* doc = Document::current()) {
+    //        if (Document_Old* doc = Document_Old::current()) {
     //            doc->instanceChanged(this);
     //        }
     //    }

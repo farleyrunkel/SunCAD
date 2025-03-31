@@ -13,7 +13,7 @@ CoreContext::CoreContext() :
 
 CoreContext* CoreContext::m_current = nullptr;
 
-void CoreContext::setDocument(Model* document) {
+void CoreContext::setDocument(Document* document) {
     if (document != m_document) {
         m_document = document;
         emit documentChanged(document);

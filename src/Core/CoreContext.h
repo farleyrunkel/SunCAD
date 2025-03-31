@@ -8,13 +8,13 @@
 #include <QObject>
 
 #include "Comm/BaseObject.h"
-#include "Core/Topology/Model.h"
+#include "Core/Topology/Document.h"
 #include "Core/Viewport.h"
 
 // CoreContext class that follows the Singleton design pattern with lazy initialization
 class CoreContext : public BaseObject {
     Q_OBJECT
-    Q_PROPERTY(Model* document READ document WRITE setDocument)
+    Q_PROPERTY(Document* document READ document WRITE setDocument)
     Q_PROPERTY(Workspace* workspace READ workspace WRITE setWorkspace)
     Q_PROPERTY(Viewport* viewport READ viewport WRITE setViewport)
 
@@ -33,23 +33,23 @@ class CoreContext : public BaseObject {
     }
 
  public:
-    Model* document() const { return m_document; }
+    Document* document() const { return m_document; }
     Workspace* workspace() const { return m_workspace; }
     Viewport* viewport() const { return m_viewport; }
 
-    virtual void setDocument(Model* document);
+    virtual void setDocument(Document* document);
     virtual void setWorkspace(Workspace* workspace);
     virtual void setViewport(Viewport* viewport);
 
 signals:
-    void documentChanged(Model* document);
+    void documentChanged(Document* document);
     void workspaceChanged(Workspace* workspace);
     void viewportChanged(Viewport* viewport);
 
  protected:
     Workspace* m_workspace;
     Viewport* m_viewport;
-    Model* m_document;
+    Document* m_document;
 
     static CoreContext* m_current;
 };

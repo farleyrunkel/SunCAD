@@ -17,7 +17,7 @@
 #include "Core/Project/VisualStyles.h"
 #include "Core/Extensions/ColorExtensions.h"
 
-class Model;
+class Document;
 class Viewport;
 class WorkingContext;
 
@@ -29,7 +29,7 @@ class Workspace : public BaseObject
     Q_PROPERTY(Handle(AIS_InteractiveContext) aisContext READ aisContext)
     Q_PROPERTY(bool NeedsRedraw READ needsRedraw WRITE setNeedsRedraw)
     Q_PROPERTY(bool NeedsImmediateRedraw READ needsImmediateRedraw WRITE setNeedsImmediateRedraw)
-    Q_PROPERTY(Model* Model READ model)
+    Q_PROPERTY(Document* Document READ model)
     Q_PROPERTY(bool GridEnabled READ gridEnabled WRITE setGridEnabled)
     //Q_PROPERTY(GridTypes GridType READ GridType WRITE SetGridType)
     Q_PROPERTY(double GridStep)
@@ -47,7 +47,7 @@ public:
 
  public:
     Workspace();
-    Workspace(Model* model);;
+    Workspace(Document* model);;
     ~Workspace() {};
 
     // Initialize 3D viewer and context
@@ -78,8 +78,8 @@ public:
     bool needsImmediateRedraw() const;
     void setNeedsImmediateRedraw(bool value);
 
-    // Model management
-    Model* model() const { return m_model ; }
+    // Document management
+    Document* model() const { return m_model ; }
 
     gp_Quaternion getWorkingPlaneRotation();
 
@@ -102,7 +102,7 @@ private:
     bool m_needsImmediateRedraw;  // Flag for immediate redraw
 
     QList<Viewport*> m_viewports;  // List of viewports
-    Model* m_model;  // The active model
+    Document* m_model;  // The active model
 
     gp_Pln _WorkingPlane;
     WorkingContext* m_currentWorkingContext;

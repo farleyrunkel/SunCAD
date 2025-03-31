@@ -1,149 +1,47 @@
-#ifndef CORE_TOPOLOGY_DOCUMENT_H_
-#define CORE_TOPOLOGY_DOCUMENT_H_
+// Copyright [2024] SunCAD
 
-// Boost includes
+#ifndef CORE_TOPOLOGY_MODEL_H_
+#define CORE_TOPOLOGY_MODEL_H_
+
+// boost includes
 #include <boost/signals2.hpp>
 
 // Qt includes
-#include <QDir>
-#include <QFile>
 #include <QList>
-#include <QMap>
-#include <QScopedPointer>
-#include <QVariant>
-#include <QWeakPointer>
+#include <QObject>
+#include <QVector>
+
+// Occt includes
+#include <TDocStd_Document.hxx>
 
 // Project includes
-#include "Core/EntityContainer.h"
-//#include "Core/Framework/undo/UndoHandler.h"
-#include "Core/Topology/Entity.h"
+#include "Core/Topology/Document_Old.h"
+#include "Core/Topology/InteractiveEntity.h"
+#include "Core/Workspace.h"
 
-class IDecorable {};
 
-//#include "Core/SerializationContext.h"
-//#include "Core/PathUtils.h"
+DEFINE_STANDARD_HANDLE(Document, TDocStd_Document)
 
-// 使得文档类型可以序列化
-#define SerializeType
-#define SerializeMember
-
-class IDocument 
+class Document : public Document_Old, public TDocStd_Document
 {
+	DEFINE_STANDARD_RTTI_INLINE(Document, TDocStd_Document)
 public:
-    virtual ~IDocument() = default;
+	Document(const QString& format = "XmlOcaf");
 
-    virtual void registerInstance(Entity* entity) {};
-    virtual void unregisterInstance(Entity* entity) {};
-    virtual Entity* findInstance(const QUuid& instanceGuid) {
-        return nullptr;
-    };
-    virtual void instanceChanged(Entity* entity) {};
-};
-
-class Document : public Entity, public IDocument
-{
-    Q_OBJECT
+	QVector<Workspace*>& workspaces();
 
 public:
-    Document();
+	static QString fileExtension() { return "step"; };
+	QString filePath() { return ""; }
+	bool save() { return false; }
 
-    virtual QString name() const override;
+	bool hasUnsavedChanges() { return false; }
 
-    // Getter and Setter for FilePath
-    QString filePath() const;
+//signals:
+	boost::signals2::signal<void()> resetUnsavedChanges;
 
-    void setFilePath(const QString& value);
-
-    // Mark the document as having unsaved changes
-    void markAsUnsaved();
-
-    // Reset the unsaved changes flag
-    void resetUnsavedChanges();
-
-    //// UndoHandler to manage undo operations
-    //UndoHandler& undoHandler() {
-    //    if (!_undoHandler) {
-    //        _undoHandler = QScopedPointer<UndoHandler>(new UndoHandler(this));
-    //    }
-    //    return *_undoHandler;
-    //}
-
-    // Register an entity instance
-    void registerInstance(Entity* entity) override;
-
-    // Unregister an entity instance
-    void unregisterInstance(Entity* entity) override 
-    {
-        Instances.remove(entity->guid());
-
-        //if (auto decorable = dynamic_cast<IDecorable*>(entity)) {
-        //    for (auto component : decorable->getComponents(false)) {
-        //        Instances.remove(component->guid());
-        //    }
-        //}
-    }
-
-    // Find an instance by GUID
-    Entity* findInstance(const QUuid& instanceGuid) override {
-        //if (instanceGuid == this->guid()) return this;
-        //if (auto reference = Instances.value(instanceGuid).toStrongRef()) {
-        //    return reference.data();
-        //}
-        return nullptr;
-    }
-
-    // Notify when an instance changes
-    void instanceChanged(Entity* entity) override 
-    {
-        //int index = indexOf(static_cast<T*>(entity));
-        //if (index != -1) {
-        //    NotifyCollectionChangedEventArgs eventArgs(NotifyCollectionChangedAction::Replace, entity, entity, index);
-        //    raiseCollectionChanged(eventArgs);
-        //}
-    }
-
-    // File I/O
-    bool save() {
-        if (!filePath().isEmpty()) {
-            return saveToFile(filePath());
-        }
-        return false;
-    }
-
-    bool saveToFile(const QString& filePath) {
-        try {
-            QFile file(filePath);
-            if (!file.open(QIODevice::WriteOnly)) return false;
-
-            // Serialize document
-            // Serialize function implementation (e.g., using JSON, XML, or binary format)
-            // file.write(...);
-
-            resetUnsavedChanges();
-            m_filePath = filePath;
-
-            return true;
-        }
-        catch (const std::exception& e) {
-            qCritical() << "Error saving file:" << e.what();
-            return false;
-        }
-    }
-
-    void add(Entity*, bool update = true) {}
-	void remove(Entity*, bool update = true) {}
-
-    // Abstract save-to-file with specific implementation in subclasses
-    virtual bool saveToFileInternal(const QString& filePath) {
-        return false;
-    };
-
-private:
-    QString m_filePath;
-    bool HasUnsavedChanges;
-    //UndoHandler* _undoHandler;
-    QMap<QUuid, Entity*> Instances;
-    QMap<QString, int> LastNameSuffices;
+private: 
+	QList<Workspace*> m_workspaces;
 };
 
-#endif // CORE_TOPOLOGY_DOCUMENT_H_
+#endif  // CORE_TOPOLOGY_MODEL_H_

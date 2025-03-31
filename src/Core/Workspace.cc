@@ -17,7 +17,7 @@
 #include <V3d_View.hxx>
 
 #include "Core/Project/WorkingContext.h"
-#include "Core/Topology/Model.h"
+#include "Core/Topology/Document.h"
 #include "Core/Viewport.h"
 
 
@@ -37,7 +37,7 @@ Workspace::Workspace()
     init();
 }
 
-Workspace::Workspace(Model* model) 
+Workspace::Workspace(Document* model) 
     : Workspace() 
 {
     m_model = model;
@@ -140,7 +140,7 @@ void Workspace::initAisContext()
 void Workspace::SetWorkingPlane(const gp_Pln& value)
 {
     m_currentWorkingContext->SetWorkingPlane(value);
-    //Model::MarkAsUnsaved();
+    //Document::MarkAsUnsaved();
     _applyWorkingContext();
 }
 
@@ -168,7 +168,7 @@ void Workspace::setGridEnabled(bool value)
 {
     if (m_gridEnabled != value) {
         m_gridEnabled = value;
-        //Model.MarkAsUnsaved();
+        //Document.MarkAsUnsaved();
         raisePropertyChanged("");
         _RaiseGridChanged();
     }
@@ -221,12 +221,12 @@ gp_Quaternion Workspace::getWorkingPlaneRotation()
 //}
 
 //--------------------------------------------------------------------------------------------------
-// Model handling
+// Document handling
 
-//const Model* workspace::model() const {
+//const Document* workspace::model() const {
 //    return m_model;
 //}
 //
-//void workspace::setModel(Model* model) {
+//void workspace::setModel(Document* model) {
 //    m_model = model;
 //}

@@ -56,7 +56,7 @@ public:
     void setHasErrors(bool hasErrors);
 
     //--------------------------------------------------------------------------------------------------
-    // Document management
+    // Document_Old management
 
     IDocument* document() const;
 

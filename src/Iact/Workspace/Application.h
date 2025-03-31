@@ -11,7 +11,7 @@
 #include <TDocStd_Application.hxx>
 
 // Project includes
-#include "Core/Topology/Model.h"
+#include "Core/Topology/Document.h"
 
 
 DEFINE_STANDARD_HANDLE(Application, TDocStd_Application)
@@ -26,9 +26,9 @@ public:
 
     void dispose();
 
-    Model* newModel(const QString& format = "XmlOcaf");
+    Document* newModel(const QString& format = "XmlOcaf");
     void NewDocument(const TCollection_ExtendedString&, Handle(CDM_Document)& outDocument);
-    void addDocument(const Handle(Model)& doc);
+    void addDocument(const Handle(Document)& doc);
     bool openModelFrom(const QString& initialDirectory);
     bool openModel(const QString& file);
     bool saveModel();

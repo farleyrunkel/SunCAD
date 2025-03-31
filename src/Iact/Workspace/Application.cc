@@ -19,7 +19,7 @@
 // SunCAD includes
 #include "App/GuiApplication.h"
 #include "Core/Shapes/Drivers/BoxDriver.h"
-#include "Core/Topology/Model.h"
+#include "Core/Topology/Document.h"
 #include "Iact/Workspace/DisplayScene.h"
 
 //-----------------------------------------------------------------------------
@@ -72,14 +72,14 @@ Application::Application(QObject* parent)
                                             new TOcafFunction_BoxDriver());
 }
 
-Model* Application::newModel(const QString& format)
+Document* Application::newModel(const QString& format)
 {
     const char* docNameFormat = format.toUtf8().constData();
 
     Handle(CDM_Document) stdDoc;
     this->NewDocument(docNameFormat, stdDoc);
 
-    Handle(Model) newModel = Handle(Model)::DownCast(stdDoc);
+    Handle(Document) newModel = Handle(Document)::DownCast(stdDoc);
 
     App->appContext()->setDocument(newModel.get());
     newModel->resetUnsavedChanges();
@@ -89,13 +89,13 @@ Model* Application::newModel(const QString& format)
 
 void Application::NewDocument(const TCollection_ExtendedString&, Handle(CDM_Document)& outDocument)
 {
-    Handle(Model) newDoc = new Model("XmlOcaf");
+    Handle(Document) newDoc = new Document("XmlOcaf");
     CDF_Application::Open(newDoc);
     this->addDocument(newDoc);
     outDocument = newDoc;
 }
 
-void Application::addDocument(const Handle(Model)& doc)
+void Application::addDocument(const Handle(Document)& doc)
 {}
 
 bool Application::openModelFrom(const QString& initialDirectory)
@@ -104,8 +104,8 @@ bool Application::openModelFrom(const QString& initialDirectory)
     QFileDialog dlg;
     dlg.setWindowTitle("Open Model...");
     dlg.setFileMode(QFileDialog::ExistingFile);
-    dlg.setNameFilter("Step files (*." + Model::fileExtension() + ")");
-    dlg.setDefaultSuffix(Model::fileExtension());
+    dlg.setNameFilter("Step files (*." + Document::fileExtension() + ")");
+    dlg.setDefaultSuffix(Document::fileExtension());
     dlg.setDirectory(initialDirectory.isEmpty() ? QString() : initialDirectory);
 
     QString filePath;

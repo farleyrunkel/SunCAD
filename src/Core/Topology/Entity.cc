@@ -8,7 +8,7 @@
 #include <QUuid>
 
 // Project includes
-#include "Core/Topology/Document.h"
+#include "Core/Topology/Document_Old.h"
 #include "Occt/AisExtensions/AISX_Guid.h"
 
 // Constructor
