@@ -4,18 +4,18 @@
 #include "Core/Shapes/Primitives/Box.h"
 
 #include <BRepPrimAPI_MakeBox.hxx>
-#include <TopoDS_Solid.hxx>
-#include <TDF_Label.hxx>
-#include <TDataStd_Real.hxx>
+#include <Precision.hxx>
 #include <TDataStd_Name.hxx>
-#include <TFunction_Function.hxx>
-#include <TFunction_Logbook.hxx>
+#include <TDataStd_Real.hxx>
+#include <TDF_Label.hxx>
 #include <TFunction_Driver.hxx>
 #include <TFunction_DriverTable.hxx>
+#include <TFunction_Function.hxx>
+#include <TFunction_Logbook.hxx>
 #include <TNaming_Builder.hxx>
-#include <TPrsStd_AISPresentation.hxx>
 #include <TNaming_NamedShape.hxx>
-#include <Precision.hxx>
+#include <TopoDS_Solid.hxx>
+#include <TPrsStd_AISPresentation.hxx>
 
 #include "Core/Shapes/Drivers/BoxDriver.h"
 

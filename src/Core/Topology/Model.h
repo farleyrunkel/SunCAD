@@ -19,10 +19,14 @@
 #include "Core/Topology/InteractiveEntity.h"
 #include "Core/Workspace.h"
 
+
+DEFINE_STANDARD_HANDLE(Model, TDocStd_Document)
+
 class Model : public Document, public TDocStd_Document
 {
+	DEFINE_STANDARD_RTTI_INLINE(Model, TDocStd_Document)
 public:
-	Model(const QString& format = "XamlOcaf");
+	Model(const QString& format = "XmlOcaf");
 
 	QVector<Workspace*>& workspaces();
 

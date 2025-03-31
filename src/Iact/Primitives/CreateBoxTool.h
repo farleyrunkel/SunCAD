@@ -39,6 +39,7 @@ public:
 
 protected:
 	virtual bool onStart() override;
+	virtual void onStop() override;
 	virtual void cleanup() override;
 
 private:

@@ -32,6 +32,9 @@ CreateBoxTool::CreateBoxTool()
 
 bool CreateBoxTool::onStart()
 {
+	auto doc = InteractiveContext::current()->document();
+	doc->NewCommand();
+
 	qDebug() << "Debug: CreateBoxTool::onStart";
 	m_currentPhase = Phase::PivotPoint;
 	auto pointAction = new PointAction;
@@ -46,6 +49,12 @@ bool CreateBoxTool::onStart()
 	m_coord2DHudElement = new Coord2DHudElement;
 	add(m_coord2DHudElement);
 	return true;
+}
+
+void CreateBoxTool::onStop()
+{
+	auto doc = InteractiveContext::current()->document();
+	doc->CommitCommand();
 }
 
 void CreateBoxTool::cleanup() 
@@ -78,7 +87,7 @@ void CreateBoxTool::ensurePreviewShape()
 	m_previewShape->body()->setRotation(workspaceController()->workspace()->getWorkingPlaneRotation());
 
 	if (body->layer()->isVisible()) {
-		m_visualShape = this->workspaceController()->visualObjects()->get(body, true);
+		m_visualShape = workspaceController()->visualObjects()->get(body, true);
 		m_isTemporaryVisual = false;
 	}
 	else {

@@ -22,7 +22,9 @@ public:
 
     void dispose();
 
-    Model* newModel();
+    Model* newModel(const QString& format = "XmlOcaf");
+    void NewDocument(const TCollection_ExtendedString&, Handle(CDM_Document)& outDocument);
+    void addDocument(const Handle(Model)& doc);
     bool openModelFrom(const QString& initialDirectory);
     bool openModel(const QString& file);
     bool saveModel();

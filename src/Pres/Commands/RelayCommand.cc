@@ -15,7 +15,7 @@ RelayCommand::RelayCommand(std::function<void()> execute, std::function<bool()> 
 
 void RelayCommand::execute()
 {
-    if (m_execute) {
+    if (m_execute && canExecute()) {
         m_execute();
     }
 }

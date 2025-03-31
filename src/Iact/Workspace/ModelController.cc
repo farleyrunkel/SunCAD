@@ -24,42 +24,47 @@
 
 //-----------------------------------------------------------------------------
 
-namespace 
+namespace
 {
-    Handle(TDocStd_Document) ReadStepWithMeta(const char* filename) {
-        STEPCAFControl_Reader Reader;
+Handle(TDocStd_Document) ReadStepWithMeta(const char* filename)
+{
+    STEPCAFControl_Reader Reader;
 
-        // Create XDE document.
-        Handle(TDocStd_Application) app = new TDocStd_Application;
-        BinXCAFDrivers::DefineFormat(app);
-        Handle(TDocStd_Document) doc;
-        app->NewDocument("BinXCAF", doc);
+    // Create XDE document.
+    Handle(TDocStd_Application) app = new TDocStd_Application;
+    BinXCAFDrivers::DefineFormat(app);
+    Handle(TDocStd_Document) doc;
+    app->NewDocument("BinXCAF", doc);
 
-        // Read CAD and associated data from file
-        try {
-            IFSelect_ReturnStatus outcome = Reader.ReadFile(filename);
-            //
-            if (outcome != IFSelect_RetDone) {
-                app->Close(doc);
-                return nullptr;
-            }
-
-            if (!Reader.Transfer(doc)) {
-                app->Close(doc);
-                return nullptr;
-            }
-        }
-        catch (...) {
+    // Read CAD and associated data from file
+    try
+    {
+        IFSelect_ReturnStatus outcome = Reader.ReadFile(filename);
+        //
+        if(outcome != IFSelect_RetDone)
+        {
             app->Close(doc);
             return nullptr;
         }
 
-        return doc;
+        if(!Reader.Transfer(doc))
+        {
+            app->Close(doc);
+            return nullptr;
+        }
     }
+    catch(...)
+    {
+        app->Close(doc);
+        return nullptr;
+    }
+
+    return doc;
+}
 }
 
-ModelController::ModelController(QObject* parent) 
-	: QObject(parent)
+ModelController::ModelController(QObject* parent)
+    : QObject(parent)
     , TDocStd_Application()
 {
     // Instantiate a TOcafFunction_BoxDriver and add it to the TFunction_DriverTable
@@ -67,16 +72,33 @@ ModelController::ModelController(QObject* parent)
                                             new TOcafFunction_BoxDriver());
 }
 
-Model* ModelController::newModel() 
+Model* ModelController::newModel(const QString& format)
 {
-    Model* newModel = new Model();
+    const char* docNameFormat = format.toUtf8().constData();
 
-    App->appContext()->setDocument(newModel);
+    Handle(CDM_Document) stdDoc;
+    this->NewDocument(docNameFormat, stdDoc);
+
+    Handle(Model) newModel = Handle(Model)::DownCast(stdDoc);
+
+    App->appContext()->setDocument(newModel.get());
     newModel->resetUnsavedChanges();
-    return newModel;
+
+    return newModel.get();
 }
 
-bool ModelController::openModelFrom(const QString& initialDirectory) 
+void ModelController::NewDocument(const TCollection_ExtendedString&, Handle(CDM_Document)& outDocument)
+{
+    Handle(Model) newDoc = new Model("XmlOcaf");
+    CDF_Application::Open(newDoc);
+    this->addDocument(newDoc);
+    outDocument = newDoc;
+}
+
+void ModelController::addDocument(const Handle(Model)& doc)
+{}
+
+bool ModelController::openModelFrom(const QString& initialDirectory)
 {
     // create and open file dialog;
     QFileDialog dlg;
@@ -87,12 +109,14 @@ bool ModelController::openModelFrom(const QString& initialDirectory)
     dlg.setDirectory(initialDirectory.isEmpty() ? QString() : initialDirectory);
 
     QString filePath;
-    if (dlg.exec() == QDialog::Accepted) {
+    if(dlg.exec() == QDialog::Accepted)
+    {
         filePath = dlg.selectedFiles().first();
     }
 
     // if no file return false
-    if (filePath.isEmpty()) {
+    if(filePath.isEmpty())
+    {
         return false;
     }
 
@@ -100,17 +124,20 @@ bool ModelController::openModelFrom(const QString& initialDirectory)
     return openModel(filePath);
 }
 
-bool ModelController::openModel(const QString& file) 
+bool ModelController::openModel(const QString& file)
 {
     Handle(TDocStd_Document) doc = ::ReadStepWithMeta(file.toStdString().c_str());
 
-    if (doc.IsNull()) {
+    if(doc.IsNull())
+    {
         std::cout << "Failed to read STEP model from file " << file.toStdString() << std::endl;
         return false;
     }
-    if (auto workspace = App->appContext()->workspace(); workspace != nullptr) {
+    if(auto workspace = App->appContext()->workspace(); workspace != nullptr)
+    {
         DisplayScene cmd(doc, workspace->aisContext());
-        if (!cmd.Execute()) {
+        if(!cmd.Execute())
+        {
             std::cout << "Failed to visualize CAD model with `DisplayScene` command." << std::endl;
             return false;
         }
@@ -122,11 +149,14 @@ bool ModelController::openModel(const QString& file)
 bool ModelController::saveModel()
 {
     auto model = App->appContext()->document();
-    if (model->filePath().isEmpty()) {
+    if(model->filePath().isEmpty())
+    {
         return saveModelAs();
     }
-    else {
-        if (model->save()) {
+    else
+    {
+        if(model->save())
+        {
             return true;
         }
     }
@@ -139,30 +169,34 @@ bool ModelController::saveModelAs()
 }
 
 bool ModelController::askForSavingModelChanges()
-{ 
-    if (App->appContext()->document() == nullptr) {
+{
+    if(App->appContext()->document() == nullptr)
+    {
         return true;
     }
 
-    if (App->appContext()->document()->hasUnsavedChanges()) {
+    if(App->appContext()->document()->hasUnsavedChanges())
+    {
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(nullptr, "Confirmation", "Are you sure you want to proceed?",
-            QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+                                      QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
 
-        if (reply == QMessageBox::Yes) {
+        if(reply == QMessageBox::Yes)
+        {
             qDebug() << "User selected Yes";
         }
-        else if (reply == QMessageBox::No) {
+        else if(reply == QMessageBox::No)
+        {
             qDebug() << "User selected No";
         }
-        else if (reply == QMessageBox::Cancel) {
+        else if(reply == QMessageBox::Cancel)
+        {
             qDebug() << "User selected Cancel";
         }
     }
 
-    return true; 
+    return true;
 }
 
-void ModelController::dispose() 
-{
-}
+void ModelController::dispose()
+{}
