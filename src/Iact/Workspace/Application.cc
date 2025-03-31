@@ -82,7 +82,7 @@ DocumentPtr Application::newModel(const QString& format)
 
     DocumentPtr newModel = Handle(Document)::DownCast(stdDoc);
 
-    App->appContext()->setDocument(newModel);
+    QApp->appContext()->setDocument(newModel);
     newModel->resetUnsavedChanges();
 
     return newModel;
@@ -134,7 +134,7 @@ bool Application::openModel(const QString& file)
         std::cout << "Failed to read STEP model from file " << file.toStdString() << std::endl;
         return false;
     }
-    if(auto workspace = App->appContext()->workspace(); workspace != nullptr)
+    if(auto workspace = QApp->appContext()->workspace(); workspace != nullptr)
     {
         DisplayScene cmd(doc, workspace->aisContext());
         if(!cmd.Execute())
@@ -149,7 +149,7 @@ bool Application::openModel(const QString& file)
 
 bool Application::saveModel()
 {
-    auto model = App->appContext()->document();
+    auto model = QApp->appContext()->document();
     if(model->filePath().isEmpty())
     {
         return saveModelAs();
@@ -171,12 +171,12 @@ bool Application::saveModelAs()
 
 bool Application::askForSavingModelChanges()
 {
-    if(App->appContext()->document().IsNull())
+    if(QApp->appContext()->document().IsNull())
     {
         return true;
     }
 
-    if(App->appContext()->document()->hasUnsavedChanges())
+    if(QApp->appContext()->document()->hasUnsavedChanges())
     {
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(nullptr, "Confirmation", "Are you sure you want to proceed?",

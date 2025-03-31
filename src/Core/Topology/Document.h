@@ -15,7 +15,6 @@
 #include <TDocStd_Document.hxx>
 
 // Project includes
-#include "Comm/OccHandle.h"
 #include "Core/Topology/Document_Old.h"
 #include "Core/Topology/InteractiveEntity.h"
 #include "Core/Workspace.h"

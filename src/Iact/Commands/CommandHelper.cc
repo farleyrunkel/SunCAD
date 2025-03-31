@@ -4,11 +4,11 @@
 #include "App/GuiApplication.h"
 
  WorkspaceController* CommandHelper::workspaceController() {
-    return App->appContext() ? App->appContext()->workspaceController() : nullptr;
+    return QApp->appContext() ? QApp->appContext()->workspaceController() : nullptr;
 }
 
  Application* CommandHelper::documentController() {
-    return App->appContext() ? App->appContext()->documentController() : nullptr;
+    return QApp->appContext() ? QApp->appContext()->documentController() : nullptr;
 }
 
  Tool* CommandHelper::currentTool() {
@@ -21,8 +21,8 @@
 }
 
  bool CommandHelper::canExecuteOnViewport() {
-    return App->appContext() && App->appContext()->viewportController()
-        && App->appContext()->viewportController()->viewport();
+    return QApp->appContext() && QApp->appContext()->viewportController()
+        && QApp->appContext()->viewportController()->viewport();
 }
 
  bool CommandHelper::canStartTool() {

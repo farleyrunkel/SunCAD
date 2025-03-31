@@ -23,7 +23,7 @@ RelayCommand& AppCommands::initApplication()
 ActionCommand& AppCommands::exitApplication()
 {
     static ActionCommand command(
-        []() { App->mainWindow()->close(); }
+        []() { QApp->mainWindow()->close(); }
     );
     // Initialize command properties if not already set
     if (command.text().isEmpty()) {
@@ -35,7 +35,7 @@ ActionCommand& AppCommands::exitApplication()
 
 ActionCommand& AppCommands::showAboutDialog()
 {
-    static AboutDialog aboutDialog(App->mainWindow());
+    static AboutDialog aboutDialog(QApp->mainWindow());
     static ActionCommand command(
         []() { aboutDialog.show(); }
     );

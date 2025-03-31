@@ -32,7 +32,7 @@ ActionCommand& ModelCommands::createBox()
         command.setIcon(ResourceUtils::icon("Model/Prim-Box"));
         command.setToolTip(QObject::tr("Creates a new body with a box shape."));
 
-        command.connect(App->commandManager(), &CommandManager::updateEnabled,
+        command.connect(QApp->commandManager(), &CommandManager::updateEnabled,
                         []() { command.setEnabled(command.canExecute()); }
         );
         command.connect(InteractiveContext::current()->editorState(), &EditorState::activeToolChanged,
@@ -60,7 +60,7 @@ ActionCommand& ModelCommands::createCylinder()
         command.setIcon(ResourceUtils::icon("Model/Prim-Cylinder"));
         command.setToolTip(QObject::tr("Creates a new body with a Cylinder shape."));
 
-        command.connect(App->commandManager(), &CommandManager::updateEnabled,
+        command.connect(QApp->commandManager(), &CommandManager::updateEnabled,
                         []() { command.setEnabled(command.canExecute()); }
         );
         command.connect(InteractiveContext::current()->editorState(), &EditorState::activeToolChanged,
@@ -87,7 +87,7 @@ ActionCommand& ModelCommands::createSphere()
         command.setIcon(ResourceUtils::icon("Model/Prim-Sphere"));
         command.setToolTip(QObject::tr("Creates a new body with a Sphere shape."));
 
-        command.connect(App->commandManager(), &CommandManager::updateEnabled,
+        command.connect(QApp->commandManager(), &CommandManager::updateEnabled,
                         []() { command.setEnabled(command.canExecute()); }
         );
         command.connect(InteractiveContext::current()->editorState(), &EditorState::activeToolChanged,

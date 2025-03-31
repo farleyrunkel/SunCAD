@@ -15,8 +15,6 @@
 #include "App/WelcomeDialog.h"
 #include "Pres/Commands/CommandManager.h"
 
-#define App static_cast<GuiApplication*>(QCoreApplication::instance())
-
 class GuiApplication : public QApplication
 {
     Q_OBJECT
@@ -39,5 +37,7 @@ private:
     AppContext* m_appContext;
     CommandManager* m_commandManager;
 };
+
+#define QApp static_cast<GuiApplication*>(qApp)
 
 #endif  // APP_APPLICATION_H_

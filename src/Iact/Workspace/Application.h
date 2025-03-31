@@ -1,7 +1,7 @@
 // Copyright [2024] SunCAD
 
-#ifndef IACT_WORKSPACE_MODELCONTROLLER_H_
-#define IACT_WORKSPACE_MODELCONTROLLER_H_
+#ifndef _Application_H_
+#define _Application_H_
 
 // Qt includes
 #include <QObject>
@@ -11,7 +11,6 @@
 #include <TDocStd_Application.hxx>
 
 // Project includes
-#include "Comm/OccHandle.h"
 #include "Core/Topology/Document.h"
 
 class Application : public QObject, public TDocStd_Application
@@ -37,7 +36,4 @@ public:
 private:
 };
 
-DEFINE_STANDARD_HANDLE(Application, TDocStd_Application)
-using ApplicationPtr = OccHandle<Application>;
-
-#endif // IACT_WORKSPACE_MODELCONTROLLER_H_
+#endif // _Application_H_
