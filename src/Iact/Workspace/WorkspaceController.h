@@ -114,7 +114,7 @@ private:
     QTimer* m_redrawTimer;
 
     bool m_gridNeedsUpdate;
-    Handle(AISX_Grid) m_grid;
+    OccHandle<AISX_Grid> m_grid;
     gp_XY m_lastGridSize = gp_XY(1000.0, 1000.0);
 
 private:
@@ -124,8 +124,8 @@ private:
     QPointF m_lastMouseMovePosition;
     ViewportController* m_lastMouseMoveViewportController;
     Qt::KeyboardModifiers m_lastModifierKeys;
-    Handle(AIS_InteractiveObject) m_lastDetectedAisObject;
-    Handle(SelectMgr_EntityOwner) m_lastDetectedOwner;
+    OccHandle<AIS_InteractiveObject> m_lastDetectedAisObject;
+    OccHandle<SelectMgr_EntityOwner> m_lastDetectedOwner;
     gp_Pnt m_cursorPosition;
     gp_Pnt2d m_cursorPosition2d;
     bool m_isSelecting;

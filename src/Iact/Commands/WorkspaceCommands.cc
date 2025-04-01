@@ -25,38 +25,18 @@ ActionCommand& WorkspaceCommands::doUndo()
 {
     static ActionCommand command(
         []() {
-        auto app = InteractiveContext::current()->application();
-        auto aDoc = InteractiveContext::current()->document();
-
-		auto VC = InteractiveContext::current()->viewportController();
-
+        auto aDocument = InteractiveContext::current()->document();
         auto aWorkspace = InteractiveContext::current()->workspace();
         auto aContext = aWorkspace->aisContext();
-        auto undos = aDoc->GetAvailableUndos();
+        auto aViewport = InteractiveContext::current()->viewport();
 
-        if(aDoc->Undo())
+        if(aDocument->Undo())
         {
-            aDoc->CommitCommand();
+            aDocument->CommitCommand();
             aContext->UpdateCurrentViewer();
-
-            //AIS_ListOfInteractive aList;
-            //aContext->DisplayedObjects(aList);
-            //AIS_ListIteratorOfListOfInteractive aListIterator;
-            //for(aListIterator.Initialize(aList); aListIterator.More(); aListIterator.Next())
-            //{
-            //    aContext->Remove(aListIterator.Value(), true);
-            //    break;
-            //}
+            aViewport->onViewMoved();
 
             qDebug() << "Undo was done successfully";
-
-            //PCDM_StoreStatus sstatus = app->SaveAs(aDoc, "E:/Documents/occt-lessons/lessons/Lesson12_Undo/result.xml");
-            //if(sstatus != PCDM_SS_OK)
-            //{
-            //    app->Close(aDoc);
-            //    return;
-            //}
-            //app->Close(aDoc);
         }
         else
         {
@@ -81,13 +61,16 @@ ActionCommand& WorkspaceCommands::doRedo()
 {
     static ActionCommand command(
         []() {
-        auto myOcafDoc = InteractiveContext::current()->document();
-        auto myWorkspace = InteractiveContext::current()->workspace();
-        auto myContext = myWorkspace->aisContext();
-        if(myOcafDoc->Redo())
+        auto aDocument = InteractiveContext::current()->document();
+        auto aWorkspace = InteractiveContext::current()->workspace();
+        auto aContext = aWorkspace->aisContext();
+        auto aViewport = InteractiveContext::current()->viewport();
+
+        if(aDocument->Redo())
         {
-            myOcafDoc->CommitCommand();
-            myContext->UpdateCurrentViewer();
+            aDocument->CommitCommand();
+            aContext->UpdateCurrentViewer();
+            aViewport->onViewMoved();
             qDebug() << "Redo was done successfully";
         }
         else
